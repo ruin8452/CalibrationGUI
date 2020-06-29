@@ -492,7 +492,7 @@ namespace CalibrationNewGUI
             {
                 if (AllSetData.VoltCurrSelect == 0)//전압
                 {
-                    if (VoltageCalTable.Rows[0][1] == null) //아무 값이 없으면
+                    if (VoltageCalTable.Rows.Count <= 1 || VoltageCalTable.Rows[0][1] == null) //아무 값이 없으면
                     {
                         System.Windows.MessageBox.Show("값을 입력해주세요.");
                         return;
@@ -500,7 +500,7 @@ namespace CalibrationNewGUI
                 }
                 else if (AllSetData.VoltCurrSelect == 1)//전류
                 {
-                    if (CurrentCalTable.Rows[0][1] == null)//아무 값이 없으면
+                    if (CurrentCalTable.Rows.Count <= 1 || CurrentCalTable.Rows[0][1] == null)//아무 값이 없으면
                     {
                         System.Windows.MessageBox.Show("값을 입력해주세요.");
                         return;

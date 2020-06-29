@@ -365,7 +365,46 @@ namespace CalibrationNewGUI
             byte[] bytestream;
             byte[] VoltArray = new byte[5];
             byte[] CurrArray = new byte[7];
+#if (true)
+            int pos = 0;
 
+            bytestream = new byte[50];      // 임시로 최대 50개로 설정함.
+            bytestream[pos++] = 0x02;//STX
+            bytestream[pos++] = sendCmd;
+            switch (sendCmd)
+            {
+                case 0x52: //'R'
+                    //RI2+0000074
+                    //RV200000   
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        VoltArray = Int2AsciiByte((int)(AllSetData.DMMOutputVolt * 10), VoltArray.Length);
+
+                        bytestream[pos++] = 0x56;//'V'
+                        bytestream[pos++] = IntToByte(AllSetData.ChannelSelect); //채널선택
+                        Buffer.BlockCopy(VoltArray, 0, bytestream, pos, VoltArray.Length);
+                        pos += VoltArray.Length;
+                    }
+                    else //전류
+                    {
+                        CurrArray = Int2AsciiByte((int)(AllSetData.DMMOutputVolt * 10), CurrArray.Length);
+                        
+                        bytestream[pos++] = 0x49;//'I'
+                        bytestream[pos++] = IntToByte(AllSetData.ChannelSelect); //채널선택
+                        Buffer.BlockCopy(CurrArray, 0, bytestream, pos, CurrArray.Length);
+                        pos += CurrArray.Length;
+                    }
+
+                    break;
+                case 0x54: //'T'
+                    break;
+            }
+            bytestream[pos++] = 0x03;//ETX
+
+            Array.Resize(ref bytestream, pos);
+            commRS232MCU.CommSend(bytestream);
+
+#else
             switch (sendCmd)
             {
                 case 0x52: //'R'
@@ -406,6 +445,7 @@ namespace CalibrationNewGUI
                     commRS232MCU.CommSend(bytestream);
                     break;
             }
+#endif
         }
         //출력 입력 함수-1개의 배열
         private byte[] OutputVoltCurr(byte[] bytestream, int[] PointArray)
@@ -434,12 +474,19 @@ namespace CalibrationNewGUI
             else bytestream[9] = 0x2B;//+
             for (int i = 0; i < CurrArray.Length; i++)
             {
-                bytestream[10 + i] = VoltArray[CurrArray.Length - i - 1];
+                bytestream[10 + i] = CurrArray[CurrArray.Length - i - 1];
             }
 
             bytestream[16] = 0x03;//ETX
             return bytestream;
         }
+#if (true)
+        /// <summary>
+        /// Int 를 지정된 자리수의 Ascii의 Byte의 역배열로 처리함.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="c_length"></param>
+        /// <returns></returns>
         private byte[] IntToAsciiByte(int c, int c_length)
         {
             byte[] tempByte = new byte[c_length];
@@ -456,7 +503,34 @@ namespace CalibrationNewGUI
 
             return tempByte;
         }
+        /// <summary>
+        /// Int 를 지정된 자리수의 Ascii Byte 배열로 처리함(swkim)
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="c_length"></param>
+        /// <returns></returns>
+        private byte[] Int2AsciiByte(int c, int c_length)
+        {
+            byte[] tempByte = new byte[c_length];
+            int pos = c_length-1;
 
+            while (c > 0)
+            {
+                tempByte[pos] = (byte)(0x30 + (c % 10));
+                c = (int)(c * 0.1);
+                if (--pos < 0) break;
+            }
+
+            return tempByte;
+        }
+
+        private byte IntToByte(int num)
+        {
+            return (byte)(num + 0x30);
+        }
+
+
+#else //<D>20.swkim.NOW 불필요 함수
         //입력된 숫자를 전압, 전류 자리수에 맞게 채워넣기 ->개선함수 있음
         private void IntToAscii(int c, byte[] bytestream, int voltcurr)
         {
@@ -545,6 +619,8 @@ namespace CalibrationNewGUI
             }
             return temp;
         }
+#endif
 
     }
 }
+
