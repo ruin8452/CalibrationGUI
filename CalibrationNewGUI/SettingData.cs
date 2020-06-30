@@ -14,6 +14,24 @@ namespace CalibrationNewGUI
         /// <summary>
         /// GUI에서 사용되는 모든 세팅 정보
         /// </summary>
+
+        ///Cal 시퀀스용 변수
+        public int CalSeqStartFlag = 0; //Cal 시퀀스 시작 플래그
+        public int DelayStart = 0;//딜레이 시작하면 1, 딜레이 끝나면 0
+        public int DelayCnt = 0;//딜레이 카운트
+        public int ErrorCnt = 0;//재측정 카운트
+        public int MeaSeqStartFlag = 0; //실측 시퀀스 시작 플래그
+        public int CalSeqNum = 0; //Cal 시퀀스 번호(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
+        public int CalRowCntNum = 0; //Cal, 실측 데이터의 개수
+        ///모니터링 변수(로그 출력, 모니터링 출력)
+        public int LogViewStartFlag = 0;
+        public int LogMonitoringViewFlag = 0;
+        public int LogMonitoringFlagDMM = 0;
+        public int LogMonitoringFlagMCU = 0;
+        public DataTable VoltageCalTable { get; set; }  //CAL 전압 CalPoint입력용
+        public DataTable CurrentCalTable { get; set; }  //CAL 전류 CalPoint입력용
+        public DataTable VoltageMeaTable { get; set; }  //실측 전압 CalPoint입력용
+        public DataTable CurrentMeaTable { get; set; }  //실측 전류 CalPoint입력용
         ///CAL, MEA 버튼 명령어들(자동CAL 출력, 자동CAL종료, 수동CAL 출력, 수동CAL 실시, 수동출력정지,  실측시작, 실측정지)
         public int AutoCalOutStartFlag = 0;
         public int AutoCalOutEndFlag = 0;
@@ -147,13 +165,13 @@ namespace CalibrationNewGUI
             AutoSaveFlag = 0;//오토세이브 기능 ON/OFF
             SaveFilePrixNum = "1"; //오토 세이브할때 접두사
             ///CAL&MEA 세팅
-            CalErrRangeVolt = 2;//CAL 전압 에러 오차값(mV)
+            CalErrRangeVolt = 0;//CAL 전압 에러 오차값(mV)
             CalErrRangeCurr = 5;//CAL 전류 에러 오차값(mA)
-            CalErrRetryCnt = 0; //CAL 에러 재측정 횟수
+            CalErrRetryCnt = 3; //CAL 에러 재측정 횟수
             CalErrDelayTime = 2000; //CAL 측정 딜레이 시간(ms)
             MeaErrRangeVolt = 2; //실측 전압 에러 오차값(mV)
             MeaErrRangeCurr = 5; //실측 전류 에러 오차값(mA)
-            MeaErrRetryCnt = 0; //실측 에러 재측정 횟수
+            MeaErrRetryCnt = 3; //실측 에러 재측정 횟수
             MeaErrDelayTime = 2000;//실측 측정 딜레이 시간(ms)
             CalErrRange = CalErrRangeVolt; //CAL 통합 에러 오차값
             MeaErrRange = MeaErrRangeVolt; //MEA 통합 에러 오차값

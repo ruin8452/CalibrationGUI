@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="40" MinHeight="40"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" MinWidth="150"/>
@@ -28,27 +28,30 @@
             <Grid>
                 <StackPanel>
                     <!--Monitoring 버튼-->
-                    <Button x:Name="MonitorBtn" Background="LimeGreen" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MonitorBtn_Click">
+                    <Button x:Name="MonitorBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MonitorBtn_Click">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Monitoring" Foreground="White" FontFamily="NanumGothic Light" FontSize="21"/>
+                            <TextBlock Text="Monitoring" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
                         </StackPanel>
                     </Button>
                     <!--Setting 버튼-->
-                    <Button x:Name="settingBtn" Background="LimeGreen" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <Button x:Name="settingBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Setting" Foreground="White" FontFamily="NanumGothic Light" FontSize="21"/>
+                            <TextBlock Text="Setting" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
                         </StackPanel>
                     </Button>
                     <!--LogCheck 버튼-->
-                    <ToggleButton x:Name="LogCheckBtn" Background="LimeGreen" BorderBrush="{x:Null}" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <ToggleButton x:Name="LogCheckBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
+                                  Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked">
+                        <!-- GroupName = "LogPropertySelect"  Style="{StaticResource {x:Type ToggleButton}}" -->
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="LogCheck" Foreground="White" FontFamily="NanumGothic Light" FontSize="13"/>
+                            <TextBlock Text="LogCheck" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                         </StackPanel>
                     </ToggleButton>
                     <!--Properties 버튼-->
-                    <ToggleButton x:Name="PropertiesBtn" Background="LimeGreen" BorderBrush="{x:Null}" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <ToggleButton x:Name="PropertiesBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
+                                 Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="PropertiesBtn_Checked" Unchecked="PropertiesBtn_UnChecked">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Properties" Foreground="White" FontFamily="NanumGothic Light" FontSize="13"/>
+                            <TextBlock Text="Properties" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                         </StackPanel>
                     </ToggleButton>
                 </StackPanel>
@@ -91,9 +94,9 @@
                     </Border>
                 </StackPanel>
                 <!-- Connect 버튼-->
-                <Button x:Name="ConnectBtn" Grid.Column="6" Background="LimeGreen" BorderBrush="{x:Null}" Height="35" Margin="5,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConnectBtn_Click">
+                <Button x:Name="ConnectBtn" Grid.Column="6" Background="#8D9EA8" BorderBrush="{x:Null}" Height="35" Margin="5,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="ConnectBtn_Click">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="ConnectTextBlock" Text="Connect" Foreground="White" FontFamily="NanumGothic Light" FontSize="20"/>
+                        <TextBlock x:Name="ConnectTextBlock" Text="Connect" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
                     </StackPanel>
                 </Button>
                 <StackPanel Grid.Column="7">
@@ -117,12 +120,162 @@
                 </Grid>
             </Grid>
         </Border>
-        <Border  Grid.Row="2" Grid.Column="0" x:Name="Empty" BorderBrush="DarkSeaGreen" BorderThickness="0">
-            <Grid>
-            </Grid>
-        </Border>
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
+                <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" VerticalAlignment="Center">
+                            <CheckBox Content="Detail Log View" FontSize="12" Margin="0,0,0,0"  FontWeight="Bold" Checked="LogViewCheck" Unchecked="LogViewUnCheck"/>
+                        </Border>
+                        <Border Grid.Column="1" VerticalAlignment="Center">
+                            <CheckBox Content="Except Monitoring" FontSize="12" Margin="0,0,0,0"  FontWeight="Bold"  Checked="LogMonitoringCheck" Unchecked="LogMonitoringUnCheck"/>
+                        </Border>
+                        <Border Grid.Column="2" HorizontalAlignment="Right">
+                            <Button x:Name="ClearBtn" Grid.Column="6" Background="#8D9EA8" BorderBrush="{x:Null}" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="LogViewClear">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="Clear" Text="CLEAR" Foreground="Black" FontFamily="NanumGothic Light" Margin="5,0,5,0" FontSize="15" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Button>
+                        </Border>
+                    </Grid>
+                    <ScrollViewer x:Name="LogTextScroll" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="LogTextBox" Background="White" FontSize="10"/>
+                    </ScrollViewer>
+                </Grid>
+                <Grid x:Name="PropertiesPanel" Visibility="Collapsed">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="기준 Shunt 저항(uOhm)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding ShuntStandardReg}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="기준 Shunt 전류(mA)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding ShuntStandardCurr}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="연결 Shunt 저항(uOhm)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding ShuntNewReg}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="연결 Shunt 전류(mA)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding ShuntNewCurr}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="기준 전압미터(mV)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding StandardVoltMeter}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="보정 전압미터(mV)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding NewVoltMeter}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="CAL 재측정 횟수" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding CalErrRetryCnt}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                                    <TextBlock Text="실측 재측정 횟수" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="{Binding MeaErrRetryCnt}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

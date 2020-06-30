@@ -24,16 +24,16 @@
                     </Grid.ColumnDefinitions>
                     <!--전압 버튼-->
                     <RadioButton Grid.Column="0" x:Name="VoltageBtn" GroupName = "VoltCurrSelect"  Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Voltage_checked, UpdateSourceTrigger=PropertyChanged}"
-                                 Background="Olive" BorderBrush="{x:Null}" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="VoltageBtn_Checked">
+                                 Background="#8D9EA8" BorderBrush="{x:Null}" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="VoltageBtn_Checked">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Voltage" Foreground="White" FontFamily="NanumGothic Light" FontSize="15"/>
+                            <TextBlock Text="Voltage" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                         </StackPanel>
                     </RadioButton>
                     <!--전류 버튼-->
                     <RadioButton Grid.Column="1" x:Name="CurrentBtn" GroupName = "VoltCurrSelect" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding Current_checked, UpdateSourceTrigger=PropertyChanged}"
-                                 Background="Olive" BorderBrush="{x:Null}" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="CurrentBtn_Checked">
+                                 Background="#8D9EA8" BorderBrush="{x:Null}" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="CurrentBtn_Checked">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Current" Foreground="White" FontFamily="NanumGothic Light" FontSize="15"/>
+                            <TextBlock Text="Current" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                         </StackPanel>
                     </RadioButton>
                 </Grid>
@@ -60,17 +60,17 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" Background="#9AADB7" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" Background="#B6DBDB" BorderThickness="1">
                                     <TextBlock Text="NowMod" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="0" Grid.Column="1">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="{Binding CHSelectString}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="CH Select" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11"/>
                                 </Border>
                             </Grid>
@@ -84,23 +84,23 @@
                                         </Grid.ColumnDefinitions>
                                         <!--채널1 버튼-->
                                         <RadioButton Grid.Column="0" x:Name="CHSelectCH1Btn" Style="{StaticResource {x:Type ToggleButton}}" GroupName = "CHSelect" IsChecked="{Binding Voltage_checked, UpdateSourceTrigger=PropertyChanged}"
-                                            Background="Olive" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Width="Auto" Checked="CHSelectCH1Btn_Checked">
+                                            Background="#8D9EA8" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Width="Auto" Checked="CHSelectCH1Btn_Checked">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="CH1" Foreground="White" FontFamily="NanumGothic Light" FontSize="10"/>
+                                                <TextBlock Text="CH1" Foreground="Black" FontFamily="NanumGothic Light" FontSize="10" FontWeight="Bold"/>
                                             </StackPanel>
                                         </RadioButton>
                                         <!--채널2 버튼-->
                                         <RadioButton Grid.Column="1" x:Name="CHSelectCH2Btn" Style="{StaticResource {x:Type ToggleButton}}" GroupName = "CHSelect" IsChecked="{Binding Current_checked, UpdateSourceTrigger=PropertyChanged}"
-                                            Background="Olive" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Width="Auto" Checked="CHSelectCH2Btn_Checked">
+                                            Background="#8D9EA8" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Width="Auto" Checked="CHSelectCH2Btn_Checked">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="CH2" Foreground="White" FontFamily="NanumGothic Light" FontSize="10"/>
+                                                <TextBlock Text="CH2" Foreground="Black" FontFamily="NanumGothic Light" FontSize="10" FontWeight="Bold"/>
                                             </StackPanel>
                                         </RadioButton>
                                         <!--듀얼 버튼-->
                                         <RadioButton Grid.Column="2" x:Name="CHSelectCH3Btn" Style="{StaticResource {x:Type ToggleButton}}" GroupName = "CHSelect" IsChecked="{Binding Current_checked, UpdateSourceTrigger=PropertyChanged}"
-                                            Background="Olive" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Checked="CHSelectCH3Btn_Checked">
+                                            Background="#8D9EA8" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MinWidth="30" Checked="CHSelectCH3Btn_Checked">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="DUAL" Foreground="White" FontFamily="NanumGothic Light" FontSize="10"/>
+                                                <TextBlock Text="DUAL" Foreground="Black" FontFamily="NanumGothic Light" FontSize="10" FontWeight="Bold"/>
                                             </StackPanel>
                                         </RadioButton>
                                     </Grid>
@@ -121,7 +121,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
                                         <TextBlock Text="DMM" FontSize="13"/>
                                         <TextBlock Text="Mea" FontSize="13" Margin="5,0,0,0"/>
@@ -129,7 +129,7 @@
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="0" Grid.Column="1">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock x:Name="DMMOutputText" Text="" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
@@ -157,52 +157,52 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="Chennel Monitor" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="Volt(V)" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="Curr(A)" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="2" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="CH1" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                                    <TextBlock Text="{Binding CH1OutputVolt, StringFormat=#.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CH1OutputVolt, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                                    <TextBlock Text="{Binding CH1OutputCurr, StringFormat=#.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CH1OutputCurr, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="3" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="CH2" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                                    <TextBlock Text="{Binding CH2OutputVolt, StringFormat=#.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CH2OutputVolt, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                                    <TextBlock Text="{Binding CH2OutputCurr, StringFormat=#.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CH2OutputCurr, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                         </Grid>
@@ -220,7 +220,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="CAL Count" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
@@ -230,7 +230,7 @@
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="Measure Count" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
@@ -240,7 +240,7 @@
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="2" Grid.Column="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="Auto Save Check" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
@@ -265,20 +265,20 @@
                         <!--Cal File 호출-->
                         <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424">
                             <StackPanel Orientation="Horizontal">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="#B6DBDB">
                                     <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="#B6DBDB">
                                     <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Button x:Name="CalFileOpenBtn" Background="Olive" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="CalFileOpenBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Open" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="CalFileSaveBtn" Background="Olive" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="CalFileSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Save" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -289,33 +289,34 @@
                               AlternationCount="2" AlternatingRowBackground="White" Width="382" Height="200"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" CanUserSortColumns="False" CellEditEnding="CalDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding CALNO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="40" MinWidth="40" MaxWidth="40" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding CALSetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" Width="70" MinWidth="70" MaxWidth="100"/>
-                                    <DataGridTextColumn Binding="{Binding CALSetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="80" MinWidth="70" MaxWidth="100"/>
-                                    <DataGridTextColumn Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="OutVolt" Width="70" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CALNO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="30" MinWidth="30" MaxWidth="30" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CALSetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" Width="50" MinWidth="50" MaxWidth="70"/>
+                                    <DataGridTextColumn Binding="{Binding CALSetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="70" MinWidth="70" MaxWidth="100"/>
+                                    <DataGridTextColumn Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutVolt" Width="55" MinWidth="55" MaxWidth="70" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel>
-                                <Button x:Name="AddCalDataGridBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AddCalDataGridBtn_Click">
+                                <Button x:Name="AddCalDataGridBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AddCalDataGridBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Add" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Add" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="DelCalDataGridBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="DelCalDataGridBtn_Click">
+                                <Button x:Name="DelCalDataGridBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="DelCalDataGridBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Del" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Del" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
                         </StackPanel>
                         <!--Cal 허용 오차, 딜레이 입력부분-->
                         <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424">
-                            <StackPanel Orientation="Horizontal">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="122" Background="PaleGreen">
+                            <StackPanel Orientation="Horizontal" Height="25">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="132" Background="#B6DBDB">
                                     <TextBlock Text="CAL Error Range" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="100" Background="#B6DBDB">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
@@ -325,10 +326,10 @@
                                         <TextBlock Grid.Column="1" x:Name="CalErrorRangeUnit" Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </Grid>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="82" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="82" Background="#B6DBDB">
                                     <TextBlock Text="Delay Time" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="#B6DBDB">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
@@ -346,15 +347,15 @@
                                 <!--Cal 수동, 자동 버튼-->
                                 <StackPanel>
                                     <RadioButton x:Name="AutoCalBtn" GroupName ="CalAutoSelect" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding CalAutoChecked, UpdateSourceTrigger=PropertyChanged}"
-                                                 Background="Olive" BorderBrush="DarkSeaGreen" Width="40" Height="38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="AutoCalBtn_Checked">
+                                                 Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="AutoCalBtn_Checked">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="자동" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                            <TextBlock Text="자동" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                         </StackPanel>
                                     </RadioButton>
                                     <RadioButton x:Name="ActCalBtn" GroupName ="CalAutoSelect" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="{Binding CalActiveChecked, UpdateSourceTrigger=PropertyChanged}"
-                                                 Background="Olive" BorderBrush="DarkSeaGreen" Width="40" Height="38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="ActCalBtn_Checked">
+                                                 Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="ActCalBtn_Checked">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="수동" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                            <TextBlock Text="수동" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Black"/>
                                         </StackPanel>
                                     </RadioButton>
                                 </StackPanel>
@@ -372,23 +373,23 @@
                                         <TextBlock x:Name="SelectVoltageCurrunt" Text="Volt" FontSize="12" Margin="0,0,0,0" VerticalAlignment="Center" FontWeight="Bold"/>
                                         <TextBlock Text="MEA" FontSize="12" Margin="2,0,0,0" VerticalAlignment="Center" FontWeight="Bold"/>
                                         <Border BorderThickness="0" BorderBrush="DarkSeaGreen" Height="20" Width="90" Margin="5,0,5,0" VerticalAlignment="Center">
-                                            <TextBlock x:Name="OutputDMM" Text="{Binding DMMOutputVolt}" FontSize="13"/>
+                                            <TextBlock x:Name="OutputDMM" Text="{Binding DMMOutputVolt, StringFormat='0.####'}" FontSize="13"/>
                                         </Border>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Height="35" Width="380">
-                                        <Button x:Name="OutputCalStartBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="40,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputCalStartBtn_Click">
+                                        <Button x:Name="OutputCalStartBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="40,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputCalStartBtn_Click">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Output Start" Foreground="White" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
+                                                <TextBlock Text="Output Start" Foreground="Black" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="CalStartBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="10,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CalStartBtn_Click">
+                                        <Button x:Name="CalStartBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="10,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CalStartBtn_Click">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="CAL Start" Foreground="White" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
+                                                <TextBlock Text="CAL Start" Foreground="Black" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="CalEndBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="10,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CalEndBtn_Click">
+                                        <Button x:Name="CalEndBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="90" Height="20" Margin="10,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="CalEndBtn_Click">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Output End" Foreground="White" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
+                                                <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="13" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
@@ -396,25 +397,25 @@
                                 <!--Cal 자동 부분-->
                                 <StackPanel x:Name="AutoCalPanel">
                                     <StackPanel Orientation="Horizontal" Height="45">
-                                        <Button x:Name="AutoCalStartBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalStartBtn_Click">
+                                        <Button x:Name="AutoCalStartBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalStartBtn_Click">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Output Start" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                                <TextBlock Text="Output Start" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AutoCalEndBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalEndBtn_Click">
+                                        <Button x:Name="AutoCalEndBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalEndBtn_Click">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Output End" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                                <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AutoCalSaveBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <Button x:Name="AutoCalSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="DATA Save" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                                <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Height="20" Width="380">
                                         <Border VerticalAlignment="Top">
-                                            <CheckBox Content="Cal End And Auto MEA" FontSize="12" Margin="0,0,0,0"  FontWeight="Bold"/>
+                                            <CheckBox Content="Cal End And Auto MEA" FontSize="12" Margin="0,0,0,0" FontWeight="Bold"/>
                                         </Border>
                                     </StackPanel>
                                 </StackPanel>
@@ -432,20 +433,20 @@
                         <!--Mea File 호출-->
                         <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424">
                             <StackPanel Orientation="Horizontal">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="#B6DBDB">
                                     <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="#B6DBDB">
                                     <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Button x:Name="MeaFileOpenBtn" Background="Olive" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="MeaFileOpenBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Open" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="MeaFileSaveBtn" Background="Olive" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="MeaFileSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Save" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -456,33 +457,34 @@
                               AlternationCount="2" AlternatingRowBackground="White" Width="382" Height="200"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" CellEditEnding="MeaDataGrid_CellEditEnding">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding MEANO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="40" MinWidth="40" MaxWidth="40" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MEASetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" Width="70" MinWidth="70" MaxWidth="100"/>
-                                    <DataGridTextColumn Binding="{Binding MEASetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="80" MinWidth="70" MaxWidth="100"/>
-                                    <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="OutVolt" Width="70" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MEANO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="30" MinWidth="30" MaxWidth="40" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MEASetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" Width="50" MinWidth="50" MaxWidth="100"/>
+                                    <DataGridTextColumn Binding="{Binding MEASetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="70" MinWidth="70" MaxWidth="100"/>
+                                    <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutVolt" Width="55" MinWidth="55" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding MEADMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel>
-                                <Button x:Name="AddMeaDataGridBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AddMeaDataGridBtn_Click">
+                                <Button x:Name="AddMeaDataGridBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AddMeaDataGridBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Add" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Add" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="DelMeaDataGridBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="DelMeaDataGridBtn_Click">
+                                <Button x:Name="DelMeaDataGridBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="DelMeaDataGridBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Del" Foreground="White" FontFamily="NanumGothic Light" FontSize="12"/>
+                                        <TextBlock Text="Del" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
                         </StackPanel>
                         <!--Mea 허용 오차, 딜레이 입력부분-->
-                        <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424">
+                        <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424" Height="25">
                             <StackPanel Orientation="Horizontal">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="122" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="132" Background="#B6DBDB">
                                     <TextBlock Text="MEA Error Range" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="100" Background="#B6DBDB">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
@@ -492,10 +494,10 @@
                                         <TextBlock Grid.Column="1" x:Name="MeaErrorRangeUnit" Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </Grid>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="82" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="82" Background="#B6DBDB">
                                     <TextBlock Text="Delay Time" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="PaleGreen">
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="110" Background="#B6DBDB">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
@@ -510,19 +512,19 @@
                         <!--MEA 자동 버튼-->
                         <Border BorderBrush="DarkSeaGreen" BorderThickness="1" MinHeight="80">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="OutputMeaStartBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="50,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputMeaStartBtn_Click">
+                                <Button x:Name="OutputMeaStartBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="50,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputMeaStartBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Output Start" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                        <TextBlock Text="Output Start" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="OutputMeaEndBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputMeaEndBtn_Click">
+                                <Button x:Name="OutputMeaEndBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="OutputMeaEndBtn_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Output End" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                        <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="MeaSaveBtn" Background="LightSteelBlue" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="MeaSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="DATA Save" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
+                                        <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
