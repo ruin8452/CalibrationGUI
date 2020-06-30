@@ -34,7 +34,7 @@
                         </StackPanel>
                     </Button>
                     <!--Setting 버튼-->
-                    <Button x:Name="settingBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <Button x:Name="settingBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="settingBtn_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Setting" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
                         </StackPanel>
@@ -90,7 +90,7 @@
                 <StackPanel Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock  Text="Serial No." FontSize="30" VerticalAlignment="Center"/>
                     <Border BorderThickness="1" BorderBrush="DarkSeaGreen" Height="40" Width="200" Margin="10,0,0,0" >
-                        <TextBox x:Name="SerialTextBox" FontSize="30"/>
+                        <TextBox x:Name="SerialTextBox" FontSize="30" TextChanged="SerialTextBox_TextChanged"/>
                     </Border>
                 </StackPanel>
                 <!-- Connect 버튼-->
@@ -148,7 +148,7 @@
                         </Border>
                     </Grid>
                     <ScrollViewer x:Name="LogTextScroll" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="LogTextBox" Background="White" FontSize="10"/>
+                        <TextBox x:Name="LogTextBox" Background="White" FontSize="10"/>
                     </ScrollViewer>
                 </Grid>
                 <Grid x:Name="PropertiesPanel" Visibility="Collapsed">

@@ -135,7 +135,7 @@
                             </Grid>
                             <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
-                                    <TextBlock Text="{Binding DMMOutputVolt, StringFormat='#,0.###'}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding DMMOutputVolt, StringFormat='#0.####'}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                         </Grid>
@@ -294,7 +294,7 @@
                                     <DataGridTextColumn Binding="{Binding CALSetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="70" MinWidth="70" MaxWidth="100"/>
                                     <DataGridTextColumn Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutVolt" Width="55" MinWidth="55" MaxWidth="70" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}" Header="OutDMM" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel>
@@ -373,7 +373,7 @@
                                         <TextBlock x:Name="SelectVoltageCurrunt" Text="Volt" FontSize="12" Margin="0,0,0,0" VerticalAlignment="Center" FontWeight="Bold"/>
                                         <TextBlock Text="MEA" FontSize="12" Margin="2,0,0,0" VerticalAlignment="Center" FontWeight="Bold"/>
                                         <Border BorderThickness="0" BorderBrush="DarkSeaGreen" Height="20" Width="90" Margin="5,0,5,0" VerticalAlignment="Center">
-                                            <TextBlock x:Name="OutputDMM" Text="{Binding DMMOutputVolt, StringFormat='0.####'}" FontSize="13"/>
+                                            <TextBlock x:Name="OutputDMM" Text="{Binding DMMOutputVolt, StringFormat='#,0.###'}" FontSize="13"/>
                                         </Border>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Height="35" Width="380">
@@ -407,7 +407,7 @@
                                                 <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                             </StackPanel>
                                         </Button>
-                                        <Button x:Name="AutoCalSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <Button x:Name="AutoCalSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalSaveBtn_Click">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                             </StackPanel>
@@ -490,7 +490,7 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding CalErrRange}" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="0" Text="{Binding MeaErrRange}" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Column="1" x:Name="MeaErrorRangeUnit" Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </Grid>
                                 </Border>
@@ -522,7 +522,7 @@
                                         <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="MeaSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Button x:Name="MeaSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MeaSaveBtn_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                     </StackPanel>

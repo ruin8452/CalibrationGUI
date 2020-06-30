@@ -66,6 +66,9 @@
     <Compile Include="Comm\ICommModule.cs" />
     <Compile Include="Comm\SerialComm.cs" />
     <Compile Include="Comm\Utill.cs" />
+    <Compile Include="SettingCommPage.xaml.cs">
+      <DependentUpon>SettingCommPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingData.cs" />
     <Compile Include="TestSetting.xaml.cs">
       <DependentUpon>TestSetting.xaml</DependentUpon>
@@ -83,6 +86,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MonitoringPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingCommPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

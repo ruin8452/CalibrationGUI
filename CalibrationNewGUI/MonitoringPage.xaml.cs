@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -493,6 +494,11 @@ namespace CalibrationNewGUI
         private void AutoCalStartBtn_Click(object sender, RoutedEventArgs e)
         {
             //예외처리
+            if (AllSetData.CalSeqStartFlag == 1 || AllSetData.MeaSeqStartFlag == 1)
+            {
+                System.Windows.MessageBox.Show("출력중입니다.");
+                return;
+            }
             if (AllSetData.MCUConnectFlag == 1)//MCU포트 연결 확인
             {
                 if (AllSetData.VoltCurrSelect == 0)//전압
@@ -562,6 +568,11 @@ namespace CalibrationNewGUI
         private void OutputMeaStartBtn_Click(object sender, RoutedEventArgs e)
         {
             //예외처리
+            if (AllSetData.CalSeqStartFlag == 1 || AllSetData.MeaSeqStartFlag == 1)
+            {
+                System.Windows.MessageBox.Show("출력중입니다.");
+                return;
+            }
             if (AllSetData.MCUConnectFlag == 1)//MCU포트 연결 확인
             {
                 if (AllSetData.VoltCurrSelect == 0)//전압
@@ -621,8 +632,88 @@ namespace CalibrationNewGUI
         //실측 출력 종료
         private void OutputMeaEndBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (AllSetData.MeaOutStartFlag == 1) AllSetData.MeaOutEndFlag = 1;
+            if (AllSetData.MeaSeqStartFlag == 1)//자동cal과 실측은 유지를 해야하기 때문에 플래그가 1인상태
+            {
+                AllSetData.MeaOutStartFlag = 0;
+                AllSetData.MeaOutEndFlag = 1; //Cal 시작일 경우에만 종료할것
+            }
         }
 
+        //Cal 현재 결과 데이터 csv로 저장하기
+        private void AutoCalSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            DataTable dt = new DataTable();
+            string SavePath = (AllSetData.SaveFilePrixNum + "_" + AllSetData.SerialNumber);//처음 접두사 입력해놓기(prix + serial)
+            if (AllSetData.ChannelSelect == 1)//CH1
+            {
+                SavePath += "_CH1";
+            }
+            else if (AllSetData.ChannelSelect == 2)//CH2
+            {
+                SavePath += "_CH2";
+            }
+            if (AllSetData.VoltCurrSelect == 0)
+            {
+                dt = AllSetData.VoltageCalTable;//전압
+                SavePath += "_Volt";
+            }
+            else if (AllSetData.VoltCurrSelect == 1)
+            {
+                dt = AllSetData.CurrentCalTable;//전류
+                SavePath += "_Curr";
+            }
+            SavePath += "_Calibration.csv";
+            IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().
+                                              Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in dt.Rows)
+            {
+                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            File.WriteAllText(SavePath, sb.ToString());
+            System.Windows.MessageBox.Show("파일이 저장되었습니다.");
+        }
+        //실측 현재 결과 데이터 csv로 저장하기
+        private void MeaSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            DataTable dt = new DataTable();
+            string SavePath = (AllSetData.SaveFilePrixNum + "_" + AllSetData.SerialNumber);//처음 접두사 입력해놓기(prix + serial)
+            if (AllSetData.ChannelSelect == 1)//CH1
+            {
+                SavePath += "_CH1";
+            }
+            else if (AllSetData.ChannelSelect == 2)//CH2
+            {
+                SavePath += "_CH2";
+            }
+            if (AllSetData.VoltCurrSelect == 0)//전압
+            {
+                dt = AllSetData.VoltageMeaTable;
+                SavePath += "_Volt";
+            }
+            else if (AllSetData.VoltCurrSelect == 1)//전류
+            {
+                dt = AllSetData.CurrentMeaTable;
+                SavePath += "_Curr";
+            }
+            SavePath += "_Measurement.csv";
+            IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().
+                                              Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            foreach (DataRow row in dt.Rows)
+            {
+                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            File.WriteAllText(SavePath, sb.ToString());
+            System.Windows.MessageBox.Show("파일이 저장되었습니다.");
+        }
     }
 }

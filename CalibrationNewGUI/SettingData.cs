@@ -23,6 +23,7 @@ namespace CalibrationNewGUI
         public int MeaSeqStartFlag = 0; //실측 시퀀스 시작 플래그
         public int CalSeqNum = 0; //Cal 시퀀스 번호(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
         public int CalRowCntNum = 0; //Cal, 실측 데이터의 개수
+        public int[] tempcnt = new int[5]; //Cal, 실측 데이터의 개수
         ///모니터링 변수(로그 출력, 모니터링 출력)
         public int LogViewStartFlag = 0;
         public int LogMonitoringViewFlag = 0;
