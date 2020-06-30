@@ -276,6 +276,7 @@ namespace CalibrationNewGUI
             }
             return child;
         }
+        //Cal 데이터 그리드 편집 시 나오는 이벤트
 
         //Cal Point 입력시 예외처리
         private void CalDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
