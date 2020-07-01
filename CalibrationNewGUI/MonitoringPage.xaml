@@ -223,26 +223,31 @@
                     <!--CAL 텍스트-->
                     <TextBlock Text="CAL" Foreground="Black" FontFamily="NanumGothic Light" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <!--Cal File 호출-->
-                    <Border  BorderBrush="DarkSeaGreen" BorderThickness="0">
-                        <StackPanel Orientation="Horizontal">
-                            <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="#B6DBDB">
-                                <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="#B6DBDB">
-                                <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Button x:Name="CalFileOpenBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Button>
-                            <Button x:Name="CalFileSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1"  Background="#B6DBDB">
+                            <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                            <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                        </Border>
+                        <Button x:Name="CalFileOpenBtn" Grid.Column="2" Background="#8D9EA8" BorderBrush="DarkSeaGreen">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="CalFileSaveBtn" Grid.Column="3" Background="#8D9EA8" BorderBrush="DarkSeaGreen">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                     <!--Cal Point 입력부분-->
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -295,10 +300,11 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
+                                    
                                     <TextBlock Grid.Column="0" Text="{Binding CalErrDelayTime}" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="ms" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    <TextBlock Grid.Column="1" Text="ms" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -393,41 +399,51 @@
                         <TextBlock Text="MEA" Foreground="Black" FontFamily="NanumGothic Light" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <!--Mea File 호출-->
-                    <Border  BorderBrush="DarkSeaGreen" BorderThickness="0">
-                        <StackPanel Orientation="Horizontal">
-                            <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="34" Background="#B6DBDB">
-                                <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Width="310" Background="#B6DBDB">
-                                <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Button x:Name="MeaFileOpenBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Button>
-                            <Button x:Name="MeaFileSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                            <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                            <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                        </Border>
+                        <Button x:Name="MeaFileOpenBtn" Grid.Column="2" Background="#8D9EA8" BorderBrush="DarkSeaGreen">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Open" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="MeaFileSaveBtn" Grid.Column="3" Background="#8D9EA8" BorderBrush="DarkSeaGreen">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                     <!--MEA Point 입력부분-->
-                    <StackPanel Orientation="Horizontal">
-                        <DataGrid x:Name="MeaDataGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="False" 
-                              AlternationCount="2" AlternatingRowBackground="White" Width="382" Height="200"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid x:Name="MeaDataGrid" Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="False" 
+                              AlternationCount="2" AlternatingRowBackground="White" Height="200"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" CellEditEnding="MeaDataGrid_CellEditEnding">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding MEANO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="30" MinWidth="30" MaxWidth="40" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding MEASetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" Width="50" MinWidth="50" MaxWidth="100"/>
-                                <DataGridTextColumn Binding="{Binding MEASetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" Width="70" MinWidth="70" MaxWidth="100"/>
-                                <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutVolt" Width="55" MinWidth="55" MaxWidth="100" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding MEADMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" Width="80" MinWidth="70" MaxWidth="100" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEANO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEASetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt"/>
+                                <DataGridTextColumn Binding="{Binding MEASetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr"/>
+                                <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutVolt" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEADMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <StackPanel>
+                        <StackPanel Grid.Column="1" >
                             <Button x:Name="AddMeaDataGridBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="40" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AddMeaDataGridBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Add" Foreground="Black" FontFamily="NanumGothic Light" FontSize="12" FontWeight="Bold"/>
@@ -439,7 +455,7 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                     <!--Mea 허용 오차, 딜레이 입력부분-->
                     <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424" Height="25">
                         <StackPanel Orientation="Horizontal">
