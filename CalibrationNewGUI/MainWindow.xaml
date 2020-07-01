@@ -39,11 +39,11 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Storyboard x:Key="CalMenuSlideOpen">
-            <DoubleAnimation Storyboard.TargetName="CalSubMenu" Storyboard.TargetProperty="Height" To="43" Duration="0:0:0.3" />
+        <Storyboard x:Key="SettingMenuSlideOpen">
+            <DoubleAnimation Storyboard.TargetName="SettingSubMenu" Storyboard.TargetProperty="Height" To="150" Duration="0:0:0.3" />
         </Storyboard>
-        <Storyboard x:Key="CalMenuSlideClose">
-            <DoubleAnimation Storyboard.TargetName="CalSubMenu" Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.3" />
+        <Storyboard x:Key="SettingMenuSlideClose">
+            <DoubleAnimation Storyboard.TargetName="SettingSubMenu" Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.3" />
         </Storyboard>
     </Window.Resources>
     
@@ -67,41 +67,34 @@
                 <!--Monitoring 버튼-->
                 <Button x:Name="MonitorBtn" Content="Monitoring" Style="{StaticResource ButtonStyle}" Click="MonitorBtn_Click"/>
                 <!--Setting 버튼-->
-                <ToggleButton x:Name="settingBtn" Content="Setting" Style="{StaticResource TogButtonStyle}" />
+                <ToggleButton x:Name="settingBtn" Content="Setting" Style="{StaticResource TogButtonStyle}">
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard Storyboard="{StaticResource SettingMenuSlideOpen}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard Storyboard="{StaticResource SettingMenuSlideClose}"/>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+                <StackPanel x:Name="SettingSubMenu" Height="0">
+                    <!--Communication 버튼-->
+                    <Button Content="Communication" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <!--Shunt - Volt 버튼-->
+                    <Button Content="Shunt - Volt" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <!--Auto Save 버튼-->
+                    <Button Content="Auto Save" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <!--Cal - Measurement 버튼-->
+                    <Button Content="CAL Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="MEA Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <!--Others 버튼-->
+                    <Button Content="Others" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                </StackPanel>
                 <!--LogCheck 버튼-->
                 <ToggleButton x:Name="LogCheckBtn" Content="LogCheck" Style="{StaticResource TogButtonStyle}" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked"/>
                 <!--Properties 버튼-->
                 <ToggleButton x:Name="PropertiesBtn" Content="Properties" Style="{StaticResource TogButtonStyle}" Checked="PropertiesBtn_Checked" Unchecked="PropertiesBtn_UnChecked"/>
             </StackPanel>
-
-            <Popup x:Name="SubMenu" Style="{StaticResource popupStyle}" Width="150" StaysOpen="False" AllowsTransparency="True" Placement="Right" PlacementTarget="{Binding ElementName=settingBtn}">
-                <StackPanel>
-                    <!--Communication 버튼-->
-                    <Button Content="Communication" Style="{StaticResource ButtonStyle}"/>
-                    <!--Shunt - Volt 버튼-->
-                    <Button Content="Shunt - Volt" Style="{StaticResource ButtonStyle}"/>
-                    <!--Auto Save 버튼-->
-                    <Button Content="Auto Save" Style="{StaticResource ButtonStyle}"/>
-                    <!--Cal - Measurement 버튼-->
-                    <ToggleButton Content="Cal - Measurement" Style="{StaticResource TogButtonStyle}" >
-                        <ToggleButton.Triggers>
-                            <EventTrigger RoutedEvent="ToggleButton.Checked">
-                                <BeginStoryboard Storyboard="{StaticResource CalMenuSlideOpen}"/>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                                <BeginStoryboard Storyboard="{StaticResource CalMenuSlideClose}"/>
-                            </EventTrigger>
-                        </ToggleButton.Triggers>
-                    </ToggleButton>
-                    <!--CAL 서브 메뉴-->
-                    <StackPanel x:Name="CalSubMenu" Height="0">
-                        <Button Content="CAL Setting" Background="#FFB6CEDB" FontSize="16" BorderBrush="{x:Null}" FontFamily="NanumGothic Light"/>
-                        <Button Content="MEA Setting" Background="#FFB6CEDB" FontSize="16" BorderBrush="{x:Null}" FontFamily="NanumGothic Light"/>
-                    </StackPanel>
-                    <!--Others 버튼-->
-                    <Button Content="Others" Style="{StaticResource ButtonStyle}"/>
-                </StackPanel>
-            </Popup>
         </StackPanel>
         
         <!--통신 상태 확인, 연결, 버전확인 메뉴-->
