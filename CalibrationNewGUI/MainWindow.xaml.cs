@@ -95,7 +95,8 @@ namespace CalibrationNewGUI
         //세팅 페이지 호출
         private void settingBtn_Click(object sender, RoutedEventArgs e)
         {
-            PageFrame.Source = new Uri("SettingCommPage.xaml", UriKind.Relative);
+            //PageFrame.Source = new Uri("SettingCommPage.xaml", UriKind.Relative);
+            PageFrame.Source = new Uri("SettingOthersPage.xaml", UriKind.Relative);
         }
 
         //통신 연결 버튼

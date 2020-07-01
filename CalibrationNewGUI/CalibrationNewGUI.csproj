@@ -66,10 +66,26 @@
     <Compile Include="Comm\ICommModule.cs" />
     <Compile Include="Comm\SerialComm.cs" />
     <Compile Include="Comm\Utill.cs" />
+    <Compile Include="ConfigFileSave.cs" />
+    <Compile Include="SettingAutoSavePage.xaml.cs">
+      <DependentUpon>SettingAutoSavePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingCalPage.xaml.cs">
+      <DependentUpon>SettingCalPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingCommPage.xaml.cs">
       <DependentUpon>SettingCommPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingData.cs" />
+    <Compile Include="SettingMeaPage.xaml.cs">
+      <DependentUpon>SettingMeaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingOthersPage.xaml.cs">
+      <DependentUpon>SettingOthersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingShuntPage.xaml.cs">
+      <DependentUpon>SettingShuntPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestSetting.xaml.cs">
       <DependentUpon>TestSetting.xaml</DependentUpon>
     </Compile>
@@ -89,7 +105,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SettingAutoSavePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingCalPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SettingCommPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingMeaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingOthersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingShuntPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

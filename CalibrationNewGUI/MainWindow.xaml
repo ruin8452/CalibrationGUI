@@ -70,14 +70,17 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5,0,0,0">
-                    <TextBlock  Text="MCU" FontSize="30" VerticalAlignment="Center"/>
-                    <Ellipse x:Name="MCUConnectCircle" Width="35" Height="35" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel Grid.Column="0" >
+                    <StackPanel Orientation="Horizontal" Margin="10,2,0,0">
+                        <TextBlock  Text="MCU" FontSize="25" VerticalAlignment="Center"/>
+                        <Ellipse x:Name="MCUConnectCircle" Width="33" Height="33" Fill="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock  Text="" FontSize="15" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel  Grid.Column="1">
                     <StackPanel Orientation="Horizontal" Margin="10,2,0,0">
                         <TextBlock  Text="DMM" FontSize="25" VerticalAlignment="Center"/>
-                        <Ellipse x:Name="DMMConnectCircle" Width="33" Height="33" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Ellipse x:Name="DMMConnectCircle" Width="33" Height="33" Fill="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10,1,0,0">
                         <TextBlock  Text="Model" FontSize="15" VerticalAlignment="Center"/>
@@ -90,7 +93,7 @@
                 <StackPanel Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock  Text="Serial No." FontSize="30" VerticalAlignment="Center"/>
                     <Border BorderThickness="1" BorderBrush="DarkSeaGreen" Height="40" Width="200" Margin="10,0,0,0" >
-                        <TextBox x:Name="SerialTextBox" FontSize="30" TextChanged="SerialTextBox_TextChanged"/>
+                        <TextBox x:Name="SerialTextBox" Text="{Binding SerialNumber, Mode=TwoWay}" FontSize="30" TextChanged="SerialTextBox_TextChanged"/>
                     </Border>
                 </StackPanel>
                 <!-- Connect 버튼-->
