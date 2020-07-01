@@ -7,6 +7,46 @@
         mc:Ignorable="d"
         Title="MainWindow" SizeToContent="WidthAndHeight" Loaded="MainWindowLoaded" Unloaded="MainWindowClosing">
 
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="#8D9EA8"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="TogButtonStyle">
+            <Setter Property="Background" Value="#8D9EA8"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style TargetType="Popup" x:Key="popupStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=settingBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="IsOpen" Value="True"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=settingBtn, Path=IsChecked}" Value="False">
+                    <Setter Property="IsOpen" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Storyboard x:Key="CalMenuSlideOpen">
+            <DoubleAnimation Storyboard.TargetName="CalSubMenu" Storyboard.TargetProperty="Height" To="43" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="CalMenuSlideClose">
+            <DoubleAnimation Storyboard.TargetName="CalSubMenu" Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.3" />
+        </Storyboard>
+    </Window.Resources>
+    
     <Grid Background="#B6CEDB">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -14,51 +54,58 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" MinWidth="150"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Grid.Column="0" x:Name="Logo" BorderBrush="DarkSeaGreen" BorderThickness="2">
-            <Grid>
-                <TextBlock Text="KapJin" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-            </Grid>
+            <TextBlock Text="KapJin" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
         </Border>
 
-        <Border  Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" x:Name="Menu" BorderBrush="DarkSeaGreen" BorderThickness="2">
-            <Grid>
+        <StackPanel x:Name="Menu" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Width="150">
+            <StackPanel>
+                <!--Monitoring 버튼-->
+                <Button x:Name="MonitorBtn" Content="Monitoring" Style="{StaticResource ButtonStyle}" Click="MonitorBtn_Click"/>
+                <!--Setting 버튼-->
+                <ToggleButton x:Name="settingBtn" Content="Setting" Style="{StaticResource TogButtonStyle}" />
+                <!--LogCheck 버튼-->
+                <ToggleButton x:Name="LogCheckBtn" Content="LogCheck" Style="{StaticResource TogButtonStyle}" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked"/>
+                <!--Properties 버튼-->
+                <ToggleButton x:Name="PropertiesBtn" Content="Properties" Style="{StaticResource TogButtonStyle}" Checked="PropertiesBtn_Checked" Unchecked="PropertiesBtn_UnChecked"/>
+            </StackPanel>
+
+            <Popup x:Name="SubMenu" Style="{StaticResource popupStyle}" Width="150" StaysOpen="False" AllowsTransparency="True" Placement="Right" PlacementTarget="{Binding ElementName=settingBtn}">
                 <StackPanel>
-                    <!--Monitoring 버튼-->
-                    <Button x:Name="MonitorBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MonitorBtn_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Monitoring" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Button>
-                    <!--Setting 버튼-->
-                    <Button x:Name="settingBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Setting" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Button>
-                    <!--LogCheck 버튼-->
-                    <ToggleButton x:Name="LogCheckBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
-                                  Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked">
-                        <!-- GroupName = "LogPropertySelect"  Style="{StaticResource {x:Type ToggleButton}}" -->
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="LogCheck" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
-                        </StackPanel>
+                    <!--Communication 버튼-->
+                    <Button Content="Communication" Style="{StaticResource ButtonStyle}"/>
+                    <!--Shunt - Volt 버튼-->
+                    <Button Content="Shunt - Volt" Style="{StaticResource ButtonStyle}"/>
+                    <!--Auto Save 버튼-->
+                    <Button Content="Auto Save" Style="{StaticResource ButtonStyle}"/>
+                    <!--Cal - Measurement 버튼-->
+                    <ToggleButton Content="Cal - Measurement" Style="{StaticResource TogButtonStyle}" >
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard Storyboard="{StaticResource CalMenuSlideOpen}"/>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard Storyboard="{StaticResource CalMenuSlideClose}"/>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
                     </ToggleButton>
-                    <!--Properties 버튼-->
-                    <ToggleButton x:Name="PropertiesBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
-                                 Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="PropertiesBtn_Checked" Unchecked="PropertiesBtn_UnChecked">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Properties" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
-                        </StackPanel>
-                    </ToggleButton>
+                    <!--CAL 서브 메뉴-->
+                    <StackPanel x:Name="CalSubMenu" Height="0">
+                        <Button Content="CAL Setting" Background="#FFB6CEDB" FontSize="16" BorderBrush="{x:Null}" FontFamily="NanumGothic Light"/>
+                        <Button Content="MEA Setting" Background="#FFB6CEDB" FontSize="16" BorderBrush="{x:Null}" FontFamily="NanumGothic Light"/>
+                    </StackPanel>
+                    <!--Others 버튼-->
+                    <Button Content="Others" Style="{StaticResource ButtonStyle}"/>
                 </StackPanel>
-            </Grid>
-        </Border>
+            </Popup>
+        </StackPanel>
+        
         <!--통신 상태 확인, 연결, 버전확인 메뉴-->
-            <Border  Grid.Row="0" Grid.Column="1" x:Name="CommunicationGrid" BorderBrush="DarkSeaGreen" BorderThickness="2">
+        <Border  Grid.Row="0" Grid.Column="1" x:Name="CommunicationGrid" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
@@ -86,7 +133,7 @@
                         </Border>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <StackPanel Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock  Text="Serial No." FontSize="30" VerticalAlignment="Center"/>
                     <Border BorderThickness="1" BorderBrush="DarkSeaGreen" Height="40" Width="200" Margin="10,0,0,0" >
@@ -112,14 +159,12 @@
                 </StackPanel>
             </Grid>
         </Border>
-        <Border  Grid.Row="1" Grid.Column="1" x:Name="MainPageGrid" BorderBrush="DarkSeaGreen" BorderThickness="2">
-            <Grid>
-                <!--Main 화면-->
-                <Grid Background="#FFFFFF">
-                    <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
-                </Grid>
-            </Grid>
-        </Border>
+        
+        <!--Main 화면-->
+        <Grid Background="#FFFFFF" Grid.Row="1" Grid.Column="1" >
+            <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
+        </Grid>
+        
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
                 <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
@@ -148,19 +193,19 @@
                         </Border>
                     </Grid>
                     <ScrollViewer x:Name="LogTextScroll" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="LogTextBox" Background="White" FontSize="10"/>
+                        <TextBox x:Name="LogTextBox" Background="White" FontSize="10"/>
                     </ScrollViewer>
                 </Grid>
                 <Grid x:Name="PropertiesPanel" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
@@ -278,5 +323,27 @@
                 </Grid>
             </Grid>
         </Border>
+        
+        <Menu Grid.Row="1" Height="200" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+
+            <MenuItem Header="Monitering" FontSize="19"/>
+            <MenuItem Header="Setting" FontSize="19">
+                <MenuItem Header="Commnunication" FontSize="17"/>
+                <MenuItem Header="Shunt-Voltage" FontSize="17"/>
+                <MenuItem Header="Auto Save" FontSize="17"/>
+                <MenuItem Header="Cal-Measurement" FontSize="17">
+                    <MenuItem Header="CAL Setting" FontSize="17"/>
+                    <MenuItem Header="MEA Setting" FontSize="17"/>
+                </MenuItem>
+                <MenuItem Header="Others" FontSize="17"/>
+            </MenuItem>
+            <MenuItem Header="LogCheck" FontSize="19"/>
+            <MenuItem Header="Properties" FontSize="19"/>
+        </Menu>
     </Grid>
 </Window>

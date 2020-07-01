@@ -292,8 +292,8 @@ namespace CalibrationNewGUI
             double tempDouble = 0;
 
             tempDouble = Convert.ToDouble(stringStream);
-            if(AllSetData.VoltCurrSelect == 0) AllSetData.DMMOutputVolt = (float)tempDouble * 1000.0f;//DMM 100mV = 전압 100mV
-            else if(AllSetData.VoltCurrSelect == 1) AllSetData.DMMOutputVolt = (float)tempDouble * 1000000.0f;//DMM 100mV = 전류 100A
+            if (AllSetData.VoltCurrSelect == 0) AllSetData.DMMOutputVolt = (float)tempDouble * 1000.0f;//DMM 100mV = 전압 100mV
+            else if (AllSetData.VoltCurrSelect == 1) AllSetData.DMMOutputVolt = (float)tempDouble * 1000000.0f;//DMM 100mV = 전류 100A
         }
 
         //모니터링용 타이머
@@ -367,7 +367,7 @@ namespace CalibrationNewGUI
                 if (AllSetData.AutoCalOutEndFlag == 1) //자동 cal에서 강제 정지 버튼
                 {
                     AllSetData.AutoCalOutEndFlag = 0;
-                    if(AllSetData.CalSeqStartFlag == 1) AllSetData.CalSeqNum = 4; //시퀀스 강제 넘기기
+                    if (AllSetData.CalSeqStartFlag == 1) AllSetData.CalSeqNum = 4; //시퀀스 강제 넘기기
                 }
                 if (AllSetData.CalOutEndFlag == 1) AllSetData.CalOutEndFlag = 0;
                 if (AllSetData.MeaOutEndFlag == 1) AllSetData.MeaOutEndFlag = 0;
@@ -452,7 +452,7 @@ namespace CalibrationNewGUI
                     else //전류
                     {
                         CurrArray = Int2AsciiByte((int)(AllSetData.DMMOutputVolt * 10), CurrArray.Length);
-                        
+
                         bytestream[pos++] = 0x49;//'I'
                         bytestream[pos++] = IntToByte(AllSetData.ChannelSelect); //채널선택
                         Buffer.BlockCopy(CurrArray, 0, bytestream, pos, CurrArray.Length);
@@ -550,7 +550,7 @@ namespace CalibrationNewGUI
                 bytestream[4 + i] = VoltArray[VoltArray.Length - i - 1];
             }
             //전류
-            if(PointArray[1] < 0) bytestream[9] = 0x2D; //-
+            if (PointArray[1] < 0) bytestream[9] = 0x2D; //-
             else bytestream[9] = 0x2B;//+
             for (int i = 0; i < CurrArray.Length; i++)
             {
@@ -593,7 +593,7 @@ namespace CalibrationNewGUI
         private byte[] Int2AsciiByte(int c, int c_length)
         {
             byte[] tempByte = new byte[c_length];
-            int pos = c_length-1;
+            int pos = c_length - 1;
 
             while (c > 0)
             {
@@ -700,6 +700,7 @@ namespace CalibrationNewGUI
             }
             return temp;
         }
+#endif
         private void SendLogText(byte[] bytestream, int direction)
         {
             switch (direction)
