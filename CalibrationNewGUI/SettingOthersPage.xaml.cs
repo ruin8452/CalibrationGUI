@@ -28,19 +28,42 @@ namespace CalibrationNewGUI
             InitializeComponent();
             AllSetData = SettingData.GetObj();
             DataContext = SettingData.GetObj();
+            if (AllSetData.Language == "KOR")
+            {
+                LanguageKor.IsChecked = true;
+                LanguageEng.IsChecked = false;
+            }
+            else if (AllSetData.Language == "ENG")
+            {
+                LanguageEng.IsChecked = true;
+                LanguageKor.IsChecked = false;
+            }
         }
 
         private void OtherSettingSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            int saveOK = 0;
+            saveOK = AllSetData.SaveFile();
+            if (saveOK == 1)
             {
-                //ini파일 저장
-            }
-            catch (NullReferenceException ex)
-            {
-                string errormsg = "설정을 확인하세요.";
+                string errormsg = "저장 성공";
                 MessageBox.Show(errormsg);
             }
+            else
+            {
+                string errormsg = "저장 실패";
+                MessageBox.Show(errormsg);
+            }
+        }
+
+        private void LanguageCheckEng(object sender, RoutedEventArgs e)
+        {
+            AllSetData.Language = "ENG";
+        }
+
+        private void LanguageCheckKor(object sender, RoutedEventArgs e)
+        {
+            AllSetData.Language = "KOR";
         }
     }
 }
