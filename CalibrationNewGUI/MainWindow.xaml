@@ -157,7 +157,7 @@
         <Grid Background="#FFFFFF" Grid.Row="1" Grid.Column="1" >
             <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
         </Grid>
-        
+
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
                 <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
@@ -165,12 +165,14 @@
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>
                     </Grid.RowDefinitions>
+                    
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Border Grid.Column="0" VerticalAlignment="Center">
                             <CheckBox Content="Detail Log View" FontSize="12" Margin="0,0,0,0"  FontWeight="Bold" Checked="LogViewCheck" Unchecked="LogViewUnCheck"/>
                         </Border>
@@ -189,7 +191,8 @@
                         <TextBox x:Name="LogTextBox" Background="White" FontSize="10"/>
                     </ScrollViewer>
                 </Grid>
-                <Grid x:Name="PropertiesPanel" Visibility="Collapsed">
+                
+                <Grid x:Name="PropertiesPanel" Visibility="Visible">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -207,9 +210,10 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="3*"/>
                             </Grid.RowDefinitions>
+                            
                             <Grid Grid.Row="0">
-                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
-                                    <TextBlock Text="기준 Shunt 저항(uOhm)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
+                                    <TextBlock Text="기준 Shunt 저항(uOhm)" Background="#B6DBDB" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="1">
@@ -316,27 +320,5 @@
                 </Grid>
             </Grid>
         </Border>
-        
-        <Menu Grid.Row="1" Height="200" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden">
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
-
-            <MenuItem Header="Monitering" FontSize="19"/>
-            <MenuItem Header="Setting" FontSize="19">
-                <MenuItem Header="Commnunication" FontSize="17"/>
-                <MenuItem Header="Shunt-Voltage" FontSize="17"/>
-                <MenuItem Header="Auto Save" FontSize="17"/>
-                <MenuItem Header="Cal-Measurement" FontSize="17">
-                    <MenuItem Header="CAL Setting" FontSize="17"/>
-                    <MenuItem Header="MEA Setting" FontSize="17"/>
-                </MenuItem>
-                <MenuItem Header="Others" FontSize="17"/>
-            </MenuItem>
-            <MenuItem Header="LogCheck" FontSize="19"/>
-            <MenuItem Header="Properties" FontSize="19"/>
-        </Menu>
     </Grid>
 </Window>
