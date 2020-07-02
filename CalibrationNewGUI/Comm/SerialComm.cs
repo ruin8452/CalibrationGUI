@@ -16,6 +16,8 @@ namespace J_Project.Communication.CommModule
 
         SerialPort ComPort;
         bool IsReceive = false;
+        public bool IsReceiveByte = false;
+        public bool IsReceiveString = false;
 
         readonly object lockObj = 0;
 
@@ -353,7 +355,7 @@ namespace J_Project.Communication.CommModule
             else if (indata == "OFF") indata = "0";
 
             if(indata != null) receiveDataString = indata;
-
+            IsReceiveString = true;
         }
         //배열 데이터용 리시브 핸들러
         private void DataReceivedHandlerByte(object sender, SerialDataReceivedEventArgs e)
@@ -375,6 +377,7 @@ namespace J_Project.Communication.CommModule
                 receiveDataByteETX++;
                 receiveDataByteETX = receiveDataByteETX % 50;
             }
+            IsReceiveByte = true;
         }
     }
 }
