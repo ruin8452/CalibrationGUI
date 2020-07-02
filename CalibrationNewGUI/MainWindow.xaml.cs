@@ -691,9 +691,6 @@ namespace CalibrationNewGUI
             {
                 tempByte[i] = (byte)(0x30 + (c % 10));
                 c = (int)(c * 0.1);
-                temp++;
-
-                if (temp >= c_length) break;
             }
 
             return tempByte;
