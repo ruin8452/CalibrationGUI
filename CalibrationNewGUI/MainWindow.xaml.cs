@@ -119,6 +119,11 @@ namespace CalibrationNewGUI
                             AllSetData.MCUConnectFlag = 1;
                             MCUConnectCircle.Fill = Brushes.LimeGreen;
                         }
+                        else
+                        {
+                            MessageBox.Show(msg);
+                            MCUConnectCircle.Fill = Brushes.Red;
+                        }
                     }
                     if (AllSetData.DMMPortName != "0")
                     {
@@ -128,6 +133,11 @@ namespace CalibrationNewGUI
                         {
                             AllSetData.DMMConnectFlag = 1;
                             DMMConnectCircle.Fill = Brushes.LimeGreen;
+                        }
+                        else
+                        {
+                            MessageBox.Show(msg);
+                            DMMConnectCircle.Fill = Brushes.Red;
                         }
                     }
                 }
