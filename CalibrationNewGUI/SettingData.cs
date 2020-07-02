@@ -63,6 +63,12 @@ namespace CalibrationNewGUI
         public string CHSelectString { get; set; }  //현재 선택된 전압, 전류, 채널 상태 출력용
         public int ChannelSelect { get; set; } //채널 선택하기(1: 1CH, 2: 2CH, 3: DUAL MODE)
         public int VoltCurrSelect { get; set; } //전압, 전류 선택하기(0: 전압, 1: 전류)
+        public string CalFileName { get; set; } //캘 포인트 파일 이름 통합
+        public string MeaFileName { get; set; } //실측 포인트 파일 이름 통합
+        public string CalFileNameVolt { get; set; } //캘 포인트 파일 이름
+        public string CalFileNameCurr { get; set; } //캘 포인트 파일 이름
+        public string MeaFileNameVolt { get; set; } //실측 포인트 파일 이름
+        public string MeaFileNameCurr { get; set; } //실측 포인트 파일 이름
         ///통신 세팅
         public string MCUVersion { get; set; } //펌웨어 버전
         public string MCUPortName { get; set; }
@@ -181,6 +187,13 @@ namespace CalibrationNewGUI
             ///CAL&MEA 세팅
             CalErrRange = CalErrRangeVolt; //CAL 통합 에러 오차값
             MeaErrRange = MeaErrRangeVolt; //MEA 통합 에러 오차값
+
+            CalFileName = "";
+            MeaFileName = "";
+            CalFileNameVolt = "";
+            CalFileNameCurr = "";
+            MeaFileNameVolt = "";
+            MeaFileNameCurr = "";
 #if (false)
             //임시로 세팅데이터 고정시키기 -> 세팅 페이지 만들면 변경할것 -> ini파일에서 읽어와서 세팅필요
             GUIVersion = "200626";

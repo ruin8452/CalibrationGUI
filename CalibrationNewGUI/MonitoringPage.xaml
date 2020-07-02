@@ -230,12 +230,12 @@
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
-                        
-                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1"  Background="#B6DBDB">
+
+                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1"  Background="#B6DBDB" Height="20">
                             <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <Border Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
-                            <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding CalFileName}" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
                         </Border>
                         <Button x:Name="CalFileOpenBtn" Grid.Column="2" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Click="CalFileOpenBtn_Click">
                             <StackPanel Orientation="Horizontal">
@@ -375,7 +375,7 @@
                                             <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                         </StackPanel>
                                     </Button>
-                                    <Button x:Name="AutoCalSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <Button x:Name="AutoCalSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoCalSaveBtn_Click">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                         </StackPanel>
@@ -407,11 +407,11 @@
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
                         
-                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
+                        <Border Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB" Height="20">
                             <TextBlock Text="File" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <Border Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
-                            <TextBlock Text="" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding MeaFileName}" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
                         </Border>
                         <Button x:Name="MeaFileOpenBtn" Grid.Column="2" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Click="MeaFileOpenBtn_Click">
                             <StackPanel Orientation="Horizontal">
@@ -457,7 +457,7 @@
                         </StackPanel>
                     </Grid>
                     <!--Mea 허용 오차, 딜레이 입력부분-->
-                    <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424" Height="25">
+                    <Border  BorderBrush="DarkSeaGreen" BorderThickness="0" Width="424" Height="25" HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal">
                             <Border BorderBrush="DarkSeaGreen" BorderThickness="1"  Width="132" Background="#B6DBDB">
                                 <TextBlock Text="MEA Error Range" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -500,7 +500,7 @@
                                     <TextBlock Text="Output End" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="MeaSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                            <Button x:Name="MeaSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Width="100" Height="30" Margin="20,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MeaSaveBtn_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="DATA Save" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
                                 </StackPanel>

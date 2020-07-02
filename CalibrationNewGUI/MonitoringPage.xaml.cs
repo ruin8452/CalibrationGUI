@@ -140,6 +140,9 @@ namespace CalibrationNewGUI
                 //전압, 전류에 맞는 데이터 테이블 출력
                 CalDataGrid.ItemsSource = AllSetData.VoltageCalTable.DefaultView;
                 MeaDataGrid.ItemsSource = AllSetData.VoltageMeaTable.DefaultView;
+                //파일 이름 변경
+                AllSetData.CalFileName = AllSetData.CalFileNameVolt;
+                AllSetData.MeaFileName = AllSetData.MeaFileNameVolt;
             }
             else if (VoltCurrSelect == 1)//전류
             {
@@ -157,6 +160,9 @@ namespace CalibrationNewGUI
                 //전압, 전류에 맞는 데이터 테이블 출력
                 CalDataGrid.ItemsSource = AllSetData.CurrentCalTable.DefaultView;
                 MeaDataGrid.ItemsSource = AllSetData.CurrentMeaTable.DefaultView;
+                //파일 이름 변경
+                AllSetData.CalFileName = AllSetData.CalFileNameCurr;
+                AllSetData.MeaFileName = AllSetData.MeaFileNameCurr;
             }
             //AutoSave 변화
             if (AllSetData.AutoSaveFlag == 1)
@@ -642,12 +648,16 @@ namespace CalibrationNewGUI
         //Cal 현재 결과 데이터 csv로 저장하기
         private void AutoCalSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            SaveResultFile(0);
+            int i = SaveResultFile(0);
+            if (i == 1) System.Windows.MessageBox.Show("파일이 저장되었습니다.");
+            else System.Windows.MessageBox.Show("저장하려는 데이터가 없습니다.");
         }
         //실측 현재 결과 데이터 csv로 저장하기
         private void MeaSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            SaveResultFile(1);
+            int i = SaveResultFile(1);
+            if(i == -1) System.Windows.MessageBox.Show("저장하려는 데이터가 없습니다."); 
+            else System.Windows.MessageBox.Show("파일이 저장되었습니다.");
         }
         //Cal 현재 포인트 열기
         private void CalFileOpenBtn_Click(object sender, RoutedEventArgs e)
@@ -657,7 +667,8 @@ namespace CalibrationNewGUI
         //Cal 현재 포인트 저장
         private void CalFileSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            SavePointFile(0);
+            int i = SavePointFile(0);
+            if (i == -1) System.Windows.MessageBox.Show("저장하려는 데이터가 없습니다.");
         }
         //실측 현재 포인트 열기
         private void MeaFileOpenBtn_Click(object sender, RoutedEventArgs e)
@@ -667,7 +678,8 @@ namespace CalibrationNewGUI
         //실측 현재 포인트 저장
         private void MeaFileSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            SavePointFile(1);
+            int i = SavePointFile(1);
+            if (i == -1) System.Windows.MessageBox.Show("저장하려는 데이터가 없습니다.");
         }
         //파일 열기 함수
         private void OpenPointFile(int CalMeaSelect)
@@ -741,10 +753,36 @@ namespace CalibrationNewGUI
                     string[] temp = s.Split(',');        // Split() 메서드를 이용하여 ',' 구분하여 잘라냄
                     dt.Rows.Add(temp[0], temp[1], temp[2], "", "", "");
                 }
+                if (CalMeaSelect == 0)
+                {
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        AllSetData.CalFileNameVolt = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.CalFileName = AllSetData.CalFileNameVolt;
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        AllSetData.CalFileNameCurr = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.CalFileName = AllSetData.CalFileNameCurr;
+                    }
+                }
+                else if (CalMeaSelect == 1)
+                {
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        AllSetData.MeaFileNameVolt = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.MeaFileName = AllSetData.MeaFileNameVolt;
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        AllSetData.MeaFileNameCurr = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.MeaFileName = AllSetData.MeaFileNameCurr;
+                    }
+                }
             }
         }
         //파일 저장 함수
-        private void SavePointFile(int CalMeaSelect)
+        private int SavePointFile(int CalMeaSelect)
         {
             StringBuilder sb = new StringBuilder();
             string basePath = AppDomain.CurrentDomain.BaseDirectory + "Config"; //현재 프로그램 경로
@@ -787,7 +825,10 @@ namespace CalibrationNewGUI
                     dt = AllSetData.CurrentMeaTable;
                 }
             }
-
+            if (dt.Rows.Count < 1)//포인트값이 없으면 실패
+            {
+                return -1;
+            }
             //폴더의 경로 확인
             if (System.IO.Directory.Exists(basePath + folderName))
             {
@@ -818,15 +859,42 @@ namespace CalibrationNewGUI
                     sb.AppendLine(strRow);
                 }
                 File.WriteAllText(dlg.FileName, sb.ToString());
+                if (CalMeaSelect == 0)
+                {
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        AllSetData.CalFileNameVolt = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.CalFileName = AllSetData.CalFileNameVolt;
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        AllSetData.CalFileNameCurr = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.CalFileName = AllSetData.CalFileNameCurr;
+                    }
+                }
+                else if (CalMeaSelect == 1)
+                {
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        AllSetData.MeaFileNameVolt = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.MeaFileName = AllSetData.MeaFileNameVolt;
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        AllSetData.MeaFileNameCurr = System.IO.Path.GetFileName(dlg.FileName);
+                        AllSetData.MeaFileName = AllSetData.MeaFileNameCurr;
+                    }
+                }
             }
-
+            return 0;
         }
         //결과데이터 저장 함수
-        private void SaveResultFile(int CalMeaSelect)
+        private int SaveResultFile(int CalMeaSelect)
         {
             StringBuilder sb = new StringBuilder();
             DataTable dt = new DataTable();
             string SavePath = (AllSetData.SaveFilePrixNum + "_" + AllSetData.SerialNumber);//처음 접두사 입력해놓기(prix + serial)
+
             if (CalMeaSelect == 0)
             {
                 if (AllSetData.ChannelSelect == 1)//CH1
@@ -871,6 +939,7 @@ namespace CalibrationNewGUI
                 }
                 SavePath += "_Measurement.csv";
             }
+            if (dt.Rows.Count < 1) return -1;
             IEnumerable<string> columnNames = dt.Columns.Cast<DataColumn>().
                                               Select(column => column.ColumnName);
             sb.AppendLine(string.Join(",", columnNames));
@@ -882,7 +951,8 @@ namespace CalibrationNewGUI
             }
 
             File.WriteAllText(SavePath, sb.ToString());
-            System.Windows.MessageBox.Show("파일이 저장되었습니다.");
+            return 1;
         }
+
     }
 }
