@@ -8,67 +8,69 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingMeaPage">
 
-    <Border BorderBrush="DarkSeaGreen" BorderThickness="0">
-        <Grid Background="#B6CEDB">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.ColumnSpan="4">
-                <TextBlock Text="Mesurement Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="0">
-                <TextBlock Text="실측 Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-            </Grid>
-            <!-- CAL 세팅-->
-            <Border Grid.Row="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="20" Margin="5">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="128*"/>
-                        <ColumnDefinition Width="65*"/>
-                        <ColumnDefinition Width="193*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,5">
-                        <TextBlock Text="전압 오차범위(mV)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,5">
-                        <TextBlock Text="전류 오차범위(mA)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="43,5">
-                        <TextBlock Text="재측정 횟수" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="8,5,9,5">
-                        <TextBlock Text="측정 지연 시간(ms)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <TextBox Grid.Column="2" Grid.Row="0" x:Name="ErrorRangeVolt" Text="{Binding MeaErrRangeVolt, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <TextBox Grid.Column="2" Grid.Row="1" x:Name="ErrorRangeCurr" Text="{Binding MeaErrRangeCurr, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <TextBox Grid.Column="2" Grid.Row="2" x:Name="MeaRetryCount" Text="{Binding MeaErrRetryCnt, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <TextBox Grid.Column="2" Grid.Row="3" x:Name="MeaDelayTime" Text="{Binding MeaErrDelayTime, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+    <Border BorderBrush="DarkSeaGreen" BorderThickness="2" Background="#B6CEDB">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid Background="#B6CEDB"  Height="450" Width="850">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="4">
+                    <TextBlock Text="Mesurement Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
                 </Grid>
-            </Border>
-            <Grid Grid.Row="5" Grid.Column="3">
-                <Button Grid.Column="1" x:Name="MeaSettingSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Margin="20,0,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MeaSettingSaveBtn_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="SAVE" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Button>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <TextBlock Text="실측 Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Grid>
+                <!-- CAL 세팅-->
+                <Border Grid.Row="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="20" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="128*"/>
+                            <ColumnDefinition Width="65*"/>
+                            <ColumnDefinition Width="193*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,5">
+                            <TextBlock Text="전압 오차범위(mV)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="10,5">
+                            <TextBlock Text="전류 오차범위(mA)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="43,5">
+                            <TextBlock Text="재측정 횟수" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="8,5,9,5">
+                            <TextBlock Text="측정 지연 시간(ms)" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                        <TextBox Grid.Column="2" Grid.Row="0" x:Name="ErrorRangeVolt" Text="{Binding MeaErrRangeVolt, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <TextBox Grid.Column="2" Grid.Row="1" x:Name="ErrorRangeCurr" Text="{Binding MeaErrRangeCurr, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <TextBox Grid.Column="2" Grid.Row="2" x:Name="MeaRetryCount" Text="{Binding MeaErrRetryCnt, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <TextBox Grid.Column="2" Grid.Row="3" x:Name="MeaDelayTime" Text="{Binding MeaErrDelayTime, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="5" Grid.Column="3">
+                    <Button Grid.Column="1" x:Name="MeaSettingSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Margin="20,0,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MeaSettingSaveBtn_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="SAVE" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
-        </Grid>
+        </ScrollViewer>
     </Border>
 </Page>

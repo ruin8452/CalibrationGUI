@@ -79,16 +79,16 @@
                 </ToggleButton>
                 <StackPanel x:Name="SettingSubMenu" Height="0">
                     <!--Communication 버튼-->
-                    <Button Content="Communication" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="Communication" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingCommClick"/>
                     <!--Shunt - Volt 버튼-->
-                    <Button Content="Shunt - Volt" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="Shunt - Volt" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingShuntClick"/>
                     <!--Auto Save 버튼-->
-                    <Button Content="Auto Save" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="Auto Save" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingAutoSaveClick"/>
                     <!--Cal - Measurement 버튼-->
-                    <Button Content="CAL Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
-                    <Button Content="MEA Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="CAL Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingCalClick"/>
+                    <Button Content="MEA Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingMeaClick"/>
                     <!--Others 버튼-->
-                    <Button Content="Others" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
+                    <Button Content="Others" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingOthersClick"/>
                 </StackPanel>
                 <!--LogCheck 버튼-->
                 <ToggleButton x:Name="LogCheckBtn" Content="LogCheck" Style="{StaticResource TogButtonStyle}" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked"/>

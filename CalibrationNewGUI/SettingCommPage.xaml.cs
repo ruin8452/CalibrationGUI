@@ -1,6 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -27,49 +28,43 @@ namespace CalibrationNewGUI
         public SettingCommPage()
         {
             InitializeComponent();
+            DataContext = SettingData.GetObj();
+            AllSetData = SettingData.GetObj();
         }
         //페이지 초기화
-        private void CommPageInit(object sender, EventArgs e)
+        private void CommPageLoad(object sender, EventArgs e)
         {
-            AllSetData = SettingData.GetObj();
             //포트 초기화할것
-            MCUPortNameCombo.ItemsSource = SerialPort.GetPortNames();
-            DMMPortNameCombo.ItemsSource = SerialPort.GetPortNames();
+            AllSetData.MCUPortNameList = new ObservableCollection<string>(SerialPort.GetPortNames());
+            //if(AllSetData.MCUPortNameList>1)
+            AllSetData.DMMPortNameList = new ObservableCollection<string>(SerialPort.GetPortNames());
+            if (AllSetData.DMMOffsetUseFlag == 1) DMMOffsetSelect.IsChecked = true;
+            else DMMOffsetSelect.IsChecked = false;
         }
         //설정 저장하기
         private void CommSettingSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            int saveOK = 0;
+            saveOK = AllSetData.SaveFile();
+            if (saveOK == 1)
             {
-                if (MCUPortNameCombo.SelectedIndex != -1) AllSetData.MCUPortName = MCUPortNameCombo.SelectedItem.ToString();
-                else AllSetData.MCUPortName = "0";
-                if (DMMPortNameCombo.SelectedIndex != -1) AllSetData.DMMPortName = DMMPortNameCombo.SelectedItem.ToString();
-                else AllSetData.DMMPortName = "0";
-                //AllSetData.MCUPortName = MCUPortNameCombo.SelectedItem.ToString();
-                //AllSetData.DMMPortName = DMMPortNameCombo.SelectedItem.ToString();
-
-                AllSetData.MCUBorate   = Convert.ToInt32(MCUBorateCombo.SelectedItem.ToString(), 10);
-                AllSetData.MCUDataBit  = Convert.ToInt32(MCUDataBitCombo.SelectedItem.ToString(), 10);
-                AllSetData.MCUParity   = MCUParityCombo.SelectedItem.ToString();
-                AllSetData.MCUStopBit  = Convert.ToInt32(MCUStopBitCombo.SelectedItem.ToString(), 10);
-                
-                AllSetData.DMMModel    = DMMModelCombo.SelectedItem.ToString();
-                AllSetData.DMMBorate   = Convert.ToInt32(DMMBorateCombo.SelectedItem.ToString(), 10);
-                AllSetData.DMMDataBit  = Convert.ToInt32(DMMDataBitCombo.SelectedItem.ToString(), 10);
-                AllSetData.DMMParity   = DMMParityCombo.SelectedItem.ToString();
-                AllSetData.DMMStopBit  = Convert.ToInt32(DMMStopBitCombo.SelectedItem.ToString(), 10);
-                //AllSetData.MCUFlowCtrl = MCUParityCombo.SelectedItem.ToString();
-                //AllSetData.DMMFlowCtrl
-                
-
-                if (DMMOffsetSelect.IsChecked == true) AllSetData.DMMOffsetUseFlag = 1;
-                else                                  AllSetData.DMMOffsetUseFlag = 0;
-            }
-            catch (NullReferenceException ex)
-            {
-                string errormsg = "설정을 확인하세요.";
+                string errormsg = "저장 성공";
                 MessageBox.Show(errormsg);
             }
+            else
+            {
+                string errormsg = "저장 실패";
+                MessageBox.Show(errormsg);
+            }
+        }
+        //DMM Offset사용할때 체크함수
+        private void DMMOffsetSelectCheck(object sender, RoutedEventArgs e)
+        {
+            AllSetData.DMMOffsetUseFlag = 1;
+        }
+        private void DMMOffsetSelectUnCheck(object sender, RoutedEventArgs e)
+        {
+            AllSetData.DMMOffsetUseFlag = 0;
         }
     }
 }

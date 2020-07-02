@@ -6,57 +6,59 @@
       xmlns:local="clr-namespace:CalibrationNewGUI"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="SettingAutoSavePage">
+      Title="SettingAutoSavePage" Loaded="AutoSavePageLoad">
 
-    <Border BorderBrush="DarkSeaGreen" BorderThickness="0">
-        <Grid Background="#B6CEDB">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="7*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.ColumnSpan="4">
-                <TextBlock Text="AutoSave Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-            </Grid>
-            <Grid Grid.Row="1" Grid.Column="0">
-                <TextBlock Text="AutoSave" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-            </Grid>
-            <!-- 오토세이브 세팅-->
-            <Border Grid.Row="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="20" Margin="5">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Save File Prefix" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="SaveFilePrefix" Text="{Binding SaveFilePrixNum, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0">
-                        <CheckBox x:Name="AutoSaveSelect" Content="결과데이터 자동 저장기능" FontSize="15" FontWeight="Bold"/>
-                    </Border>
+    <Border BorderBrush="DarkSeaGreen" BorderThickness="2" Background="#B6CEDB">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid Background="#B6CEDB"  Height="450" Width="850">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="4">
+                    <TextBlock Text="AutoSave Setting" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
                 </Grid>
-            </Border>
-            <Grid Grid.Row="5" Grid.Column="3">
-                <Button Grid.Column="1" x:Name="AutoSaveSettingSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Margin="20,0,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoSaveSettingSaveBtn_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="SAVE" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
-                    </StackPanel>
-                </Button>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <TextBlock Text="AutoSave" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Grid>
+                <!-- 오토세이브 세팅-->
+                <Border Grid.Row="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="20" Margin="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="Save File Prefix" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </Grid>
+                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="SaveFilePrefix" Text="{Binding SaveFilePrixNum, Mode=TwoWay}" Margin="5" FontSize="15"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0">
+                            <CheckBox x:Name="AutoSaveSelect" Content="결과데이터 자동 저장기능" FontSize="15" FontWeight="Bold" Checked="AutoSaveSelect_Checked" Unchecked="AutoSaveSelect_Unchecked"/>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="5" Grid.Column="3">
+                    <Button Grid.Column="1" x:Name="AutoSaveSettingSaveBtn" Background="#8D9EA8" BorderBrush="DarkSeaGreen" Margin="20,0,20,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="AutoSaveSettingSaveBtn_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="SAVE" Foreground="Black" FontFamily="NanumGothic Light" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
-        </Grid>
+        </ScrollViewer>
     </Border>
 </Page>

@@ -715,5 +715,69 @@ namespace CalibrationNewGUI
             File.WriteAllText(SavePath, sb.ToString());
             System.Windows.MessageBox.Show("파일이 저장되었습니다.");
         }
+        //Cal 현재 포인트 열기
+        private void CalFileOpenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string basePath = AppDomain.CurrentDomain.BaseDirectory; //현재 프로그램 경로
+            DataTable dt = new DataTable();//포인트 저장을 위한 변수
+            // 파일 열기, OpenFileDialog
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".cpt";
+            dlg.Filter = "(*.cpt)|*.cpt";
+            dlg.Multiselect = false;
+
+            //폴더의 경로 확인
+            if (System.IO.Directory.Exists(basePath+"Config\\CalPoint"))
+            {
+                //폴더가 있으면 해당 경로 지정
+                dlg.InitialDirectory = basePath+"Config\\CalPoint";
+            }
+            else
+            {
+                //없으면 그냥 일반 경로
+                dlg.InitialDirectory = basePath+"";
+            }
+            // Display OpenFileDialog by calling ShowDialog method 
+            bool result = (bool)dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                if (AllSetData.VoltCurrSelect == 0)//전압
+                {
+                    dt = AllSetData.VoltageCalTable;
+                }
+                else if (AllSetData.VoltCurrSelect == 1)//전류
+                {
+                    dt = AllSetData.CurrentCalTable;
+                }
+                StreamReader sr = new StreamReader(dlg.FileName, Encoding.GetEncoding("UTF-8"));
+                while (!sr.EndOfStream)
+                {
+                    string s = sr.ReadLine();
+                    string[] temp = s.Split(',');        // Split() 메서드를 이용하여 ',' 구분하여 잘라냄
+                    dt.Rows.Add(temp[0], temp[1], temp[2], "", "", "");
+                }
+            }
+
+        }
+        //Cal 현재 포인트 저장
+        private void CalFileSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        //실측 현재 포인트 열기
+        private void MeaFileOpenBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        //실측 현재 포인트 저장
+        private void MeaFileSaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

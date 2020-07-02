@@ -27,19 +27,38 @@ namespace CalibrationNewGUI
         {
             InitializeComponent();
             AllSetData = SettingData.GetObj();
+            DataContext = SettingData.GetObj();
         }
-
+        private void AutoSavePageLoad(object sender, RoutedEventArgs e)
+        {
+            if (AllSetData.AutoSaveFlag == 1) AutoSaveSelect.IsChecked = true;
+            else AutoSaveSelect.IsChecked = false;
+        }
         private void AutoSaveSettingSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            int saveOK = 0;
+            saveOK = AllSetData.SaveFile();
+            if (saveOK == 1)
             {
-
+                string errormsg = "저장 성공";
+                MessageBox.Show(errormsg);
             }
-            catch (NullReferenceException ex)
+            else
             {
-                string errormsg = "설정을 확인하세요.";
+                string errormsg = "저장 실패";
                 MessageBox.Show(errormsg);
             }
         }
+        //오토파일 세이브 설정
+        private void AutoSaveSelect_Checked(object sender, RoutedEventArgs e)
+        {
+            AllSetData.AutoSaveFlag = 1;
+        }
+        private void AutoSaveSelect_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AllSetData.AutoSaveFlag = 0;
+        }
+
+
     }
 }

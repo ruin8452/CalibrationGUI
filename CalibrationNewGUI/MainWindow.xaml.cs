@@ -92,13 +92,6 @@ namespace CalibrationNewGUI
         {
             PageFrame.Source = new Uri("MonitoringPage.xaml", UriKind.Relative);
         }
-        //세팅 페이지 호출
-        private void settingBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //PageFrame.Source = new Uri("SettingCommPage.xaml", UriKind.Relative);
-            PageFrame.Source = new Uri("SettingOthersPage.xaml", UriKind.Relative);
-        }
-
         //통신 연결 버튼
         private void ConnectBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -111,14 +104,15 @@ namespace CalibrationNewGUI
 
             if (AllSetData.AllConnectFlag == 0)
             {
-                comportSearch = settingComport(setWindow);
+                //comportSearch = settingComport(setWindow);
+                comportSearch = settingComport();
                 if (comportSearch == 1)
                 {
-                    setWindow.ShowDialog();
+                    //setWindow.ShowDialog();
                     //통신 연결
-                    if (setWindow.portNameMCU != "0")
+                    if (AllSetData.MCUPortName != "0")
                     {
-                        msg = commRS232MCU.Connect(setWindow.portNameMCU, AllSetData.MCUBorate);
+                        msg = commRS232MCU.Connect(AllSetData.MCUPortName, AllSetData.MCUBorate);
                         //MessageBox.Show("MCU" + msg);
                         if (msg == "Connected!")
                         {
@@ -126,9 +120,9 @@ namespace CalibrationNewGUI
                             MCUConnectCircle.Fill = Brushes.LimeGreen;
                         }
                     }
-                    if (setWindow.portNameDMM != "0")
+                    if (AllSetData.DMMPortName != "0")
                     {
-                        msg = commRS232DMM.Connect(setWindow.portNameDMM, AllSetData.DMMBorate);
+                        msg = commRS232DMM.Connect(AllSetData.DMMPortName, AllSetData.DMMBorate);
                         //MessageBox.Show("DMM" + msg);
                         if (msg == "Connected!")
                         {
@@ -154,13 +148,13 @@ namespace CalibrationNewGUI
                 {
                     AllSetData.MCUConnectFlag = 0;
                     //MessageBox.Show("MCUDisConnect");
-                    MCUConnectCircle.Fill = Brushes.Red;
+                    MCUConnectCircle.Fill = Brushes.Gray;
                 }
                 if (DMMdisconnect == 2)
                 {
                     AllSetData.DMMConnectFlag = 0;
                     //MessageBox.Show("DMMDisConnect");
-                    DMMConnectCircle.Fill = Brushes.Red;
+                    DMMConnectCircle.Fill = Brushes.Gray;
                 }
             }
             if (AllSetData.MCUConnectFlag == 1 || AllSetData.MCUConnectFlag == 1)
@@ -190,6 +184,23 @@ namespace CalibrationNewGUI
             else
             {
                 string errormsg = "연결된 포트가 없습니다.";
+                MessageBox.Show(errormsg);
+                return 0; //실패
+            }
+
+            return 1;//성공
+        }
+        private int settingComport() //세팅화면 띄우기 전 호출해서 파일 읽기 & 콤보박스 세팅
+        {
+            if (AllSetData.MCUPortName == "" || AllSetData.MCUPortName == "0")
+            {
+                string errormsg = "MCU 포트 확인";
+                MessageBox.Show(errormsg);
+                return 0; //실패
+            }
+            else if (AllSetData.DMMPortName == "" || AllSetData.DMMPortName == "0")
+            {
+                string errormsg = "DMM 포트 확인";
                 MessageBox.Show(errormsg);
                 return 0; //실패
             }
@@ -1135,7 +1146,30 @@ namespace CalibrationNewGUI
         {
             AllSetData.SerialNumber = SerialTextBox.Text;
         }
-
-        
+        //세팅페이지 호출버튼 이벤트
+        private void SettingCommClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingCommPage.xaml", UriKind.Relative);
+        }
+        private void SettingShuntClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingShuntPage.xaml", UriKind.Relative);
+        }
+        private void SettingAutoSaveClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingAutoSavePage.xaml", UriKind.Relative);
+        }
+        private void SettingCalClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingCalPage.xaml", UriKind.Relative);
+        }
+        private void SettingMeaClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingMeaPage.xaml", UriKind.Relative);
+        }
+        private void SettingOthersClick(object sender, RoutedEventArgs e)
+        {
+            PageFrame.Source = new Uri("SettingOthersPage.xaml", UriKind.Relative);
+        }
     }
 }

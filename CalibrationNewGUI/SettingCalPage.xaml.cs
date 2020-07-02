@@ -32,13 +32,16 @@ namespace CalibrationNewGUI
 
         private void CalSettingSaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            int saveOK = 0;
+            saveOK = AllSetData.SaveFile();
+            if (saveOK == 1)
             {
-
+                string errormsg = "저장 성공";
+                MessageBox.Show(errormsg);
             }
-            catch (NullReferenceException ex)
+            else
             {
-                string errormsg = "설정을 확인하세요.";
+                string errormsg = "저장 실패";
                 MessageBox.Show(errormsg);
             }
         }
