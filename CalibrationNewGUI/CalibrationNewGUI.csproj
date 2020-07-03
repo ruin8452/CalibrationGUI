@@ -67,6 +67,9 @@
     <Compile Include="Comm\SerialComm.cs" />
     <Compile Include="Comm\Utill.cs" />
     <Compile Include="ConfigFileSave.cs" />
+    <Compile Include="HomeWindow.xaml.cs">
+      <DependentUpon>HomeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingAutoSavePage.xaml.cs">
       <DependentUpon>SettingAutoSavePage.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
     <Compile Include="TestSetting.xaml.cs">
       <DependentUpon>TestSetting.xaml</DependentUpon>
     </Compile>
+    <Page Include="HomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,6 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resource\LogoOnly_NoBack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />

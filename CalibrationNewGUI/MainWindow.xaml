@@ -62,7 +62,6 @@
             <TextBlock Text="KapJin" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
         </Border>
 
-<<<<<<<<< Temporary merge branch 1
         <StackPanel x:Name="Menu" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Width="150">
             <StackPanel>
                 <!--Monitoring 버튼-->
@@ -89,39 +88,7 @@
                     <Button Content="CAL Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingCalClick"/>
                     <Button Content="MEA Setting" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingMeaClick"/>
                     <!--Others 버튼-->
-                    <Button Content="Others" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25"/>
-=========
-        <Border  Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" x:Name="Menu" BorderBrush="DarkSeaGreen" BorderThickness="2">
-            <Grid>
-                <StackPanel>
-                    <!--Monitoring 버튼-->
-                    <Button x:Name="MonitorBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="MonitorBtn_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Monitoring" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Button>
-                    <!--Setting 버튼-->
-                    <Button x:Name="settingBtn" Background="#8D9EA8" BorderBrush="{x:Null}" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="settingBtn_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Setting" Foreground="Black" FontFamily="NanumGothic Light" FontSize="21" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Button>
-                    <!--LogCheck 버튼-->
-                    <ToggleButton x:Name="LogCheckBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
-                                  Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked">
-                        <!-- GroupName = "LogPropertySelect"  Style="{StaticResource {x:Type ToggleButton}}" -->
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="LogCheck" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
-                        </StackPanel>
-                    </ToggleButton>
-                    <!--Properties 버튼-->
-                    <ToggleButton x:Name="PropertiesBtn" Background="#8D9EA8" BorderBrush="{x:Null}"
-                                 Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Checked="PropertiesBtn_Checked" Unchecked="PropertiesBtn_UnChecked">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Properties" Foreground="Black" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold"/>
-                        </StackPanel>
-                    </ToggleButton>
->>>>>>>>> Temporary merge branch 2
+                    <Button Content="Others" Style="{StaticResource ButtonStyle}" Background="#FFB6CEDB" FontSize="16" Height="25" Click="SettingOthersClick"/>
                 </StackPanel>
                 <!--LogCheck 버튼-->
                 <ToggleButton x:Name="LogCheckBtn" Content="LogCheck" Style="{StaticResource TogButtonStyle}" Checked="LogCheckBtn_Checked" Unchecked="LogCheckBtn_UnChecked"/>
@@ -162,7 +129,7 @@
                         </Border>
                     </StackPanel>
                 </StackPanel>
-
+                
                 <StackPanel Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock  Text="Serial No." FontSize="30" VerticalAlignment="Center"/>
                     <Border BorderThickness="1" BorderBrush="DarkSeaGreen" Height="40" Width="200" Margin="10,0,0,0" >
@@ -193,7 +160,7 @@
         <Grid Background="#FFFFFF" Grid.Row="1" Grid.Column="1" >
             <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
         </Grid>
-        
+
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
                 <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
@@ -201,6 +168,7 @@
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>
                     </Grid.RowDefinitions>
+                    
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -354,27 +322,5 @@
                 </Grid>
             </Grid>
         </Border>
-        
-        <Menu Grid.Row="1" Height="200" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden">
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
-
-            <MenuItem Header="Monitering" FontSize="19"/>
-            <MenuItem Header="Setting" FontSize="19">
-                <MenuItem Header="Commnunication" FontSize="17"/>
-                <MenuItem Header="Shunt-Voltage" FontSize="17"/>
-                <MenuItem Header="Auto Save" FontSize="17"/>
-                <MenuItem Header="Cal-Measurement" FontSize="17">
-                    <MenuItem Header="CAL Setting" FontSize="17"/>
-                    <MenuItem Header="MEA Setting" FontSize="17"/>
-                </MenuItem>
-                <MenuItem Header="Others" FontSize="17"/>
-            </MenuItem>
-            <MenuItem Header="LogCheck" FontSize="19"/>
-            <MenuItem Header="Properties" FontSize="19"/>
-        </Menu>
     </Grid>
 </Window>

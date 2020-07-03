@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CalibrationNewGUI"
-             StartupUri="MainWindow.xaml">
+             StartupUri="HomeWindow.xaml">
     <Application.Resources>
-         
+
+        <SolidColorBrush x:Key="MainBackground">#FF0D0F17</SolidColorBrush>
     </Application.Resources>
 </Application>
