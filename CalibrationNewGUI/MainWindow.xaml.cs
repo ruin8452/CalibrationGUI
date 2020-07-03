@@ -19,6 +19,8 @@ using J_Project.Manager;
 using System.IO.Ports;
 using System.Timers;
 using System.Windows.Threading;
+using System.Threading;
+using Timer = System.Threading.Timer;
 
 namespace CalibrationNewGUI
 {
@@ -37,8 +39,8 @@ namespace CalibrationNewGUI
         int dmmConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         TestSetting setWindow = new TestSetting(); //통신세팅 창 띄우기 - 강제 세팅 테스트용
 
-        Timer MCUMonitoringTimer = new Timer(); //MCU 모니터링 타이머용
-        Timer DMMMonitoringTimer = new Timer(); //DMM 모니터링 타이머용
+        DispatcherTimer MCUMonitoringTimer = new DispatcherTimer(); //MCU 모니터링 타이머용
+        DispatcherTimer DMMMonitoringTimer = new DispatcherTimer(); //DMM 모니터링 타이머용
         //Timer GUIOutPutCheckTimer = new Timer(); //cal, mea 버튼 입력들 감지 타이머용
         DispatcherTimer FlagMonitor = new DispatcherTimer();
         DispatcherTimer SeqMonitor = new DispatcherTimer(); //시퀀스용
@@ -51,10 +53,10 @@ namespace CalibrationNewGUI
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
             AllSetData = SettingData.GetObj();
-            DMMMonitoringTimer.Interval = 500;    // ms
-            MCUMonitoringTimer.Interval = 200;    // ms
-            MCUMonitoringTimer.Elapsed += MCUMonitorEvent;
-            DMMMonitoringTimer.Elapsed += DMMMonitorEvent;
+            DMMMonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MCUMonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
+            MCUMonitoringTimer.Tick += MCUMonitorEvent;
+            DMMMonitoringTimer.Tick += DMMMonitorEvent;
             MCUMonitoringTimer.Start();
             DMMMonitoringTimer.Start();
             FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
@@ -69,10 +71,10 @@ namespace CalibrationNewGUI
         private void MainWindowInit(object sender, RoutedEventArgs e)
         {
             AllSetData = SettingData.GetObj();
-            DMMMonitoringTimer.Interval = 500;    // ms
-            MCUMonitoringTimer.Interval = 200;    // ms
-            MCUMonitoringTimer.Elapsed += MCUMonitorEvent;
-            DMMMonitoringTimer.Elapsed += DMMMonitorEvent;
+            DMMMonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MCUMonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
+            MCUMonitoringTimer.Tick += MCUMonitorEvent;
+            DMMMonitoringTimer.Tick += DMMMonitorEvent;
             MCUMonitoringTimer.Start();
             DMMMonitoringTimer.Start();
             FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
@@ -133,6 +135,8 @@ namespace CalibrationNewGUI
                         //MessageBox.Show("DMM" + msg);
                         if (msg == "Connected!")
                         {
+                            //DMM 세팅
+                            SendCommandDMM(AllSetData.DMMModel, "SET", "LOW");
                             AllSetData.DMMConnectFlag = 1;
                             DMMConnectCircle.Fill = Brushes.LimeGreen;
                         }
@@ -165,6 +169,7 @@ namespace CalibrationNewGUI
                 if (DMMdisconnect == 2)
                 {
                     AllSetData.DMMConnectFlag = 0;
+                    AllSetData.DMMFilterFlag = 0;
                     //MessageBox.Show("DMMDisConnect");
                     DMMConnectCircle.Fill = Brushes.Gray;
                 }
@@ -219,68 +224,79 @@ namespace CalibrationNewGUI
 
             return 1;//성공
         }
-        //데이터 전송, 수신함수
-        private void SendAndReceiveFunc(string sendDatastring) //데이터 전송 후 받는 함수 string 버전
+        //DMM 명령전송 함수(모델명, 명령, 세팅시에 필요한 필터 속도)
+        private void SendCommandDMM(string DMMModel, string sendCMD, string dmmFilter)
         {
-            //DMMMonitoringTimer.Stop();
-            commRS232DMM.CommSend(sendDatastring);
+            string sendDatastring = "";
 
-            //for (int i = 0; i < 4000; i++)
-            //{
-            //    if (commRS232DMM.receiveDataString != null)
-            //    {
-            //        StringTranslate(commRS232DMM.receiveDataString);
-            //        //MessageBox.Show("수신 : " + AllSetData.DMMOutputVolt);
-            //        commRS232DMM.receiveDataString = null;
-            //        DMMMonitoringTimer.Start();
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        if (i == (4000 - 1))
-            //        {
-            //            MessageBox.Show("DMM 수신 : 실패");
-            //            commRS232DMM.receiveDataString = null;
-            //            DMMMonitoringTimer.Start();
-            //            break;
-            //        }
-            //        //Thread.Sleep(1);
-            //        Utill.Delay(0.001);
-            //    }
-            //}
+            switch (DMMModel)
+            {
+                case "34401A":
+                    sendDatastring = "";
+                    switch (sendCMD)
+                    {
+                        case "READ":
+                            sendDatastring = "READ?";
+                            commRS232DMM.CommSend(sendDatastring);
+                            break;
+                        case "SET":
+                            sendDatastring = "SYSTem:REMote";
+                            commRS232DMM.CommSend(sendDatastring);
+                            Thread.Sleep(100);
+                            sendDatastring = "ZERO:AUTO ONCE";
+                            commRS232DMM.CommSend(sendDatastring);
+                            break;
+                    }
+                    break;
+                case "34450A":
+                    sendDatastring = "";
+                    switch (sendCMD)
+                    {
+                        case "READ":
+                            sendDatastring = "READ?";
+                            break;
+                        case "SET":
+                            break;
+                    }
+                    break;
+                case "Keithley2000":
+                    sendDatastring = "";
+                    switch (sendCMD)
+                    {
+                        case "READ":
+                            sendDatastring = "READ?";
+                            commRS232DMM.CommSend(sendDatastring);
+                            break;
+                        case "SET":
+                            sendDatastring = "SYST:REM";
+                            commRS232DMM.CommSend(sendDatastring);
+                            Thread.Sleep(100);
+                            sendDatastring = "CONF:VOLT:DC";
+                            commRS232DMM.CommSend(sendDatastring);
+                            Thread.Sleep(100);
+                            if (dmmFilter == "FAST")
+                            {
+                                sendDatastring = "SENS:VOLT:DC:NPLC 0.1";
+                            }
+                            else if (dmmFilter == "MIDDLE")
+                            {
+                                sendDatastring = "SENS:VOLT:DC:NPLC 1";
+                            }
+                            else if (dmmFilter == "LOW")
+                            {
+                                sendDatastring = "SENS:VOLT:DC:NPLC 10";
+                            }
+                            commRS232DMM.CommSend(sendDatastring);
+                            break;
+                    }
+                    break;
+            }
         }
         private void SendAndReceiveFunc(byte[] sendDatabyte) //데이터 전송 후 받는 함수 byte 배열 버전
         {
-            int temp = 0;
             //MCUMonitoringTimer.Stop();
             commRS232MCU.CommSend(sendDatabyte);
 
-            //for (int i = 0; i < 4000; i++)
-            //{
-            //    if ((commRS232MCU.receiveDataByteETX - 1) >= 0) temp = commRS232MCU.receiveDataByteETX - 1;
-            //    else if ((commRS232MCU.receiveDataByteETX - 1) < 0) temp = 49;
-            //    if (commRS232MCU.receiveDataByte[commRS232MCU.receiveDataByteSTX] == 0x02 && commRS232MCU.receiveDataByte[temp] == 0x03)
-            //    {
-            //        AsciiTranslate(commRS232MCU.receiveDataByte);
-            //        //MessageBox.Show("수신 : " + temp);
-            //        commRS232MCU.receiveDataByte[commRS232MCU.receiveDataByteSTX] = 0;
-            //        commRS232MCU.receiveDataByte[commRS232MCU.receiveDataByteETX] = 0;
-            //        //MCUMonitoringTimer.Start();
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        if (i == (4000 - 1))
-            //        {
-            //            MessageBox.Show("MCU 수신 : 실패");
-            //            //commRS232MCU.receiveDataByte = null;
-            //            //MCUMonitoringTimer.Start();
-            //            break;
-            //        }
-            //        //Thread.Sleep(1);
-            //        Utill.Delay(0.001);
-            //    }
-            //}
         }
         //데이터 리시브용 타이머 함수
         private void ReadRevEvent(object sender, EventArgs e)
@@ -401,7 +417,7 @@ namespace CalibrationNewGUI
         }
 
         //MCU모니터링용 타이머
-        private void MCUMonitorEvent(Object source, System.Timers.ElapsedEventArgs e)
+        private void MCUMonitorEvent(object sender, EventArgs e)
         {
             byte[] bytestream = new byte[3];
 
@@ -412,15 +428,12 @@ namespace CalibrationNewGUI
             }
         }
         //DMM모니터링용 타이머
-        private void DMMMonitorEvent(Object source, System.Timers.ElapsedEventArgs e)
+        private void DMMMonitorEvent(object sender, EventArgs e)
         {
-            string stringStream = "";
-            stringStream = "MEASure:VOLTage:DC?";//모니터링 명령어
-            //stringStream = "MEASure?";//모니터링 명령어
-            if (AllSetData.DMMConnectFlag == 1)
+            if (AllSetData.DMMConnectFlag == 1/* && AllSetData.DMMFilterFlag == 1*/)
             {
-                //SendAndReceiveFunc(stringStream);
-                commRS232DMM.CommSend(stringStream); //차후 3가지 DMM 버전을 만들때 sendcmd함수로 만들것
+                //commRS232DMM.CommSend(stringStream); //차후 3가지 DMM 버전을 만들때 sendcmd함수로 만들것
+                SendCommandDMM(AllSetData.DMMModel, "READ", ""); 
                 dmmConnectFlag++;
             }
         }
@@ -665,41 +678,7 @@ namespace CalibrationNewGUI
             }
 #endif
         }
-#if(false)
-        //출력 입력 함수-1개의 배열
-        private byte[] OutputVoltCurr(byte[] bytestream, int[] PointArray)
-        {
-            byte[] VoltArray = new byte[5];
-            byte[] CurrArray = new byte[6];
 
-            bytestream[0] = 0x02;//STX
-            bytestream[1] = 0x43;//'C'
-            if (AllSetData.VoltCurrSelect == 0) bytestream[2] = 0x56;//'V'
-            else if (AllSetData.VoltCurrSelect == 1) bytestream[2] = 0x49;//'I'
-            bytestream[3] = IntToByte(AllSetData.ChannelSelect); //채널선택
-
-            //IntToAscii(PointArray[0], bytestream, 0);//전압
-            //IntToAscii(PointArray[1], bytestream, 1);//전류
-
-            VoltArray = Int2AsciiByte(PointArray[0], VoltArray.Length);
-            CurrArray = Int2AsciiByte(PointArray[1], CurrArray.Length);
-            //전압
-            for (int i = 0; i < VoltArray.Length; i++)
-            {
-                bytestream[4 + i] = VoltArray[i];
-            }
-            //전류
-            if(PointArray[1] < 0) bytestream[9] = 0x2D; //-
-            else bytestream[9] = 0x2B;//+
-            for (int i = 0; i < CurrArray.Length; i++)
-            {
-                bytestream[10 + i] = CurrArray[i];
-            }
-
-            bytestream[16] = 0x03;//ETX
-            return bytestream;
-        }
-#endif
 #if (true)
         /// <summary>
         /// Int 를 지정된 자리수의 Ascii의 Byte의 역배열로 처리함.
@@ -1033,8 +1012,49 @@ namespace CalibrationNewGUI
                         AllSetData.CalSeqNum = 0;
                         AllSetData.CalRowCntNum = 0;
                         AllSetData.ErrorCnt = 0;
-                        MessageBox.Show("Calibration이 종료되었습니다.");
-                        SeqMonitor.Stop();
+                        if (AllSetData.AutoMeaStartFlag == 0)
+                        {
+                            MessageBox.Show("Calibration이 종료되었습니다.");
+                            SeqMonitor.Stop();
+                        }
+                        else if (AllSetData.AutoMeaStartFlag == 1) //캘 후 자동 실측일 경우
+                        {
+                            AllSetData.MeaSeqStartFlag = 1;
+                            AllSetData.DelayStart = 1;
+                            if (AllSetData.MeaOutStartFlag == 0)
+                            {
+                                if (AllSetData.VoltCurrSelect == 0)//전압
+                                {
+                                    AllSetData.MeaPointArray = new int[AllSetData.VoltageMeaTable.Rows.Count, 2];
+                                }
+                                else if (AllSetData.VoltCurrSelect == 1)//전류
+                                {
+                                    AllSetData.MeaPointArray = new int[AllSetData.CurrentMeaTable.Rows.Count, 2];
+                                }
+                                
+                                //입력된 포인트를 배열로 전환
+                                for (int i = 0; i < (AllSetData.MeaPointArray.Length/2); i++)
+                                {
+                                    if (AllSetData.VoltCurrSelect == 0)
+                                    {
+                                        AllSetData.MeaPointArray[i, 0] = Convert.ToInt32(AllSetData.VoltageMeaTable.Rows[i][1].ToString());//전압
+                                        AllSetData.MeaPointArray[i, 1] = Convert.ToInt32(AllSetData.VoltageMeaTable.Rows[i][2].ToString()); //전류
+                                        AllSetData.VoltageMeaTable.Rows[i][3] = "";
+                                        AllSetData.VoltageMeaTable.Rows[i][4] = "";
+                                        AllSetData.VoltageMeaTable.Rows[i][5] = "";
+                                    }
+                                    else if (AllSetData.VoltCurrSelect == 1)
+                                    {
+                                        AllSetData.MeaPointArray[i, 0] = Convert.ToInt32(AllSetData.CurrentMeaTable.Rows[i][1].ToString());//전압
+                                        AllSetData.MeaPointArray[i, 1] = Convert.ToInt32(AllSetData.CurrentMeaTable.Rows[i][2].ToString()); //전류
+                                        AllSetData.CurrentMeaTable.Rows[i][3] = "";
+                                        AllSetData.CurrentMeaTable.Rows[i][4] = "";
+                                        AllSetData.CurrentMeaTable.Rows[i][5] = "";
+                                    }
+                                }
+                                AllSetData.MeaOutStartFlag = 1;
+                            }
+                        }
                         break;
                 }
             }
@@ -1042,6 +1062,7 @@ namespace CalibrationNewGUI
             {
                 if (AllSetData.VoltCurrSelect == 0) RowCnt = AllSetData.VoltageMeaTable.Rows.Count;//전압 데이터 개수
                 else if (AllSetData.VoltCurrSelect == 1) RowCnt = AllSetData.CurrentMeaTable.Rows.Count;//전류 데이터 개수
+                if (RowCnt < 1) AllSetData.CalSeqNum = 4;
                 if (AllSetData.DelayStart == 1)
                 {
                     AllSetData.DelayCnt = AllSetData.DelayCnt + 20;
@@ -1058,8 +1079,8 @@ namespace CalibrationNewGUI
                         AllSetData.CalRowCntNum = 0;
                         break;
                     case 1:
-                        if (AllSetData.VoltCurrSelect == 0)//전압 출력
-                        {
+                        //if (AllSetData.VoltCurrSelect == 0)//전압 출력
+                        //{
                             if (AllSetData.DelayStart == 0)
                             {
                                 AllSetData.ActCalPointArray = new int[2];
@@ -1069,7 +1090,7 @@ namespace CalibrationNewGUI
                                 AllSetData.DelayStart = 1;
                                 AllSetData.CalSeqNum = 2;
                             }
-                        }
+                        //}
                         break;
                     case 2:
                         //그리드에 출력하기

@@ -105,7 +105,7 @@
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
                     <Border BorderBrush="DarkSeaGreen" BorderThickness="1" >
-                        <TextBlock Text="{Binding DMMOutputVolt, StringFormat='#,0.#'}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DMMOutputVolt, StringFormat='#,0.0'}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0"/>
                     </Border>
                 </Grid>
             </Grid>
@@ -149,12 +149,12 @@
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="1">
                     <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                        <TextBlock Text="{Binding CH1OutputVolt, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CH1OutputVolt, StringFormat=0.0000}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
                 <Grid Grid.Row="2" Grid.Column="3">
                     <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                        <TextBlock Text="{Binding CH1OutputCurr, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CH1OutputCurr, StringFormat=0.0000}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
                 <Grid Grid.Row="3" Grid.Column="0">
@@ -164,12 +164,12 @@
                 </Grid>
                 <Grid Grid.Row="3" Grid.Column="1">
                     <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                        <TextBlock Text="{Binding CH2OutputVolt, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CH2OutputVolt, StringFormat=0.0000}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
                 <Grid Grid.Row="3" Grid.Column="3">
                     <Border BorderBrush="DarkSeaGreen" BorderThickness="1">
-                        <TextBlock Text="{Binding CH2OutputCurr, StringFormat=0.####}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CH2OutputCurr, StringFormat=0.0000}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
             </Grid>
@@ -262,8 +262,8 @@
                                 <DataGridTextColumn Binding="{Binding CALNO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" Width="30" MinWidth="30" MaxWidth="30" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding CALSetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt" MinWidth="50" />
                                 <DataGridTextColumn Binding="{Binding CALSetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr" MinWidth="70" />
-                                <DataGridTextColumn Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}" Header="OutVolt" MinWidth="55" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" MinWidth="70" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.0'}" Header="OutVolt" MinWidth="55" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0'}" Header="OutCurr" MinWidth="70" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" MinWidth="70" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -383,7 +383,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Height="20" Width="380">
                                     <Border VerticalAlignment="Top">
-                                        <CheckBox Content="Cal End And Auto MEA" FontSize="12" Margin="0,0,0,0" FontWeight="Bold"/>
+                                        <CheckBox Content="Cal End And Auto MEA" FontSize="12" Margin="0,0,0,0" FontWeight="Bold" Checked="AutoMeaChecked" Unchecked="AutoMeaUnChecked"/>
                                     </Border>
                                 </StackPanel>
                             </StackPanel>
@@ -438,8 +438,8 @@
                                 <DataGridTextColumn Binding="{Binding MEANO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="NO" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding MEASetVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetVolt"/>
                                 <DataGridTextColumn Binding="{Binding MEASetCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="SetCurr"/>
-                                <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}" Header="OutVolt" IsReadOnly="True"/>
-                                <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutCurr" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEAOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.0'}" Header="OutVolt" IsReadOnly="True"/>
+                                <DataGridTextColumn Binding="{Binding MEAOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0'}" Header="OutCurr" IsReadOnly="True"/>
                                 <DataGridTextColumn Binding="{Binding MEADMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" Header="OutDMM" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
