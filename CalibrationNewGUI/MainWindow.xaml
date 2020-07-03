@@ -157,10 +157,13 @@
         </Border>
         
         <!--Main 화면-->
-        <Grid Background="#FFFFFF" Grid.Row="1" Grid.Column="1" >
-            <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
-        </Grid>
-
+        <ScrollViewer  Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid Background="#FFFFFF">
+                <Frame x:Name="PageFrame" NavigationUIVisibility="Hidden" Source="MonitoringPage.xaml"/>
+            </Grid>
+        </ScrollViewer>
+        
+        
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
                 <Grid x:Name="LogCheckPanel" Visibility="Collapsed">

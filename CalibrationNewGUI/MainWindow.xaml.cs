@@ -33,6 +33,8 @@ namespace CalibrationNewGUI
         //통신 개체 작성
         public SerialComm commRS232DMM = new SerialComm("DMM", 0);//DMM 용
         public SerialComm commRS232MCU = new SerialComm("MCU", 0);//MCU 용
+        int mcuConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
+        int dmmConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         TestSetting setWindow = new TestSetting(); //통신세팅 창 띄우기 - 강제 세팅 테스트용
 
         Timer MCUMonitoringTimer = new Timer(); //MCU 모니터링 타이머용
@@ -119,6 +121,11 @@ namespace CalibrationNewGUI
                             AllSetData.MCUConnectFlag = 1;
                             MCUConnectCircle.Fill = Brushes.LimeGreen;
                         }
+                        else
+                        {
+                            MessageBox.Show(msg);
+                            MCUConnectCircle.Fill = Brushes.Red;
+                        }
                     }
                     if (AllSetData.DMMPortName != "0")
                     {
@@ -128,6 +135,11 @@ namespace CalibrationNewGUI
                         {
                             AllSetData.DMMConnectFlag = 1;
                             DMMConnectCircle.Fill = Brushes.LimeGreen;
+                        }
+                        else
+                        {
+                            MessageBox.Show(msg);
+                            DMMConnectCircle.Fill = Brushes.Red;
                         }
                     }
                 }
@@ -192,13 +204,13 @@ namespace CalibrationNewGUI
         }
         private int settingComport() //세팅화면 띄우기 전 호출해서 파일 읽기 & 콤보박스 세팅
         {
-            if (AllSetData.MCUPortName == "" || AllSetData.MCUPortName == "0")
+            if (string.IsNullOrEmpty(AllSetData.MCUPortName) || AllSetData.MCUPortName == "0")
             {
                 string errormsg = "MCU 포트 확인";
                 MessageBox.Show(errormsg);
                 return 0; //실패
             }
-            else if (AllSetData.DMMPortName == "" || AllSetData.DMMPortName == "0")
+            else if (string.IsNullOrEmpty(AllSetData.DMMPortName) || AllSetData.DMMPortName == "0")
             {
                 string errormsg = "DMM 포트 확인";
                 MessageBox.Show(errormsg);
@@ -285,6 +297,7 @@ namespace CalibrationNewGUI
                     //MessageBox.Show("수신 : " + temp);
                     commRS232MCU.receiveDataByte[commRS232MCU.receiveDataByteSTX] = 0;
                     commRS232MCU.receiveDataByte[commRS232MCU.receiveDataByteETX] = 0;
+                    mcuConnectFlag = 0;//연결 초기화
                     //MCUMonitoringTimer.Start();
                     if (AllSetData.LogMonitoringViewFlag == 0 && AllSetData.LogViewStartFlag == 1)
                     {
@@ -305,6 +318,7 @@ namespace CalibrationNewGUI
                     StringTranslate(commRS232DMM.receiveDataString);
                     //MessageBox.Show("수신 : " + AllSetData.DMMOutputVolt);
                     commRS232DMM.receiveDataString = null;
+                    dmmConnectFlag = 0;//연결 초기화
                     //DMMMonitoringTimer.Start();
                     //break;
                     if (AllSetData.LogMonitoringViewFlag == 0 && AllSetData.LogViewStartFlag == 1)
@@ -396,14 +410,7 @@ namespace CalibrationNewGUI
             if (AllSetData.MCUConnectFlag == 1)
             {
                 SendCommand(0x4F);//'O'
-                //if (AllSetData.LogMonitoringViewFlag == 0 && AllSetData.LogViewStartFlag == 1)
-                //{
-                //    if (AllSetData.LogMonitoringFlagMCU == 0)
-                //    {
-                //        AllSetData.LogMonitoringFlagMCU = 1;
-                //        //SendLogText(temp, 1);//로그 추가
-                //    }
-                //}
+                mcuConnectFlag++;
             }
         }
         //DMM모니터링용 타이머
@@ -411,19 +418,12 @@ namespace CalibrationNewGUI
         {
             string stringStream = "";
             stringStream = "MEASure:VOLTage:DC?";//모니터링 명령어
+            //stringStream = "MEASure?";//모니터링 명령어
             if (AllSetData.DMMConnectFlag == 1)
             {
                 //SendAndReceiveFunc(stringStream);
                 commRS232DMM.CommSend(stringStream); //차후 3가지 DMM 버전을 만들때 sendcmd함수로 만들것
-                //if (AllSetData.LogMonitoringViewFlag == 0 && AllSetData.LogViewStartFlag == 1)
-                //{
-                //    if (AllSetData.LogMonitoringFlagDMM == 0)
-                //    {
-                //        AllSetData.LogMonitoringFlagDMM = 1;
-                //        //SendLogText(AllSetData.DMMOutputVolt.ToString(), 1);//로그 추가
-                //        //AllSetData.LogMonitoringFlag = 0;
-                //    }
-                //}
+                dmmConnectFlag++;
             }
         }
         //cal, mea 버튼들 이벤트감지
@@ -505,6 +505,22 @@ namespace CalibrationNewGUI
                     AllSetData.MeaOutStartFlag = 0;
                 }
                 SeqMonitor.Start();
+            }
+            if (dmmConnectFlag > 20)//모니터링 값을 일정이상 보냈는데 받지 못하는경우 연결 끊기
+            {
+                dmmConnectFlag = 0;
+                //DMMMonitoringTimer.Stop();
+                //commRS232DMM.Disconnect();
+                DMMConnectCircle.Fill = Brushes.Red;
+                MessageBox.Show("DMM 연결 포트를 확인해주세요.");
+            }
+            if (mcuConnectFlag > 50)//모니터링 값을 일정이상 보냈는데 받지 못하는경우 연결 끊기
+            {
+                mcuConnectFlag = 0;
+                //MCUMonitoringTimer.Stop();
+                //commRS232MCU.Disconnect();
+                MCUConnectCircle.Fill = Brushes.Red;
+                MessageBox.Show("MCU 연결 포트를 확인해주세요.");
             }
         }
         //명령에 따른 전송함수

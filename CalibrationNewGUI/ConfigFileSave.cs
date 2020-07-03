@@ -20,7 +20,7 @@ namespace CalibrationNewGUI
 
         // fullpath = ini 파일의 전체경로.
         // 파일은 본 클래스에서 자동생성됨.
-        public ConfigFileSave(string fullpath = @".\config.ini")
+        public ConfigFileSave(string fullpath = @".\Config\config.ini")
         {
             this.ConfigPath = fullpath;
         }
