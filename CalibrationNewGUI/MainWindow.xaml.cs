@@ -21,6 +21,7 @@ using System.Timers;
 using System.Windows.Threading;
 using System.Threading;
 using Timer = System.Threading.Timer;
+using System.ComponentModel;
 
 namespace CalibrationNewGUI
 {
@@ -38,7 +39,7 @@ namespace CalibrationNewGUI
         int mcuConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         int dmmConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         TestSetting setWindow = new TestSetting(); //통신세팅 창 띄우기 - 강제 세팅 테스트용
-
+        private BackgroundWorker background = new BackgroundWorker();
         DispatcherTimer MCUMonitoringTimer = new DispatcherTimer(); //MCU 모니터링 타이머용
         DispatcherTimer DMMMonitoringTimer = new DispatcherTimer(); //DMM 모니터링 타이머용
         //Timer GUIOutPutCheckTimer = new Timer(); //cal, mea 버튼 입력들 감지 타이머용
@@ -49,6 +50,17 @@ namespace CalibrationNewGUI
         {
             InitializeComponent();
             DataContext = SettingData.GetObj();
+
+            background.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                //RectMonitoring(); //시퀀스 함수
+                OutSeqEvent(null, EventArgs.Empty);
+            });
+            SeqMonitor.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (background.IsBusy == false)
+                    background.RunWorkerAsync();
+            });
         }
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
@@ -62,8 +74,8 @@ namespace CalibrationNewGUI
             FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
             FlagMonitor.Tick += OutputEvent;
             FlagMonitor.Start();
-            SeqMonitor.Interval = TimeSpan.FromMilliseconds(20);
-            SeqMonitor.Tick += OutSeqEvent;
+            SeqMonitor.Interval = TimeSpan.FromMilliseconds(100);
+            //SeqMonitor.Tick += OutSeqEvent;
             RevMonitor.Interval = TimeSpan.FromMilliseconds(10);
             RevMonitor.Tick += ReadRevEvent;
             RevMonitor.Start();
@@ -80,11 +92,12 @@ namespace CalibrationNewGUI
             FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
             FlagMonitor.Tick += OutputEvent;
             FlagMonitor.Start();
-            SeqMonitor.Interval = TimeSpan.FromMilliseconds(20);
-            SeqMonitor.Tick += OutSeqEvent;
+            SeqMonitor.Interval = TimeSpan.FromMilliseconds(100);
+            //SeqMonitor.Tick += OutSeqEvent;
             RevMonitor.Interval = TimeSpan.FromMilliseconds(10);
             RevMonitor.Tick += ReadRevEvent;
             RevMonitor.Start();
+
         }
         private void MainWindowClosing(object sender, RoutedEventArgs e)
         {
@@ -905,12 +918,14 @@ namespace CalibrationNewGUI
                 else if (AllSetData.VoltCurrSelect == 1) RowCnt = AllSetData.CurrentCalTable.Rows.Count;//전류 데이터 개수
                 if (AllSetData.DelayStart == 1)
                 {
-                    AllSetData.DelayCnt = AllSetData.DelayCnt + 20;//인터벌만큼 더해서 카운트 비교
-                    if (AllSetData.DelayCnt > AllSetData.CalErrDelayTime)
-                    {
-                        AllSetData.DelayStart = 0;
-                        AllSetData.DelayCnt = 0;
-                    }
+                    //AllSetData.DelayCnt = AllSetData.DelayCnt + 20;//인터벌만큼 더해서 카운트 비교
+                    //if (AllSetData.DelayCnt > AllSetData.CalErrDelayTime)
+                    //{
+                    //    AllSetData.DelayStart = 0;
+                    //    AllSetData.DelayCnt = 0;
+                    //}
+                    Utill.Delay((AllSetData.CalErrDelayTime * 0.001));
+                    AllSetData.DelayStart = 0;
                 }
                 switch (AllSetData.CalSeqNum)//(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
                 {
@@ -1065,12 +1080,14 @@ namespace CalibrationNewGUI
                 if (RowCnt < 1) AllSetData.CalSeqNum = 4;
                 if (AllSetData.DelayStart == 1)
                 {
-                    AllSetData.DelayCnt = AllSetData.DelayCnt + 20;
-                    if (AllSetData.DelayCnt > AllSetData.MeaErrDelayTime)
-                    {
-                        AllSetData.DelayStart = 0;
-                        AllSetData.DelayCnt = 0;
-                    }
+                    //AllSetData.DelayCnt = AllSetData.DelayCnt + 20;
+                    //if (AllSetData.DelayCnt > AllSetData.MeaErrDelayTime)
+                    //{
+                    //    AllSetData.DelayStart = 0;
+                    //    AllSetData.DelayCnt = 0;
+                    //}
+                    Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));
+                    AllSetData.DelayStart = 0;
                 }
                 switch (AllSetData.CalSeqNum)//(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
                 {
