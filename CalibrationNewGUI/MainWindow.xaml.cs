@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using System.Threading;
 using Timer = System.Threading.Timer;
 using System.ComponentModel;
+using System.Data;
 
 namespace CalibrationNewGUI
 {
@@ -87,8 +88,8 @@ namespace CalibrationNewGUI
             MCUMonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
             MCUMonitoringTimer.Tick += MCUMonitorEvent;
             DMMMonitoringTimer.Tick += DMMMonitorEvent;
-            MCUMonitoringTimer.Start();
-            DMMMonitoringTimer.Start();
+            //MCUMonitoringTimer.Start();
+            //DMMMonitoringTimer.Start();
             FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
             FlagMonitor.Tick += OutputEvent;
             FlagMonitor.Start();
@@ -135,6 +136,7 @@ namespace CalibrationNewGUI
                         {
                             AllSetData.MCUConnectFlag = 1;
                             MCUConnectCircle.Fill = Brushes.LimeGreen;
+                            MCUMonitoringTimer.Start();
                         }
                         else
                         {
@@ -152,6 +154,7 @@ namespace CalibrationNewGUI
                             SendCommandDMM(AllSetData.DMMModel, "SET", "LOW");
                             AllSetData.DMMConnectFlag = 1;
                             DMMConnectCircle.Fill = Brushes.LimeGreen;
+                            DMMMonitoringTimer.Start();
                         }
                         else
                         {
@@ -907,7 +910,7 @@ namespace CalibrationNewGUI
         {
             LogTextBox.Text = string.Empty;
         }
-
+#if(false)
         //Cal, 실측 시퀀스 함수
         private void OutSeqEvent(object sender, EventArgs e)
         {
@@ -1195,6 +1198,60 @@ namespace CalibrationNewGUI
                 }
             }
         }
+#else
+        private void OutSeqEvent(object sender, EventArgs e)
+        {
+            if (AllSetData.CalSeqStartFlag == 1)
+            {
+                CalSequence();
+            }
+            //만약 자동 실측 체크가 되어있다면 실측 시작
+            if (AllSetData.AutoMeaStartFlag == 1) //캘 후 자동 실측일 경우
+            {
+                Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                AllSetData.MeaSeqStartFlag = 1;
+                
+                if (AllSetData.MeaOutStartFlag == 0)
+                {
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        AllSetData.MeaPointArray = new int[AllSetData.VoltageMeaTable.Rows.Count, 2];
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        AllSetData.MeaPointArray = new int[AllSetData.CurrentMeaTable.Rows.Count, 2];
+                    }
+
+                    //입력된 포인트를 배열로 전환
+                    for (int i = 0; i < (AllSetData.MeaPointArray.Length / 2); i++)
+                    {
+                        if (AllSetData.VoltCurrSelect == 0)
+                        {
+                            AllSetData.MeaPointArray[i, 0] = Convert.ToInt32(AllSetData.VoltageMeaTable.Rows[i][1].ToString());//전압
+                            AllSetData.MeaPointArray[i, 1] = Convert.ToInt32(AllSetData.VoltageMeaTable.Rows[i][2].ToString()); //전류
+                            AllSetData.VoltageMeaTable.Rows[i][3] = "";
+                            AllSetData.VoltageMeaTable.Rows[i][4] = "";
+                            AllSetData.VoltageMeaTable.Rows[i][5] = "";
+                        }
+                        else if (AllSetData.VoltCurrSelect == 1)
+                        {
+                            AllSetData.MeaPointArray[i, 0] = Convert.ToInt32(AllSetData.CurrentMeaTable.Rows[i][1].ToString());//전압
+                            AllSetData.MeaPointArray[i, 1] = Convert.ToInt32(AllSetData.CurrentMeaTable.Rows[i][2].ToString()); //전류
+                            AllSetData.CurrentMeaTable.Rows[i][3] = "";
+                            AllSetData.CurrentMeaTable.Rows[i][4] = "";
+                            AllSetData.CurrentMeaTable.Rows[i][5] = "";
+                        }
+                    }
+                    AllSetData.MeaOutStartFlag = 1;
+                }
+            }
+            if (AllSetData.MeaOutStartFlag == 1)
+            {
+                MeaSequence();
+                AllSetData.MeaOutStartFlag = 0;
+            }
+        }
+#endif
         //시리얼 번호입력(실시간변화)
         private void SerialTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1225,5 +1282,175 @@ namespace CalibrationNewGUI
         {
             PageFrame.Source = new Uri("SettingOthersPage.xaml", UriKind.Relative);
         }
+        private void CalSequence()//출력할 테이블(전체 변수들을 주소값으로 대체할수 있지만 불필요하다고 생각되어 테이블만 통일
+        {
+            int RowCnt = 0;
+            int DMMCheck = 0;//에러 레인지 범위 안에 들어오는지 판단
+            DataTable CalTable = new DataTable();
+            if (AllSetData.VoltCurrSelect == 0)
+            {
+                RowCnt = AllSetData.VoltageCalTable.Rows.Count;//전압 데이터 개수
+                CalTable = AllSetData.VoltageCalTable;
+            }
+            else if (AllSetData.VoltCurrSelect == 1)
+            {
+                RowCnt = AllSetData.CurrentCalTable.Rows.Count;//전류 데이터 개수
+                CalTable = AllSetData.CurrentCalTable;
+            }
+
+            for (int i = 0; i < RowCnt; i++)
+            {
+                //Cal 시퀀스 시작
+                //Cal 출력전송
+                AllSetData.ActCalPointArray = new int[2];
+                AllSetData.ActCalPointArray[0] = AllSetData.CalPointArray[i, 0];//전압 //오토cal 시작으로 추출한 데이터를 수동 전송에 입력
+                AllSetData.ActCalPointArray[1] = AllSetData.CalPointArray[i, 1];//전류
+                AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
+                Utill.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
+                //Thread.Sleep(AllSetData.CalErrDelayTime);//사용자 설정 딜레이
+                if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+                //DMM 비교
+                for (int j = 0; j < (AllSetData.CalErrRetryCnt + 1); j++)
+                {
+                    if (AllSetData.ChannelSelect == 1) //채널선택
+                    {   //단위를 mV, mA 단위로 할것
+                        CalTable.Rows[i][3] = ((int)(AllSetData.CH1OutputVolt * 1000)).ToString();
+                        CalTable.Rows[i][4] = ((int)(AllSetData.CH1OutputCurr * 1000)).ToString();
+                        CalTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    else if (AllSetData.ChannelSelect == 2)
+                    {
+                        CalTable.Rows[i][3] = ((int)(AllSetData.CH2OutputVolt * 1000)).ToString();
+                        CalTable.Rows[i][4] = ((int)(AllSetData.CH2OutputCurr * 1000)).ToString();
+                        CalTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        if (Math.Abs(Convert.ToDouble(CalTable.Rows[i][1]) - Convert.ToDouble(CalTable.Rows[i][5])) > AllSetData.CalErrRangeVolt)//에러 범위 판단
+                            DMMCheck = 1;//에러 범위를 넘으면 Cal 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    else if (AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        if (Math.Abs(Convert.ToDouble(CalTable.Rows[i][2]) - Convert.ToDouble(CalTable.Rows[i][5])) > AllSetData.CalErrRangeCurr)//에러 범위 판단
+                            DMMCheck = 1;//에러 범위를 넘으면 Cal 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    if (DMMCheck == 1) //에러일 경우 DMM 전송
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        DMMCheck = 0;
+                        AllSetData.CalOutRealStartFlag = 1;//dmm 전송
+                        Utill.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
+                        //Thread.Sleep(AllSetData.CalErrDelayTime);//사용자 설정 딜레이
+                    }
+                    else //에러가 아니면 DMM 전송 하지 않고 넘어가기
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        break;
+                    }
+                    if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+                }
+                if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+            }
+            AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
+            //종료되면 플래그 초기화
+            AllSetData.CalSeqStartFlag = 0;
+            AllSetData.CalSeqNum = 0;
+            if (AllSetData.AutoMeaStartFlag == 0)
+            {
+                MessageBox.Show("Calibration이 종료되었습니다.");
+                SeqMonitor.Stop();
+            }
+        }
+        private void MeaSequence()//출력할 테이블(전체 변수들을 주소값으로 대체할수 있지만 불필요하다고 생각되어 테이블만 통일
+        {
+            int RowCnt = 0;
+            int DMMCheck = 0;//에러 레인지 범위 안에 들어오는지 판단
+            DataTable MeaTable = new DataTable();
+            if (AllSetData.VoltCurrSelect == 0)
+            {
+                RowCnt = AllSetData.VoltageMeaTable.Rows.Count;//전압 데이터 개수
+                MeaTable = AllSetData.VoltageMeaTable;
+            }
+            else if (AllSetData.VoltCurrSelect == 1)
+            {
+                RowCnt = AllSetData.CurrentMeaTable.Rows.Count;//전류 데이터 개수
+                MeaTable = AllSetData.CurrentMeaTable;
+            }
+
+            for (int i = 0; i < RowCnt; i++)
+            {
+                //Mea 출력 저장
+                AllSetData.ActCalPointArray = new int[2];
+                AllSetData.ActCalPointArray[0] = AllSetData.MeaPointArray[i, 0];//전압 //오토cal 시작으로 추출한 데이터를 수동 전송에 입력
+                AllSetData.ActCalPointArray[1] = AllSetData.MeaPointArray[i, 1];//전류
+                for (int j = 0; j < (AllSetData.MeaErrRetryCnt+1); j++)
+                {
+                    //Mea 시퀀스 시작
+                    //Mea 출력전송
+                    AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
+                    Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                    //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
+                    if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+                    //DMM 비교
+                    if (AllSetData.ChannelSelect == 1) //채널선택
+                    {   //단위를 mV, mA 단위로 할것
+                        MeaTable.Rows[i][3] = ((int)(AllSetData.CH1OutputVolt * 1000)).ToString();
+                        MeaTable.Rows[i][4] = ((int)(AllSetData.CH1OutputCurr * 1000)).ToString();
+                        MeaTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    else if (AllSetData.ChannelSelect == 2)
+                    {
+                        MeaTable.Rows[i][3] = ((int)(AllSetData.CH2OutputVolt * 1000)).ToString();
+                        MeaTable.Rows[i][4] = ((int)(AllSetData.CH2OutputCurr * 1000)).ToString();
+                        MeaTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    if (AllSetData.VoltCurrSelect == 0)//전압
+                    {
+                        if (Math.Abs(Convert.ToDouble(MeaTable.Rows[i][1]) - Convert.ToDouble(MeaTable.Rows[i][5])) > AllSetData.MeaErrRangeVolt)//에러 범위 판단
+                            DMMCheck = 1;//에러 범위를 넘으면 Mea 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    else if(AllSetData.VoltCurrSelect == 1)//전류
+                    {
+                        if (Math.Abs(Convert.ToDouble(MeaTable.Rows[i][2]) - Convert.ToDouble(MeaTable.Rows[i][5])) > AllSetData.MeaErrRangeCurr)//에러 범위 판단
+                            DMMCheck = 1;//에러 범위를 넘으면 Cal 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+                    if (DMMCheck == 1) //에러일 경우 재 출력 필요
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
+                        Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                        //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
+                        DMMCheck = 0;
+                    }
+                    else //에러가 아니면 DMM 전송 하지 않고 넘어가기
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
+                        Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                        //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
+                        break;
+                    }
+                    if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+                }
+                if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
+            }
+            //종료되면 플래그 초기화
+            AllSetData.MeaSeqStartFlag = 0;
+            AllSetData.CalSeqNum = 0;
+            MessageBox.Show("실측이 종료되었습니다.");
+            SeqMonitor.Stop();
+        }
+
+
+
     }
 }
