@@ -117,7 +117,7 @@ namespace CalibrationNewGUI
         //채널선택 - 3
         private void CHSelectCH3Btn_Checked(object sender, RoutedEventArgs e)
         {
-            AllSetData.ChannelSelect = 3;
+            AllSetData.ChannelSelect = 0;
             VoltageCurrentChange(AllSetData.VoltCurrSelect);
         }
 
@@ -953,6 +953,15 @@ namespace CalibrationNewGUI
             File.WriteAllText(SavePath, sb.ToString());
             return 1;
         }
+        //Cal 후 자동 실측으로 넘어가기
+        private void AutoMeaChecked(object sender, RoutedEventArgs e)
+        {
+            AllSetData.AutoMeaStartFlag = 1;
+        }
 
+        private void AutoMeaUnChecked(object sender, RoutedEventArgs e)
+        {
+            AllSetData.AutoMeaStartFlag = 0;
+        }
     }
 }
