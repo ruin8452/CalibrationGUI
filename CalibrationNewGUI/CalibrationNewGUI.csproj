@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.1.53.0\lib\netstandard10\PropertyChanged.dll</HintPath>
       <Private>False</Private>
@@ -67,7 +70,7 @@
     <Compile Include="Comm\SerialComm.cs" />
     <Compile Include="Comm\Utill.cs" />
     <Compile Include="ConfigFileSave.cs" />
-    <Compile Include="HomeWindow.xaml.cs">
+    <Compile Include="UI\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingAutoSavePage.xaml.cs">
@@ -92,7 +95,28 @@
     <Compile Include="TestSetting.xaml.cs">
       <DependentUpon>TestSetting.xaml</DependentUpon>
     </Compile>
-    <Page Include="HomeWindow.xaml">
+    <Compile Include="UI\MonitorPage.xaml.cs">
+      <DependentUpon>MonitorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\AutoSaveSettingPage.xaml.cs">
+      <DependentUpon>AutoSaveSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\CalSettingPage.xaml.cs">
+      <DependentUpon>CalSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\CommSettingPage.xaml.cs">
+      <DependentUpon>CommSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\ShuntSettingPage.xaml.cs">
+      <DependentUpon>ShuntSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\OthersSettingPage.xaml.cs">
+      <DependentUpon>OthersSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UI\HomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,6 +164,42 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\MonitorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\AutoSaveSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\CalSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\CommSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\ShuntSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Setting\OthersSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Style\UI_Animation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MonitoringPage.xaml.cs">
@@ -174,7 +234,6 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resource\LogoOnly_NoBack.png" />
   </ItemGroup>

@@ -166,7 +166,7 @@
         
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
-                <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
+                <Grid x:Name="LogCheckPanel" Visibility="Visible">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>

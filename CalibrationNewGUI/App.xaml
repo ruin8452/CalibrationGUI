@@ -2,9 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CalibrationNewGUI"
-             StartupUri="HomeWindow.xaml">
+             StartupUri="UI\HomeWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Style/UI_Animation.xaml"/>
+                <ResourceDictionary Source="UI/Style/UI_ButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <SolidColorBrush x:Key="MainBackground">#FF0D0F17</SolidColorBrush>
+            <SolidColorBrush x:Key="LedRed" Color="#FFFF4444"/>
+            <SolidColorBrush x:Key="LedYellow" Color="#FFF1AF00"/>
+            <SolidColorBrush x:Key="LedGreen" Color="#FF31AA4D"/>
+
+            <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17"/>
+            <SolidColorBrush x:Key="PageBackground" Color="#FF1B1E2B"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

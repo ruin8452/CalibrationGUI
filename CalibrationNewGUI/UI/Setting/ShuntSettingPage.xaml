@@ -1,0 +1,113 @@
+﻿<Page x:Class="CalibrationNewGUI.UI.Setting.ShuntSettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
+      mc:Ignorable="d" 
+      d:DesignWidth="800"
+      Title="OthersSettingPage">
+
+    <Page.Resources>
+        <Style x:Key="CalSetText" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,7"/>
+        </Style>
+        <Style x:Key="CalSetBox" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="NanumGothic"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="#FF53609B"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,7"/>
+        </Style>
+        <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    
+    <StackPanel Background="{StaticResource PageBackground}">
+        <TextBlock Text="션트 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+        <Separator Background="#FF53609B" Width="136"/>
+        <TextBlock Text="Shunt Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="40,0,40,20" >
+                <TextBlock Text="션트" Margin="0,20" Foreground="White" FontSize="20" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="표준 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="표준 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="보정 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="보정 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Margin="40,0,40,20" Grid.Column="1">
+                <TextBlock Text="전압 메타" Margin="0,20" Foreground="White" FontSize="20" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="표준 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="보정 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+
+    </StackPanel>
+</Page>

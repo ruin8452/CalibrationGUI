@@ -1,0 +1,76 @@
+﻿<Page x:Class="CalibrationNewGUI.UI.SettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="clr-namespace:CalibrationNewGUI.UI.Setting"
+      xmlns:local="clr-namespace:CalibrationNewGUI.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SettingPage">
+
+    <Page.Resources>
+        <ui:AutoSaveSettingPage x:Key="AutoSave"/>
+        <ui:CalSettingPage x:Key="Cal"/>
+        <ui:CommSettingPage x:Key="Comm"/>
+        <ui:OthersSettingPage x:Key="Other"/>
+        <ui:ShuntSettingPage x:Key="Shunt"/>
+        
+        <Style x:Key="SubBtnStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
+            <Setter Property="Margin" Value="2,0,0,0"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="NanumGothic"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="DodgerBlue"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Frame">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=CommBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource Comm}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ShuntBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource Shunt}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=AutoBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource AutoSave}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=CalBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource Cal}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=OtherBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource Other}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Background="{StaticResource PageBackground}">
+        <StackPanel Orientation="Horizontal">
+            <RadioButton x:Name="CommBtn"  Content="통신"          Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="ShuntBtn" Content="션트&amp;전압" Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="AutoBtn"  Content="자동 저장"     Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="CalBtn"   Content="CAL 세팅"      Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="OtherBtn" Content="기타"          Style="{StaticResource SubBtnStyle}"/>
+        </StackPanel>
+
+        <Frame />
+    </StackPanel>
+</Page>

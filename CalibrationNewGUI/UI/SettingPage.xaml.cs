@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CalibrationNewGUI
+namespace CalibrationNewGUI.UI
 {
     /// <summary>
-    /// HomeWindow.xaml에 대한 상호 작용 논리
+    /// SettingPage.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class HomeWindow : Window
+    public partial class SettingPage : Page
     {
-        public HomeWindow()
+        public SettingPage()
         {
             InitializeComponent();
         }

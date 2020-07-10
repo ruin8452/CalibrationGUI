@@ -1,0 +1,49 @@
+﻿<Page x:Class="CalibrationNewGUI.UI.Setting.AutoSaveSettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
+      mc:Ignorable="d" 
+      d:DesignWidth="800"
+      Title="AutoSaveSettingPage">
+
+    <Page.Resources>
+        <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Background="{StaticResource PageBackground}">
+        <TextBlock Text="자동저장 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+        <Separator Background="#FF53609B" Width="210"/>
+        <TextBlock Text="Auto Save Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+
+        <StackPanel Margin="80,40,80,20" >
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                <TextBlock Text="세이브 파일 Prefix" FontFamily="NanumGothic Light" Width="150" Foreground="White" FontSize="14"/>
+                <TextBox Text="AUTO" Width="150" FontFamily="NanumGothic" FontSize="14" Foreground="White" Background="{x:Null}" BorderBrush="#FF53609B" BorderThickness="1"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
+                <TextBlock Text="결과데이터 자동저장" FontFamily="NanumGothic Light" Width="150" Foreground="White" FontSize="14"/>
+                <CheckBox Width="150"/>
+            </StackPanel>
+
+            <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+        </StackPanel>
+    </StackPanel>
+</Page>
