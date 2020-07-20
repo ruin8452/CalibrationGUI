@@ -166,6 +166,8 @@ namespace CalibrationNewGUI
             }
             else if (AllSetData.AllConnectFlag == 1) //연결 끊기
             {
+
+
                 if (AllSetData.MCUConnectFlag == 1)
                 {
                     MCUMonitoringTimer.Stop();
@@ -1451,8 +1453,5 @@ namespace CalibrationNewGUI
             MessageBox.Show("실측이 종료되었습니다.");
             SeqMonitor.Stop();
         }
-
-
-
     }
 }

@@ -9,6 +9,44 @@
       Title="MonitorPage">
 
     <Page.Resources>
+        <Style x:Key="FileBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="#FF53609B"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy2}" />
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy2}" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="FileTextBaseStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+        </Style>
+
+        <Style x:Key="DataGridBaseStyle" TargetType="DataGrid">
+            <Setter Property="Height" Value="200"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="LightGray"/>
+            <Setter Property="VerticalGridLinesBrush" Value="LightGray"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
         <Style x:Key="RunBaseStyle" TargetType="Run">
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
@@ -23,6 +61,28 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="CalErrRateStyle" TargetType="Run" BasedOn="{StaticResource RunBaseStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=VoltCalBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="{Binding CalMeaInfo.CalErrRangeVolt}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=CurrCalBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="{Binding CalMeaInfo.CalErrRangeCurr}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="MeaErrRateStyle" TargetType="Run" BasedOn="{StaticResource RunBaseStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=VoltCalBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="{Binding CalMeaInfo.MeaErrRangeVolt}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=CurrCalBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Text" Value="{Binding CalMeaInfo.MeaErrRangeCurr}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="RadioStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
@@ -35,7 +95,7 @@
                 <Trigger Property="IsChecked" Value="False">
                     <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
-                
+
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
                 </EventTrigger>
@@ -44,7 +104,32 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-        
+
+        <!-- 시작 컨트롤러 색상 변경 -->
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeBlue">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToDarkBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_DarkBlueToBlue}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <!-- 시작 컨트롤러 색상 변경 -->
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeWhite">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_WhiteToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToWhite}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <StackPanel Background="{StaticResource PageBackground}">
@@ -71,9 +156,9 @@
                             <Rectangle Fill="#FF53609B"/>
                             <TextBlock Text="파일" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
-                        <TextBox Text="sssssssssssssss" Grid.Column="1" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Center"/>
-                        <Button Content="열기" Grid.Column="2" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Background="#FF53609B" Margin="2,2,0,2"/>
-                        <Button Content="저장" Grid.Column="3" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Background="#FF53609B" Margin="2"/>
+                        <TextBox Text="{Binding CalFilePath}" Grid.Column="1" Style="{StaticResource FileTextBaseStyle}"/>
+                        <Button Content="열기" Grid.Column="2" Style="{StaticResource FileBtn}" Tag="CAL" Margin="0,2" Command="{Binding FileOpenClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                        <Button Content="저장" Grid.Column="3" Style="{StaticResource FileBtn}" Tag="CAL" Margin="2,2" Command="{Binding FileSaveClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                     </Grid>
                 </Border>
 
@@ -81,53 +166,64 @@
                 <Grid Margin="5,25,5,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="165"/>
+                        <ColumnDefinition Width="215"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
-                            허용 오차 : <Run Text="100" Style="{StaticResource RunBaseStyle}"/><Run Style="{StaticResource CalTypeText}"/>
-                            / 딜레이 : <Run Text="100" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
+                            허용 오차 : <Run Style="{StaticResource CalErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
+                            / 딜레이 : <Run Text="{Binding CalMeaInfo.CalDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
                             / 자동 저장 회수 : <Run Text="1" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" >
-                            <fa:ImageAwesome Icon="Play" Foreground="White" Width="18" ToolTip="CAL 시작"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Play" ToolTip="CAL 시작" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" >
-                            <fa:ImageAwesome Icon="Stop" Foreground="White" Width="20" ToolTip="CAL 정지"/>
-                        </Button>
-                        
-                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
-
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" >
-                            <fa:ImageAwesome Icon="Plus" Foreground="White" Width="20" ToolTip="CAL 포인트 추가"/>
-                        </Button>
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" >
-                            <fa:ImageAwesome Icon="Minus" Foreground="White" Width="20" ToolTip="CAL 포인트 삭제"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Stop" ToolTip="CAL 정지" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
                         
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" >
-                            <fa:ImageAwesome Icon="Save" Foreground="White" Width="20" ToolTip="데이터 저장"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointAddClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="Plus" ToolTip="포인트 추가" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointDeleteClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="Minus" ToolTip="포인트 삭제" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+                        
+                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointUpClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="ChevronUp" ToolTip="포인트 UP" Style="{StaticResource ColorChangeWhite}" />
+                        </Button>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointDownClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="ChevronDown" ToolTip="포인트 DOWN" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+
+                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="CAL" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Save" ToolTip="데이터 저장" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
                     </StackPanel>
                 </Grid>
 
                 <!--포인트 그리드-->
-                <DataGrid Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="False"
-                                  AlternationCount="2" AlternatingRowBackground="White" Height="200" BorderThickness="1.5" BorderBrush="#FF53609B"
-                                  ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5,0" CanUserSortColumns="False">
+                <DataGrid ItemsSource="{Binding CalPointTable}" SelectedIndex="{Binding CalGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"      IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" />
-                        <DataGridTextColumn Header="SetCurr" />
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt}"/>
+                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr}"/>
+                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -151,9 +247,9 @@
                             <Rectangle Fill="#FF53609B"/>
                             <TextBlock Text="파일" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
-                        <TextBox Text="sssssssssssssss" Grid.Column="1" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Center"/>
-                        <Button Content="열기" Grid.Column="2" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Background="#FF53609B" Margin="2,2,0,2"/>
-                        <Button Content="저장" Grid.Column="3" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Background="#FF53609B" Margin="2"/>
+                        <TextBox Text="{Binding MeaFilePath}" Grid.Column="1" Style="{StaticResource FileTextBaseStyle}"/>
+                        <Button Content="열기" Grid.Column="2" Style="{StaticResource FileBtn}" Tag="MEA" Margin="0,2" Command="{Binding FileOpenClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                        <Button Content="저장" Grid.Column="3" Style="{StaticResource FileBtn}" Tag="MEA" Margin="2,2" Command="{Binding FileSaveClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                     </Grid>
                 </Border>
 
@@ -161,53 +257,64 @@
                 <Grid Margin="5,25,5,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="165"/>
+                        <ColumnDefinition Width="215"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
-                            허용 오차 : <Run Text="100" Style="{StaticResource RunBaseStyle}"/><Run Style="{StaticResource CalTypeText}"/>
-                            / 딜레이 : <Run Text="100" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
+                            허용 오차 : <Run Style="{StaticResource MeaErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
+                            / 딜레이 : <Run Text="{Binding CalMeaInfo.MeaDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
                             / 자동 저장 회수 : <Run Text="1" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0">
-                            <fa:ImageAwesome Icon="Play" Foreground="White" Width="18" ToolTip="실측 CAL 시작"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Play" ToolTip="실측 CAL 시작" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0">
-                            <fa:ImageAwesome Icon="Stop" Foreground="White" Width="20" ToolTip="실측 CAL 정지"/>
-                        </Button>
-                        
-                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
-
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0">
-                            <fa:ImageAwesome Icon="Plus" Foreground="White" Width="20" ToolTip="실측 포인트 추가"/>
-                        </Button>
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0">
-                            <fa:ImageAwesome Icon="Minus" Foreground="White" Width="20" ToolTip="실측 포인트 삭제"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Stop" ToolTip="실측 CAL 정지" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
                         
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
-                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0">
-                            <fa:ImageAwesome Icon="Save" Foreground="White" Width="20" ToolTip="데이터 저장"/>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointAddClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="Plus" ToolTip="포인트 추가" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointDeleteClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="Minus" ToolTip="포인트 삭제" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+                        
+                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointUpClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="ChevronUp" ToolTip="포인트 UP" Style="{StaticResource ColorChangeWhite}" />
+                        </Button>
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}"
+                                Command="{Binding PointDownClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                            <fa:ImageAwesome Icon="ChevronDown" ToolTip="포인트 DOWN" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+
+                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+
+                        <Button Background="Transparent" BorderBrush="{x:Null}" Margin="0,0,5,0" Tag="MEA" Style="{StaticResource BtnBaseNormal}">
+                            <fa:ImageAwesome Icon="Save" ToolTip="데이터 저장" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
                     </StackPanel>
                 </Grid>
 
                 <!--포인트 그리드-->
-                <DataGrid Grid.Column="0" AutoGenerateColumns="False" SelectionMode="Single" CanUserAddRows="False"
-                                  AlternationCount="2" AlternatingRowBackground="White" Height="200" BorderThickness="1.5" BorderBrush="#FF53609B"
-                                  ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5,0" CanUserSortColumns="False">
+                <DataGrid ItemsSource="{Binding MeaPointTable}" SelectedIndex="{Binding MeaGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"      IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" />
-                        <DataGridTextColumn Header="SetCurr" />
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding CALOutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding CALOutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding CALDMMOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt}"/>
+                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr}"/>
+                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
@@ -227,16 +334,16 @@
                             </Grid.ColumnDefinitions>
 
                             <!--시작-->
-                            <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}">
                                 <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3"/>
+                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                                     <TextBlock Text="시작" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
                                 </StackPanel>
                             </Button>
                             <!--정지-->
-                            <Button Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}">
                                 <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3"/>
+                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                                     <TextBlock Text="정지" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
                                 </StackPanel>
                             </Button>
@@ -249,8 +356,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <RadioButton x:Name="VoltCalBtn" Content="전압" Style="{StaticResource RadioStyle}" Grid.Column="0" IsChecked="True" />
-                            <RadioButton x:Name="CurrCalBtn" Content="전류" Style="{StaticResource RadioStyle}" Grid.Column="1"/>
+                            <RadioButton x:Name="VoltCalBtn" Content="전압" Style="{StaticResource RadioStyle}" Grid.Column="0" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}" />
+                            <RadioButton x:Name="CurrCalBtn" Content="전류" Style="{StaticResource RadioStyle}" Grid.Column="1" Command="{Binding ModeSelectClick}" />
                         </Grid>
 
                         <TextBlock Text="채널 선택" FontSize="14" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
@@ -261,9 +368,12 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Column="0" IsChecked="True"/>
-                            <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Column="1"/>
-                            <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Grid.Column="2"/>
+                            <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Column="0" Tag="1" IsChecked="True"
+                                         Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                            <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Column="1" Tag="2"
+                                         Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                            <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Grid.Column="2" Tag="0"
+                                         Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                         </Grid>
                     </StackPanel>
                 </StackPanel>
@@ -281,8 +391,8 @@
                                 <TextBlock Text="CH1 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="88888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Rect.DcOutputVolt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding Mcu.Ch1Volt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
                             <!-- 채널1 Curr -->
@@ -291,7 +401,7 @@
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Rect.DcOutputCurr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding Mcu.Ch1Curr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
                             <!-- Dmm1 Volt -->
@@ -312,8 +422,8 @@
                                 <TextBlock Text="CH2 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="88888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Rect.DcOutputVolt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding Mcu.Ch2Volt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
                             <!-- 채널2 Curr -->
@@ -322,7 +432,7 @@
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2D3144" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Rect.DcOutputCurr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding Mcu.Ch2Curr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
                         </StackPanel>

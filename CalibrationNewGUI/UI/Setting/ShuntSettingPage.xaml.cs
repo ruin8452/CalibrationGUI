@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalibrationNewGUI.VeiwModel.Setting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace CalibrationNewGUI.UI.Setting
         public ShuntSettingPage()
         {
             InitializeComponent();
+            DataContext = new ShuntSettingVM();
         }
     }
 }

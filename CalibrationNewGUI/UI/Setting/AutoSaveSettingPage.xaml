@@ -35,15 +35,15 @@
         <StackPanel Margin="80,40,80,20" >
             <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
                 <TextBlock Text="세이브 파일 Prefix" FontFamily="NanumGothic Light" Width="150" Foreground="White" FontSize="14"/>
-                <TextBox Text="AUTO" Width="150" FontFamily="NanumGothic" FontSize="14" Foreground="White" Background="{x:Null}" BorderBrush="#FF53609B" BorderThickness="1"/>
+                <TextBox Text="{Binding AutoSaveInfos.AutoSavePrifix, Mode=TwoWay}" Width="150" FontFamily="NanumGothic" FontSize="14" Foreground="White" Background="{x:Null}" BorderBrush="#FF53609B" BorderThickness="1" HorizontalContentAlignment="Right"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,7">
                 <TextBlock Text="결과데이터 자동저장" FontFamily="NanumGothic Light" Width="150" Foreground="White" FontSize="14"/>
-                <CheckBox Width="150"/>
+                <CheckBox Width="150" IsChecked="{Binding AutoSaveInfos.AutoSaveFlag, Mode=TwoWay}"/>
             </StackPanel>
 
-            <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+            <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
         </StackPanel>
     </StackPanel>
 </Page>

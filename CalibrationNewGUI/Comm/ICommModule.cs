@@ -18,7 +18,6 @@ namespace J_Project.Communication.CommModule
         TryResultFlag CommSend(byte[] cmd);
         TryResultFlag CommReceive(out string receiveString);
         TryResultFlag CommReceive(out byte[] receiveString);
-        TryResultFlag CommReceive(out byte[] receiveString, string position);
         void TokenReset();
     }
 }

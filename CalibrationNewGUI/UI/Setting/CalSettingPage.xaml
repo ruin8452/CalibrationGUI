@@ -17,6 +17,7 @@
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
         <Style x:Key="CalSetBox" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
@@ -71,16 +72,16 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="전압 허용오차(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.CalErrRangeVolt, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                     <TextBlock Text="전류 허용오차(mA)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.CalErrRangeCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
                     <TextBlock Text="재측정 회수" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.CalErrRetryCnt, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
                     <TextBlock Text="측정 지연시간(ms)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.CalDelayTime, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
             
@@ -100,21 +101,21 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="전압 허용오차(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.MeaErrRangeVolt, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                     <TextBlock Text="전류 허용오차(mA)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.MeaErrRangeCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
                     <TextBlock Text="재측정 회수" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.MeaErrRetryCnt, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
                     <TextBlock Text="측정 지연시간(ms)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    <TextBox Text="{Binding CalMeasureInfos.MeaDelayTime, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
         </Grid>
 
-        <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+        <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
     </StackPanel>
 </Page>

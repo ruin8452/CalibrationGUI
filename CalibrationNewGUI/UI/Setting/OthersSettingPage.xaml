@@ -17,6 +17,7 @@
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
         <Style x:Key="CalSetBox" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
@@ -25,31 +26,6 @@
             <Setter Property="BorderBrush" Value="#FF53609B"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
-        </Style>
-        <Style x:Key="LangRadio" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
-            <Setter Property="FontFamily" Value="NanumGothic"/>
-            <Setter Property="Width" Value="90"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Margin" Value="0,0,7,7"/>
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="DodgerBlue"/>
-                </Trigger>
-                <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
-                </Trigger>
-
-                <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
-                </EventTrigger>
-                <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
-                </EventTrigger>
-            </Style.Triggers>
         </Style>
         <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="Margin" Value="0,10"/>
@@ -66,6 +42,14 @@
                     <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
                 </EventTrigger>
             </Style.Triggers>
+        </Style>
+        <Style x:Key="SettingCombo" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="NanumGothic Light"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="0,0,0,7"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Page.Resources>
     
@@ -95,30 +79,27 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="입력전압 상한(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                     <TextBlock Text="입력전압 하한(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
                     <TextBlock Text="입력전류 상한(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                    <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
                     <TextBlock Text="입력전류 하한(mA)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
 
             <StackPanel Margin="40,0,40,20" Grid.Column="1">
                 <TextBlock Text="언어" Margin="0,20" Foreground="White" FontSize="20" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <RadioButton Content="한국어" Style="{StaticResource LangRadio}" IsChecked="True"/>
-                    <RadioButton Content="English" Style="{StaticResource LangRadio}"/>
-                </WrapPanel>
+                <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
 
-        <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+        <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
     </StackPanel>
 </Page>

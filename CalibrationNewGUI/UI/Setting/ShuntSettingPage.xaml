@@ -17,6 +17,7 @@
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
         <Style x:Key="CalSetBox" TargetType="TextBox">
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
@@ -70,16 +71,16 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="표준 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                     <TextBlock Text="표준 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntStandardReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
                     <TextBlock Text="보정 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
                     <TextBlock Text="보정 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
 
@@ -99,15 +100,15 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="표준 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.StandardVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                     <TextBlock Text="보정 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="100" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding ShuntInfos.NewVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
         </Grid>
 
-        <Button Content="저장" Style="{StaticResource SaveBtn}"/>
+        <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
     </StackPanel>
 </Page>
