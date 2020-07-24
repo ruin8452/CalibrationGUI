@@ -163,10 +163,9 @@
             </Grid>
         </ScrollViewer>
         
-        
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
-                <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
+                <Grid x:Name="LogCheckPanel">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>
@@ -195,6 +194,7 @@
                         <TextBox x:Name="LogTextBox" Background="White" FontSize="10"/>
                     </ScrollViewer>
                 </Grid>
+                
                 <Grid x:Name="PropertiesPanel" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>

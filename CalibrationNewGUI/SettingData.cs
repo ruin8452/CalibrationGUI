@@ -15,6 +15,12 @@ namespace CalibrationNewGUI
         /// <summary>
         /// GUI에서 사용되는 모든 세팅 정보
         /// </summary>
+        ///보드 상태용 변수
+        public int runMode = 0; //출력상태
+        public int faultCH1 = 0;//ch1 fault
+        public int faultCH2 = 0;//ch2 fault
+        public int serialNum = 0;//board S/N(미정)
+        public int productName = 0; //제품명(미정)
 
         ///Cal 시퀀스용 변수
         public int CalSeqStartFlag = 0; //Cal 시퀀스 시작 플래그
@@ -30,6 +36,12 @@ namespace CalibrationNewGUI
         public int LogMonitoringViewFlag = 0;
         public int LogMonitoringFlagDMM = 0;
         public int LogMonitoringFlagMCU = 0;
+        public int LogSendCmdFlagMCU = 0;
+        /// 신규 기능용 변수(Cal 저장, Auto Scan 등)
+        public int Ch1VoltPointCount = 0;//Cal point 개수용 
+        public int Ch2VoltPointCount = 0;//Cal point 개수용 
+        public int Ch1CurrPointCount = 0;//Cal point 개수용 
+        public int Ch2CurrPointCount = 0;//Cal point 개수용
         public DataTable VoltageCalTable { get; set; }  //CAL 전압 CalPoint입력용
         public DataTable CurrentCalTable { get; set; }  //CAL 전류 CalPoint입력용
         public DataTable VoltageMeaTable { get; set; }  //실측 전압 CalPoint입력용
