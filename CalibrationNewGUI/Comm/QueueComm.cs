@@ -1,19 +1,17 @@
-﻿using J_Project.Communication.CommFlags;
-using J_Project.Manager;
+﻿using J_Project.Manager;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
-using System.Threading;
 using System.Windows.Threading;
 
 namespace J_Project.Communication.CommModule
 {
     public class QueueComm
     {
-        static SerialPort ComPort;
+        SerialPort ComPort;
 
         int idCode = 1;
         readonly object lockObj = 0;
@@ -39,9 +37,9 @@ namespace J_Project.Communication.CommModule
             }
         }
 
-        static Queue<CommPacket> SendCommQueue = new Queue<CommPacket>();
-        static List<CommPacket> ReceiveCommQueue = new List<CommPacket>();
-        static CommPacket tempPacket = new CommPacket();
+        Queue<CommPacket> SendCommQueue = new Queue<CommPacket>();
+        List<CommPacket> ReceiveCommQueue = new List<CommPacket>();
+        CommPacket tempPacket = new CommPacket();
         //Timer timer = new Timer(TimerSenderByte, null, 0, 100);
         DispatcherTimer timers = new DispatcherTimer();
 
@@ -49,12 +47,7 @@ namespace J_Project.Communication.CommModule
         {
             dataType = dataPacketType;
 
-            timers.Interval = TimeSpan.FromMilliseconds(100);
-
-            if(dataPacketType == "string")
-                timers.Tick += TimerSenderString;
-            else if(dataPacketType == "byte[]")
-                timers.Tick += TimerSenderByte;
+            timers.Interval = TimeSpan.FromMilliseconds(200);
         }
 
         public string Connect(string portName, int baudRate)
@@ -68,9 +61,16 @@ namespace J_Project.Communication.CommModule
                 if (ComPort.IsOpen)
                 {
                     if (dataType == "string")
+                    {
                         ComPort.DataReceived += IntterruptReceiverString;
+                        timers.Tick += TimerSenderString;
+                    }
                     else if (dataType == "byte[]")
+                    {
                         ComPort.DataReceived += IntterruptReceiverByte;
+                        timers.Tick += TimerSenderByte;
+                    }
+                    timers.Start();
 
                     return "Connected!";
                 }
@@ -112,6 +112,8 @@ namespace J_Project.Communication.CommModule
 
                     SendCommQueue.Clear();
                     ReceiveCommQueue.Clear();
+
+                    timers.Stop();
                 }
             }
             catch (Exception e)
@@ -211,7 +213,7 @@ namespace J_Project.Communication.CommModule
             return false;
         }
 
-        private static void TimerSenderString(object sender, EventArgs e)
+        private void TimerSenderString(object sender, EventArgs e)
         {
             Debug.WriteLine($"Send QUEUE Count : {SendCommQueue.Count}");
             if (SendCommQueue.Count <= 0)
@@ -220,10 +222,10 @@ namespace J_Project.Communication.CommModule
             tempPacket = SendCommQueue.Dequeue();
 
             if (ComPort.IsOpen)
-                ComPort.Write(tempPacket.StrData);
+                ComPort.WriteLine(tempPacket.StrData);
         }
 
-        private static void TimerSenderByte(object sender, EventArgs e)
+        private void TimerSenderByte(object sender, EventArgs e)
         {
             Debug.WriteLine($"Send QUEUE Count : {SendCommQueue.Count}");
             if (SendCommQueue.Count <= 0)
@@ -231,8 +233,10 @@ namespace J_Project.Communication.CommModule
 
             tempPacket = SendCommQueue.Dequeue();
 
-            if(ComPort.IsOpen)
-                ComPort.Write(tempPacket.ByteData, 0 , tempPacket.ByteData.Length);
+            if (ComPort.IsOpen)
+                ComPort.Write(tempPacket.ByteData, 0, tempPacket.ByteData.Length);
+            else
+                ComPort.Open();
 
         }
 

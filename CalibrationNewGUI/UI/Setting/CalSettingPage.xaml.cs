@@ -1,4 +1,4 @@
-﻿using CalibrationNewGUI.VeiwModel.Setting;
+﻿using CalibrationNewGUI.ViewModel.Setting;
 using System;
 using System.Collections.Generic;
 using System.Linq;

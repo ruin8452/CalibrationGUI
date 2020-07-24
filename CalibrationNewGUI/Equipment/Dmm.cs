@@ -1,13 +1,7 @@
 ﻿using CalibrationNewGUI.Equipment.DigitalMeter;
-using CalibrationNewGUI.Model;
-using J_Project.Communication.CommFlags;
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace CalibrationNewGUI.Equipment
@@ -18,22 +12,17 @@ namespace CalibrationNewGUI.Equipment
         public double SensingData { get; private set; }
         public bool IsConnected { get; private set; }
 
-        IDmm dmmObj;
+        public int CommErrCount = 0;
 
-        public QueueComm DmmComm = new QueueComm("string");//MCU 용
-        DispatcherTimer MonitoringTimer = new DispatcherTimer(); //MCU 모니터링 타이머용
+        public QueueComm DmmComm = new QueueComm("string");
+        DispatcherTimer MonitoringTimer = new DispatcherTimer();
 
         #region 싱글톤 패턴 구현
         private static Dmm SingleTonObj = null;
 
-        public Dmm(IDmm dmm)
-        {
-            dmmObj = dmm;
-        }
-
         private Dmm()
         {
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(600);    // ms
             MonitoringTimer.Tick += DmmMonitoring;
         }
 
@@ -46,17 +35,19 @@ namespace CalibrationNewGUI.Equipment
 
         public string Connect(string portName, int borate)
         {
-            if (dmmObj.Connect(portName, borate))
+            string msg = DmmComm.Connect(portName, borate);
+            if (msg == "Connected!")
                 IsConnected = true;
-            else
+
+            return msg;
+        }
+        public bool Disconnect()
+        {
+            bool result = DmmComm.Disconnect();
+            if (result == true)
                 IsConnected = false;
 
-            return dmmObj.ErrMsg;
-        }
-        public void Disconnect()
-        {
-            if (dmmObj.Disconnect())
-                IsConnected = false;
+            return result;
         }
 
         // 모니터링 관련
@@ -68,10 +59,36 @@ namespace CalibrationNewGUI.Equipment
         {
             MonitoringTimer.Stop();
         }
+
         //DMM모니터링용 타이머
         private void DmmMonitoring(object sender, EventArgs e)
         {
-            SensingData = dmmObj.RealSensing();
+            SensingData = Math.Round(RealSensing(), 2);
+        }
+
+
+        public double RealSensing()
+        {
+            bool commFlag = DmmComm.CommSend("READ?", out int code);
+            if (!commFlag) { CommErrCount++; return double.NaN; }
+
+            commFlag = DmmComm.CommReceive(out string receiveData, code);
+            if (!commFlag) { CommErrCount++; return double.NaN; }
+
+            commFlag = double.TryParse(receiveData, out double sensingData);
+            if (!commFlag) { CommErrCount++; return double.NaN; }
+
+            return sensingData;
+        }
+
+        public void Setting()
+        {
+            DmmComm.CommSend("SYST:REM", out int _);
+            DmmComm.CommSend("CONF:VOLT:DC", out int _);
+
+            //DmmComm.CommSend("SENS:VOLT:DC:NPLC 0.1", out int _); // FAST
+            //DmmComm.CommSend("SENS:VOLT:DC:NPLC 1", out int _);   // MID
+            DmmComm.CommSend("SENS:VOLT:DC:NPLC 10", out int _);    // LOW
         }
     }
 }

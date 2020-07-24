@@ -60,31 +60,11 @@ namespace CalibrationNewGUI.FileSystem
          */
         public static bool PointWriter(List<object[]> pointList, string filePath)
         {
-            StreamWriter saveStream = new StreamWriter(filePath, false, Encoding.UTF8);
-
-            foreach (var point in pointList)
+            using (StreamWriter saveStream = new StreamWriter(filePath, false, Encoding.UTF8))
             {
-                try
-                {
-                    StringBuilder saveText = new StringBuilder();
-
-                    // 데이터 중 앞의 3개만 저장
-                    for (int i = 0; i < 3; i++)
-                    {
-                        saveText.Append(point[i].ToString());
-                        saveText.Append(",");
-                    }
-                    saveText.Remove(saveText.Length - 1, 1); // 마지막에 붙은 ','를 제거
-
-                    saveStream.WriteLine(saveText);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("PointWriter 오류발생 : {0}", e.Message);
-                }
+                foreach (var point in pointList)
+                    saveStream.WriteLine(string.Join(",", point.Take(3)));
             }
-
-            saveStream.Dispose();
             return true;
         }
     }

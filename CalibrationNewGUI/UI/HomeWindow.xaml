@@ -6,6 +6,7 @@
         xmlns:ui="clr-namespace:CalibrationNewGUI.UI"
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
+        DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
         Title="KJ Calibration GUI" Height="800" Width="1200">
 
     <Window.Resources>
@@ -14,7 +15,7 @@
         
         <Style x:Key="MainBtnStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="23"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -44,15 +45,32 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="ConnBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+        <Style x:Key="McuConnBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsAllConnected}" Value="True">
+                <DataTrigger Binding="{Binding Mcu.IsConnected}" Value="True">
                     <Setter Property="Content" Value="해제"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsAllConnected}" Value="False">
+                <DataTrigger Binding="{Binding Mcu.IsConnected}" Value="False">
                     <Setter Property="Content" Value="접속"/>
                 </DataTrigger>
                 
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy2}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy2}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DmmConnBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Dmm.IsConnected}" Value="True">
+                    <Setter Property="Content" Value="해제"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Dmm.IsConnected}" Value="False">
+                    <Setter Property="Content" Value="접속"/>
+                </DataTrigger>
+
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy2}"/>
                 </EventTrigger>
@@ -93,7 +111,7 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <!--장비 접속 상태-->
-                    <Grid Width="60" Margin="0,1.5,2,1.5">
+                    <Grid Width="120" Margin="0,1.5,2,1.5">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
@@ -106,22 +124,26 @@
                                 </Style.Triggers>
                             </Style>
                         </Grid.Resources>
-                        
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Border Grid.Row="0" Margin="0.5" CornerRadius="5" Background="{Binding McuConnColor}">
-                            <TextBlock Text="MCU" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Mcu.IsConnected}"/>
-                        </Border>
-                        <Border Grid.Row="1" Margin="0.5" CornerRadius="5" Background="{Binding DmmConnColor}">
-                            <TextBlock Text="DMM" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Dmm.IsConnected}"/>
-                        </Border>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                            <Border Width="60" Margin="0.5" CornerRadius="5" Background="{Binding McuConnColor}">
+                                <TextBlock Text="MCU" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Mcu.IsConnected}"/>
+                            </Border>
+                            <Button Style="{StaticResource McuConnBtn}" Width="60" Foreground="White" Margin="0.5" BorderThickness="0" BorderBrush="Transparent" Background="#FF3B456B" Command="{Binding McuConnectClick}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" >
+                            <Border Width="60" Margin="0.5" CornerRadius="5" Background="{Binding DmmConnColor}">
+                                <TextBlock Text="DMM" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Dmm.IsConnected}"/>
+                            </Border>
+                            <Button Style="{StaticResource DmmConnBtn}" Width="60" Foreground="White" Margin="0.5" BorderThickness="0" BorderBrush="Transparent" Background="#FF3B456B" Command="{Binding DmmConnectClick}"/>
+                        </StackPanel>
                     </Grid>
-
-                    <Button Style="{StaticResource ConnBtn}" Width="60" Foreground="White" BorderBrush="Transparent" Background="#FF3B456B" Command="{Binding CommConnect}"/>
-
+                    
                     <!--버전 정보-->
                     <Grid>
                         <Grid.RowDefinitions>
@@ -144,7 +166,7 @@
         </Border>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <Frame Style="{StaticResource MainFrame}" NavigationUIVisibility="Hidden"/>
+            <Frame Style="{StaticResource MainFrame}" NavigationUIVisibility="Hidden" Source="/CalibrationNewGUI;component/UI/MonitorPage.xaml"/>
         </ScrollViewer>
 
         <!--버전 정보-->

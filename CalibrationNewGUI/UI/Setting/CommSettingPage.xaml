@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
       mc:Ignorable="d" 
       d:DesignWidth="800"
@@ -76,7 +77,13 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="포트 번호" Grid.Row="0" Grid.Column="0" Style="{StaticResource SettingText}"/>
-                    <ComboBox SelectedItem="{Binding McuInfos.PortName, Mode=TwoWay}" ItemsSource="{Binding PortList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
+                    <ComboBox SelectedItem="{Binding McuInfos.PortName, Mode=TwoWay}" ItemsSource="{Binding PortList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="DropDownOpened">
+                                <i:InvokeCommandAction  Command="{Binding ComboDrop}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
 
                     <TextBlock Text="통신 속도" Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"/>
                     <ComboBox SelectedItem="{Binding McuInfos.Borate, Mode=TwoWay}" ItemsSource="{Binding BorateList}" Grid.Row="1" Grid.Column="1" Style="{StaticResource SettingCombo}"/>

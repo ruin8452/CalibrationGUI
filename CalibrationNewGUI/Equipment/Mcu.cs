@@ -17,10 +17,10 @@ namespace CalibrationNewGUI.Equipment
     [ImplementPropertyChanged]
     public class Mcu
     {
-        public double Ch1Volt { get; set; }
-        public double Ch1Curr { get; set; }
-        public double Ch2Volt { get; set; }
-        public double Ch2Curr { get; set; }
+        public double Ch1Volt { get; private set; }
+        public double Ch1Curr { get; private set; }
+        public double Ch2Volt { get; private set; }
+        public double Ch2Curr { get; private set; }
 
         public bool IsConnected { get; set; }
         public int CommErrCount = 0;
@@ -36,7 +36,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Mcu()
         {
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
             MonitoringTimer.Tick += McuMonitoring;
         }
 
@@ -49,9 +49,6 @@ namespace CalibrationNewGUI.Equipment
 
         public string Connect(string portName, int borate)
         {
-            if(string.IsNullOrEmpty(portName))
-                return "MCU 포트 확인";
-
             string msg = McuComm.Connect(portName, borate);
             if (msg == "Connected!")
                 IsConnected = true;
@@ -78,7 +75,7 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //MCU모니터링용 타이머
-        private void McuMonitoring(object sender, EventArgs e)
+        public void McuMonitoring(object sender, EventArgs e)
         {
             byte[] receiveData = ChMonitoring();
 
@@ -90,10 +87,10 @@ namespace CalibrationNewGUI.Equipment
             dataList.RemoveRange(0,2);           // STX, Command 삭제
             dataList.RemoveAt(dataList.Count-1); // ETX 삭제
 
-            Ch1Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())); dataList.RemoveRange(0, 6);  // CH1 전압 추출
-            Ch1Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray()));  dataList.RemoveRange(0, 7);  // CH1 전류 추출
-            Ch2Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())); dataList.RemoveRange(0, 6);  // CH2 전압 추출
-            Ch2Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray()));  dataList.RemoveRange(0, 7);  // CH2 전류 추출
+            Ch1Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())) * 0.1; dataList.RemoveRange(0, 6);  // CH1 전압 추출
+            Ch1Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray())); dataList.RemoveRange(0, 7);  // CH1 전류 추출
+            Ch2Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())) * 0.1; dataList.RemoveRange(0, 6);  // CH2 전압 추출
+            Ch2Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray())); dataList.RemoveRange(0, 7);  // CH2 전류 추출
         }
 
         /**
@@ -134,17 +131,17 @@ namespace CalibrationNewGUI.Equipment
          *  @return
          *  
          *  @see 채널 출력 프로토콜
-         *   STX  |  Command  |  CAL 타입  |        채널번호        | 전압 설정값(mV) | 전류 설정값(mA) |  ETX
-         *  ------|-----------|------------|------------------------|-----------------|-----------------|-------
-         *   0x02 | 0x43('C') |  'V'or'I'  |'0':ALL '1':CH1 '2':CH2 |     '00000'     |    '±000000'    |  0x03
+         *   STX  |  Command  |        CAL 타입       |        채널번호        | 전압 설정값(mV) | 전류 설정값(mA) |  ETX
+         *  ------|-----------|-----------------------|------------------------|-----------------|-----------------|-------
+         *   0x02 | 0x43('C') |  'V'or'I'(의미 없음)  |'0':ALL '1':CH1 '2':CH2 |     '00000'     |    '±000000'    |  0x03
          */
-        public void ChSet(char calType, int chNum, double volt, double curr)
+        public void ChSet(int chNum, int volt, int curr)
         {
             List<byte> sendList = new List<byte>();
 
             sendList.Add(STX);
             sendList.Add(0x43);
-            string makeCmd = calType.ToString() + chNum.ToString() + volt.ToString("00000") + curr.ToString("+000000;-000000");
+            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+000000;-000000");
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
 

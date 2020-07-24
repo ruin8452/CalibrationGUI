@@ -18,3 +18,10 @@ C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITest
 C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\obj\Debug\CalibrationNewGUITests.csproj.CopyComplete
 C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\obj\Debug\CalibrationNewGUITests.dll
 C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\obj\Debug\CalibrationNewGUITests.pdb
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.dll
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\CommonServiceLocator.dll
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.xml
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\Users\kj328\workspace_v7\CAL GUI\CalibrationNewGUI_Serv\CalibrationNewGUITests\bin\Debug\GalaSoft.MvvmLight.Extras.xml

@@ -23,12 +23,9 @@ namespace CalibrationNewGUI.Equipment.DigitalMeter
 
         public bool Connect(string portName, int borate)
         {
-            string msg = DmmComm.Connect(portName, borate);
-            if (msg != "Connected!")
-            {
-                ErrMsg = msg;
+            ErrMsg = DmmComm.Connect(portName, borate);
+            if (ErrMsg != "Connected!")
                 return false;
-            }
 
             return true;
         }
@@ -48,7 +45,7 @@ namespace CalibrationNewGUI.Equipment.DigitalMeter
             commFlag = double.TryParse(receiveData, out double sensingData);
             if (!commFlag) { CommErrCount++; return double.NaN; }
 
-            return sensingData;
+            return sensingData * 1000;
         }
 
         public void Setting()
