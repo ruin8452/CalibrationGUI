@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CalibrationNewGUI.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,5 +15,17 @@ namespace CalibrationNewGUI
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Directory.CreateDirectory(Environment.CurrentDirectory + @"\Config\CalPoint");
+            Directory.CreateDirectory(Environment.CurrentDirectory + @"\Config\MeasurePoint");
+
+            McuInfo.GetObj().Load();
+            DmmInfo.GetObj().Load();
+            AutoSaveInfo.GetObj().Load();
+            CalMeasureInfo.GetObj().Load();
+            ShuntInfo.GetObj().Load();
+            OthersInfo.GetObj().Load();
+        }
     }
 }

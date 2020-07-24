@@ -297,7 +297,7 @@ namespace CalibrationNewGUI
             StandardVoltMeter = Convert.ToInt32(fileOpen.Read("Shunt", "StandardVoltMeter", "4200"));//기준 전압미터
             NewVoltMeter = Convert.ToInt32(fileOpen.Read("Shunt", "NewVoltMeter", "4200"));//보정 전압미터
             ///오토세이브
-            AutoSaveFlag = Convert.ToInt32(fileOpen.Read("AutoSave", "AutoSaveFlag", "0"));//오토세이브 기능 ON/OFF
+            //AutoSaveFlag = Convert.ToInt32(fileOpen.Read("AutoSave", "AutoSaveFlag", "0"));//오토세이브 기능 ON/OFF
             SaveFilePrixNum = fileOpen.Read("AutoSave", "SaveFilePrixNum", "");//오토 세이브할때 접두사
             ///CAL&MEA 세팅
             CalErrRangeVolt = Convert.ToInt32(fileOpen.Read("CalMeasure", "CalErrRangeVolt", "2"));//CAL 전압 에러 오차값(mV)
@@ -311,7 +311,7 @@ namespace CalibrationNewGUI
 
             ///기타세팅
             InputRangeVoltMin = Convert.ToInt64(fileOpen.Read("Others", "InputRangeVoltMin", "2700"));//입력 전압 범위(mV) 최소값
-            InputRangeVoltMax = Convert.ToInt64(fileOpen.Read("Others", "InputRangeVoltMax", "2700"));//입력 전압 범위(mV) 최대값
+            InputRangeVoltMax = Convert.ToInt64(fileOpen.Read("Others", "InputRangeVoltMax", "4200"));//입력 전압 범위(mV) 최대값
             InputRangeCurrentMin = Convert.ToInt64(fileOpen.Read("Others", "InputRangeCurrentMin", "-40000"));//입력 전류 범위(mA) 최소값
             InputRangeCurrentMax = Convert.ToInt64(fileOpen.Read("Others", "InputRangeCurrentMax", "40000"));//입력 전류 범위(mA) 최대값
             Language = fileOpen.Read("Others", "Language", "ENG");//현재 언어 설정값

@@ -163,19 +163,22 @@
             </Grid>
         </ScrollViewer>
         
+        
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
-                <Grid x:Name="LogCheckPanel">
+                <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>
                     </Grid.RowDefinitions>
+                    
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Border Grid.Column="0" VerticalAlignment="Center">
                             <CheckBox Content="Detail Log View" FontSize="12" Margin="0,0,0,0"  FontWeight="Bold" Checked="LogViewCheck" Unchecked="LogViewUnCheck"/>
                         </Border>
@@ -213,6 +216,7 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="3*"/>
                             </Grid.RowDefinitions>
+                            
                             <Grid Grid.Row="0">
                                 <Border BorderBrush="DarkSeaGreen" BorderThickness="1" Background="#B6DBDB">
                                     <TextBlock Text="기준 Shunt 저항(uOhm)" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>

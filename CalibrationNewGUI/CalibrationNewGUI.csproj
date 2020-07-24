@@ -37,11 +37,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.1.53.0\lib\netstandard10\PropertyChanged.dll</HintPath>
@@ -50,6 +59,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -68,11 +80,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\BaseCommand.cs" />
+    <Compile Include="Command\BaseObjCommand.cs" />
     <Compile Include="Comm\CommFlag.cs" />
     <Compile Include="Comm\ICommModule.cs" />
+    <Compile Include="Comm\QueueComm.cs" />
     <Compile Include="Comm\SerialComm.cs" />
     <Compile Include="Comm\Utill.cs" />
     <Compile Include="ConfigFileSave.cs" />
+    <Compile Include="Equipment\Dmm.cs" />
+    <Compile Include="Equipment\DigitalMeter\Keithley2000.cs" />
+    <Compile Include="Equipment\DigitalMeter\_34401A.cs" />
+    <Compile Include="Equipment\DigitalMeter\IDmm.cs" />
+    <Compile Include="Equipment\DigitalMeter\_34450A.cs" />
+    <Compile Include="Equipment\Mcu.cs" />
+    <Compile Include="Equipment\Protocol\AsciiProtocol.cs" />
+    <Compile Include="Equipment\Protocol\IProtocol.cs" />
+    <Compile Include="Equipment\Protocol\ModbusProtocol.cs" />
+    <Compile Include="FileSystem\CsvFile.cs" />
+    <Compile Include="FileSystem\PointFile.cs" />
+    <Compile Include="Message\CalOptionMessege.cs" />
+    <Compile Include="Message\EquiMessage.cs" />
+    <Compile Include="Model\AutoSaveInfo.cs" />
+    <Compile Include="Model\CalMeasureInfo.cs" />
+    <Compile Include="Model\DmmInfo.cs" />
+    <Compile Include="Model\McuInfo.cs" />
+    <Compile Include="Model\OthersInfo.cs" />
+    <Compile Include="Model\ShuntInfo.cs" />
+    <Compile Include="UI\HomeWindow.xaml.cs">
+      <DependentUpon>HomeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingAutoSavePage.xaml.cs">
       <DependentUpon>SettingAutoSavePage.xaml</DependentUpon>
     </Compile>
@@ -95,6 +132,46 @@
     <Compile Include="TestSetting.xaml.cs">
       <DependentUpon>TestSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ManualCalWindow.xaml.cs">
+      <DependentUpon>ManualCalWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MonitorPage.xaml.cs">
+      <DependentUpon>MonitorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\AutoSaveSettingPage.xaml.cs">
+      <DependentUpon>AutoSaveSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\CalSettingPage.xaml.cs">
+      <DependentUpon>CalSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\CommSettingPage.xaml.cs">
+      <DependentUpon>CommSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\ShuntSettingPage.xaml.cs">
+      <DependentUpon>ShuntSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Setting\OthersSettingPage.xaml.cs">
+      <DependentUpon>OthersSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Func\Calibration.cs" />
+    <Compile Include="ViewModel\Func\EventArgsClass\CalMonitorArgs.cs" />
+    <Compile Include="ViewModel\Func\TableManager.cs" />
+    <Compile Include="ViewModel\MainWindowVM.cs" />
+    <Compile Include="ViewModel\ManualCalVM.cs" />
+    <Compile Include="ViewModel\MonitorPageVM.cs" />
+    <Compile Include="ViewModel\Setting\AutoSaveSettingVM.cs" />
+    <Compile Include="ViewModel\Setting\CalMeaSettingVM.cs" />
+    <Compile Include="ViewModel\Setting\CommSettingVM.cs" />
+    <Compile Include="ViewModel\Setting\OthersSettingVM.cs" />
+    <Compile Include="ViewModel\Setting\ShuntSettingVM.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="UI\HomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -139,6 +216,46 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ManualCalWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MonitorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\AutoSaveSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\CalSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\CommSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Setting\ShuntSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Setting\OthersSettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Style\UI_Animation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_ButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MonitoringPage.xaml.cs">
@@ -173,6 +290,10 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\LogoOnly_NoBack.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

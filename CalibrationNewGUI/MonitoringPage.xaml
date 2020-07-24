@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:CalibrationNewGUI"
       mc:Ignorable="d" 
       Title="MonitoringPage" Loaded="MonitoringPageLoaded">
-
     <StackPanel Background="#B6CEDB">
         <StackPanel Orientation="Horizontal">
             <!--전압 버튼-->
