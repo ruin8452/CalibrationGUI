@@ -12,6 +12,7 @@
     <Window.Resources>
         <ui:SettingPage x:Key="SettingPage"/>
         <ui:MonitorPage x:Key="MonitorPage"/>
+        <ui:AutoScanPage x:Key="AutoScanPage"/>
         
         <Style x:Key="MainBtnStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
             <Setter Property="Foreground" Value="White"/>
@@ -42,6 +43,9 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ElementName=CalBtn, Path=IsChecked}" Value="True">
                     <Setter Property="Content" Value="{StaticResource MonitorPage}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ScanBtn, Path=IsChecked}" Value="True">
+                    <Setter Property="Content" Value="{StaticResource AutoScanPage}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -107,6 +111,8 @@
                     <RadioButton x:Name="SettingBtn" Content="  Setting  " Style="{StaticResource MainBtnStyle}"/>
                     <Border Width="10"/>
                     <RadioButton x:Name="CalBtn" Content="  Calibration  " Style="{StaticResource MainBtnStyle}"/>
+                    <Border Width="10"/>
+                    <RadioButton x:Name="ScanBtn" Content="  AutoScan  "   Style="{StaticResource MainBtnStyle}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1">

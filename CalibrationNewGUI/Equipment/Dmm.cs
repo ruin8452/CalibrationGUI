@@ -2,6 +2,7 @@
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System;
+using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace CalibrationNewGUI.Equipment
@@ -22,7 +23,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Dmm()
         {
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(600);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(150);    // ms
             MonitoringTimer.Tick += DmmMonitoring;
         }
 
@@ -73,12 +74,12 @@ namespace CalibrationNewGUI.Equipment
             if (!commFlag) { CommErrCount++; return double.NaN; }
 
             commFlag = DmmComm.CommReceive(out string receiveData, code);
-            if (!commFlag) { CommErrCount++; return double.NaN; }
+            if (!commFlag) { CommErrCount++; return SensingData; }
 
             commFlag = double.TryParse(receiveData, out double sensingData);
-            if (!commFlag) { CommErrCount++; return double.NaN; }
+            if (!commFlag) { CommErrCount++; return SensingData; }
 
-            return sensingData;
+            return sensingData * 1000;
         }
 
         public void Setting()

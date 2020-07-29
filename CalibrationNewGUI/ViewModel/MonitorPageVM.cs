@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace CalibrationNewGUI.ViewModel
         public string MeaCurrFilePath = string.Empty;  // 전류MPT 파일 경로
 
         int ChNumber = 1;
-        Calibration calManager;
+        Calibration calManager = new Calibration();
 
         public string CalFilePath { get; set; } // CPT 파일 경로(GUI 노출용)
         public string MeaFilePath { get; set; } // MPT 파일 경로(GUI 노출용)
@@ -79,6 +80,8 @@ namespace CalibrationNewGUI.ViewModel
 
         public RelayCommand<object> ResultDataSaveClick { get; set; }
 
+        public RelayCommand AutoCalStartClick { get; set; }
+        public RelayCommand AutoCalStopClick { get; set; }
         public RelayCommand ManualCalClick { get; set; }
 
         public RelayCommand<DataGridCellEditEndingEventArgs> GridCellEdit { get; set; }
@@ -93,19 +96,21 @@ namespace CalibrationNewGUI.ViewModel
          */
         public MonitorPageVM()
         {
+            Messenger.Default.Register<CalPointMessege>(this, OnReceiveMessageAction);
+
             CalMeaInfo = CalMeasureInfo.GetObj();
             OtherInfos = OthersInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
 
-            calManager = new Calibration();
             calManager.CalMonitor += CalManager_CalMonitor;
+            calManager.MeaMonitor += CalManager_MeaMonitor;
 
             CalPointTable = new DataTable();
-            CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM" });
+            CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             MeaPointTable = new DataTable();
-            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM" });
+            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             FileOpenClick = new RelayCommand<object>(FileOpenDialog);
             FileSaveClick = new RelayCommand<object>(FileSaveDialog);
@@ -125,6 +130,8 @@ namespace CalibrationNewGUI.ViewModel
 
             ResultDataSaveClick = new RelayCommand<object>(ResultDataSave);
 
+            AutoCalStartClick = new RelayCommand(AutoCalStart);
+            AutoCalStopClick = new RelayCommand(AutoCalStop);
             ManualCalClick = new RelayCommand(ManualCal);
 
             GridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(CellEdit);
@@ -257,7 +264,7 @@ namespace CalibrationNewGUI.ViewModel
                 }
                 tempPoint.Add(row.ItemArray);
             }
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray());
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray(), null, false);
             calManager.CalStart();
         }
 
@@ -294,7 +301,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray());
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, null, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -440,35 +447,71 @@ namespace CalibrationNewGUI.ViewModel
 
         private void ResultDataSave(object type)
         {
-            SaveFileDialog saveDialog;
+            CalPointTable.Rows[0][5] = 1200;
 
-            saveDialog = new SaveFileDialog
+            //SaveFileDialog saveDialog;
+
+            //saveDialog = new SaveFileDialog
+            //{
+            //    Title = "결과 데이터 저장",
+            //    Filter = "CSV파일 (*.csv)|*.csv|All files (*.*)|*.*",
+            //    DefaultExt = ".csv",
+            //    AddExtension = true,
+            //    InitialDirectory = Environment.CurrentDirectory
+            //};
+
+            //if (saveDialog.ShowDialog() == false) // 다이얼 로그에서 OK버튼을 눌렀을 경우
+            //    return;
+
+            //if (type.ToString() == "CAL")
+            //{
+            //    foreach (DataRow row in CalPointTable.Rows)
+            //        CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+            //}
+            //else
+            //{
+            //    foreach (DataRow row in MeaPointTable.Rows)
+            //        CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+            //}
+        }
+
+        private void AutoCalStart()
+        {
+            List<object[]> tempCalPoint = new List<object[]>();
+            List<object[]> tempMeaPoint = new List<object[]>();
+
+            foreach (DataRow row in CalPointTable.Rows)
             {
-                Title = "결과 데이터 저장",
-                Filter = "CSV파일 (*.csv)|*.csv|All files (*.*)|*.*",
-                DefaultExt = ".csv",
-                AddExtension = true,
-                InitialDirectory = Environment.CurrentDirectory
-            };
-
-            if (saveDialog.ShowDialog() == false) // 다이얼 로그에서 OK버튼을 눌렀을 경우
-                return;
-
-            if (type.ToString() == "CAL")
-            {
-                foreach (DataRow row in CalPointTable.Rows)
-                    CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
+                {
+                    MessageBox.Show("비어있는 셀이 있습니다.");
+                    return;
+                }
+                tempCalPoint.Add(row.ItemArray);
             }
-            else
+
+            foreach (DataRow row in MeaPointTable.Rows)
             {
-                foreach (DataRow row in MeaPointTable.Rows)
-                    CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
+                {
+                    MessageBox.Show("비어있는 셀이 있습니다.");
+                    return;
+                }
+                tempMeaPoint.Add(row.ItemArray);
             }
+
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempCalPoint.ToArray(), tempMeaPoint.ToArray(), true);
+            calManager.CalStart();
+        }
+
+        private void AutoCalStop()
+        {
+            calManager.CalStop();
+            calManager.MeaStop();
         }
 
         private void ManualCal()
         {
-            
             ManualCalWindow manualCal = new ManualCalWindow
             {
                 Owner = Application.Current.MainWindow,
@@ -580,19 +623,81 @@ namespace CalibrationNewGUI.ViewModel
             Messenger.Default.Send(Message);
         }
 
+        private void OnReceiveMessageAction(CalPointMessege obj)
+        {
+            CalPointTable.Clear();
+
+            foreach (var rowData in obj.CalPointList)
+                CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+        }
+
         private void CalManager_CalMonitor(object sender, CalMonitorArgs e)
         {
             if(ChNumber == 1)
             {
                 CalPointTable.Rows[e.Index][3] = Mcu.Ch1Volt;
                 CalPointTable.Rows[e.Index][4] = Mcu.Ch1Curr;
-                CalPointTable.Rows[e.Index][5] = Dmm.SensingData;
             }
             else if(ChNumber == 2)
             {
                 CalPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
                 CalPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
-                CalPointTable.Rows[e.Index][5] = Dmm.SensingData;
+            }
+            CalPointTable.Rows[e.Index][5] = Dmm.SensingData;
+
+            // DMM이 오차범위 안에 들어있는지 검사
+            if (CalMode)
+            {
+                int tempVolt = int.Parse(CalPointTable.Rows[e.Index][1].ToString());
+
+                if (Math.Abs(tempVolt - Dmm.SensingData) > CalMeaInfo.CalErrRangeVolt)
+                    CalPointTable.Rows[e.Index][6] = false;
+                else
+                    CalPointTable.Rows[e.Index][6] = true;
+            }
+            else
+            {
+                int tempCurr = int.Parse(CalPointTable.Rows[e.Index][2].ToString());
+
+                if (Math.Abs(tempCurr - Dmm.SensingData) > CalMeaInfo.CalErrRangeCurr)
+                    CalPointTable.Rows[e.Index][6] = false;
+                else
+                    CalPointTable.Rows[e.Index][6] = true;
+            }
+        }
+
+        private void CalManager_MeaMonitor(object sender, CalMonitorArgs e)
+        {
+            if (ChNumber == 1)
+            {
+                MeaPointTable.Rows[e.Index][3] = Mcu.Ch1Volt;
+                MeaPointTable.Rows[e.Index][4] = Mcu.Ch1Curr;
+            }
+            else if (ChNumber == 2)
+            {
+                MeaPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
+                MeaPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
+            }
+            MeaPointTable.Rows[e.Index][5] = Dmm.SensingData;
+
+            // DMM이 오차범위 안에 들어있는지 검사
+            if (CalMode)
+            {
+                int tempVolt = int.Parse(MeaPointTable.Rows[e.Index][1].ToString());
+
+                if (Math.Abs(tempVolt - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                    MeaPointTable.Rows[e.Index][6] = false;
+                else
+                    MeaPointTable.Rows[e.Index][6] = true;
+            }
+            else
+            {
+                int tempCurr = int.Parse(MeaPointTable.Rows[e.Index][2].ToString());
+
+                if (Math.Abs(tempCurr - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                    MeaPointTable.Rows[e.Index][6] = false;
+                else
+                    MeaPointTable.Rows[e.Index][6] = true;
             }
         }
 

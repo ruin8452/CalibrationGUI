@@ -100,13 +100,18 @@
     <Compile Include="FileSystem\CsvFile.cs" />
     <Compile Include="FileSystem\PointFile.cs" />
     <Compile Include="Message\CalOptionMessege.cs" />
+    <Compile Include="Message\CalPointMessege.cs" />
     <Compile Include="Message\EquiMessage.cs" />
     <Compile Include="Model\AutoSaveInfo.cs" />
     <Compile Include="Model\CalMeasureInfo.cs" />
     <Compile Include="Model\DmmInfo.cs" />
     <Compile Include="Model\McuInfo.cs" />
     <Compile Include="Model\OthersInfo.cs" />
+    <Compile Include="Model\PointInfo.cs" />
     <Compile Include="Model\ShuntInfo.cs" />
+    <Compile Include="UI\AutoScanPage.xaml.cs">
+      <DependentUpon>AutoScanPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
@@ -156,6 +161,7 @@
     <Compile Include="UI\Setting\OthersSettingPage.xaml.cs">
       <DependentUpon>OthersSettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\AutoScanPageVM.cs" />
     <Compile Include="ViewModel\Func\Calibration.cs" />
     <Compile Include="ViewModel\Func\EventArgsClass\CalMonitorArgs.cs" />
     <Compile Include="ViewModel\Func\TableManager.cs" />
@@ -168,6 +174,10 @@
     <Compile Include="ViewModel\Setting\OthersSettingVM.cs" />
     <Compile Include="ViewModel\Setting\ShuntSettingVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="UI\AutoScanPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\HomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -283,6 +293,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resource\bahnschrift.ttf" />
+    <Resource Include="Resource\digital-7 %28mono%29.ttf" />
+    <Resource Include="Resource\Handel Gothic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

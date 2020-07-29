@@ -43,6 +43,7 @@ namespace CalibrationNewGUI.ViewModel
 
             SimpleIoc.Default.Register<MainWindowVM>();
             SimpleIoc.Default.Register<MonitorPageVM>();
+            SimpleIoc.Default.Register<AutoScanPageVM>();
             SimpleIoc.Default.Register<ManualCalVM>();
         }
 
@@ -53,6 +54,10 @@ namespace CalibrationNewGUI.ViewModel
         public MonitorPageVM MonitorPageVM
         {
             get { return ServiceLocator.Current.GetInstance<MonitorPageVM>(); }
+        }
+        public AutoScanPageVM AutoScanPageVM
+        {
+            get { return ServiceLocator.Current.GetInstance<AutoScanPageVM>(); }
         }
         public ManualCalVM ManualCalVM
         {

@@ -47,7 +47,7 @@ namespace J_Project.Communication.CommModule
         {
             dataType = dataPacketType;
 
-            timers.Interval = TimeSpan.FromMilliseconds(200);
+            timers.Interval = TimeSpan.FromMilliseconds(100);
         }
 
         public string Connect(string portName, int baudRate)

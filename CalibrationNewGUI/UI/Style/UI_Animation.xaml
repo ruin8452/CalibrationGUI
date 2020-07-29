@@ -32,6 +32,20 @@
         </ColorAnimationUsingKeyFrames>
     </Storyboard>
 
+    <!-- 파란색, 짙은 파란색(마우스 오버) -->
+    <Storyboard x:Key="BtnBackAni_BlueToDarkBlue">
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+            <EasingColorKeyFrame KeyTime="0" Value="DodgerBlue"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FF0063C7"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
+    <Storyboard x:Key="BtnBackAni_DarkBlueToBlue">
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+            <EasingColorKeyFrame KeyTime="0" Value="#FF0063C7"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="DodgerBlue"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
+
     <!-- 빨간색, 마우스 오버색 -->
     <Storyboard x:Key="BtnBackAni_RedToDarkRed">
         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">

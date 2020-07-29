@@ -18,7 +18,7 @@ namespace CalibrationNewGUI.Equipment.Tests
             Mcu mcu = Mcu.GetObj();
             mcu.Connect("COM120", 57600);
 
-            mcu.ChSet('V', 1, 2700, 1000);
+            mcu.ChSet(1, 2700, 1000);
 
             Utill.Delay(10);
 
@@ -54,7 +54,7 @@ namespace CalibrationNewGUI.Equipment.Tests
             Mcu mcu = Mcu.GetObj();
             mcu.Connect("COM120", 57600);
 
-            mcu.ChSet('V', 1, 4200, 1000);
+            mcu.ChSet(1, 4200, 1000);
 
             Utill.Delay(4);
 

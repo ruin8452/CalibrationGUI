@@ -17,7 +17,8 @@ namespace CalibrationNewGUI.ViewModel.Func
         DELAY1,
         REAL_VALUE_SEND,
         DELAY2,
-        END_CAL
+        END_CAL,
+        DELAY3,
     }
     enum MeaSeq
     {
@@ -31,10 +32,12 @@ namespace CalibrationNewGUI.ViewModel.Func
         Mcu mcu = Mcu.GetObj();
         Dmm dmm = Dmm.GetObj();
 
+        bool IsFullRun;
         char CalType;
         int ChNum;
         int errRate;
-        object[][] PointList;
+        object[][] CalPointList;
+        object[][] MeaPointList;
 
         DispatcherTimer calTimer = new DispatcherTimer();
         DispatcherTimer meaTimer = new DispatcherTimer();
@@ -79,11 +82,14 @@ namespace CalibrationNewGUI.ViewModel.Func
             meaTimer.Stop();
         }
 
-        public void AutoCalPointSet(char calType, int chNum, object[][] pointList)
+        public void AutoCalPointSet(char calType, int chNum, object[][] calPointList, object[][] meaPointList, bool isFullRun)
         {
+            IsFullRun = isFullRun;
+
             CalType = calType;
             ChNum = chNum;
-            PointList = pointList;
+            CalPointList = calPointList;
+            MeaPointList = meaPointList;
             errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
         }
 
@@ -91,13 +97,14 @@ namespace CalibrationNewGUI.ViewModel.Func
         int PointIndex = 0;
         private void CalTimer_Tick(object sender, EventArgs e)
         {
-            if (PointList.Length <= PointIndex)
+            if (CalPointList.Length <= PointIndex)
             {
                 calTimer.Stop();
+
+                if (IsFullRun)
+                    MeaStart();
                 return;
             }
-
-            OnCalMonitor(new CalMonitorArgs(PointIndex));
 
             if (CalSequence(SeqStepNum++, PointIndex))
             {
@@ -111,8 +118,10 @@ namespace CalibrationNewGUI.ViewModel.Func
             bool isCalEnd = true;
             CalSeq stepName = (CalSeq)stepNum;
 
-            int voltPoint = int.Parse(PointList[pointIndex][1].ToString());
-            int currPoint = int.Parse(PointList[pointIndex][2].ToString());
+            int voltPoint = int.Parse(CalPointList[pointIndex][1].ToString());
+            int currPoint = int.Parse(CalPointList[pointIndex][2].ToString());
+
+            OnCalMonitor(new CalMonitorArgs(PointIndex));
 
             switch (stepName)
             {
@@ -155,6 +164,11 @@ namespace CalibrationNewGUI.ViewModel.Func
 
                 case CalSeq.END_CAL:
                     mcu.ChStop();
+                    isCalEnd = false;
+                    break;
+
+                case CalSeq.DELAY3:
+                    Utill.Delay(calInfo.CalDelayTime * 0.001);
                     isCalEnd = true;
                     break;
             }
@@ -164,13 +178,11 @@ namespace CalibrationNewGUI.ViewModel.Func
 
         private void MeaTimer_Tick(object sender, EventArgs e)
         {
-            if (PointList.Length <= PointIndex)
+            if (MeaPointList.Length <= PointIndex)
             {
                 meaTimer.Stop();
                 return;
             }
-
-            OnMeaMonitor(new CalMonitorArgs(PointIndex));
 
             if (MeaSequence(SeqStepNum++, PointIndex))
             {
@@ -184,8 +196,8 @@ namespace CalibrationNewGUI.ViewModel.Func
             bool isMeaEnd = true;
             MeaSeq stepName = (MeaSeq)stepNum;
 
-            int voltPoint = int.Parse(PointList[pointIndex][1].ToString());
-            int currPoint = int.Parse(PointList[pointIndex][2].ToString());
+            int voltPoint = int.Parse(MeaPointList[pointIndex][1].ToString());
+            int currPoint = int.Parse(MeaPointList[pointIndex][2].ToString());
 
             switch (stepName)
             {
@@ -194,6 +206,8 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         mcu.ChSet(ChNum, voltPoint, currPoint);
                         Utill.Delay(calInfo.MeaDelayTime * 0.001);
+
+                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
 
                         if (CalType == 'V')
                         {

@@ -29,7 +29,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
             DmmInfos = DmmInfo.GetObj();
 
             PortList = new ObservableCollection<string>(SerialPort.GetPortNames());
-            BorateList = new ObservableCollection<int>(new int[] { 115200, 57600, 38400, 9600});
+            BorateList = new ObservableCollection<int>(new int[] { 115200, 57600, 38400, 19200, 9600});
             DataBitList = new ObservableCollection<int>(new int[] { 8 });
             StopBitList = new ObservableCollection<int>(new int[] { 1 });
             FlowCtrlList = new ObservableCollection<string>(new string[] { "NONE" });

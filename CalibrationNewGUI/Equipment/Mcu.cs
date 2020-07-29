@@ -36,7 +36,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Mcu()
         {
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(300);    // ms
             MonitoringTimer.Tick += McuMonitoring;
         }
 
