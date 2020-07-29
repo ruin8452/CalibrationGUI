@@ -40,15 +40,18 @@ namespace CalibrationNewGUI.ViewModel.Setting
             ComboDrop = new BaseCommand(IdRenuwal);
         }
 
-        public void DataSave()
+        private void DataSave()
         {
             McuInfos.Save();
             DmmInfos.Save();
         }
 
-        public void IdRenuwal()
+        private void IdRenuwal()
         {
-            PortList = new ObservableCollection<string>(SerialPort.GetPortNames());
+            PortList.Clear();
+
+            foreach(var item in SerialPort.GetPortNames())
+                PortList.Add(item);
         }
     }
 }
