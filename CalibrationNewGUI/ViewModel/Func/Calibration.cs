@@ -22,9 +22,11 @@ namespace CalibrationNewGUI.ViewModel.Func
     }
     enum MeaSeq
     {
+        REF_SET,
+        DELAY1,
         OUT_CHECK,
-        END_MEA,
-        DELAY,
+        OUT_STOP,
+        DELAY2,
     }
 
     public class Calibration
@@ -188,6 +190,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             return isCalEnd;
         }
 
+        int MeaRetryCnt = 0;
         private void MeaTimer_Tick(object sender, EventArgs e)
         {
             if (MeaPointList.Length <= PointIndex)
@@ -196,16 +199,39 @@ namespace CalibrationNewGUI.ViewModel.Func
                 return;
             }
 
-            if (MeaSequence(SeqStepNum++, PointIndex))
+            // 재시도 횟수를 초과했을 경우 다음 포인트로 이동
+            if(MeaRetryCnt > calInfo.MeaErrRetryCnt)
             {
                 PointIndex++;
                 SeqStepNum = 0;
+                MeaRetryCnt = 0;
+            }
+
+            // 실측 시퀀스 실행 후 결과 판단
+            if (MeaSequence(SeqStepNum, PointIndex, out bool IsSuccess))
+            {
+                PointIndex++;
+                SeqStepNum = 0;
+                MeaRetryCnt = 0;
+            }
+            else
+            {
+                if(SeqStepNum == (int)MeaSeq.OUT_CHECK)
+                {
+                    if (!IsSuccess)
+                    {
+                        SeqStepNum = 0;
+                        MeaRetryCnt++;
+                        Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    }
+                }
+                SeqStepNum++;
             }
         }
 
-        private bool MeaSequence(int stepNum, int pointIndex)
+        private bool MeaSequence(int stepNum, int pointIndex, out bool isSuccess)
         {
-            bool isMeaEnd = true;
+            bool isMeaEnd = isSuccess = true;
             MeaSeq stepName = (MeaSeq)stepNum;
 
             int voltPoint = int.Parse(MeaPointList[pointIndex][1].ToString());
@@ -213,51 +239,56 @@ namespace CalibrationNewGUI.ViewModel.Func
 
             switch (stepName)
             {
+                case MeaSeq.REF_SET:
+                    mcu.ChSet(ChNum, voltPoint, currPoint);
+                    OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                    isMeaEnd = false;
+                    break;
+
+                case MeaSeq.DELAY1:
+                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    isMeaEnd = false;
+                    break;
+
                 case MeaSeq.OUT_CHECK:
-                    for (int i = 0; i < calInfo.MeaErrRetryCnt; i++)
+                    if (CalType == 'V')
                     {
-                        mcu.ChSet(ChNum, voltPoint, currPoint);
-                        Utill.Delay(calInfo.MeaDelayTime * 0.001);
-
-                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
-
-                        if (CalType == 'V')
+                        if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
                         {
-                            if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
-                            {
-                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                                mcu.ChStop();
-                            }
-                            else
-                            {
-                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                                break;
-                            }
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            isSuccess = false;
+                            mcu.ChStop();
                         }
                         else
                         {
-                            if (Math.Abs(dmm.SensingData - currPoint) > errRate)
-                            {
-                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                                mcu.ChStop();
-                            }
-                            else
-                            {
-                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                                break;
-                            }
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            break;
                         }
-                        Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                    }
+                    else
+                    {
+                        if (Math.Abs(dmm.SensingData - currPoint) > errRate)
+                        {
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            isSuccess = false;
+                            mcu.ChStop();
+                        }
+                        else
+                        {
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            break;
+                        }
                     }
                     isMeaEnd = false;
                     break;
 
-                case MeaSeq.END_MEA:
+                case MeaSeq.OUT_STOP:
+                    OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     mcu.ChStop();
                     isMeaEnd = false;
                     break;
 
-                case MeaSeq.DELAY:
+                case MeaSeq.DELAY2:
                     Utill.Delay(calInfo.CalDelayTime * 0.001);
                     isMeaEnd = true;
                     break;

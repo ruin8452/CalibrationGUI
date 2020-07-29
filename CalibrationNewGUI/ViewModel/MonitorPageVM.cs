@@ -34,6 +34,7 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MonitorPageVM
     {
+        public bool preCalMode = true;  // CAL 모드의 이전 상태를 저장
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
@@ -536,9 +537,14 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void ModeSelect()
         {
+            if (preCalMode == CalMode)
+                return;
+
             // Volt로 교체시
             if (CalMode)
             {
+                preCalMode = CalMode;
+
                 // CAL 파일경로 변수 교체
                 CalCurrFilePath = CalFilePath;
                 CalFilePath = CalVoltFilePath;
@@ -566,6 +572,8 @@ namespace CalibrationNewGUI.ViewModel
             // Curr로 교체시
             else
             {
+                preCalMode = CalMode;
+
                 // CAL 파일경로 변수 교체
                 CalVoltFilePath = CalFilePath;
                 CalFilePath = CalCurrFilePath;
