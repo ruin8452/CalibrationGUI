@@ -246,6 +246,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         SeqStepNum = 0;
                         MeaRetryCnt++;
                         Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                        return;
                     }
                 }
                 SeqStepNum++;
