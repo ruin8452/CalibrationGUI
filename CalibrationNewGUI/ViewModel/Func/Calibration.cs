@@ -195,6 +195,7 @@ namespace CalibrationNewGUI.ViewModel.Func
         {
             if (MeaPointList.Length <= PointIndex)
             {
+                MeaRetryCnt = 0;
                 meaTimer.Stop();
                 return;
             }
@@ -222,7 +223,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         SeqStepNum = 0;
                         MeaRetryCnt++;
-                        Utill.Delay(calInfo.CalDelayTime * 0.001);
+                        Utill.Delay(calInfo.MeaDelayTime * 0.001);
                     }
                 }
                 SeqStepNum++;
@@ -246,7 +247,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY1:
-                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    Utill.Delay(calInfo.MeaDelayTime * 0.001);
                     isMeaEnd = false;
                     break;
 
@@ -260,10 +261,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             mcu.ChStop();
                         }
                         else
-                        {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                            break;
-                        }
                     }
                     else
                     {
@@ -274,10 +272,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             mcu.ChStop();
                         }
                         else
-                        {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                            break;
-                        }
                     }
                     isMeaEnd = false;
                     break;
@@ -289,7 +284,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY2:
-                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    Utill.Delay(calInfo.MeaDelayTime * 0.001);
                     isMeaEnd = true;
                     break;
             }

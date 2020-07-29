@@ -23,7 +23,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Dmm()
         {
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(150);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
             MonitoringTimer.Tick += DmmMonitoring;
         }
 
