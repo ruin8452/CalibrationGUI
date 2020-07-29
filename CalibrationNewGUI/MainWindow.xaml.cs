@@ -23,6 +23,10 @@ using System.Threading;
 using Timer = System.Threading.Timer;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using Modbus.IO;
+using Modbus.Device;
+using System.Runtime.InteropServices;
 
 namespace CalibrationNewGUI
 {
@@ -33,25 +37,54 @@ namespace CalibrationNewGUI
     public partial class MainWindow : Window
     {
         public SettingData AllSetData { get; set; } //데이터 갱신을 위한 변수
-
+        
         //통신 개체 작성
         public SerialComm commRS232DMM = new SerialComm("DMM", 0);//DMM 용
         public SerialComm commRS232MCU = new SerialComm("MCU", 0);//MCU 용
+        //Modbus용 변수
+        public int sendModbusReadMonitoringFlag = 0; //모니터링 읽기
+        public int sendModbusWriteOutputStartFlag = 0; //실제 출력
+        public int sendModbusWriteOutputStopFlag = 0; //정지
+        public int sendModbusWriteDMMStartFlag = 0; //DMM 값 전송
+        public int sendModbusWriteCalPointSaveFlag = 0; //Cal 포인트 저장
+        public int sendModbusWriteCH1VoltSaveFlag = 0; //채널 1 전압 Cal 포인트
+        public int sendModbusWriteCH2VoltSaveFlag = 0; //채널 2 전압 Cal 포인트
+        public int sendModbusWriteCH1CurrSaveFlag = 0; //채널 1 전압 Cal 포인트
+        public int sendModbusWriteCH2CurrSaveFlag = 0; //채널 2 전압 Cal 포인트
+        public SerialPort commModbusMCU;
+        public ModbusSerialMaster MdMaster;
+        public ushort[] MdMasterBuffer;//모드버스 전체 버퍼(메모리map참고)
+        [StructLayout(LayoutKind.Explicit)]
+        public struct FloatData
+        {
+            [FieldOffset(0)]
+            public float floattemp;
+            [FieldOffset(0)]
+            public ushort floatByte1;
+            [FieldOffset(2)]
+            public ushort floatByte2;
+            //[FieldOffset(0)]
+            //public fixed ushort floatByte[2];
+        }
+        ushort[] buffer = new ushort[300];
+        //통신변수용
         int mcuConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         int dmmConnectFlag = 0; //통신 연결 후 정상연결인지 확인용(모니터링데이터 들어오는지 판단)
         TestSetting setWindow = new TestSetting(); //통신세팅 창 띄우기 - 강제 세팅 테스트용
         private BackgroundWorker background = new BackgroundWorker();
+        private BackgroundWorker backgroundModbus = new BackgroundWorker();
         DispatcherTimer MCUMonitoringTimer = new DispatcherTimer(); //MCU 모니터링 타이머용
         DispatcherTimer DMMMonitoringTimer = new DispatcherTimer(); //DMM 모니터링 타이머용
         //Timer GUIOutPutCheckTimer = new Timer(); //cal, mea 버튼 입력들 감지 타이머용
         DispatcherTimer FlagMonitor = new DispatcherTimer();
         DispatcherTimer SeqMonitor = new DispatcherTimer(); //시퀀스용
         DispatcherTimer RevMonitor = new DispatcherTimer(); //모니터링 리시브용
+        DispatcherTimer ModbusMonitor = new DispatcherTimer(); //모드버스용
         public MainWindow()
         {
             InitializeComponent();
             DataContext = SettingData.GetObj();
-
+            
             background.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
             {
                 //RectMonitoring(); //시퀀스 함수
@@ -61,6 +94,16 @@ namespace CalibrationNewGUI
             {
                 if (background.IsBusy == false)
                     background.RunWorkerAsync();
+            });
+
+            backgroundModbus.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                ModbusMCUSendCMD();
+            });
+            ModbusMonitor.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (backgroundModbus.IsBusy == false)
+                    backgroundModbus.RunWorkerAsync();
             });
         }
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
@@ -77,29 +120,30 @@ namespace CalibrationNewGUI
             FlagMonitor.Start();
             SeqMonitor.Interval = TimeSpan.FromMilliseconds(100);
             //SeqMonitor.Tick += OutSeqEvent;
+            ModbusMonitor.Interval = TimeSpan.FromMilliseconds(50);
             RevMonitor.Interval = TimeSpan.FromMilliseconds(10);
             RevMonitor.Tick += ReadRevEvent;
             RevMonitor.Start();
         }
-        private void MainWindowInit(object sender, RoutedEventArgs e)
-        {
-            AllSetData = SettingData.GetObj();
-            DMMMonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
-            MCUMonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
-            MCUMonitoringTimer.Tick += MCUMonitorEvent;
-            DMMMonitoringTimer.Tick += DMMMonitorEvent;
-            //MCUMonitoringTimer.Start();
-            //DMMMonitoringTimer.Start();
-            FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
-            FlagMonitor.Tick += OutputEvent;
-            FlagMonitor.Start();
-            SeqMonitor.Interval = TimeSpan.FromMilliseconds(100);
-            //SeqMonitor.Tick += OutSeqEvent;
-            RevMonitor.Interval = TimeSpan.FromMilliseconds(10);
-            RevMonitor.Tick += ReadRevEvent;
-            RevMonitor.Start();
+        //private void MainWindowInit(object sender, RoutedEventArgs e)
+        //{
+        //    AllSetData = SettingData.GetObj();
+        //    DMMMonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+        //    MCUMonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
+        //    MCUMonitoringTimer.Tick += MCUMonitorEvent;
+        //    DMMMonitoringTimer.Tick += DMMMonitorEvent;
+        //    //MCUMonitoringTimer.Start();
+        //    //DMMMonitoringTimer.Start();
+        //    FlagMonitor.Interval = TimeSpan.FromMilliseconds(50);
+        //    FlagMonitor.Tick += OutputEvent;
+        //    FlagMonitor.Start();
+        //    SeqMonitor.Interval = TimeSpan.FromMilliseconds(100);
+        //    //SeqMonitor.Tick += OutSeqEvent;
+        //    RevMonitor.Interval = TimeSpan.FromMilliseconds(10);
+        //    RevMonitor.Tick += ReadRevEvent;
+        //    RevMonitor.Start();
 
-        }
+        //}
         private void MainWindowClosing(object sender, RoutedEventArgs e)
         {
             setWindow.Close();
@@ -130,7 +174,82 @@ namespace CalibrationNewGUI
                     //통신 연결
                     if (AllSetData.MCUPortName != "0")
                     {
-                        msg = commRS232MCU.Connect(AllSetData.MCUPortName, AllSetData.MCUBorate);
+                        //msg = commRS232MCU.Connect(AllSetData.MCUPortName, AllSetData.MCUBorate);
+                        //Modbus적용 20.07.20
+                        commModbusMCU = new SerialPort(AllSetData.MCUPortName, AllSetData.MCUBorate);
+                        commModbusMCU.ReadTimeout = 500;
+                        commModbusMCU.WriteTimeout = 500;
+                        try
+                        {
+                            commModbusMCU.Open();
+                            msg = "Connected!";
+                            MdMaster = ModbusSerialMaster.CreateRtu(commModbusMCU);
+                            ModbusMonitor.Start();
+
+                            //CalPointCheck(MdMaster, 1, ref buffer);//테스트완료 - Cal 포인트 저장은 어떻게 할지..클래스?
+                            //float[,] CalPointArray = new float[10,2];
+                            //int cnt = 0;
+                            //for (int i = 0; i < 10; i++)
+                            //{
+                            //    for (int j = 0; j < 2; j++)
+                            //    {
+                            //        CalPointArray[i,j] = cnt+1;
+                            //        cnt++;
+                            //    }
+                            //}
+                            //CalPointSave(MdMaster, 1, 1, CalPointArray, 10);//채널1 전압 저장 - 테스트로 float 입력완료
+#if (false)
+                            Thread.Sleep(2000);
+                            ushort[] modbusStream = new ushort[9];
+
+                            //56E9 3FFF 3009 3FFF F74D C229 4CCE C22A 0002 -> 지령 쓰기 테스트 코드
+                            float ch1Volt = 1.99483979f; 
+                            float ch2Volt = 1.99365342f; 
+                            float ch1Curr = -42.4915047f; 
+                            float ch2Curr = -42.5750046f;
+                            //byte[] floatbyte = BitConverter.GetBytes(ch1Volt);
+                            //Array.Copy(floatbyte, 0, modbusStream, 0, 2);
+                            FloatData temp = new FloatData();
+                            temp.floattemp = ch1Volt;
+                            modbusStream[0] = temp.floatByte1;
+                            modbusStream[1] = temp.floatByte2;
+                            //Buffer.BlockCopytemp.floatByte, 0, modbusStream, 0, 2);
+                            //modbusStream[0] = 0x56E9;
+                            //modbusStream[1] = 0x3FFF;
+                            temp.floattemp = ch2Volt;
+                            modbusStream[2] = temp.floatByte1;
+                            modbusStream[3] = temp.floatByte2;
+                            //Buffer.BlockCopy(temp.floatByte, 0, modbusStream, 2, 2);
+                            //modbusStream[2] = 0x3009;
+                            //modbusStream[3] = 0x3FFF;
+                            temp.floattemp = ch1Curr;
+                            modbusStream[4] = temp.floatByte1;
+                            modbusStream[5] = temp.floatByte2;
+                            //Buffer.BlockCopy(temp.floatByte, 0, modbusStream, 4, 2);
+                            //modbusStream[4] = 0xF74D;
+                            //modbusStream[5] = 0xC229;
+                            temp.floattemp = ch2Curr;
+                            modbusStream[6] = temp.floatByte1;
+                            modbusStream[7] = temp.floatByte2;
+                            //Buffer.BlockCopy(temp.floatByte, 0, modbusStream, 6, 2);
+                            //modbusStream[6] = 0x4CCE;
+                            //modbusStream[7] = 0xC22A;
+                            modbusStream[8] = 0x0002;
+
+                            Stopwatch modbuswatch = new Stopwatch();
+                            modbuswatch.Start();
+                            
+                            //MdMaster.WriteMultipleRegisters(1, 8192, modbusStream);//채널 지령으로 쓰기 테스트
+                            //MdMasterBuffer = MdMaster.ReadHoldingRegisters(1, 4608, 12);//0x1200 읽기 시작
+                            modbuswatch.Stop();
+                            long length = modbuswatch.ElapsedMilliseconds;
+#endif
+                        }
+                        catch(Exception ex)
+                        {
+                            msg = "Disconnected!"+ex.ToString();
+                        }
+                        
                         //MessageBox.Show("MCU" + msg);
                         if (msg == "Connected!")
                         {
@@ -166,12 +285,11 @@ namespace CalibrationNewGUI
             }
             else if (AllSetData.AllConnectFlag == 1) //연결 끊기
             {
-
-
                 if (AllSetData.MCUConnectFlag == 1)
                 {
                     MCUMonitoringTimer.Stop();
                     MCUdisconnect = (int)commRS232MCU.Disconnect();
+                    commModbusMCU.Close();
                 }
                 if (AllSetData.DMMConnectFlag == 1)
                 {
@@ -310,11 +428,146 @@ namespace CalibrationNewGUI
                     break;
             }
         }
-        private void SendAndReceiveFunc(byte[] sendDatabyte) //데이터 전송 후 받는 함수 byte 배열 버전
+        //Modbus MCU 통신 명령 함수
+        private void ModbusMCUSendCMD()
         {
-            //MCUMonitoringTimer.Stop();
-            commRS232MCU.CommSend(sendDatabyte);
-
+            FloatData tempfloat = new FloatData();
+            ushort[] tempStream;
+            //            public int sendModbusReadMonitoringFlag = 0; //모니터링 읽기
+            //            public int sendModbusWriteOutputStartFlag = 0; //실제 출력
+            //            public int sendModbusWriteOutputStartFlag = 0; //정지
+            //            public int sendModbusWriteDMMStartFlag = 0; //DMM 값 전송
+            //            public int sendModbusWriteCalPointSaveFlag = 0; //Cal 포인트 준비(1: 준비, 2: 실제저장)
+            //            public int sendModbusWriteCH1VoltSaveFlag = 0; //채널 1 전압 Cal 포인트 전송
+            //            public int sendModbusWriteCH2VoltSaveFlag = 0; //채널 2 전압 Cal 포인트 전송
+            //            public int sendModbusWriteCH1CurrSaveFlag = 0; //채널 1 전압 Cal 포인트 전송
+            //            public int sendModbusWriteCH2CurrSaveFlag = 0; //채널 2 전압 Cal 포인트 전송
+            if (sendModbusReadMonitoringFlag == 1)//모니터링 읽기
+            {
+                sendModbusReadMonitoringFlag = 0;
+                MdMasterBuffer = MdMaster.ReadHoldingRegisters(1, 4608, 12);//0x1200 읽기 시작
+                //모니터링값 파싱
+                tempfloat.floatByte1 = MdMasterBuffer[0];
+                tempfloat.floatByte2 = MdMasterBuffer[1];
+                AllSetData.CH1OutputVolt = tempfloat.floattemp;
+                tempfloat.floatByte1 = MdMasterBuffer[2];
+                tempfloat.floatByte2 = MdMasterBuffer[3];
+                AllSetData.CH2OutputVolt = tempfloat.floattemp;
+                tempfloat.floatByte1 = MdMasterBuffer[4];
+                tempfloat.floatByte2 = MdMasterBuffer[5];
+                AllSetData.CH1OutputCurr = tempfloat.floattemp;
+                tempfloat.floatByte1 = MdMasterBuffer[6];
+                tempfloat.floatByte2 = MdMasterBuffer[7];
+                AllSetData.CH2OutputCurr = tempfloat.floattemp;
+                AllSetData.runMode = MdMasterBuffer[8]; //출력상태
+                AllSetData.faultCH1 = MdMasterBuffer[9];//ch1 fault
+                AllSetData.faultCH2 = MdMasterBuffer[10];//ch2 fault
+                AllSetData.MCUVersion = MdMasterBuffer[11].ToString();//MCU 펌웨어 버전
+                //AllSetData.serialNum = MdMasterBuffer[12];//board S/N(미정)
+                //AllSetData.productName = MdMasterBuffer[13];//제품명(미정)
+                //로그 추가 코드 필요
+                
+            }
+            if (sendModbusWriteOutputStopFlag == 1)//실제 출력
+            {
+                tempStream = new ushort[9];//데이터 크기에 맞게 설정하지 않으면 에러발생
+                sendModbusWriteOutputStopFlag = 0;
+                tempStream[0] = 0;
+                tempStream[1] = 0;
+                tempStream[2] = 0;
+                tempStream[3] = 0;
+                tempStream[4] = 0;
+                tempStream[5] = 0;
+                tempStream[6] = 0;
+                tempStream[7] = 0;
+                tempStream[8] = 2;//출력시작(0:대기, 1: 시작, 2: 정지)
+                MdMaster.WriteMultipleRegisters(1, 8192, tempStream);//레지스터 주소 0x2000
+                if (AllSetData.LogViewStartFlag == 1) AllSetData.LogSendCmdFlagMCU = 2;//SendLogTextMCU("stop", 0);//로그 추가
+            }
+            if (sendModbusWriteOutputStartFlag == 1)//실제 출력
+            {
+                tempStream = new ushort[9];//데이터 크기에 맞게 설정하지 않으면 에러발생
+                sendModbusWriteOutputStartFlag = 0;
+                if (AllSetData.ChannelSelect == 1) //1번채널
+                {
+                    tempfloat.floattemp = (float)AllSetData.ActCalPointArray[0] * 0.001f;
+                    //1번채널 전압
+                    tempStream[0] = tempfloat.floatByte1;
+                    tempStream[1] = tempfloat.floatByte2;
+                    //2번채널 전압
+                    tempStream[2] = 0;
+                    tempStream[3] = 0;
+                    tempfloat.floattemp = (float)AllSetData.ActCalPointArray[1] * 0.001f;
+                    //1번채널 전류
+                    tempStream[4] = tempfloat.floatByte1;
+                    tempStream[5] = tempfloat.floatByte2;
+                    //2번채널 전류
+                    tempStream[6] = 0;
+                    tempStream[7] = 0;
+                }
+                else if (AllSetData.ChannelSelect == 2) //2번채널
+                {
+                    tempfloat.floattemp = (float)AllSetData.ActCalPointArray[0] * 0.001f;
+                    //1번채널 전압
+                    tempStream[0] = 0;
+                    tempStream[1] = 0;
+                    //2번채널 전압
+                    tempStream[2] = tempfloat.floatByte1;
+                    tempStream[3] = tempfloat.floatByte2;
+                    tempfloat.floattemp = (float)AllSetData.ActCalPointArray[1] * 0.001f;
+                    //1번채널 전류
+                    tempStream[4] = 0;
+                    tempStream[5] = 0;
+                    //2번채널 전류
+                    tempStream[6] = tempfloat.floatByte1;
+                    tempStream[7] = tempfloat.floatByte2;
+                }
+                tempStream[8] = 1;//출력시작(0:대기, 1: 시작, 2: 정지)
+                MdMaster.WriteMultipleRegisters(1, 8192, tempStream);//레지스터 주소 0x2000
+                //로그 추가 코드 필요
+                if (AllSetData.LogViewStartFlag == 1) AllSetData.LogSendCmdFlagMCU = 1;//SendLogTextMCU("CH"+ AllSetData.ChannelSelect.ToString() + " start", 0);//로그 추가
+            }
+            if (sendModbusWriteDMMStartFlag == 1)//DMM 값 전송
+            {
+                sendModbusWriteDMMStartFlag = 0;
+                tempStream = new ushort[3];//데이터 크기에 맞게 설정하지 않으면 에러발생
+                tempfloat.floattemp = (AllSetData.DMMOutputVolt*0.001f);
+                tempStream[0] = tempfloat.floatByte1;
+                tempStream[1] = tempfloat.floatByte2;
+                tempStream[2] = 0;
+                if (AllSetData.VoltCurrSelect == 0) //전압
+                { 
+                    if(AllSetData.ChannelSelect == 1) tempStream[2] = 1; //채널1
+                    else if(AllSetData.ChannelSelect == 2) tempStream[2] = 2;//채널2
+                }
+                else if (AllSetData.VoltCurrSelect == 1) //전류
+                {
+                    if (AllSetData.ChannelSelect == 1) tempStream[2] = 3;//채널1
+                    else if (AllSetData.ChannelSelect == 2) tempStream[2] = 4;//채널2
+                }
+                MdMaster.WriteMultipleRegisters(1, 8208, tempStream);//레지스터 주소 0x2010
+                if (AllSetData.LogViewStartFlag == 1) AllSetData.LogSendCmdFlagMCU = 3;//SendLogTextMCU("CH" + AllSetData.ChannelSelect.ToString() + " DMM", 0);//로그 추가
+            }
+            if (sendModbusWriteCalPointSaveFlag == 1)//Cal 포인트 저장
+            {
+                sendModbusWriteCalPointSaveFlag = 0;
+            }
+            if (sendModbusWriteCH1VoltSaveFlag == 1)//채널 1 전압 Cal 포인트
+            {
+                sendModbusWriteCH1VoltSaveFlag = 0;
+            }
+            if (sendModbusWriteCH2VoltSaveFlag == 1)//채널 2 전압 Cal 포인트
+            {
+                sendModbusWriteCH2VoltSaveFlag = 0;
+            }
+            if (sendModbusWriteCH1CurrSaveFlag == 1)//채널 1 전류 Cal 포인트
+            {
+                sendModbusWriteCH1CurrSaveFlag = 0;
+            }
+            if (sendModbusWriteCH2CurrSaveFlag == 1)//채널 2 전류 Cal 포인트
+            {
+                sendModbusWriteCH2CurrSaveFlag = 0;
+            }
         }
         //데이터 리시브용 타이머 함수
         private void ReadRevEvent(object sender, EventArgs e)
@@ -364,8 +617,6 @@ namespace CalibrationNewGUI
                             //AllSetData.LogMonitoringFlag = 0;
                         }
                     }
-                    //Thread.Sleep(1);
-                    Utill.Delay(0.001);
                 }
                 commRS232DMM.IsReceiveString = false;
             }
@@ -443,8 +694,14 @@ namespace CalibrationNewGUI
 
             if (AllSetData.MCUConnectFlag == 1)
             {
-                SendCommand(0x4F);//'O'
-                mcuConnectFlag++;
+                //SendCommand(0x4F);//'O'
+                //mcuConnectFlag++;
+                sendModbusReadMonitoringFlag = 1;
+                if (AllSetData.LogMonitoringViewFlag == 0 && AllSetData.LogViewStartFlag == 1)
+                {
+                    AllSetData.LogMonitoringFlagMCU = 1;
+                    //SendLogText(temp, 1);//로그 추가
+                }
             }
         }
         //DMM모니터링용 타이머
@@ -470,17 +727,23 @@ namespace CalibrationNewGUI
             AllSetData.CalOutEndFlag = 0;//수동출력정지
             AllSetData.MeaOutStartFlag = 0;//실측시작
             AllSetData.MeaOutEndFlag = 0;//실측정지
+                        //            public int sendModbusReadMonitoringFlag = 0; //모니터링 읽기
+            //            public int sendModbusWriteOutputStartFlag = 0; //실제 출력
+            //            public int sendModbusWriteOutputStartFlag = 0; //정지
+            //            public int sendModbusWriteDMMStartFlag = 0; //DMM 값 전송
             */
             //수동Cal 실행
             if (AllSetData.CalOutStartFlag == 1)
             {
-                SendCommand(0x43);//'C'
+                //SendCommand(0x43);//'C'
+                sendModbusWriteOutputStartFlag = 1;
                 AllSetData.CalOutStartFlag = 0;
             }
             //수동 Cal DMM 전송
             if (AllSetData.CalOutRealStartFlag == 1)
             {
-                SendCommand(0x52);//'R'
+                //SendCommand(0x52);//'R'
+                sendModbusWriteDMMStartFlag = 1;
                 AllSetData.CalOutRealStartFlag = 0;
             }
             //자동, 수동 CAL종료, 실측 종료
@@ -498,7 +761,7 @@ namespace CalibrationNewGUI
                     if (AllSetData.MeaSeqStartFlag == 1) AllSetData.CalSeqNum = 4; //시퀀스 강제 넘기기
                 }
                 //명령전송
-                if (AllSetData.MCUConnectFlag == 1) SendCommand(0x54);//'T'
+                if (AllSetData.MCUConnectFlag == 1) sendModbusWriteOutputStopFlag = 1;//SendCommand(0x54);//'T'
             }
             //로그 출력 코드
             if (AllSetData.LogMonitoringFlagDMM == 1 || AllSetData.LogMonitoringFlagMCU == 1)
@@ -520,7 +783,25 @@ namespace CalibrationNewGUI
                     temp += AllSetData.CH2OutputVolt.ToString();
                     if (AllSetData.CH2OutputCurr > 0) temp += "+";
                     temp += AllSetData.CH2OutputCurr.ToString();
-                    SendLogText(temp, 1);//로그 추가
+                    SendLogTextMCU(temp, 1);//로그 추가
+                }
+            }
+            if (AllSetData.LogMonitoringViewFlag == 1)
+            {
+                if (AllSetData.LogSendCmdFlagMCU == 1)//출력
+                {
+                    AllSetData.LogSendCmdFlagMCU = 0;
+                    SendLogTextMCU("CH" + AllSetData.ChannelSelect.ToString() + " start", 0);
+                }
+                if (AllSetData.LogSendCmdFlagMCU == 2)//정지
+                {
+                    AllSetData.LogSendCmdFlagMCU = 0;
+                    SendLogTextMCU("CH" + AllSetData.ChannelSelect.ToString() + " stop", 0);
+                }
+                if (AllSetData.LogSendCmdFlagMCU == 3)//DMM
+                {
+                    AllSetData.LogSendCmdFlagMCU = 0;
+                    SendLogTextMCU("CH" + AllSetData.ChannelSelect.ToString() + " DMM"+ AllSetData.DMMOutputVolt.ToString() + "Send", 0);
                 }
             }
             if (AllSetData.MeaOutStartFlag == 1 || AllSetData.AutoCalOutStartFlag == 1)
@@ -628,7 +909,7 @@ namespace CalibrationNewGUI
                         Buffer.BlockCopy(CurrArray, 0, bytestream, pos, CurrArray.Length);
                         pos += CurrArray.Length;
                     }
-                    if (AllSetData.LogViewStartFlag == 1) SendLogText(bytestream, 0);//로그 추가
+                    //if (AllSetData.LogViewStartFlag == 1) SendLogText(bytestream, 0);//로그 추가
                     break;
                 case 0x54: //'T'
                     if (AllSetData.LogViewStartFlag == 1) SendLogText(bytestream, 0);//로그 추가
@@ -837,35 +1118,69 @@ namespace CalibrationNewGUI
 #endif
         private void SendLogText(byte[] bytestream, int direction)
         {
-            if (LogTextBox.LineCount > 50) LogTextBox.Text = string.Empty; //로그가 50줄 이상 쌓이면 초기화
+            string tempMCU = "";
+            //if (LogTextBox.LineCount > 50) LogTextBox.Text = string.Empty; //로그가 50줄 이상 쌓이면 초기화
             switch (direction)
             {
                 case 0://send
-                    LogTextBox.Text += "Send : ";
+                    //LogTextBox.Text += "Send : ";
+                    tempMCU += "Send : ";
                     break;
                 case 1://recieve
-                    LogTextBox.Text += "Recieve : ";
+                    //LogTextBox.Text += "MCU, ";
+                    tempMCU += "MCU, ";
                     break;
             }
-            
-            for (int i = 0; i < bytestream.Length; i++) LogTextBox.Text += (Convert.ToChar(bytestream[i]).ToString());
-            LogTextBox.Text += ("\n");
+
+            //for (int i = 0; i < bytestream.Length; i++) LogTextBox.Text += (Convert.ToChar(bytestream[i]).ToString());
+            //LogTextBox.Text += ("\n");
+            for (int i = 0; i < bytestream.Length; i++) tempMCU += (Convert.ToChar(bytestream[i]).ToString());
+            tempMCU += ("\n");
+            LogTextBox.Text += tempMCU;
             LogTextScroll.ScrollToEnd();
         }
         private void SendLogText(string tempString, int direction)
         {
-            if (LogTextBox.LineCount > 50) LogTextBox.Text = string.Empty; //로그가 50줄 이상 쌓이면 초기화
+            string tempDMM = "";
+            //if (LogTextBox.LineCount > 50) LogTextBox.Text = string.Empty; //로그가 50줄 이상 쌓이면 초기화
             switch (direction)
             {
                 case 0://send
-                    LogTextBox.Text += "Send : ";
+                    //LogTextBox.Text += "Send : ";
+                    tempDMM += "Send : ";
                     break;
                 case 1://recieve
-                    LogTextBox.Text += "Recieve : ";
+                    //LogTextBox.Text += "DMM, ";
+                    tempDMM += "DMM, ";
                     break;
             }
-            LogTextBox.Text += tempString;
-            LogTextBox.Text += ("\n");
+
+            //LogTextBox.Text += tempString;
+            //LogTextBox.Text += ("\n");
+            tempDMM += (tempString+ "," + DateTime.Now.ToString("HH:mm:ss.fff") + "\n");
+            LogTextBox.Text += tempDMM;
+            LogTextScroll.ScrollToEnd();
+        }
+        private void SendLogTextMCU(string tempString, int direction)
+        {
+            string tempDMM = "";
+            //if (LogTextBox.LineCount > 50) LogTextBox.Text = string.Empty; //로그가 50줄 이상 쌓이면 초기화
+            switch (direction)
+            {
+                case 0://send
+                    //LogTextBox.Text += "Send : ";
+                    tempDMM += "Send : ";
+                    break;
+                case 1://recieve
+                    //LogTextBox.Text += "DMM, ";
+                    tempDMM += "MCU, ";
+                    break;
+            }
+
+            //LogTextBox.Text += tempString;
+            //LogTextBox.Text += ("\n");
+            tempDMM += (tempString + "," + "\n");
+            LogTextBox.Text += tempDMM;
             LogTextScroll.ScrollToEnd();
         }
         //로그창 출력
@@ -912,6 +1227,9 @@ namespace CalibrationNewGUI
         private void LogViewClear(object sender, RoutedEventArgs e)
         {
             LogTextBox.Text = string.Empty;
+
+            //CalPointAutoScanCalc(4200, 2700, 300, 1, 0);
+            CalPointAutoScanCalc(4200, 1000, 1, 1000, 1, 0);//high, low, err, output, ch, voltcurr
         }
 #if(false)
         //Cal, 실측 시퀀스 함수
@@ -920,7 +1238,6 @@ namespace CalibrationNewGUI
             int RowCnt = 0;
             if (AllSetData.CalSeqStartFlag == 1)
             {
-
                 if (AllSetData.VoltCurrSelect == 0) RowCnt = AllSetData.VoltageCalTable.Rows.Count;//전압 데이터 개수
                 else if (AllSetData.VoltCurrSelect == 1) RowCnt = AllSetData.CurrentCalTable.Rows.Count;//전류 데이터 개수
                 if (AllSetData.DelayStart == 1)
@@ -1213,7 +1530,7 @@ namespace CalibrationNewGUI
             if (AllSetData.AutoMeaStartFlag == 1) //캘 후 자동 실측일 경우
             {
                 Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
-                AllSetData.MeaSeqStartFlag = 1;
+                //AllSetData.MeaSeqStartFlag = 1;
                 
                 if (AllSetData.MeaOutStartFlag == 0)
                 {
@@ -1246,16 +1563,16 @@ namespace CalibrationNewGUI
                             AllSetData.CurrentMeaTable.Rows[i][5] = "";
                         }
                     }
-                    AllSetData.MeaOutStartFlag = 1;
+                    AllSetData.MeaSeqStartFlag = 1;
                 }
             }
-            if (AllSetData.MeaOutStartFlag == 1)
+            if (AllSetData.MeaSeqStartFlag == 1)
             {
                 MeaSequence();
-                AllSetData.MeaOutStartFlag = 0;
+                AllSetData.MeaSeqStartFlag = 0;
             }
         }
-#endif
+
         //시리얼 번호입력(실시간변화)
         private void SerialTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1453,5 +1770,245 @@ namespace CalibrationNewGUI
             MessageBox.Show("실측이 종료되었습니다.");
             SeqMonitor.Stop();
         }
+        //Cal 포인트 확인함수
+        private void CalPointCheck(ModbusSerialMaster SendPort, byte slaveID, ref ushort[] buffer)//Cal포인트 확인 구조체 필요?
+        {
+            //ushort[] buffer = new ushort[300];
+            ushort ch1Voltcnt = 0;
+            ushort ch2Voltcnt = 0;
+            ushort ch1Currcnt = 0;
+            ushort ch2Currcnt = 0;
+
+            //현재 저장되어있는 개수 호출
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2020, 4), 0, buffer, 34*2, 8);
+            ch1Voltcnt = buffer[34];
+            ch2Voltcnt = buffer[35];
+            ch1Currcnt = buffer[36];
+            ch2Currcnt = buffer[37];
+
+            //채널1 전압
+            //기준값
+            //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40*2, (ushort)(ch1Voltcnt * 2) * 2);//레지스터 주소 0x2100 채널1 전압 기준값 쓰기
+            //보정값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60*2, (ushort)(ch1Voltcnt * 2) * 2);//레지스터 주소 0x2200 채널1 전압 보정값 쓰기
+
+            //채널2 전압
+            //기준값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160*2, (ushort)(ch2Voltcnt * 2) * 2);//레지스터 주소 0x3100 채널2 전압 기준값 쓰기
+            //보정값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180*2, (ushort)(ch2Voltcnt * 2) * 2);//레지스터 주소 0x3200 채널2 전압 보정값 쓰기
+
+            //채널1 전류
+            //기준값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80*2, (ushort)(ch1Currcnt * 2) * 2);//레지스터 주소 0x2300 채널1 전류 기준값 쓰기
+            //보정값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120*2, (ushort)(ch1Currcnt * 2) * 2);//레지스터 주소 0x2400 채널1 전류 보정값 쓰기
+
+            //채널2 전류
+            //기준값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200*2, (ushort)(ch2Currcnt * 2) * 2);//레지스터 주소 0x3300 채널2 전류 기준값 쓰기
+            //보정값
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240*2, (ushort)(ch2Currcnt * 2) * 2);//레지스터 주소 0x3400 채널2 전류 보정값 쓰기
+        }
+        //Cal 포인트 저장함수(준비 - 저장 순서)
+        private void CalPointSave(ModbusSerialMaster SendPort, byte slaveID , int selectNum, float[,] CalPointArray ,int voltCurrCount)
+        {
+            ushort[] tempStream;
+            ushort[] tempStream2;
+            FloatData tempfloat = new FloatData();
+            //Cal 포인트 저장 준비
+            tempStream = new ushort[5];
+            for (int i = 0; i < 4; i++) tempStream[i] = 0;
+            tempStream[4] = 5;//저장 준비
+            SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2020, tempStream);//레지스터 주소 0x2020 Cal 개수, 명령 쓰기
+
+            //정해진 Cal포인트 개수만큼 데이터배열만들기
+            tempStream = new ushort[(voltCurrCount * 2)];//기준값
+            tempStream2 = new ushort[(voltCurrCount * 2)];//보정값
+            //Cal 포인트 개수만큼 데이터 저장
+            for (int i = 0; i < voltCurrCount; i++)
+            {
+                tempfloat.floattemp = CalPointArray[i,0];//기준값
+                tempStream[(i * 2)] = tempfloat.floatByte1;
+                tempStream[(i * 2) + 1] = tempfloat.floatByte2;
+
+                tempfloat.floattemp = CalPointArray[i,1];//보정값
+                tempStream2[(i * 2)] = tempfloat.floatByte1;
+                tempStream2[(i * 2) + 1] = tempfloat.floatByte2;
+            }
+
+            //Cal 포인트를 레지스터로 쓰기
+            switch (selectNum)
+            {
+                case 1: //채널1 전압 저장
+                    //정해진 Cal포인트 기준값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2100, tempStream);//레지스터 주소 0x2100 채널1 전압 기준값 쓰기
+                    
+                    //정해진 Cal포인트 보정값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2200, tempStream2);//레지스터 주소 0x2200 채널1 전압 보정값 쓰기
+                    break;
+                case 2: //채널2 전압 저장
+                    //정해진 Cal포인트 기준값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x3100, tempStream);//레지스터 주소 0x3100 채널2 전압 기준값 쓰기
+
+                    //정해진 Cal포인트 보정값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x3200, tempStream2);//레지스터 주소 0x3200 채널2 전압 보정값 쓰기
+                    break;
+                case 3: //채널1 전류 저장
+                    //정해진 Cal포인트 기준값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2300, tempStream);//레지스터 주소 0x2300 채널1 전류 기준값 쓰기
+
+                    //정해진 Cal포인트 보정값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2400, tempStream2);//레지스터 주소 0x2400 채널1 전류 보정값 쓰기
+                    break;
+                case 4: //채널2 전류 저장
+                    //정해진 Cal포인트 기준값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x3300, tempStream);//레지스터 주소 0x3300 채널2 전류 기준값 쓰기
+
+                    //정해진 Cal포인트 보정값 저장
+                    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x3400, tempStream2);//레지스터 주소 0x3400 채널2 전류 보정값 쓰기
+                    break;
+                default: //그 외 명령은 0으로 전송
+                    selectNum = 0;
+                    break;
+            }
+
+            //정해진 Cal포인트 저장명령 전송
+            tempStream = new ushort[5];
+            for (int i = 0; i < 4; i++) tempStream[i] = 0;
+            tempStream[selectNum - 1] = (ushort)voltCurrCount;
+            tempStream[4] = (ushort)selectNum;//저장 준비
+            SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2020, tempStream);//레지스터 주소 0x2020
+        }
+        private void CalPointAutoScanCalc(int highLimit, int lowLimit, int errRange, int output, int ch, int voltCurrSelect) //오토스캔 버튼 누르면 나오는 동작함수(상한, 하한, 간격, 채널, 전압/전류선택)
+        {
+            DataTable AutoScanTable = new DataTable();
+            int outputWidth = highLimit - lowLimit;//전체 출력범위
+            int outputCount = (outputWidth / output) + 2;//출력해야할 카운트 계산+1(마지막 포인트 포함하기 위해)
+            int voltCurrValue = 0;
+            AutoScanTable = AllSetData.VoltageMeaTable;
+            //AutoScanTable.Columns.Add("NO");
+            //AutoScanTable.Columns.Add("SetVolt");
+            //AutoScanTable.Columns.Add("SetCurr");
+            //AutoScanTable.Columns.Add("OutVolt");
+            //AutoScanTable.Columns.Add("OutCurr");
+            //AutoScanTable.Columns.Add("DMMOut");
+            
+            AllSetData.ChannelSelect = ch;//채널 입력하기
+            for (int i = 0; i < outputCount; i++)
+            {
+                voltCurrValue = lowLimit + (i * output);
+                if (voltCurrValue >= highLimit)
+                {
+                    voltCurrValue = highLimit;
+                    i = outputCount - 1;
+                }
+                if (voltCurrSelect == 0)//전압
+                {
+                    AutoScanTable.Rows.Add(new String[] { (AutoScanTable.Rows.Count + 1).ToString(), voltCurrValue.ToString(), "1000", "", "", "" });
+                }
+                else if (voltCurrSelect == 1)//전류
+                {
+                    if(voltCurrValue >= 0)//전류 충/방전 구분
+                    {
+                        AutoScanTable.Rows.Add(new String[] { (AutoScanTable.Rows.Count + 1).ToString(), "4200", voltCurrValue.ToString(), "", "", "" });
+                    }
+                    else
+                    {
+                        AutoScanTable.Rows.Add(new String[] { (AutoScanTable.Rows.Count + 1).ToString(), "2700", voltCurrValue.ToString(), "", "", "" });
+                    }
+                    
+                }
+            }
+
+            CalPointAutoScan(ref AutoScanTable, ref AllSetData.ActCalPointArray, errRange, AllSetData.MeaErrRetryCnt, AllSetData.MeaErrDelayTime, ch, voltCurrSelect, ref AllSetData.CalSeqNum);
+        }
+        private void CalPointAutoScan(ref DataTable AutoScanTable, ref int[] OutputCalPointArray, int errRange, int errCount, int delayTime, int ch, int voltCurrSelect, ref int stopCmd)//Cal포인트 확인 구조체 필요?
+        {
+            //출력 시퀀스 시작
+            //1.출력
+            //2.DMM비교
+            //3.정지 후 다시 반복 or 진행
+            //4.다음 포인트 불러오기
+            //1~4 과정 반복
+
+            //만들어진 Cal 포인트 테이블 가져오기
+            int RowCnt = 0;
+            int DMMCheck = 0;//에러 레인지 범위 안에 들어오는지 판단
+            
+            RowCnt = AutoScanTable.Rows.Count;//전압 데이터 개수
+            int[,] AutoScanPointArray = new int[RowCnt, 2];
+            //실제 출력 배열로 데이터 저장
+            for (int i = 0; i < RowCnt; i++)
+            {
+                AutoScanPointArray[i, 0] = Convert.ToInt32(AutoScanTable.Rows[i][1]);//전압
+                AutoScanPointArray[i, 1] = Convert.ToInt32(AutoScanTable.Rows[i][2]);//전류
+            }
+
+            for (int i = 0; i < RowCnt; i++)
+            {
+                //Mea 출력 저장
+                OutputCalPointArray = new int[2];
+                OutputCalPointArray[0] = AutoScanPointArray[i, 0];//전압 //오토시작으로 추출한 데이터를 수동 전송에 입력
+                OutputCalPointArray[1] = AutoScanPointArray[i, 1];//전류
+                for (int j = 0; j < (errCount + 1); j++)
+                {
+                    //Mea 시퀀스 시작
+                    //Mea 출력전송
+                    AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
+                    Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                    if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우
+                    //DMM 비교
+                    if (ch == 1) //채널선택
+                    {   //단위를 mV, mA 단위로 할것
+                        AutoScanTable.Rows[i][3] = ((int)(AllSetData.CH1OutputVolt * 1000)).ToString();
+                        AutoScanTable.Rows[i][4] = ((int)(AllSetData.CH1OutputCurr * 1000)).ToString();
+                        AutoScanTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    else if (ch == 2)
+                    {
+                        AutoScanTable.Rows[i][3] = ((int)(AllSetData.CH2OutputVolt * 1000)).ToString();
+                        AutoScanTable.Rows[i][4] = ((int)(AllSetData.CH2OutputCurr * 1000)).ToString();
+                        AutoScanTable.Rows[i][5] = ((AllSetData.DMMOutputVolt)).ToString();
+                    }
+                    if (voltCurrSelect == 0)//전압
+                    {
+                        if (Math.Abs(Convert.ToDouble(AutoScanTable.Rows[i][1]) - Convert.ToDouble(AutoScanTable.Rows[i][5])) > errRange)//에러 범위 판단(출력값의 15%)
+                            DMMCheck = 1;//에러 범위를 넘으면 Mea 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    else if (voltCurrSelect == 1)//전류
+                    {
+                        if (Math.Abs(Convert.ToDouble(AutoScanTable.Rows[i][2]) - Convert.ToDouble(AutoScanTable.Rows[i][5])) > errRange)//에러 범위 판단
+                            DMMCheck = 1;//에러 범위를 넘으면 Cal 실시
+                        else
+                            DMMCheck = 0;
+                    }
+                    if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우
+                    if (DMMCheck == 1) //에러일 경우 재 출력 필요
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
+                        Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                        DMMCheck = 0;
+                    }
+                    else //에러가 아니면 DMM 전송 하지 않고 넘어가기
+                    {
+                        //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
+                        AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
+                        Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                        break;
+                    }
+                    if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우
+                }
+                if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우
+            }
+            //종료되면 플래그 초기화
+            stopCmd = 0;
+            MessageBox.Show("종료되었습니다.");
+        }
     }
 }
+#endif

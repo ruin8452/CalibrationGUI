@@ -129,7 +129,7 @@
                         </Border>
                     </StackPanel>
                 </StackPanel>
-                
+
                 <StackPanel Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock  Text="Serial No." FontSize="30" VerticalAlignment="Center"/>
                     <Border BorderThickness="1" BorderBrush="DarkSeaGreen" Height="40" Width="200" Margin="10,0,0,0" >
@@ -166,7 +166,7 @@
         
         <Border  Grid.Row="2" Grid.Column="1" x:Name="LogPage" BorderBrush="DarkSeaGreen" BorderThickness="2">
             <Grid>
-                <Grid x:Name="LogCheckPanel" Visibility="Visible">
+                <Grid x:Name="LogCheckPanel" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="7*"/>
@@ -197,6 +197,7 @@
                         <TextBox x:Name="LogTextBox" Background="White" FontSize="10"/>
                     </ScrollViewer>
                 </Grid>
+                
                 <Grid x:Name="PropertiesPanel" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
