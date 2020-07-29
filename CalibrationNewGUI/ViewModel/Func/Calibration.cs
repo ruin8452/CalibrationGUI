@@ -4,6 +4,7 @@ using CalibrationNewGUI.ViewModel.Func.EventArgsClass;
 using J_Project.Manager;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,9 @@ namespace CalibrationNewGUI.ViewModel.Func
         object[][] CalPointList;
         object[][] MeaPointList;
 
+        BackgroundWorker calBack = new BackgroundWorker();
+        BackgroundWorker meaBack = new BackgroundWorker();
+
         DispatcherTimer calTimer = new DispatcherTimer();
         DispatcherTimer meaTimer = new DispatcherTimer();
 
@@ -50,11 +54,29 @@ namespace CalibrationNewGUI.ViewModel.Func
 
         public Calibration()
         {
+            calBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                CalTimer_Tick();
+            });
+            meaBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                MeaTimer_Tick();
+            });
+
+
             calTimer.Interval = TimeSpan.FromMilliseconds(50);    // ms
-            calTimer.Tick += CalTimer_Tick;
+            calTimer.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (calBack.IsBusy == false)
+                    calBack.RunWorkerAsync();
+            });
 
             meaTimer.Interval = TimeSpan.FromMilliseconds(50);    // ms
-            meaTimer.Tick += MeaTimer_Tick;
+            meaTimer.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (meaBack.IsBusy == false)
+                    meaBack.RunWorkerAsync();
+            });
         }
 
         public void CalStart()
@@ -98,7 +120,7 @@ namespace CalibrationNewGUI.ViewModel.Func
 
         int SeqStepNum = 0;
         int PointIndex = 0;
-        private void CalTimer_Tick(object sender, EventArgs e)
+        private void CalTimer_Tick()
         {
             if (CalPointList.Length <= PointIndex)
             {
@@ -191,7 +213,7 @@ namespace CalibrationNewGUI.ViewModel.Func
         }
 
         int MeaRetryCnt = 0;
-        private void MeaTimer_Tick(object sender, EventArgs e)
+        private void MeaTimer_Tick()
         {
             if (MeaPointList.Length <= PointIndex)
             {

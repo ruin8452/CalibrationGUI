@@ -2,6 +2,7 @@
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Threading;
 
@@ -16,6 +17,8 @@ namespace CalibrationNewGUI.Equipment
         public int CommErrCount = 0;
 
         public QueueComm DmmComm = new QueueComm("string");
+
+        BackgroundWorker moniBack = new BackgroundWorker();
         DispatcherTimer MonitoringTimer = new DispatcherTimer();
 
         #region 싱글톤 패턴 구현
@@ -23,8 +26,17 @@ namespace CalibrationNewGUI.Equipment
 
         private Dmm()
         {
+            moniBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                DmmMonitoring();
+            });
+
             MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
-            MonitoringTimer.Tick += DmmMonitoring;
+            MonitoringTimer.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (moniBack.IsBusy == false)
+                    moniBack.RunWorkerAsync();
+            });
         }
 
         public static Dmm GetObj()
@@ -62,7 +74,7 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //DMM모니터링용 타이머
-        private void DmmMonitoring(object sender, EventArgs e)
+        private void DmmMonitoring()
         {
             SensingData = Math.Round(RealSensing(), 2);
         }

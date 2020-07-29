@@ -26,6 +26,8 @@ namespace CalibrationNewGUI.Equipment
         public int CommErrCount = 0;
 
         QueueComm McuComm = new QueueComm("byte[]");
+
+        BackgroundWorker moniBack = new BackgroundWorker();
         DispatcherTimer MonitoringTimer = new DispatcherTimer(); //MCU 모니터링 타이머용
 
         const byte STX = 0x02;
@@ -36,8 +38,17 @@ namespace CalibrationNewGUI.Equipment
 
         private Mcu()
         {
+            moniBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                McuMonitoring();
+            });
+
             MonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
-            MonitoringTimer.Tick += McuMonitoring;
+            MonitoringTimer.Tick += new EventHandler((object sender, EventArgs e) =>
+            {
+                if (moniBack.IsBusy == false)
+                    moniBack.RunWorkerAsync();
+            });
         }
 
         public static Mcu GetObj()
@@ -75,7 +86,7 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //MCU모니터링용 타이머
-        public void McuMonitoring(object sender, EventArgs e)
+        public void McuMonitoring()
         {
             byte[] receiveData = ChMonitoring();
 
