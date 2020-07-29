@@ -11,7 +11,7 @@ namespace CalibrationNewGUI.Equipment
     [ImplementPropertyChanged]
     public class Dmm
     {
-        public double SensingData { get; private set; }
+        public double SensingData { get; set; }
         public bool IsConnected { get; private set; } = false;
 
         public int CommErrCount = 0;

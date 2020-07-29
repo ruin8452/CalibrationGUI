@@ -254,6 +254,8 @@ namespace CalibrationNewGUI.ViewModel
                 return;
             }
 
+
+
             List<object[]> tempPoint = new List<object[]>();
 
             foreach (DataRow row in CalPointTable.Rows)
@@ -263,6 +265,7 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show("비어있는 셀이 있습니다.");
                     return;
                 }
+                row[3] = row[4] = row[5] = row[6] = 0;
                 tempPoint.Add(row.ItemArray);
             }
             calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray(), null, false);
@@ -299,6 +302,7 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show("비어있는 셀이 있습니다.");
                     return;
                 }
+                row[3] = row[4] = row[5] = row[6] = 0;
                 tempPoint.Add(row.ItemArray);
             }
 

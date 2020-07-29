@@ -15,7 +15,7 @@ namespace CalibrationNewGUI.ViewModel
     public class ManualCalVM
     {
         Mcu Mcu = Mcu.GetObj();
-        Dmm Dmm = Dmm.GetObj();
+        public Dmm Dmm { get; set; }
 
         private int ChNum;
         public char CalType { get; set; } = 'V';
@@ -29,6 +29,7 @@ namespace CalibrationNewGUI.ViewModel
 
         public ManualCalVM()
         {
+            Dmm = Dmm.GetObj();
             Messenger.Default.Register<CalOptionMessege>(this, OnReceiveMessageAction);
 
             OutputStartClick = new RelayCommand(OutputStart);

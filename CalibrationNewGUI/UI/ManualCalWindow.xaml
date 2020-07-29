@@ -51,7 +51,7 @@
             <Border Width="10"/>
 
             <TextBlock Text="Dmm :" FontSize="17" Foreground="White" FontFamily="NanumGothic Light" Margin="3,0"/>
-            <TextBox Width="80" BorderBrush="{x:Null}" IsReadOnly="True"/>
+            <TextBox Text="{Binding Dmm.SensingData}" Width="80" BorderBrush="{x:Null}" IsReadOnly="True"/>
         </StackPanel>
 
         <Grid Height="30" Margin="15,0">

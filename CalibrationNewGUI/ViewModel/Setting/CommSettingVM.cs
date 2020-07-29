@@ -3,6 +3,7 @@ using J_Project.ViewModel.CommandClass;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CalibrationNewGUI.ViewModel.Setting
@@ -44,6 +45,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
         {
             McuInfos.Save();
             DmmInfos.Save();
+            MessageBox.Show("저장 완료");
         }
 
         private void IdRenuwal()

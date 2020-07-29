@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CalibrationNewGUI.ViewModel.Setting
@@ -27,6 +28,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
         public void DataSave()
         {
             ShuntInfos.Save();
+            MessageBox.Show("저장 완료");
         }
     }
 }
