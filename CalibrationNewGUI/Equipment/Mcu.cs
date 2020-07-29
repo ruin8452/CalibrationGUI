@@ -22,7 +22,7 @@ namespace CalibrationNewGUI.Equipment
         public double Ch2Volt { get; private set; }
         public double Ch2Curr { get; private set; }
 
-        public bool IsConnected { get; set; }
+        public bool IsConnected { get; set; } = false;
         public int CommErrCount = 0;
 
         QueueComm McuComm = new QueueComm("byte[]");

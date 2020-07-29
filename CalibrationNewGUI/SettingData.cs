@@ -56,7 +56,8 @@ namespace CalibrationNewGUI
         public int MeaOutEndFlag = 0;
         public int AutoMeaStartFlag = 0;
         public int[,] CalPointArray { get; set; }//CAL 포인트용 배열
-        public int[] ActCalPointArray { get; set; }//수동 CAL 포인트용 배열
+        //public int[] ActCalPointArray { get; set; }//수동 CAL 포인트용 배열
+        public int[] ActCalPointArray;//수동 CAL 포인트용 배열
         public int[,] MeaPointArray { get; set; }//실측 포인트용 배열
 
         ///메인화면 출력 변수

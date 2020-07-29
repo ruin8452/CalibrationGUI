@@ -13,6 +13,7 @@
 */
 
 using CommonServiceLocator;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace CalibrationNewGUI.ViewModel
@@ -48,15 +49,24 @@ namespace CalibrationNewGUI.ViewModel
 
         public MainWindowVM MainWindowVM
         {
-            get { return ServiceLocator.Current.GetInstance<MainWindowVM>(); }
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MainWindowVM>();
+            }
         }
         public MonitorPageVM MonitorPageVM
         {
-            get { return ServiceLocator.Current.GetInstance<MonitorPageVM>(); }
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MonitorPageVM>();
+            }
         }
         public ManualCalVM ManualCalVM
         {
-            get { return ServiceLocator.Current.GetInstance<ManualCalVM>(); }
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ManualCalVM>();
+            }
         }
 
         public static void Cleanup()

@@ -1,26 +1,31 @@
-<Application x:Class="CalibrationNewGUI.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CalibrationNewGUI" StartupUri="UI\HomeWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
+<Application x:Class="CalibrationNewGUI.App" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:local="clr-namespace:CalibrationNewGUI" 
+             StartupUri="UI\HomeWindow.xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d1p1:Ignorable="d"
+             xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   <!--MainWindow.xaml-->
   <!--UI\HomeWindow.xaml-->
-      <Application.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="UI/Style/UI_Animation.xaml"/>
-                    <ResourceDictionary Source="UI/Style/UI_ButtonStyle.xaml"/>
-                
-                    <ResourceDictionary>
-                        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CalibrationNewGUI.ViewModel" />
-                    </ResourceDictionary>
-                </ResourceDictionary.MergedDictionaries>
-                
-                <SolidColorBrush x:Key="LedRed" Color="#FFFF4444" />
-                <SolidColorBrush x:Key="LedRedOff" Color="#FF531212" />
-                <SolidColorBrush x:Key="LedRedOver" Color="#FFCB3838" />
-                <SolidColorBrush x:Key="LedYellow" Color="#FFF1AF00" />
-                <SolidColorBrush x:Key="LedGreen" Color="#FF31AA4D" />
-                <SolidColorBrush x:Key="LedGreenOff" Color="#FF26502E" />
-                
-                <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17" />
-                <SolidColorBrush x:Key="PageBackground" Color="#FF1B1E2B" />
-            </ResourceDictionary>
-      </Application.Resources>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Style/UI_Animation.xaml" />
+                <ResourceDictionary Source="UI/Style/UI_ButtonStyle.xaml" />
+                <ResourceDictionary>
+                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CalibrationNewGUI.ViewModel" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <SolidColorBrush x:Key="LedRed" Color="#FFFF4444" />
+            <SolidColorBrush x:Key="LedRedOff" Color="#FF531212" />
+            <SolidColorBrush x:Key="LedRedOver" Color="#FFCB3838" />
+            <SolidColorBrush x:Key="LedYellow" Color="#FFF1AF00" />
+            <SolidColorBrush x:Key="LedGreen" Color="#FF31AA4D" />
+            <SolidColorBrush x:Key="LedGreenOff" Color="#FF26502E" />
+            <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17" />
+            <SolidColorBrush x:Key="PageBackground" Color="#FF1B1E2B" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

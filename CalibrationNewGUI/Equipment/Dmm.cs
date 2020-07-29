@@ -10,7 +10,7 @@ namespace CalibrationNewGUI.Equipment
     public class Dmm
     {
         public double SensingData { get; private set; }
-        public bool IsConnected { get; private set; }
+        public bool IsConnected { get; private set; } = false;
 
         public int CommErrCount = 0;
 
