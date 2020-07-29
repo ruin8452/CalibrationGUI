@@ -43,21 +43,21 @@ namespace CalibrationNewGUI.ViewModel
         public Mcu Mcu { get; set; }
         public Dmm Dmm { get; set; }
 
-        public string CalVoltFilePath = string.Empty;  // 전압CPT 파일 경로
-        public string MeaVoltFilePath = string.Empty;  // 전압MPT 파일 경로
-        public string CalCurrFilePath = string.Empty;  // 전류CPT 파일 경로
-        public string MeaCurrFilePath = string.Empty;  // 전류MPT 파일 경로
-
         int ChNumber = 1;
         Calibration calManager = new Calibration();
+
+        string CalVoltFilePath = string.Empty;  // 전압CPT 파일 경로
+        string CalCurrFilePath = string.Empty;  // 전류CPT 파일 경로
+        string MeaVoltFilePath = string.Empty;  // 전압MPT 파일 경로
+        string MeaCurrFilePath = string.Empty;  // 전류MPT 파일 경로
 
         public string CalFilePath { get; set; } // CPT 파일 경로(GUI 노출용)
         public string MeaFilePath { get; set; } // MPT 파일 경로(GUI 노출용)
 
-        public List<object[]> CalVoltData = new List<object[]>();  // 전압 CalPoint 데이터 리스트
-        public List<object[]> MeaVoltData = new List<object[]>();  // 전압 MeaPoint 데이터 리스트
-        public List<object[]> CalCurrData = new List<object[]>();  // 전류 CalPoint 데이터 리스트
-        public List<object[]> MeaCurrData = new List<object[]>();  // 전류 MeaPoint 데이터 리스트
+        List<object[]> CalVoltData = new List<object[]>();  // 전압 CalPoint 데이터 리스트
+        List<object[]> CalCurrData = new List<object[]>();  // 전류 CalPoint 데이터 리스트
+        List<object[]> MeaVoltData = new List<object[]>();  // 전압 MeaPoint 데이터 리스트
+        List<object[]> MeaCurrData = new List<object[]>();  // 전류 MeaPoint 데이터 리스트
 
         public DataTable CalPointTable { get; set; }  // CalPoint 데이터 테이블(GUI 노출용)
         public DataTable MeaPointTable { get; set; }  // MeaPoint 데이터 테이블(GUI 노출용)

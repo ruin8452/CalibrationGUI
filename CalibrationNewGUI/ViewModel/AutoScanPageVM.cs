@@ -202,6 +202,7 @@ namespace CalibrationNewGUI.ViewModel
             if (ScanPointTable.Rows.Count == 0)
                 return;
 
+
             McuPointTable = TableManager.RowAdd(McuPointTable, McuPointTable.Rows.Count, ScanPointTable.Rows[ScanTableSelectIndex]);
         }
 

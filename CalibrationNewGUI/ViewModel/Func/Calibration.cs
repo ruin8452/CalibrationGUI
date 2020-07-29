@@ -23,7 +23,8 @@ namespace CalibrationNewGUI.ViewModel.Func
     enum MeaSeq
     {
         OUT_CHECK,
-        END_MEA
+        END_MEA,
+        DELAY,
     }
 
     public class Calibration
@@ -121,12 +122,11 @@ namespace CalibrationNewGUI.ViewModel.Func
             int voltPoint = int.Parse(CalPointList[pointIndex][1].ToString());
             int currPoint = int.Parse(CalPointList[pointIndex][2].ToString());
 
-            OnCalMonitor(new CalMonitorArgs(PointIndex));
-
             switch (stepName)
             {
                 case CalSeq.REF_SET:
                     mcu.ChSet(ChNum, voltPoint, currPoint);
+                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
 
@@ -141,16 +141,28 @@ namespace CalibrationNewGUI.ViewModel.Func
                         if (CalType == 'V')
                         {
                             if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
+                            {
                                 mcu.ChCal(CalType, ChNum, dmm.SensingData * 10);
+                                OnCalMonitor(new CalMonitorArgs(PointIndex));
+                            }
                             else
+                            {
+                                OnCalMonitor(new CalMonitorArgs(PointIndex));
                                 break;
+                            }
                         }
                         else
                         {
                             if (Math.Abs(dmm.SensingData - currPoint) > errRate)
+                            {
                                 mcu.ChCal(CalType, ChNum, dmm.SensingData * 10);
+                                OnCalMonitor(new CalMonitorArgs(PointIndex));
+                            }
                             else
+                            {
+                                OnCalMonitor(new CalMonitorArgs(PointIndex));
                                 break;
+                            }
                         }
                         Utill.Delay(calInfo.CalDelayTime * 0.001);
                     }
@@ -212,16 +224,28 @@ namespace CalibrationNewGUI.ViewModel.Func
                         if (CalType == 'V')
                         {
                             if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
+                            {
+                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
                                 mcu.ChStop();
+                            }
                             else
+                            {
+                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
                                 break;
+                            }
                         }
                         else
                         {
                             if (Math.Abs(dmm.SensingData - currPoint) > errRate)
+                            {
+                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
                                 mcu.ChStop();
+                            }
                             else
+                            {
+                                OnMeaMonitor(new CalMonitorArgs(PointIndex));
                                 break;
+                            }
                         }
                         Utill.Delay(calInfo.MeaDelayTime * 0.001);
                     }
@@ -230,6 +254,11 @@ namespace CalibrationNewGUI.ViewModel.Func
 
                 case MeaSeq.END_MEA:
                     mcu.ChStop();
+                    isMeaEnd = false;
+                    break;
+
+                case MeaSeq.DELAY:
+                    Utill.Delay(calInfo.CalDelayTime * 0.001);
                     isMeaEnd = true;
                     break;
             }
