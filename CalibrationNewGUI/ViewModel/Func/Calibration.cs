@@ -150,12 +150,12 @@ namespace CalibrationNewGUI.ViewModel.Func
             {
                 case CalSeq.REF_SET:
                     mcu.ChSet(ChNum, voltPoint, currPoint);
-                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
 
                 case CalSeq.DELAY1:
                     Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
 
@@ -265,12 +265,12 @@ namespace CalibrationNewGUI.ViewModel.Func
             {
                 case MeaSeq.REF_SET:
                     mcu.ChSet(ChNum, voltPoint, currPoint);
-                    OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     isMeaEnd = false;
                     break;
 
                 case MeaSeq.DELAY1:
                     Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                    OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     isMeaEnd = false;
                     break;
 
