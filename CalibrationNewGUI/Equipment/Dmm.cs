@@ -11,7 +11,10 @@ namespace CalibrationNewGUI.Equipment
     [ImplementPropertyChanged]
     public class Dmm
     {
-        public double SensingData { get; set; }
+        double SensingData;
+
+        public double Volt { get; set; }
+        public double Curr { get; set; }
         public bool IsConnected { get; private set; } = false;
 
         public int CommErrCount = 0;
@@ -76,7 +79,10 @@ namespace CalibrationNewGUI.Equipment
         //DMM모니터링용 타이머
         private void DmmMonitoring()
         {
-            SensingData = Math.Round(RealSensing(), 2);
+            SensingData = RealSensing();
+
+            Volt = Math.Round(SensingData * 1000, 2);
+            Curr = Math.Round(SensingData * 1000000, 2);
         }
 
 
@@ -88,10 +94,10 @@ namespace CalibrationNewGUI.Equipment
             commFlag = DmmComm.CommReceive(out string receiveData, code);
             if (!commFlag) { CommErrCount++; return SensingData; }
 
-            commFlag = double.TryParse(receiveData, out double sensingData);
+            commFlag = double.TryParse(receiveData, out double tempData);
             if (!commFlag) { CommErrCount++; return SensingData; }
 
-            return sensingData * 1000;
+            return tempData;
         }
 
         public void Setting()

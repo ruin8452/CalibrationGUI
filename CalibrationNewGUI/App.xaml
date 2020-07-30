@@ -13,10 +13,10 @@
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="UI/Style/UI_Animation.xaml"/>
                     <ResourceDictionary Source="UI/Style/UI_ButtonStyle.xaml"/>
-                
-                    <ResourceDictionary>
-                        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CalibrationNewGUI.ViewModel" />
-                    </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CalibrationNewGUI.ViewModel"/>
+                </ResourceDictionary>
                 </ResourceDictionary.MergedDictionaries>
                 
                 <SolidColorBrush x:Key="LedRed" Color="#FFFF4444" />

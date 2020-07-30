@@ -214,5 +214,10 @@ namespace CalibrationNewGUI.ViewModel.Func
 
             return table;
         }
+
+        public static bool PointOverlapCheck(DataTable table, int checkColumn)
+        {
+            return true;
+        }
     }
 }

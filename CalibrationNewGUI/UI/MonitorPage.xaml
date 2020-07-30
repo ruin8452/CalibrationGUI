@@ -12,6 +12,23 @@
       Title="MonitorPage">
 
     <Page.Resources>
+        <Style x:Key="MonitoringText" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Digital-7 Mono"/>
+            <Setter Property="FontSize" Value="45"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="DmmTextSwitch" TargetType="TextBlock" BasedOn="{StaticResource MonitoringText}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CalMode}" Value="True">
+                    <Setter Property="Text" Value="{Binding Dmm.Volt}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CalMode}" Value="False">
+                    <Setter Property="Text" Value="{Binding Dmm.Curr}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="ImgBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -446,8 +463,8 @@
                                 <TextBlock Text="CH1 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Mcu.Ch1Volt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Text="{Binding Mcu.Ch1Volt, StringFormat=#0.0}" Foreground="White" Style="{StaticResource MonitoringText}"/>
                                 </Grid>
                             </StackPanel>
                             <!-- 채널1 Curr -->
@@ -455,8 +472,8 @@
                                 <TextBlock Text="CH1 전류(mA)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Mcu.Ch1Curr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Text="{Binding Mcu.Ch1Curr, StringFormat=#0.0}" Foreground="White" Style="{StaticResource MonitoringText}"/>
                                 </Grid>
                             </StackPanel>
                             <!-- Dmm1 Volt -->
@@ -466,8 +483,8 @@
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Dmm.SensingData, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Foreground="White" Style="{StaticResource DmmTextSwitch}"/>
                                 </Grid>
                             </StackPanel>
                         </StackPanel>
@@ -477,8 +494,8 @@
                                 <TextBlock Text="CH2 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Mcu.Ch2Volt, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Text="{Binding Mcu.Ch2Volt, StringFormat=#0.0}" Foreground="White" Style="{StaticResource MonitoringText}"/>
                                 </Grid>
                             </StackPanel>
                             <!-- 채널2 Curr -->
@@ -486,8 +503,8 @@
                                 <TextBlock Text="CH2 전류(mA)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Mcu.Ch2Curr, StringFormat=#0.0}" Foreground="White" FontFamily="Digital-7 Mono" FontSize="45" Background="{x:Null}" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Text="{Binding Mcu.Ch2Curr, StringFormat=#0.0}" Foreground="White" Style="{StaticResource MonitoringText}"/>
                                 </Grid>
                             </StackPanel>
                         </StackPanel>

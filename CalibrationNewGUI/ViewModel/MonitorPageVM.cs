@@ -106,6 +106,8 @@ namespace CalibrationNewGUI.ViewModel
 
             calManager.CalMonitor += CalManager_CalMonitor;
             calManager.MeaMonitor += CalManager_MeaMonitor;
+            calManager.CalEnd += CalManager_CalEnd;
+            calManager.MeaEnd += CalManager_MeaEnd;
 
             CalPointTable = new DataTable();
             CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
@@ -480,6 +482,14 @@ namespace CalibrationNewGUI.ViewModel
             //}
         }
 
+        /**
+         *  @brief 오토 CAL 시작
+         *  @details CAL과 실측을 한번에 진행
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void AutoCalStart()
         {
             List<object[]> tempCalPoint = new List<object[]>();
@@ -509,12 +519,28 @@ namespace CalibrationNewGUI.ViewModel
             calManager.CalStart();
         }
 
+        /**
+         *  @brief 오토 CAL 중지
+         *  @details CAL과 실측을 중지
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void AutoCalStop()
         {
             calManager.CalStop();
             calManager.MeaStop();
         }
 
+        /**
+         *  @brief 수동 CAL 윈도우
+         *  @details 수동 CAL을 할 수 있게 하는 윈도우 창을 띄운다
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void ManualCal()
         {
             ManualCalWindow manualCal = new ManualCalWindow
@@ -624,6 +650,14 @@ namespace CalibrationNewGUI.ViewModel
             OnChangeCalOption();
         }
 
+        /**
+         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
+         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
         private void OnChangeCalOption()
         {
             CalOptionMessege Message = new CalOptionMessege
@@ -635,6 +669,14 @@ namespace CalibrationNewGUI.ViewModel
             Messenger.Default.Send(Message);
         }
 
+        /**
+         *  @brief CAL 포인트 메세지 수신
+         *  @details CAL 포인트 메세지를 수신
+         *  
+         *  @param CalPointMessege obj 수신받은 메세지용 클래스
+         *  
+         *  @return
+         */
         private void OnReceiveMessageAction(CalPointMessege obj)
         {
             CalPointTable.Clear();
@@ -643,6 +685,15 @@ namespace CalibrationNewGUI.ViewModel
                 CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
         }
 
+        /**
+         *  @brief CAL 진행 모니터링 이벤트 수신
+         *  @details CAL 시 해당 포인트에 대한 모니터링 데이터를 테이블에 삽입
+         *  
+         *  @param object sender CAL 객체
+         *  @param CalMonitorArgs e 이벤트 변수
+         *  
+         *  @return
+         */
         private void CalManager_CalMonitor(object sender, CalMonitorArgs e)
         {
             if(ChNumber == 1)
@@ -655,29 +706,41 @@ namespace CalibrationNewGUI.ViewModel
                 CalPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
                 CalPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
             }
-            CalPointTable.Rows[e.Index][5] = Dmm.SensingData;
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (CalMode)
             {
+                CalPointTable.Rows[e.Index][5] = Dmm.Volt;
+
                 int tempVolt = int.Parse(CalPointTable.Rows[e.Index][1].ToString());
 
-                if (Math.Abs(tempVolt - Dmm.SensingData) > CalMeaInfo.CalErrRangeVolt)
+                if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.CalErrRangeVolt)
                     CalPointTable.Rows[e.Index][6] = false;
                 else
                     CalPointTable.Rows[e.Index][6] = true;
             }
             else
             {
+                CalPointTable.Rows[e.Index][5] = Dmm.Curr;
+
                 int tempCurr = int.Parse(CalPointTable.Rows[e.Index][2].ToString());
 
-                if (Math.Abs(tempCurr - Dmm.SensingData) > CalMeaInfo.CalErrRangeCurr)
+                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.CalErrRangeCurr)
                     CalPointTable.Rows[e.Index][6] = false;
                 else
                     CalPointTable.Rows[e.Index][6] = true;
             }
         }
 
+        /**
+         *  @brief 실측 진행 모니터링 이벤트 수신
+         *  @details 실측 시 해당 포인트에 대한 모니터링 데이터를 테이블에 삽입
+         *  
+         *  @param object sender CAL 객체
+         *  @param CalMonitorArgs e 이벤트 변수
+         *  
+         *  @return
+         */
         private void CalManager_MeaMonitor(object sender, CalMonitorArgs e)
         {
             if (ChNumber == 1)
@@ -690,29 +753,68 @@ namespace CalibrationNewGUI.ViewModel
                 MeaPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
                 MeaPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
             }
-            MeaPointTable.Rows[e.Index][5] = Dmm.SensingData;
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (CalMode)
             {
+                MeaPointTable.Rows[e.Index][5] = Dmm.Volt;
+
                 int tempVolt = int.Parse(MeaPointTable.Rows[e.Index][1].ToString());
 
-                if (Math.Abs(tempVolt - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
                     MeaPointTable.Rows[e.Index][6] = false;
                 else
                     MeaPointTable.Rows[e.Index][6] = true;
             }
             else
             {
+                MeaPointTable.Rows[e.Index][5] = Dmm.Curr;
+
                 int tempCurr = int.Parse(MeaPointTable.Rows[e.Index][2].ToString());
 
-                if (Math.Abs(tempCurr - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
                     MeaPointTable.Rows[e.Index][6] = false;
                 else
                     MeaPointTable.Rows[e.Index][6] = true;
             }
         }
 
+        /**
+         *  @brief CAL 종료 이벤트 수신
+         *  @details CAL 종료시 알림 메세지 띄우기
+         *  
+         *  @param object sender CAL 객체
+         *  @param EventArgs e 이벤트 변수
+         *  
+         *  @return
+         */
+        private void CalManager_CalEnd(object sender, EventArgs e)
+        {
+            MessageBox.Show("CAL 완료");
+        }
+
+        /**
+         *  @brief 실측 종료 이벤트 수신
+         *  @details 실측 종료시 알림 메세지 띄우기
+         *  
+         *  @param object sender CAL 객체
+         *  @param EventArgs e 이벤트 변수
+         *  
+         *  @return
+         */
+        private void CalManager_MeaEnd(object sender, EventArgs e)
+        {
+            MessageBox.Show("실측 완료");
+        }
+
+        /**
+         *  @brief 데이터 그리드 셀 편집 이벤트 수신
+         *  @details 데이터 그리드의 셀을 편집 시 데이터가 범위 안에 들어왔는지 확인
+         *  
+         *  @param DataGridCellEditEndingEventArgs e 이벤트 변수
+         *  
+         *  @return
+         */
         private void CellEdit(DataGridCellEditEndingEventArgs e)
         {
             if(!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))

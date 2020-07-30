@@ -204,6 +204,8 @@ namespace CalibrationNewGUI.ViewModel
 
 
             McuPointTable = TableManager.RowAdd(McuPointTable, McuPointTable.Rows.Count, ScanPointTable.Rows[ScanTableSelectIndex]);
+
+            TableManager.PointOverlapCheck(McuPointTable, 1);
         }
 
         private void PointDel()
@@ -268,23 +270,26 @@ namespace CalibrationNewGUI.ViewModel
                 ScanPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
                 ScanPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
             }
-            ScanPointTable.Rows[e.Index][5] = Dmm.SensingData;
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (ModelSelecte)   // 전압
             {
+                ScanPointTable.Rows[e.Index][5] = Dmm.Volt;
+
                 int tempVolt = int.Parse(ScanPointTable.Rows[e.Index][1].ToString());
 
-                if (Math.Abs(tempVolt - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
                     ScanPointTable.Rows[e.Index][6] = false;
                 else
                     ScanPointTable.Rows[e.Index][6] = true;
             }
             else   // 전류
             {
+                ScanPointTable.Rows[e.Index][5] = Dmm.Curr;
+
                 int tempCurr = int.Parse(ScanPointTable.Rows[e.Index][2].ToString());
 
-                if (Math.Abs(tempCurr - Dmm.SensingData) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
                     ScanPointTable.Rows[e.Index][6] = false;
                 else
                     ScanPointTable.Rows[e.Index][6] = true;

@@ -167,9 +167,9 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         if (CalType == 'V')
                         {
-                            if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
+                            if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.SensingData * 10);
+                                mcu.ChCal(CalType, ChNum, dmm.Volt * 10);
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
@@ -180,9 +180,9 @@ namespace CalibrationNewGUI.ViewModel.Func
                         }
                         else
                         {
-                            if (Math.Abs(dmm.SensingData - currPoint) > errRate)
+                            if (Math.Abs(dmm.Curr - currPoint) > errRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.SensingData * 10);
+                                mcu.ChCal(CalType, ChNum, dmm.Curr * 10);
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
@@ -281,7 +281,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case MeaSeq.OUT_CHECK:
                     if (CalType == 'V')
                     {
-                        if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
+                        if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             isSuccess = false;
@@ -292,7 +292,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     }
                     else
                     {
-                        if (Math.Abs(dmm.SensingData - currPoint) > errRate)
+                        if (Math.Abs(dmm.Curr - currPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             isSuccess = false;

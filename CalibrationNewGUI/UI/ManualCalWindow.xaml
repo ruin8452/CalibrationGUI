@@ -9,6 +9,17 @@
         Title="ManualCalWindow" Width="504" Height="170">
 
     <Window.Resources>
+        <Style x:Key="DmmTextSwitch" TargetType="TextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CalType}" Value="V">
+                    <Setter Property="Text" Value="{Binding Dmm.Volt}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CalType}" Value="I">
+                    <Setter Property="Text" Value="{Binding Dmm.Curr}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
@@ -51,7 +62,7 @@
             <Border Width="10"/>
 
             <TextBlock Text="Dmm :" FontSize="17" Foreground="White" FontFamily="NanumGothic Light" Margin="3,0"/>
-            <TextBox Text="{Binding Dmm.SensingData}" Width="80" BorderBrush="{x:Null}" IsReadOnly="True"/>
+            <TextBox Width="80" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource DmmTextSwitch}"/>
         </StackPanel>
 
         <Grid Height="30" Margin="15,0">
