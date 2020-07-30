@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -255,17 +256,37 @@ namespace CalibrationNewGUI.ViewModel
                 return;
             }
 
+            // 데이터 정상여부 체크
+            if (TableManager.WrongDataCheck(CalPointTable, 1, new Regex("[0-9]+")) || 
+                TableManager.WrongDataCheck(CalPointTable, 2, new Regex("[0-9]+")))
+            {
+                MessageBox.Show("잘못된 데이터가 포함되어 있습니다.");
+                return;
+            }
+
+            // 포인트 중복 체크
+            if (CalMode)
+            {
+                if (TableManager.OverlapCheck(CalPointTable, 1))
+                {
+                    MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+                    return;
+                }
+            }
+            else
+            {
+                if (TableManager.OverlapCheck(CalPointTable, 2))
+                {
+                    MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+                    return;
+                }
+            }
 
 
             List<object[]> tempPoint = new List<object[]>();
 
             foreach (DataRow row in CalPointTable.Rows)
             {
-                if(string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
-                {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
-                    return;
-                }
                 row[3] = row[4] = row[5] = row[6] = 0;
                 tempPoint.Add(row.ItemArray);
             }
@@ -294,15 +315,18 @@ namespace CalibrationNewGUI.ViewModel
                 return;
             }
 
+            // 데이터 정상여부 체크
+            if (TableManager.WrongDataCheck(MeaPointTable, 1, new Regex("[0-9]+")) ||
+                TableManager.WrongDataCheck(MeaPointTable, 2, new Regex("[0-9]+")))
+            {
+                MessageBox.Show("잘못된 데이터가 포함되어 있습니다.");
+                return;
+            }
+
             List<object[]> tempPoint = new List<object[]>();
 
             foreach (DataRow row in MeaPointTable.Rows)
             {
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
-                {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
-                    return;
-                }
                 row[3] = row[4] = row[5] = row[6] = 0;
                 tempPoint.Add(row.ItemArray);
             }

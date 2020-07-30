@@ -209,7 +209,11 @@ namespace CalibrationNewGUI.ViewModel
 
             McuPointTable = TableManager.RowAdd(McuPointTable, McuPointTable.Rows.Count, ScanPointTable.Rows[ScanTableSelectIndex]);
 
-            TableManager.PointOverlapCheck(McuPointTable, 1);
+            if (TableManager.OverlapCheck(McuPointTable, 1))
+            {
+                McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
+                MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+            }
         }
 
         private void PointDel()

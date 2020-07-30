@@ -24,6 +24,7 @@ namespace CalibrationNewGUI.Equipment
         public SerialPort commModbusMCU;
         public ModbusSerialMaster MdMaster;
         public ushort[] MdMasterBuffer;//모드버스 응답용 버퍼
+
         [StructLayout(LayoutKind.Explicit)]
         public struct FloatData
         {
@@ -33,9 +34,8 @@ namespace CalibrationNewGUI.Equipment
             public ushort floatByte1;
             [FieldOffset(2)]
             public ushort floatByte2;
-            //[FieldOffset(0)]
-            //public fixed ushort floatByte[2];
         }
+
         ushort[] buffer = new ushort[300];//임시 전체 버퍼(Cal 포인트 확인용)
         float[,] StrCalPointCH1Volt = new float[2, 10];
         float[,] StrCalPointCH1Curr = new float[2, 20];
@@ -46,12 +46,20 @@ namespace CalibrationNewGUI.Equipment
         public int CalPointCH1CurrCnt { get; set; } //전류 cal 포인트 개수
         public int CalPointCH2CurrCnt { get; set; } //전류 cal 포인트 개수
 
+        const int SLAVE_ID = 1;
+        const ushort READ_ADDRESS = 0x1200;
+
         /////////////////////////////////////////////////////////////////////
         public double Ch1Volt { get; set; }
         public double Ch1Curr { get; set; }
         public double Ch2Volt { get; set; }
         public double Ch2Curr { get; set; }
-        
+
+        public bool IsRun = false;
+        public int Ch1Fault;
+        public int Ch2Fault;
+        public int Version;
+
         public bool IsConnected { get; set; } = false;
         public int CommErrCount = 0;
 
@@ -256,7 +264,7 @@ namespace CalibrationNewGUI.Equipment
                 commModbusMCU.Open();
                 msg = "Connected!";
                 MdMaster = ModbusSerialMaster.CreateRtu(commModbusMCU);
-                CalPointCheck(MdMaster, 1);
+                CalPointCheck(MdMaster, SLAVE_ID);
                 if (commModbusMCU.IsOpen == true)
                     IsConnected = true;
             }
@@ -288,11 +296,12 @@ namespace CalibrationNewGUI.Equipment
         public void McuMonitoring()
         {
             FloatData tempfloat = new FloatData();
-            MdMasterBuffer = MdMaster.ReadHoldingRegisters(1, (ushort)0x1200, 12);//0x1200 읽기 시작
+            MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, READ_ADDRESS, 12);
+
             //모니터링값 파싱
             tempfloat.floatByte1 = MdMasterBuffer[0];
             tempfloat.floatByte2 = MdMasterBuffer[1];
-            Ch1Volt = Math.Round(tempfloat.floattemp * 1000.0f,2);
+            Ch1Volt = Math.Round(tempfloat.floattemp * 1000.0f, 2);
             tempfloat.floatByte1 = MdMasterBuffer[2];
             tempfloat.floatByte2 = MdMasterBuffer[3];
             Ch2Volt = Math.Round(tempfloat.floattemp * 1000.0f, 2);
@@ -302,11 +311,12 @@ namespace CalibrationNewGUI.Equipment
             tempfloat.floatByte1 = MdMasterBuffer[6];
             tempfloat.floatByte2 = MdMasterBuffer[7];
             Ch2Curr = Math.Round(tempfloat.floattemp * 1000.0f, 2);
-            //AllSetData.runMode = MdMasterBuffer[8]; //출력상태
-            //AllSetData.faultCH1 = MdMasterBuffer[9];//ch1 fault
-            //AllSetData.faultCH2 = MdMasterBuffer[10];//ch2 fault
-            //AllSetData.MCUVersion = MdMasterBuffer[11].ToString();//MCU 펌웨어 버전
+            IsRun = MdMasterBuffer[8] == 1 ? true : false;
+            Ch1Fault = MdMasterBuffer[9];
+            Ch2Fault = MdMasterBuffer[10];
+            Version = MdMasterBuffer[11];
         }
+
         public void ChSet(int chNum, int volt, int curr)
         {
             ushort[] tempStream;
@@ -315,14 +325,14 @@ namespace CalibrationNewGUI.Equipment
 
             if (chNum == 1) //1번채널
             {
-                tempfloat.floattemp = (float)volt * 0.001f;
+                tempfloat.floattemp = volt * 0.001f;
                 //1번채널 전압
                 tempStream[0] = tempfloat.floatByte1;
                 tempStream[1] = tempfloat.floatByte2;
                 //2번채널 전압
                 tempStream[2] = 0;
                 tempStream[3] = 0;
-                tempfloat.floattemp = (float)curr * 0.001f;
+                tempfloat.floattemp = curr * 0.001f;
                 //1번채널 전류
                 tempStream[4] = tempfloat.floatByte1;
                 tempStream[5] = tempfloat.floatByte2;
@@ -332,14 +342,14 @@ namespace CalibrationNewGUI.Equipment
             }
             else if (chNum == 2) //2번채널
             {
-                tempfloat.floattemp = (float)volt * 0.001f;
+                tempfloat.floattemp = volt * 0.001f;
                 //1번채널 전압
                 tempStream[0] = 0;
                 tempStream[1] = 0;
                 //2번채널 전압
                 tempStream[2] = tempfloat.floatByte1;
                 tempStream[3] = tempfloat.floatByte2;
-                tempfloat.floattemp = (float)curr * 0.001f;
+                tempfloat.floattemp = curr * 0.001f;
                 //1번채널 전류
                 tempStream[4] = 0;
                 tempStream[5] = 0;
@@ -347,18 +357,21 @@ namespace CalibrationNewGUI.Equipment
                 tempStream[6] = tempfloat.floatByte1;
                 tempStream[7] = tempfloat.floatByte2;
             }
+
             tempStream[8] = 1;//출력시작(0:대기, 1: 시작, 2: 정지)
             MdMaster.WriteMultipleRegisters(1, (ushort)0x2000, tempStream);//레지스터 주소 0x2000
         }
+
         public void ChCal(char calType, int chNum, double calValue)
         {
-            ushort[] tempStream;
+            ushort[] tempStream = new ushort[3];//데이터 크기에 맞게 설정하지 않으면 에러발생;
             FloatData tempfloat = new FloatData();
-            tempStream = new ushort[3];//데이터 크기에 맞게 설정하지 않으면 에러발생
-            tempfloat.floattemp = ((float)calValue * 0.001f);
+
+            tempfloat.floattemp = (float)calValue * 0.001f;
             tempStream[0] = tempfloat.floatByte1;
             tempStream[1] = tempfloat.floatByte2;
             tempStream[2] = 0;
+
             if (calType == 'V') //전압
             {
                 if (chNum == 1) tempStream[2] = 1; //채널1
@@ -369,12 +382,13 @@ namespace CalibrationNewGUI.Equipment
                 if (chNum == 1) tempStream[2] = 3;//채널1
                 else if (chNum == 2) tempStream[2] = 4;//채널2
             }
+
             MdMaster.WriteMultipleRegisters(1, (ushort)0x2010, tempStream);//레지스터 주소 0x2010
         }
         public void ChStop()
         {
-            ushort[] tempStream;
-            tempStream = new ushort[9];//데이터 크기에 맞게 설정하지 않으면 에러발생
+            ushort[] tempStream = new ushort[9]; //데이터 크기에 맞게 설정하지 않으면 에러발생
+
             tempStream[0] = 0;
             tempStream[1] = 0;
             tempStream[2] = 0;

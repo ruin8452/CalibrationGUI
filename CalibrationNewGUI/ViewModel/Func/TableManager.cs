@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.ViewModel.Func
@@ -215,9 +216,46 @@ namespace CalibrationNewGUI.ViewModel.Func
             return table;
         }
 
-        public static bool PointOverlapCheck(DataTable table, int checkColumn)
+        /**
+         *  @brief 데이터 중복체크
+         *  @details 특정 열의 데이터가 중복이 되는지 확인
+         *  
+         *  @param DataTable table 컨트롤 할 데이터 테이블
+         *  @param int checkColumn 검사할 열 번호
+         *  
+         *  @return bool 중복 여부(T:중복, F:중복없음)
+         */
+        public static bool OverlapCheck(DataTable table, int checkColumn)
         {
-            return true;
+            Queue<int> tempDataList = new Queue<int>();
+
+            foreach (DataRow row in table.Rows)
+                tempDataList.Enqueue(int.Parse(row[checkColumn].ToString()));
+
+            while(tempDataList.Count > 0)
+                if(tempDataList.Contains(tempDataList.Dequeue()))
+                    return true;
+
+            return false;
+        }
+
+        /**
+         *  @brief 데이터 중복체크
+         *  @details 특정 열의 데이터가 중복이 되는지 확인
+         *  
+         *  @param DataTable table 컨트롤 할 데이터 테이블
+         *  @param int checkColumn 검사할 열 번호
+         *  @param Regex checkRegex 형식 체크할 정규식
+         *  
+         *  @return bool 비정상 데이터 여부(T:데이터 비정상, F:데이터 정상)
+         */
+        public static bool WrongDataCheck(DataTable table, int checkColumn, Regex checkRegex)
+        {
+            foreach (DataRow row in table.Rows)
+                if (!checkRegex.IsMatch(row[checkColumn].ToString()))
+                    return true;
+
+            return false;
         }
     }
 }
