@@ -468,7 +468,7 @@ namespace CalibrationNewGUI
                 //로그 추가 코드 필요
                 
             }
-            if (sendModbusWriteOutputStopFlag == 1)//실제 출력
+            if (sendModbusWriteOutputStopFlag == 1)//실제 출력 정지
             {
                 tempStream = new ushort[9];//데이터 크기에 맞게 설정하지 않으면 에러발생
                 sendModbusWriteOutputStopFlag = 0;

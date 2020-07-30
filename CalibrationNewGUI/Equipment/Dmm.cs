@@ -34,7 +34,7 @@ namespace CalibrationNewGUI.Equipment
                 DmmMonitoring();
             });
 
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(100);    // ms
             MonitoringTimer.Tick += new EventHandler((object sender, EventArgs e) =>
             {
                 if (moniBack.IsBusy == false)
