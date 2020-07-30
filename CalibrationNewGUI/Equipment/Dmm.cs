@@ -81,8 +81,8 @@ namespace CalibrationNewGUI.Equipment
         {
             SensingData = RealSensing();
 
-            Volt = Math.Round(SensingData * 1000, 2);
-            Curr = Math.Round(SensingData * 1000000, 2);
+            Volt = Math.Round(SensingData * 1000, 1);
+            Curr = Math.Round(SensingData * 1000000, 1);
         }
 
 

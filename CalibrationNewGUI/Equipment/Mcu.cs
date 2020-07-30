@@ -256,6 +256,7 @@ namespace CalibrationNewGUI.Equipment
                 commModbusMCU.Open();
                 msg = "Connected!";
                 MdMaster = ModbusSerialMaster.CreateRtu(commModbusMCU);
+                CalPointCheck(MdMaster, 1);
                 if (commModbusMCU.IsOpen == true)
                     IsConnected = true;
             }
@@ -387,8 +388,10 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //Cal 포인트 확인함수
-        private void CalPointCheck(ModbusSerialMaster SendPort, byte slaveID, ref ushort[] buffer)//Cal포인트 확인 구조체 필요?
+        private void CalPointCheck(ModbusSerialMaster SendPort, byte slaveID)//Cal포인트 확인 구조체 필요?
         {
+            ushort[] buffer = new ushort[300];
+            ushort[] temp;
             FloatData tempfloat = new FloatData();
             ushort ch1Voltcnt = 0;
             ushort ch2Voltcnt = 0;
@@ -396,7 +399,9 @@ namespace CalibrationNewGUI.Equipment
             ushort ch2Currcnt = 0;
 
             //현재 저장되어있는 개수 호출
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2020, 4), 0, buffer, 34 * 2, 8);
+            //temp = SendPort.ReadHoldingRegisters(slaveID, 8224, 4);
+            //Buffer.BlockCopy(temp, 0, buffer, 34 * 2, 8);//(ushort)0x2020
+            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, 8224, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
             ch1Voltcnt = buffer[34];
             ch2Voltcnt = buffer[35];
             ch1Currcnt = buffer[36];
@@ -405,30 +410,46 @@ namespace CalibrationNewGUI.Equipment
             CalPointCH2VoltCnt = (int)ch2Voltcnt;
             CalPointCH1CurrCnt = (int)ch1Currcnt;
             CalPointCH2CurrCnt = (int)ch2Currcnt;
-            //채널1 전압
-            //기준값
+            
             //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);//레지스터 주소 0x2100 채널1 전압 기준값 쓰기
-            //보정값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);//레지스터 주소 0x2200 채널1 전압 보정값 쓰기
+            if(ch1Voltcnt > 0)//채널1 전압
+            {
+                //기준값
+                //레지스터 주소 0x2100 채널1 전압 기준값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                //보정값
+                //레지스터 주소 0x2200 채널1 전압 보정값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+            }
+            if(ch2Voltcnt > 0)//채널2 전압
+            {
+                //기준값
+                //레지스터 주소 0x3100 채널2 전압 기준값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+                //보정값
+                //레지스터 주소 0x3200 채널2 전압 보정값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+            }
 
-            //채널2 전압
-            //기준값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);//레지스터 주소 0x3100 채널2 전압 기준값 쓰기
-            //보정값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);//레지스터 주소 0x3200 채널2 전압 보정값 쓰기
+            if(ch1Currcnt > 0)//채널1 전류
+            {
+                //기준값
+                //레지스터 주소 0x2300 채널1 전류 기준값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                //보정값
+                //레지스터 주소 0x2400 채널1 전류 보정값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
+            }
 
-            //채널1 전류
-            //기준값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);//레지스터 주소 0x2300 채널1 전류 기준값 쓰기
-            //보정값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);//레지스터 주소 0x2400 채널1 전류 보정값 쓰기
-
-            //채널2 전류
-            //기준값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);//레지스터 주소 0x3300 채널2 전류 기준값 쓰기
-            //보정값
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);//레지스터 주소 0x3400 채널2 전류 보정값 쓰기
+            if (ch2Currcnt > 0)//채널2 전류
+            {
+                //기준값
+                //레지스터 주소 0x3300 채널2 전류 기준값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                //보정값
+                //레지스터 주소 0x3400 채널2 전류 보정값 쓰기
+                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
+            }
 
             //임시 포인트에 저장
             for (int i = 0; i < CalPointCH1VoltCnt; i++)
