@@ -53,7 +53,10 @@ namespace CalibrationNewGUI.ViewModel
         }
         private void CalStart()
         {
-            Mcu.ChCal(CalType, ChNum, Dmm.SensingData);
+            if(CalType == 'V')
+                Mcu.ChCal(CalType, ChNum, Dmm.Volt);
+            else
+                Mcu.ChCal(CalType, ChNum, Dmm.Curr);
         }
         private void OutputStop()
         {
