@@ -31,7 +31,7 @@ namespace CalibrationNewGUI.Equipment
                 DmmMonitoring();
             });
 
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(500);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(100);    // ms
             MonitoringTimer.Tick += new EventHandler((object sender, EventArgs e) =>
             {
                 if (moniBack.IsBusy == false)
@@ -76,7 +76,9 @@ namespace CalibrationNewGUI.Equipment
         //DMM모니터링용 타이머
         private void DmmMonitoring()
         {
+            //double SensingData_temp = SensingData;
             SensingData = Math.Round(RealSensing(), 2);
+            //SensingData = SensingData_temp * 0.9 + SensingData * 0.1;
         }
 
 

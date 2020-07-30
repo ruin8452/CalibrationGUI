@@ -160,7 +160,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case CalSeq.REAL_VALUE_SEND:
-                    for(int i = 0; i < calInfo.CalErrRetryCnt; i++)
+                    for (int i = 0; i < calInfo.CalErrRetryCnt; i++)
                     {
                         if (CalType == 'V')
                         {
@@ -275,6 +275,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.OUT_CHECK:
+                    Utill.Delay(0.3);
                     if (CalType == 'V')
                     {
                         if (Math.Abs(dmm.SensingData - voltPoint) > errRate)
