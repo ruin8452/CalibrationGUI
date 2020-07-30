@@ -7,7 +7,6 @@ using CalibrationNewGUI.ViewModel.Func;
 using CalibrationNewGUI.ViewModel.Func.EventArgsClass;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using J_Project.ViewModel.CommandClass;
 using Microsoft.Win32;
 using PropertyChanged;
 using System;
@@ -679,10 +678,26 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void OnReceiveMessageAction(CalPointMessege obj)
         {
-            CalPointTable.Clear();
+            if(obj.CalMode)
+            {
+                CalMode = true;
+                ModeSelect();
 
-            foreach (var rowData in obj.CalPointList)
-                CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+                CalPointTable.Clear();
+
+                foreach (var rowData in obj.CalPointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+            }
+            else
+            {
+                CalMode = false;
+                ModeSelect();
+
+                CalPointTable.Clear();
+
+                foreach (var rowData in obj.CalPointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+            }
         }
 
         /**

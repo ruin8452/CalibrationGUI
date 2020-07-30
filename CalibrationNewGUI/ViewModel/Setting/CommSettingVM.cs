@@ -1,10 +1,9 @@
 ﻿using CalibrationNewGUI.Model;
-using J_Project.ViewModel.CommandClass;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Windows;
-using System.Windows.Input;
 
 namespace CalibrationNewGUI.ViewModel.Setting
 {
@@ -21,8 +20,8 @@ namespace CalibrationNewGUI.ViewModel.Setting
         public ObservableCollection<string> FlowCtrlList { get; set; }
         public ObservableCollection<string> DmmModelList { get; set; }
 
-        public ICommand SaveClick { get; set; }
-        public ICommand ComboDrop { get; set; }
+        public RelayCommand SaveClick { get; set; }
+        public RelayCommand ComboDrop { get; set; }
 
         public CommSettingVM()
         {
@@ -37,8 +36,8 @@ namespace CalibrationNewGUI.ViewModel.Setting
 
             DmmModelList = new ObservableCollection<string>(new string[] { "34401A", "34450A", "Keithley2000" });
 
-            SaveClick = new BaseCommand(DataSave);
-            ComboDrop = new BaseCommand(IdRenuwal);
+            SaveClick = new RelayCommand(DataSave);
+            ComboDrop = new RelayCommand(IdRenuwal);
         }
 
         private void DataSave()
