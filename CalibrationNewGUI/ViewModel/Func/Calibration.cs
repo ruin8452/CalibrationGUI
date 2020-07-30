@@ -50,7 +50,9 @@ namespace CalibrationNewGUI.ViewModel.Func
         DispatcherTimer meaTimer = new DispatcherTimer();
 
         public event EventHandler<CalMonitorArgs> CalMonitor;
+        public event EventHandler CalEnd;
         public event EventHandler<CalMonitorArgs> MeaMonitor;
+        public event EventHandler MeaEnd;
 
         public Calibration()
         {
@@ -125,6 +127,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             if (CalPointList.Length <= PointIndex)
             {
                 calTimer.Stop();
+                OnCalEnd();
 
                 if (IsFullRun)
                     MeaStart();
@@ -219,6 +222,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             {
                 MeaRetryCnt = 0;
                 meaTimer.Stop();
+                OnMeaEnd();
                 return;
             }
 
@@ -324,6 +328,16 @@ namespace CalibrationNewGUI.ViewModel.Func
         public void OnMeaMonitor(CalMonitorArgs e)
         {
             MeaMonitor?.Invoke(this, e);
+        }
+
+        public void OnCalEnd()
+        {
+            CalEnd?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnMeaEnd()
+        {
+            MeaEnd?.Invoke(this, EventArgs.Empty);
         }
     }
 }
