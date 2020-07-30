@@ -33,6 +33,7 @@ namespace CalibrationNewGUI.ViewModel
 
         public bool ModelSelecte { get; set; } = true;
         public bool ChSelected { get; set; } = true;
+
         private int minPoint;
         public int MinPoint
         {
@@ -75,6 +76,7 @@ namespace CalibrationNewGUI.ViewModel
                 }
             }
         }
+
         private int maxPoint;
         public int MaxPoint
         {
@@ -117,6 +119,7 @@ namespace CalibrationNewGUI.ViewModel
                 }
             }
         }
+
         private int pointInterval;
         public int PointInterval
         {
@@ -132,6 +135,7 @@ namespace CalibrationNewGUI.ViewModel
                 pointInterval = value;
             }
         }
+
         public int ErrRange { get; set; }
 
         public DataTable ScanPointTable { get; set; }
@@ -254,7 +258,11 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            CalPointMessege Message = new CalPointMessege { CalPointList = tempPoint };
+            CalPointMessege Message = new CalPointMessege
+            {
+                CalMode = ModelSelecte,
+                CalPointList = tempPoint
+            };
             Messenger.Default.Send(Message);
         }
 

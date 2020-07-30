@@ -6,12 +6,15 @@
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+      xmlns:conv="clr-namespace:CalibrationNewGUI.UI.Converter"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI"
       mc:Ignorable="d"
       DataContext="{Binding Source={StaticResource Locator}, Path=MonitorPageVM}"
       Title="MonitorPage">
 
     <Page.Resources>
+        <conv:InvertBool x:Key="InvertBoolConv"/>
+
         <Style x:Key="MonitoringText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Digital-7 Mono"/>
             <Setter Property="FontSize" Value="45"/>
@@ -428,8 +431,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <RadioButton x:Name="VoltCalBtn" Content="전압" Style="{StaticResource RadioStyle}" Grid.Column="0" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}" />
-                            <RadioButton x:Name="CurrCalBtn" Content="전류" Style="{StaticResource RadioStyle}" Grid.Column="1" Command="{Binding ModeSelectClick}" />
+                            <RadioButton x:Name="VoltCalBtn" Content="전압" Style="{StaticResource RadioStyle}" Grid.Column="0" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}"/>
+                            <RadioButton x:Name="CurrCalBtn" Content="전류" Style="{StaticResource RadioStyle}" Grid.Column="1" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
                         </Grid>
 
                         <TextBlock Text="채널 선택" FontSize="14" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>

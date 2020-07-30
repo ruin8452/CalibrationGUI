@@ -1,14 +1,8 @@
 ﻿using CalibrationNewGUI.Model;
-using J_Project.ViewModel.CommandClass;
+using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace CalibrationNewGUI.ViewModel.Setting
 {
@@ -19,14 +13,14 @@ namespace CalibrationNewGUI.ViewModel.Setting
 
         public ObservableCollection<string> LanguageList { get; set; }
 
-        public ICommand SaveClick { get; set; }
+        public RelayCommand SaveClick { get; set; }
 
         public OthersSettingVM()
         {
             OthersInfos = OthersInfo.GetObj();
             LanguageList = new ObservableCollection<string>(new string[] { "한국어", "English" });
 
-            SaveClick = new BaseCommand(DataSave);
+            SaveClick = new RelayCommand(DataSave);
         }
 
         public void DataSave()

@@ -83,8 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\BaseCommand.cs" />
-    <Compile Include="Command\BaseObjCommand.cs" />
     <Compile Include="Comm\CommFlag.cs" />
     <Compile Include="Comm\ICommModule.cs" />
     <Compile Include="Comm\QueueComm.cs" />
@@ -115,6 +113,7 @@
     <Compile Include="UI\AutoScanPage.xaml.cs">
       <DependentUpon>AutoScanPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Converter\InvertBool.cs" />
     <Compile Include="UI\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>

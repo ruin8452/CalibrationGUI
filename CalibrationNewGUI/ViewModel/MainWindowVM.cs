@@ -1,15 +1,9 @@
 ﻿using CalibrationNewGUI.Equipment;
-using CalibrationNewGUI.Equipment.DigitalMeter;
-using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using J_Project.ViewModel.CommandClass;
 using PropertyChanged;
-using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace CalibrationNewGUI.ViewModel
