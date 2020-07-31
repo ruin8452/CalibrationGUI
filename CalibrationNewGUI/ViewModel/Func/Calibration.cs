@@ -169,7 +169,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         {
                             if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.Volt * 10);
+                                mcu.ChCal(CalType, ChNum, dmm.Volt);
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
@@ -182,7 +182,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         {
                             if (Math.Abs(dmm.Curr - currPoint) > errRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.Curr * 10);
+                                mcu.ChCal(CalType, ChNum, dmm.Curr);
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
