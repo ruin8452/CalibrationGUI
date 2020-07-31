@@ -24,10 +24,10 @@
         <Style x:Key="DmmTextSwitch" TargetType="TextBlock" BasedOn="{StaticResource MonitoringText}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CalMode}" Value="True">
-                    <Setter Property="Text" Value="{Binding Dmm.Volt}"/>
+                    <Setter Property="Text" Value="{Binding Dmm.Volt, StringFormat=#0.0}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CalMode}" Value="False">
-                    <Setter Property="Text" Value="{Binding Dmm.Curr}"/>
+                    <Setter Property="Text" Value="{Binding Dmm.Curr, StringFormat=#0.0}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -193,14 +193,13 @@
                 <Grid Margin="5,25,5,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="215"/>
+                        <ColumnDefinition Width="280"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
                             허용 오차 : <Run Style="{StaticResource CalErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
                             / 딜레이 : <Run Text="{Binding CalMeaInfo.CalDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
-                            / 자동 저장 회수 : <Run Text="1" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
                     </StackPanel>
 
@@ -236,10 +235,10 @@
 
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
-                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointUpClick}">
+                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointUploadClick}">
                             <fa:ImageAwesome Icon="Upload" ToolTip="CAL 포인트 업로드" Style="{StaticResource ColorChangeWhite}" />
                         </Button>
-                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointDownClick}">
+                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointDownloadClick}">
                             <fa:ImageAwesome Icon="Download" ToolTip="CAL 포인트 다운로드" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
 
@@ -313,14 +312,13 @@
                 <Grid Margin="5,25,5,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="215"/>
+                        <ColumnDefinition Width="280"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
                             허용 오차 : <Run Style="{StaticResource MeaErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
                             / 딜레이 : <Run Text="{Binding CalMeaInfo.MeaDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
-                            / 자동 저장 회수 : <Run Text="1" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
                     </StackPanel>
 

@@ -97,7 +97,7 @@ namespace CalibrationNewGUI.Equipment
             return SingleTonObj;
         }
         #endregion 싱글톤 패턴 구현
-#if (modbusDefine==true)
+#if (modbusDefine==false)
         public string Connect(string portName, int borate)
         {
             string msg = McuComm.Connect(portName, borate);
@@ -139,9 +139,9 @@ namespace CalibrationNewGUI.Equipment
             dataList.RemoveAt(dataList.Count-1); // ETX 삭제
 
             Ch1Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())) * 0.1; dataList.RemoveRange(0, 6);  // CH1 전압 추출
-            Ch1Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray())); dataList.RemoveRange(0, 7);  // CH1 전류 추출
+            Ch1Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray()));       dataList.RemoveRange(0, 7);  // CH1 전류 추출
             Ch2Volt = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 6).ToArray())) * 0.1; dataList.RemoveRange(0, 6);  // CH2 전압 추출
-            Ch2Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray())); dataList.RemoveRange(0, 7);  // CH2 전류 추출
+            Ch2Curr = double.Parse(Encoding.ASCII.GetString(dataList.GetRange(0, 7).ToArray()));       dataList.RemoveRange(0, 7);  // CH2 전류 추출
         }
         /**
         *  @brief MCU 모니터링
@@ -180,9 +180,9 @@ namespace CalibrationNewGUI.Equipment
          *  @return
          *  
          *  @see 채널 출력 프로토콜
-         *   STX  |  Command  |        CAL 타입       |        채널번호        | 전압 설정값(mV) | 전류 설정값(mA) |  ETX
-         *  ------|-----------|-----------------------|------------------------|-----------------|-----------------|-------
-         *   0x02 | 0x43('C') |  'V'or'I'(의미 없음)  |'0':ALL '1':CH1 '2':CH2 |     '00000'     |    '±000000'    |  0x03
+         *   STX  |  Command  |        CAL 타입       |        채널번호        | 전압 설정값(mV) | 전류 설정값(mA)  |  ETX
+         *  ------|-----------|-----------------------|------------------------|-----------------|------------------|-------
+         *   0x02 | 0x43('C') |  'V'or'I'(의미 없음)  |'0':ALL '1':CH1 '2':CH2 |     '00000'     |    '±0000000'    |  0x03
          */
         public void ChSet(int chNum, int volt, int curr)
         {
@@ -190,7 +190,7 @@ namespace CalibrationNewGUI.Equipment
 
             sendList.Add(STX);
             sendList.Add(0x43);
-            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+000000;-000000");
+            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+0000000;-0000000");
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
 
@@ -417,12 +417,14 @@ namespace CalibrationNewGUI.Equipment
             //현재 저장되어있는 개수 호출
             //temp = SendPort.ReadHoldingRegisters(slaveID, 8224, 4);
             //Buffer.BlockCopy(temp, 0, buffer, 34 * 2, 8);//(ushort)0x2020
-            Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
+            //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
 
-            ushort ch1Voltcnt = buffer[34];
-            ushort ch2Voltcnt = buffer[35];
-            ushort ch1Currcnt = buffer[36];
-            ushort ch2Currcnt = buffer[37];
+            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4);
+
+            ushort ch1Voltcnt = tempBuffer[0];
+            ushort ch2Voltcnt = tempBuffer[1];
+            ushort ch1Currcnt = tempBuffer[2];
+            ushort ch2Currcnt = tempBuffer[3];
 
             CalPointCH1VoltCnt = ch1Voltcnt;
             CalPointCH2VoltCnt = ch2Voltcnt;
@@ -433,40 +435,41 @@ namespace CalibrationNewGUI.Equipment
             if(ch1Voltcnt > 0)//채널1 전압
             {
                 //기준값
-                //레지스터 주소 0x2100 채널1 전압 기준값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                //레지스터 주소 0x2100 채널1 전압 기준값 읽기
+                //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2));
                 //보정값
-                //레지스터 주소 0x2200 채널1 전압 보정값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                //레지스터 주소 0x2200 채널1 전압 보정값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
             }
             if(ch2Voltcnt > 0)//채널2 전압
             {
                 //기준값
-                //레지스터 주소 0x3100 채널2 전압 기준값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+                //레지스터 주소 0x3100 채널2 전압 기준값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
                 //보정값
-                //레지스터 주소 0x3200 채널2 전압 보정값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+                //레지스터 주소 0x3200 채널2 전압 보정값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
             }
 
             if(ch1Currcnt > 0)//채널1 전류
             {
                 //기준값
-                //레지스터 주소 0x2300 채널1 전류 기준값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                //레지스터 주소 0x2300 채널1 전류 기준값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
                 //보정값
-                //레지스터 주소 0x2400 채널1 전류 보정값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                //레지스터 주소 0x2400 채널1 전류 보정값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
             }
 
             if (ch2Currcnt > 0)//채널2 전류
             {
                 //기준값
-                //레지스터 주소 0x3300 채널2 전류 기준값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                //레지스터 주소 0x3300 채널2 전류 기준값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
                 //보정값
-                //레지스터 주소 0x3400 채널2 전류 보정값 쓰기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                //레지스터 주소 0x3400 채널2 전류 보정값 읽기
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
             }
 
             //임시 포인트에 저장

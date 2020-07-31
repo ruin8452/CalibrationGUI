@@ -159,10 +159,10 @@ namespace CalibrationNewGUI.ViewModel
             calManager.MeaMonitor += CalManager_MeaMonitor;
 
             ScanPointTable = new DataTable();
-            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             McuPointTable = new DataTable();
-            McuPointTable = TableManager.ColumnAdd(McuPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            McuPointTable = TableManager.ColumnAdd(McuPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             PointCreateClick = new RelayCommand(PointCreate);
             PointAddClick = new RelayCommand(PointAdd);
@@ -235,14 +235,7 @@ namespace CalibrationNewGUI.ViewModel
             List<object[]> tempPoint = new List<object[]>();
 
             foreach (DataRow row in ScanPointTable.Rows)
-            {
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
-                {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
-                    return;
-                }
                 tempPoint.Add(row.ItemArray);
-            }
 
             calManager.AutoCalPointSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, null, tempPoint.ToArray(), false);
             calManager.MeaStart();
@@ -254,7 +247,7 @@ namespace CalibrationNewGUI.ViewModel
 
             foreach (DataRow row in McuPointTable.Rows)
             {
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
+                if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
                     MessageBox.Show("비어있는 셀이 있습니다.");
                     return;
@@ -274,37 +267,37 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (ChSelected) // 채널1
             {
-                ScanPointTable.Rows[e.Index][3] = Mcu.Ch1Volt;
-                ScanPointTable.Rows[e.Index][4] = Mcu.Ch1Curr;
+                ScanPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch1Volt;
+                ScanPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch1Curr;
             }
             else // 채널2
             {
-                ScanPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
-                ScanPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
+                ScanPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch2Volt;
+                ScanPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch2Curr;
             }
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (ModelSelecte)   // 전압
             {
-                ScanPointTable.Rows[e.Index][5] = Dmm.Volt;
+                ScanPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 
-                int tempVolt = int.Parse(ScanPointTable.Rows[e.Index][1].ToString());
+                int tempVolt = int.Parse(ScanPointTable.Rows[e.Index]["SetVolt"].ToString());
 
                 if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
-                    ScanPointTable.Rows[e.Index][6] = false;
+                    ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    ScanPointTable.Rows[e.Index][6] = true;
+                    ScanPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
             else   // 전류
             {
-                ScanPointTable.Rows[e.Index][5] = Dmm.Curr;
+                ScanPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
 
-                int tempCurr = int.Parse(ScanPointTable.Rows[e.Index][2].ToString());
+                int tempCurr = int.Parse(ScanPointTable.Rows[e.Index]["SetCurr"].ToString());
 
                 if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
-                    ScanPointTable.Rows[e.Index][6] = false;
+                    ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    ScanPointTable.Rows[e.Index][6] = true;
+                    ScanPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
         }
     }

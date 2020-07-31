@@ -11,15 +11,11 @@ using Microsoft.Win32;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 
 namespace CalibrationNewGUI.ViewModel
 {
@@ -79,6 +75,8 @@ namespace CalibrationNewGUI.ViewModel
         public RelayCommand<object> PointUpClick { get; set; }
         public RelayCommand<object> PointDownClick { get; set; }
 
+        public RelayCommand PointUploadClick { get; set; }
+        public RelayCommand PointDownloadClick { get; set; }
         public RelayCommand<object> ResultDataSaveClick { get; set; }
 
         public RelayCommand AutoCalStartClick { get; set; }
@@ -110,10 +108,10 @@ namespace CalibrationNewGUI.ViewModel
             calManager.MeaEnd += CalManager_MeaEnd;
 
             CalPointTable = new DataTable();
-            CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             MeaPointTable = new DataTable();
-            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, new string[] { "NO", "SetVolt", "SetCurr", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
 
             FileOpenClick = new RelayCommand<object>(FileOpenDialog);
             FileSaveClick = new RelayCommand<object>(FileSaveDialog);
@@ -131,6 +129,8 @@ namespace CalibrationNewGUI.ViewModel
             PointUpClick = new RelayCommand<object>(PointUp);
             PointDownClick = new RelayCommand<object>(PointDown);
 
+            PointUploadClick = new RelayCommand(PointUpload);
+            PointDownloadClick = new RelayCommand(PointDownload);
             ResultDataSaveClick = new RelayCommand<object>(ResultDataSave);
 
             AutoCalStartClick = new RelayCommand(AutoCalStart);
@@ -287,7 +287,7 @@ namespace CalibrationNewGUI.ViewModel
 
             foreach (DataRow row in CalPointTable.Rows)
             {
-                row[3] = row[4] = row[5] = row[6] = 0;
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempPoint.Add(row.ItemArray);
             }
             calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray(), null, false);
@@ -327,7 +327,7 @@ namespace CalibrationNewGUI.ViewModel
 
             foreach (DataRow row in MeaPointTable.Rows)
             {
-                row[3] = row[4] = row[5] = row[6] = 0;
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempPoint.Add(row.ItemArray);
             }
 
@@ -475,6 +475,16 @@ namespace CalibrationNewGUI.ViewModel
             }
         }
 
+        private void PointUpload()
+        {
+
+        }
+
+        private void PointDownload()
+        {
+
+        }
+
         private void ResultDataSave(object type)
         {
             SaveFileDialog saveDialog;
@@ -518,7 +528,7 @@ namespace CalibrationNewGUI.ViewModel
 
             foreach (DataRow row in CalPointTable.Rows)
             {
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
+                if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
                     MessageBox.Show("비어있는 셀이 있습니다.");
                     return;
@@ -528,7 +538,7 @@ namespace CalibrationNewGUI.ViewModel
 
             foreach (DataRow row in MeaPointTable.Rows)
             {
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[2].ToString()))
+                if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
                     MessageBox.Show("비어있는 셀이 있습니다.");
                     return;
@@ -684,7 +694,7 @@ namespace CalibrationNewGUI.ViewModel
             CalOptionMessege Message = new CalOptionMessege
             {
                 CalType = CalMode ? 'V' : 'I',
-                ChNumber = this.ChNumber
+                ChNumber = ChNumber
             };
 
             Messenger.Default.Send(Message);
@@ -735,37 +745,37 @@ namespace CalibrationNewGUI.ViewModel
         {
             if(ChNumber == 1)
             {
-                CalPointTable.Rows[e.Index][3] = Mcu.Ch1Volt;
-                CalPointTable.Rows[e.Index][4] = Mcu.Ch1Curr;
+                CalPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch1Volt;
+                CalPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch1Curr;
             }
             else if(ChNumber == 2)
             {
-                CalPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
-                CalPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
+                CalPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch2Volt;
+                CalPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch2Curr;
             }
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (CalMode)
             {
-                CalPointTable.Rows[e.Index][5] = Dmm.Volt;
+                CalPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 
-                int tempVolt = int.Parse(CalPointTable.Rows[e.Index][1].ToString());
+                int tempVolt = int.Parse(CalPointTable.Rows[e.Index]["SetVolt"].ToString());
 
                 if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.CalErrRangeVolt)
-                    CalPointTable.Rows[e.Index][6] = false;
+                    CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    CalPointTable.Rows[e.Index][6] = true;
+                    CalPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
             else
             {
-                CalPointTable.Rows[e.Index][5] = Dmm.Curr;
+                CalPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
 
-                int tempCurr = int.Parse(CalPointTable.Rows[e.Index][2].ToString());
+                int tempCurr = int.Parse(CalPointTable.Rows[e.Index]["SetCurr"].ToString());
 
                 if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.CalErrRangeCurr)
-                    CalPointTable.Rows[e.Index][6] = false;
+                    CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    CalPointTable.Rows[e.Index][6] = true;
+                    CalPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
         }
 
@@ -782,37 +792,37 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (ChNumber == 1)
             {
-                MeaPointTable.Rows[e.Index][3] = Mcu.Ch1Volt;
-                MeaPointTable.Rows[e.Index][4] = Mcu.Ch1Curr;
+                MeaPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch1Volt;
+                MeaPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch1Curr;
             }
             else if (ChNumber == 2)
             {
-                MeaPointTable.Rows[e.Index][3] = Mcu.Ch2Volt;
-                MeaPointTable.Rows[e.Index][4] = Mcu.Ch2Curr;
+                MeaPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch2Volt;
+                MeaPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch2Curr;
             }
 
             // DMM이 오차범위 안에 들어있는지 검사
             if (CalMode)
             {
-                MeaPointTable.Rows[e.Index][5] = Dmm.Volt;
+                MeaPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 
-                int tempVolt = int.Parse(MeaPointTable.Rows[e.Index][1].ToString());
+                int tempVolt = int.Parse(MeaPointTable.Rows[e.Index]["SetVolt"].ToString());
 
                 if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
-                    MeaPointTable.Rows[e.Index][6] = false;
+                    MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    MeaPointTable.Rows[e.Index][6] = true;
+                    MeaPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
             else
             {
-                MeaPointTable.Rows[e.Index][5] = Dmm.Curr;
+                MeaPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
 
-                int tempCurr = int.Parse(MeaPointTable.Rows[e.Index][2].ToString());
+                int tempCurr = int.Parse(MeaPointTable.Rows[e.Index]["SetCurr"].ToString());
 
                 if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
-                    MeaPointTable.Rows[e.Index][6] = false;
+                    MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
-                    MeaPointTable.Rows[e.Index][6] = true;
+                    MeaPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
         }
 
