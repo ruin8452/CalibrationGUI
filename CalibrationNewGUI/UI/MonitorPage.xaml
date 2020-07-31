@@ -236,6 +236,15 @@
 
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
+                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointUpClick}">
+                            <fa:ImageAwesome Icon="Upload" ToolTip="CAL 포인트 업로드" Style="{StaticResource ColorChangeWhite}" />
+                        </Button>
+                        <Button Style="{StaticResource ImgBtn}" Command="{Binding PointDownClick}">
+                            <fa:ImageAwesome Icon="Download" ToolTip="CAL 포인트 다운로드" Style="{StaticResource ColorChangeWhite}"/>
+                        </Button>
+
+                        <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+                        
                         <Button Tag="CAL" Style="{StaticResource ImgBtn}"
                                 Command="{Binding ResultDataSaveClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
                             <fa:ImageAwesome Icon="Save" ToolTip="데이터 저장" Style="{StaticResource ColorChangeWhite}"/>

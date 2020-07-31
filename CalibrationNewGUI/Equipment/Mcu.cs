@@ -47,7 +47,9 @@ namespace CalibrationNewGUI.Equipment
         public int CalPointCH2CurrCnt { get; set; } //전류 cal 포인트 개수
 
         const int SLAVE_ID = 1;
-        const ushort READ_ADDRESS = 0x1200;
+        const ushort MONITORING_ADDRESS = 0x1200;
+        const ushort REF_SET_ADDRESS = 0x2000;
+        const ushort CAL_VALUE_ADDRESS = 0x2010;
 
         /////////////////////////////////////////////////////////////////////
         public double Ch1Volt { get; set; }
@@ -264,13 +266,13 @@ namespace CalibrationNewGUI.Equipment
                 commModbusMCU.Open();
                 msg = "Connected!";
                 MdMaster = ModbusSerialMaster.CreateRtu(commModbusMCU);
-                CalPointCheck(MdMaster, SLAVE_ID);
+                CalPointCheck();
                 if (commModbusMCU.IsOpen == true)
                     IsConnected = true;
             }
             catch (Exception ex)
             {
-                msg = "Disconnected!"+ex.ToString();
+                msg = "Disconnected!"+ex.Message;
             }
             return msg;
         }
@@ -296,21 +298,25 @@ namespace CalibrationNewGUI.Equipment
         public void McuMonitoring()
         {
             FloatData tempfloat = new FloatData();
-            MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, READ_ADDRESS, 12);
+            MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, MONITORING_ADDRESS, 12);
 
             //모니터링값 파싱
             tempfloat.floatByte1 = MdMasterBuffer[0];
             tempfloat.floatByte2 = MdMasterBuffer[1];
             Ch1Volt = Math.Round(tempfloat.floattemp * 1000.0f, 2);
+
             tempfloat.floatByte1 = MdMasterBuffer[2];
             tempfloat.floatByte2 = MdMasterBuffer[3];
             Ch2Volt = Math.Round(tempfloat.floattemp * 1000.0f, 2);
+
             tempfloat.floatByte1 = MdMasterBuffer[4];
             tempfloat.floatByte2 = MdMasterBuffer[5];
             Ch1Curr = Math.Round(tempfloat.floattemp * 1000.0f, 2);
+
             tempfloat.floatByte1 = MdMasterBuffer[6];
             tempfloat.floatByte2 = MdMasterBuffer[7];
             Ch2Curr = Math.Round(tempfloat.floattemp * 1000.0f, 2);
+
             IsRun = MdMasterBuffer[8] == 1 ? true : false;
             Ch1Fault = MdMasterBuffer[9];
             Ch2Fault = MdMasterBuffer[10];
@@ -359,7 +365,7 @@ namespace CalibrationNewGUI.Equipment
             }
 
             tempStream[8] = 1;//출력시작(0:대기, 1: 시작, 2: 정지)
-            MdMaster.WriteMultipleRegisters(1, (ushort)0x2000, tempStream);//레지스터 주소 0x2000
+            MdMaster.WriteMultipleRegisters(SLAVE_ID, REF_SET_ADDRESS, tempStream);//레지스터 주소 0x2000
         }
 
         public void ChCal(char calType, int chNum, double calValue)
@@ -383,8 +389,9 @@ namespace CalibrationNewGUI.Equipment
                 else if (chNum == 2) tempStream[2] = 4;//채널2
             }
 
-            MdMaster.WriteMultipleRegisters(1, (ushort)0x2010, tempStream);//레지스터 주소 0x2010
+            MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_VALUE_ADDRESS, tempStream);//레지스터 주소 0x2010
         }
+
         public void ChStop()
         {
             ushort[] tempStream = new ushort[9]; //데이터 크기에 맞게 설정하지 않으면 에러발생
@@ -402,67 +409,64 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //Cal 포인트 확인함수
-        private void CalPointCheck(ModbusSerialMaster SendPort, byte slaveID)//Cal포인트 확인 구조체 필요?
+        private void CalPointCheck()//Cal포인트 확인 구조체 필요?
         {
             ushort[] buffer = new ushort[300];
-            ushort[] temp;
             FloatData tempfloat = new FloatData();
-            ushort ch1Voltcnt = 0;
-            ushort ch2Voltcnt = 0;
-            ushort ch1Currcnt = 0;
-            ushort ch2Currcnt = 0;
 
             //현재 저장되어있는 개수 호출
             //temp = SendPort.ReadHoldingRegisters(slaveID, 8224, 4);
             //Buffer.BlockCopy(temp, 0, buffer, 34 * 2, 8);//(ushort)0x2020
-            Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, 8224, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
-            ch1Voltcnt = buffer[34];
-            ch2Voltcnt = buffer[35];
-            ch1Currcnt = buffer[36];
-            ch2Currcnt = buffer[37];
-            CalPointCH1VoltCnt = (int)ch1Voltcnt;
-            CalPointCH2VoltCnt = (int)ch2Voltcnt;
-            CalPointCH1CurrCnt = (int)ch1Currcnt;
-            CalPointCH2CurrCnt = (int)ch2Currcnt;
+            Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
+
+            ushort ch1Voltcnt = buffer[34];
+            ushort ch2Voltcnt = buffer[35];
+            ushort ch1Currcnt = buffer[36];
+            ushort ch2Currcnt = buffer[37];
+
+            CalPointCH1VoltCnt = ch1Voltcnt;
+            CalPointCH2VoltCnt = ch2Voltcnt;
+            CalPointCH1CurrCnt = ch1Currcnt;
+            CalPointCH2CurrCnt = ch2Currcnt;
             
             //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
             if(ch1Voltcnt > 0)//채널1 전압
             {
                 //기준값
                 //레지스터 주소 0x2100 채널1 전압 기준값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
                 //보정값
                 //레지스터 주소 0x2200 채널1 전압 보정값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
             }
             if(ch2Voltcnt > 0)//채널2 전압
             {
                 //기준값
                 //레지스터 주소 0x3100 채널2 전압 기준값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
                 //보정값
                 //레지스터 주소 0x3200 채널2 전압 보정값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
             }
 
             if(ch1Currcnt > 0)//채널1 전류
             {
                 //기준값
                 //레지스터 주소 0x2300 채널1 전류 기준값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
                 //보정값
                 //레지스터 주소 0x2400 채널1 전류 보정값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
             }
 
             if (ch2Currcnt > 0)//채널2 전류
             {
                 //기준값
                 //레지스터 주소 0x3300 채널2 전류 기준값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
                 //보정값
                 //레지스터 주소 0x3400 채널2 전류 보정값 쓰기
-                Buffer.BlockCopy(SendPort.ReadHoldingRegisters(slaveID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
             }
 
             //임시 포인트에 저장

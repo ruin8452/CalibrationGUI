@@ -477,32 +477,30 @@ namespace CalibrationNewGUI.ViewModel
 
         private void ResultDataSave(object type)
         {
-            CalPointTable.Rows[0][5] = 1200;
+            SaveFileDialog saveDialog;
 
-            //SaveFileDialog saveDialog;
+            saveDialog = new SaveFileDialog
+            {
+                Title = "결과 데이터 저장",
+                Filter = "CSV파일 (*.csv)|*.csv|All files (*.*)|*.*",
+                DefaultExt = ".csv",
+                AddExtension = true,
+                InitialDirectory = Environment.CurrentDirectory
+            };
 
-            //saveDialog = new SaveFileDialog
-            //{
-            //    Title = "결과 데이터 저장",
-            //    Filter = "CSV파일 (*.csv)|*.csv|All files (*.*)|*.*",
-            //    DefaultExt = ".csv",
-            //    AddExtension = true,
-            //    InitialDirectory = Environment.CurrentDirectory
-            //};
+            if (saveDialog.ShowDialog() == false) // 다이얼 로그에서 OK버튼을 눌렀을 경우
+                return;
 
-            //if (saveDialog.ShowDialog() == false) // 다이얼 로그에서 OK버튼을 눌렀을 경우
-            //    return;
-
-            //if (type.ToString() == "CAL")
-            //{
-            //    foreach (DataRow row in CalPointTable.Rows)
-            //        CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
-            //}
-            //else
-            //{
-            //    foreach (DataRow row in MeaPointTable.Rows)
-            //        CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
-            //}
+            if (type.ToString() == "CAL")
+            {
+                foreach (DataRow row in CalPointTable.Rows)
+                    CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+            }
+            else
+            {
+                foreach (DataRow row in MeaPointTable.Rows)
+                    CsvFile.Save(saveDialog.FileName, saveDialog.OverwritePrompt, row.ItemArray);
+            }
         }
 
         /**
