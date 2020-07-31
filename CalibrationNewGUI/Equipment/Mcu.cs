@@ -190,7 +190,7 @@ namespace CalibrationNewGUI.Equipment
 
             sendList.Add(STX);
             sendList.Add(0x43);
-            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+0000000;-0000000");
+            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+000000;-000000");
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
 
@@ -212,7 +212,7 @@ namespace CalibrationNewGUI.Equipment
          *  @see 채널 출력 프로토콜
          *   STX  |  Command  |  CAL 타입  |        채널번호        | CAL 설정값(mV/mA) | 전류 설정값(mA) |  ETX
          *  ------|-----------|------------|------------------------|-------------------|-----------------|-------
-         *   0x02 | 0x52('R') |  'V'or'I'  |'0':ALL '1':CH1 '2':CH2 | '00000'/'±000000' |    '±000000'    |  0x03
+         *   0x02 | 0x52('R') |  'V'or'I'  |'0':ALL '1':CH1 '2':CH2 | '00000'/'±000000' |    '±0000000'    |  0x03
          */
         public void ChCal(char calType, int chNum, double calValue)
         {
@@ -223,9 +223,9 @@ namespace CalibrationNewGUI.Equipment
             sendList.Add(0x52);
 
             if(calType == 'V')
-                makeCmd = calType.ToString() + chNum.ToString() + calValue.ToString("00000");
+                makeCmd = calType.ToString() + chNum.ToString() + (calValue*10).ToString("00000");
             else
-                makeCmd = calType.ToString() + chNum.ToString() + calValue.ToString("+000000;-000000");
+                makeCmd = calType.ToString() + chNum.ToString() + (calValue*10).ToString("+0000000;-0000000");
 
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
