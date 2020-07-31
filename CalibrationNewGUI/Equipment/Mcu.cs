@@ -97,7 +97,7 @@ namespace CalibrationNewGUI.Equipment
             return SingleTonObj;
         }
         #endregion 싱글톤 패턴 구현
-#if (modbusDefine==false)
+#if (modbusDefine==true)
         public string Connect(string portName, int borate)
         {
             string msg = McuComm.Connect(portName, borate);
@@ -190,7 +190,7 @@ namespace CalibrationNewGUI.Equipment
 
             sendList.Add(STX);
             sendList.Add(0x43);
-            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+0000000;-0000000");
+            string makeCmd = 'V' + chNum.ToString() + volt.ToString("00000") + curr.ToString("+000000;-000000");
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
 
@@ -225,7 +225,7 @@ namespace CalibrationNewGUI.Equipment
             if(calType == 'V')
                 makeCmd = calType.ToString() + chNum.ToString() + calValue.ToString("00000");
             else
-                makeCmd = calType.ToString() + chNum.ToString() + calValue.ToString("+000000;-000000");
+                makeCmd = calType.ToString() + chNum.ToString() + (calValue*10).ToString("+0000000;-0000000");
 
             sendList.AddRange(Encoding.ASCII.GetBytes(makeCmd));
             sendList.Add(ETX);
@@ -409,7 +409,7 @@ namespace CalibrationNewGUI.Equipment
         }
 
         //Cal 포인트 확인함수
-        private void CalPointCheck()//Cal포인트 확인 구조체 필요?
+        public void CalPointCheck()//Cal포인트 확인 구조체 필요?
         {
             ushort[] buffer = new ushort[300];
             FloatData tempfloat = new FloatData();
@@ -417,9 +417,9 @@ namespace CalibrationNewGUI.Equipment
             //현재 저장되어있는 개수 호출
             //temp = SendPort.ReadHoldingRegisters(slaveID, 8224, 4);
             //Buffer.BlockCopy(temp, 0, buffer, 34 * 2, 8);//(ushort)0x2020
-            //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
+            Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
 
-            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4);
+            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2020, 4);
 
             ushort ch1Voltcnt = tempBuffer[0];
             ushort ch2Voltcnt = tempBuffer[1];
@@ -520,7 +520,7 @@ namespace CalibrationNewGUI.Equipment
             }
         }
         //Cal 포인트 저장함수(준비 - 저장 순서)
-        private void CalPointSave(ModbusSerialMaster SendPort, byte slaveID, int selectNum, float[,] CalPointArray, int voltCurrCount)
+        public void CalPointSave(ModbusSerialMaster SendPort, byte slaveID, int selectNum, float[,] CalPointArray, int voltCurrCount)
         {
             ushort[] tempStream;
             ushort[] tempStream2;
