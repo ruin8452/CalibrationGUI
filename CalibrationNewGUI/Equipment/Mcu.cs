@@ -83,7 +83,7 @@ namespace CalibrationNewGUI.Equipment
                 McuMonitoring();
             });
 
-            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(150);    // ms
+            MonitoringTimer.Interval = TimeSpan.FromMilliseconds(200);    // ms
             MonitoringTimer.Tick += new EventHandler((object sender, EventArgs e) =>
             {
                 if (moniBack.IsBusy == false)
@@ -259,8 +259,8 @@ namespace CalibrationNewGUI.Equipment
         {
             string msg = "";
             commModbusMCU = new SerialPort(portName, borate);
-            commModbusMCU.ReadTimeout = 1000;
-            commModbusMCU.WriteTimeout = 1000;
+            commModbusMCU.ReadTimeout = 500;
+            commModbusMCU.WriteTimeout = 500;
             try
             {
                 commModbusMCU.Open();
@@ -295,7 +295,7 @@ namespace CalibrationNewGUI.Equipment
             MonitoringTimer.Stop();
         }
 
-        public void McuMonitoring()//최대 30ms 소요될듯(약 25ms이하로 통신중)
+        public void McuMonitoring()
         {
             UnionConv tempfloat = new UnionConv();
             MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, MONITORING_ADDRESS, 12);
@@ -428,13 +428,8 @@ namespace CalibrationNewGUI.Equipment
             ushort ch1Currcnt = tempBuffer[2];
             ushort ch2Currcnt = tempBuffer[3];
 
-            CalPointCH1VoltCnt = ch1Voltcnt;
-            CalPointCH2VoltCnt = ch2Voltcnt;
-            CalPointCH1CurrCnt = ch1Currcnt;
-            CalPointCH2CurrCnt = ch2Currcnt;
-            
-            //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
-            if(ch1Voltcnt > 0)//채널1 전압
+
+            if (chNum == 1)
             {
                 if (calMode == 'V')
                 {
@@ -600,71 +595,43 @@ namespace CalibrationNewGUI.Equipment
             List<ushort> dataStream = new List<ushort>();
             foreach (var tempData in calPointList)
             {
-                //기준값
-                //레지스터 주소 0x2300 채널1 전류 기준값 읽기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
-                //보정값
-                //레지스터 주소 0x2400 채널1 전류 보정값 읽기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
+                standardPoint.Float = tempData[0];
+                correctionPoint.Float = tempData[1];
+
+                dataStream.Add(standardPoint.Byte1);
+                dataStream.Add(standardPoint.Byte2);
+                dataStream.Add(correctionPoint.Byte1);
+                dataStream.Add(correctionPoint.Byte2);
             }
 
-            if (ch2Currcnt > 0)//채널2 전류
+            if(chNum == 1)
             {
-                //기준값
-                //레지스터 주소 0x3300 채널2 전류 기준값 읽기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
-                //보정값
-                //레지스터 주소 0x3400 채널2 전류 보정값 읽기
-                Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
+                if(calMode == 'V')
+                {
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2100, dataStream.ToArray());
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { (ushort)calPointList.Length, 0, 0, 0, 1 });
+                }
+                else
+                {
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2300, dataStream.ToArray());
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, 0, (ushort)calPointList.Length, 0, 3 });
+                }
             }
-
-            //임시 포인트에 저장
-            for (int i = 0; i < CalPointCH1VoltCnt; i++)
+            else
             {
-                //채널1 전압 기준값
-                tempfloat.floatByte1 = buffer[40 + i * 2];
-                tempfloat.floatByte2 = buffer[41 + i * 2];
-                StrCalPointCH1Volt[0, i] = tempfloat.floattemp;
-                //채널1 전압 보정값
-                tempfloat.floatByte1 = buffer[60 + i * 2];
-                tempfloat.floatByte2 = buffer[61 + i * 2];
-                StrCalPointCH1Volt[1, i] = tempfloat.floattemp;
-            }
-            for (int i = 0; i < CalPointCH2VoltCnt; i++)
-            {
-                //채널2 전압 기준값
-                tempfloat.floatByte1 = buffer[160 + i * 2];
-                tempfloat.floatByte2 = buffer[161 + i * 2];
-                StrCalPointCH2Volt[0, i] = tempfloat.floattemp;
-                //채널2 전압 보정값
-                tempfloat.floatByte1 = buffer[180 + i * 2];
-                tempfloat.floatByte2 = buffer[181 + i * 2];
-                StrCalPointCH2Volt[1, i] = tempfloat.floattemp;
-            }
-            for (int i = 0; i < CalPointCH1CurrCnt; i++)
-            {
-                //채널1 전압 기준값
-                tempfloat.floatByte1 = buffer[80 + i * 2];
-                tempfloat.floatByte2 = buffer[81 + i * 2];
-                StrCalPointCH1Curr[0, i] = tempfloat.floattemp;
-                //채널1 전압 보정값
-                tempfloat.floatByte1 = buffer[120 + i * 2];
-                tempfloat.floatByte2 = buffer[121 + i * 2];
-                StrCalPointCH1Curr[1, i] = tempfloat.floattemp;
-            }
-
-            for (int i = 0; i < CalPointCH2CurrCnt; i++)
-            {
-                //채널2 전압 기준값
-                tempfloat.floatByte1 = buffer[200 + i * 2];
-                tempfloat.floatByte2 = buffer[201 + i * 2];
-                StrCalPointCH2Curr[0, i] = tempfloat.floattemp;
-                //채널2 전압 보정값
-                tempfloat.floatByte1 = buffer[240 + i * 2];
-                tempfloat.floatByte2 = buffer[241 + i * 2];
-                StrCalPointCH2Curr[1, i] = tempfloat.floattemp;
+                if (calMode == 'V')
+                {
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x3100, dataStream.ToArray());
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, (ushort)calPointList.Length, 0, 0, 2 });
+                }
+                else
+                {
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x3300, dataStream.ToArray());
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, 0, 0, (ushort)calPointList.Length, 4 });
+                }
             }
         }
+
         //Cal 포인트 저장함수(준비 - 저장 순서)
         public void CalPointSave(ModbusSerialMaster SendPort, byte slaveID, int selectNum, float[,] CalPointArray, int voltCurrCount)
         {
