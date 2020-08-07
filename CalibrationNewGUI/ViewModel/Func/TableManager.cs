@@ -108,6 +108,34 @@ namespace CalibrationNewGUI.ViewModel.Func
          *  
          *  @param DataTable table 컨트롤 할 데이터 테이블
          *  @param int index 추가할 행의 위치
+         *  @param int data1 추가한 행의 2번 열의 값
+         *  @param int data2 추가할 행의 3번 열의 값
+         *  @param int data3 추가할 행의 4번 열의 값
+         *  
+         *  @return DataTable 수정된 데이터 테이블
+         */
+        //TODO:테이블이 가지고 있는 행을 벗어난 인덱스가 삽입될 시 예외처리
+        public static DataTable RowAdd(DataTable table, int index, int data1, int data2, int data3)
+        {
+            DataRow newRow = table.NewRow();
+            newRow[1] = data1;
+            newRow[2] = data2;
+            newRow[3] = data3;
+            table.Rows.InsertAt(newRow, index);
+
+            // 인덱스 수정
+            for (int i = 0; i < table.Rows.Count; i++)
+                table.Rows[i][0] = i + 1;
+
+            return table;
+        }
+
+        /**
+         *  @brief 테이블 행 추가
+         *  @details 테이블에 새로운 행 추가 후 데이터 삽입 및 인덱스 수정@n
+         *  
+         *  @param DataTable table 컨트롤 할 데이터 테이블
+         *  @param int index 추가할 행의 위치
          *  @param object[] data 추가할 행에 삽입 할 데이터
          *  
          *  @return DataTable 수정된 데이터 테이블

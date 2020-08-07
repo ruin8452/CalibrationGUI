@@ -174,6 +174,19 @@
                 </StackPanel>
             </Grid>
 
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="딜레이" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <TextBox Text="{Binding Delay}" Style="{StaticResource TxtBoxStyle}" Width="60"/>
+                    <TextBlock Text="ms" Style="{StaticResource TxtStyle}"/>
+                </StackPanel>
+            </Grid>
+
             <Button Content="포인트 생성" Style="{StaticResource BtnStyle}" Margin="10" Height="30" Width="75" Command="{Binding PointCreateClick}"/>
         </StackPanel>
 

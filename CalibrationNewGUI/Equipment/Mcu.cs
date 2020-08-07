@@ -1,18 +1,11 @@
-﻿using CalibrationNewGUI.Model;
-using J_Project.Communication.CommFlags;
-using J_Project.Communication.CommModule;
+﻿using J_Project.Communication.CommModule;
 using Modbus.Device;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO.Ports;
-using System.Linq;
-using System.Net.Configuration;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace CalibrationNewGUI.Equipment
@@ -35,16 +28,6 @@ namespace CalibrationNewGUI.Equipment
             [FieldOffset(2)]
             public ushort Byte2;
         }
-
-        ushort[] buffer = new ushort[300];//임시 전체 버퍼(Cal 포인트 확인용)
-        float[,] StrCalPointCH1Volt = new float[2, 10];
-        float[,] StrCalPointCH1Curr = new float[2, 20];
-        float[,] StrCalPointCH2Volt = new float[2, 10];
-        float[,] StrCalPointCH2Curr = new float[2, 20];
-        public int CalPointCH1VoltCnt { get; set; } //전압 cal 포인트 개수
-        public int CalPointCH2VoltCnt { get; set; } //전압 cal 포인트 개수
-        public int CalPointCH1CurrCnt { get; set; } //전류 cal 포인트 개수
-        public int CalPointCH2CurrCnt { get; set; } //전류 cal 포인트 개수
 
         const int SLAVE_ID = 1;
         const ushort MONITORING_ADDRESS = 0x1200;

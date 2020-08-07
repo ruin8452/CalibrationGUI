@@ -513,7 +513,24 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointDownload()
         {
-            Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
+            float[][] pointList = Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
+
+            CalPointTable.Clear();
+            if (CalMode)
+            {
+                foreach (float[] tempPoint in pointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, (int)tempPoint[0], 2000, (int)tempPoint[1]);
+            }
+            else
+            {
+                foreach (float[] tempPoint in pointList)
+                {
+                    if (tempPoint[0] >= 0)
+                        CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, 4200, (int)tempPoint[0], (int)tempPoint[1]);
+                    else
+                        CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, 2700, (int)tempPoint[0], (int)tempPoint[1]);
+                }
+            }
         }
 
         private void ResultDataSave(object type)

@@ -137,6 +137,7 @@ namespace CalibrationNewGUI.ViewModel
         }
 
         public int ErrRange { get; set; }
+        public int Delay { get; set; }
 
         public DataTable ScanPointTable { get; set; }
         public DataTable McuPointTable { get; set; }
