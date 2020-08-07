@@ -1,6 +1,7 @@
 ﻿using J_Project.Manager;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
@@ -42,12 +43,22 @@ namespace J_Project.Communication.CommModule
         CommPacket tempPacket = new CommPacket();
         //Timer timer = new Timer(TimerSenderByte, null, 0, 100);
         DispatcherTimer timers = new DispatcherTimer();
-
+        BackgroundWorker queueBackString = new BackgroundWorker();
+        BackgroundWorker queueBackByte = new BackgroundWorker();
         public QueueComm(string dataPacketType)
         {
             dataType = dataPacketType;
 
             timers.Interval = TimeSpan.FromMilliseconds(100);
+
+            queueBackString.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                TimerSenderString(null, EventArgs.Empty);
+            });
+            queueBackByte.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
+            {
+                TimerSenderByte(null, EventArgs.Empty);
+            });
         }
 
         public string Connect(string portName, int baudRate)
@@ -63,12 +74,22 @@ namespace J_Project.Communication.CommModule
                     if (dataType == "string")
                     {
                         ComPort.DataReceived += IntterruptReceiverString;
-                        timers.Tick += TimerSenderString;
+                        //timers.Tick += TimerSenderString;
+                        timers.Tick += new EventHandler((object sender, EventArgs e) =>
+                         {
+                             if (queueBackString.IsBusy == false)
+                                 queueBackString.RunWorkerAsync();
+                         });
                     }
                     else if (dataType == "byte[]")
                     {
                         ComPort.DataReceived += IntterruptReceiverByte;
-                        timers.Tick += TimerSenderByte;
+                        //timers.Tick += TimerSenderByte;
+                        timers.Tick += new EventHandler((object sender, EventArgs e) =>
+                        {
+                            if (queueBackByte.IsBusy == false)
+                                queueBackByte.RunWorkerAsync();
+                        });
                     }
                     timers.Start();
 

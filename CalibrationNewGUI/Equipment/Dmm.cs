@@ -1,4 +1,5 @@
 ﻿using CalibrationNewGUI.Equipment.DigitalMeter;
+using CalibrationNewGUI.Model;
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System;
@@ -12,7 +13,7 @@ namespace CalibrationNewGUI.Equipment
     public class Dmm
     {
         double SensingData;
-
+        public DmmInfo DmmInfos { get; set; }//using 추가 및 DMM 정보 데이터 가져오기
         public double Volt { get; set; }
         public double Curr { get; set; }
         public bool IsConnected { get; private set; } = false;
@@ -29,6 +30,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Dmm()
         {
+            DmmInfos = DmmInfo.GetObj();//DMM 데이터 가져오기
             moniBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
             {
                 DmmMonitoring();
@@ -102,12 +104,25 @@ namespace CalibrationNewGUI.Equipment
 
         public void Setting()
         {
-            DmmComm.CommSend("SYST:REM", out int _);
-            DmmComm.CommSend("CONF:VOLT:DC", out int _);
+            //DMM데이터에 따라 세팅값 다르게 하기
+            switch (DmmInfos.ModelName)
+            {
+                case "34450A":
+                    break;
+                case "34401A":
+                    DmmComm.CommSend("SYSTem:REMote", out int _);
+                    DmmComm.CommSend("ZERO:AUTO ONCE", out int _);
+                    break;
+                case "Keithley2000":
+                    DmmComm.CommSend("SYST:REM", out int _);
+                    DmmComm.CommSend("CONF:VOLT:DC", out int _);
 
-            //DmmComm.CommSend("SENS:VOLT:DC:NPLC 0.1", out int _); // FAST
-            //DmmComm.CommSend("SENS:VOLT:DC:NPLC 1", out int _);   // MID
-            DmmComm.CommSend("SENS:VOLT:DC:NPLC 10", out int _);    // LOW
+                    //DmmComm.CommSend("SENS:VOLT:DC:NPLC 0.1", out int _); // FAST
+                    //DmmComm.CommSend("SENS:VOLT:DC:NPLC 1", out int _);   // MID
+                    DmmComm.CommSend("SENS:VOLT:DC:NPLC 10", out int _);    // LOW
+                    break;
+            }
+
         }
     }
 }
