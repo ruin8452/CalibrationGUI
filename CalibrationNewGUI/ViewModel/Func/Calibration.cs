@@ -154,6 +154,12 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case CalSeq.REF_SET:
                     mcu.ChSet(ChNum, voltPoint, currPoint);
                     isCalEnd = false;
+                    //임시 큐 함수용
+                    //mcu.outputBuffer.chNum = ChNum;
+                    //mcu.outputBuffer.volt = voltPoint;
+                    //mcu.outputBuffer.curr = currPoint;
+                    //mcu.sendWriteOutputStartFlag = 1;
+                    //isCalEnd = false;
                     break;
 
                 case CalSeq.DELAY1:
@@ -170,6 +176,11 @@ namespace CalibrationNewGUI.ViewModel.Func
                             if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                             {
                                 mcu.ChCal(CalType, ChNum, dmm.Volt);
+                                //임시 큐 함수용
+                                //mcu.calBuffer.calType = CalType;
+                                //mcu.calBuffer.chNum = ChNum;
+                                //mcu.calBuffer.dmm = dmm.Volt;
+                                //mcu.sendWriteDMMStartFlag = 1;
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
@@ -183,6 +194,11 @@ namespace CalibrationNewGUI.ViewModel.Func
                             if (Math.Abs(dmm.Curr - currPoint) > errRate)
                             {
                                 mcu.ChCal(CalType, ChNum, dmm.Curr);
+                                //임시 큐 함수용
+                                //mcu.calBuffer.calType = CalType;
+                                //mcu.calBuffer.chNum = ChNum;
+                                //mcu.calBuffer.dmm = dmm.Curr;
+                                //mcu.sendWriteDMMStartFlag = 1;
                                 OnCalMonitor(new CalMonitorArgs(PointIndex));
                             }
                             else
@@ -192,18 +208,27 @@ namespace CalibrationNewGUI.ViewModel.Func
                             }
                         }
                         Utill.Delay(calInfo.CalDelayTime * 0.001);
+                        OnCalMonitor(new CalMonitorArgs(PointIndex));
                     }
                     isCalEnd = false;
                     break;
 
                 case CalSeq.DELAY2:
+                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
 
                 case CalSeq.END_CAL:
+                    OnCalMonitor(new CalMonitorArgs(PointIndex));
                     mcu.ChStop();
                     isCalEnd = false;
+
+                    //임시 큐 함수용
+                    //OnCalMonitor(new CalMonitorArgs(PointIndex));
+                    //mcu.sendWriteOutputStopFlag = 1;
+                    //isCalEnd = false;
                     break;
 
                 case CalSeq.DELAY3:
@@ -270,6 +295,13 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case MeaSeq.REF_SET:
                     mcu.ChSet(ChNum, voltPoint, currPoint);
                     isMeaEnd = false;
+
+                    //임시 큐 함수용
+                    //mcu.outputBuffer.chNum = ChNum;
+                    //mcu.outputBuffer.volt = voltPoint;
+                    //mcu.outputBuffer.curr = currPoint;
+                    //mcu.sendWriteOutputStartFlag = 1;
+                    //isMeaEnd = false;
                     break;
 
                 case MeaSeq.DELAY1:
@@ -279,25 +311,54 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.OUT_CHECK:
-                    Utill.Delay(0.3);
+                    //Utill.Delay(0.3);
+                    
                     if (CalType == 'V')
                     {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            if (Math.Abs(dmm.Volt - voltPoint) < 100)
+                            {
+                                break;
+                            }
+                            Utill.Delay(0.1);
+                        }
+                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                            isSuccess = false;
                             mcu.ChStop();
+                            isSuccess = false;
+                            //임시 큐 함수용
+                            //mcu.sendWriteOutputStopFlag = 1;
+                            //isSuccess = false;
                         }
                         else
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     }
                     else
                     {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            if (Math.Abs(dmm.Volt - currPoint) < 1000)
+                            {
+                                break;
+                            }
+                            Utill.Delay(0.1);
+                        }
+                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Curr - currPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                            isSuccess = false;
+                            
                             mcu.ChStop();
+                            isSuccess = false;
+
+                            //임시 큐 함수용
+                            //mcu.sendWriteOutputStopFlag = 1;
+                            //isSuccess = false;
                         }
                         else
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
@@ -308,7 +369,13 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case MeaSeq.OUT_STOP:
                     OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     mcu.ChStop();
+                    OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     isMeaEnd = false;
+
+                    //임시 큐 함수용
+                    //OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                    //mcu.sendWriteOutputStopFlag = 1;
+                    //isMeaEnd = false;
                     break;
 
                 case MeaSeq.DELAY2:
