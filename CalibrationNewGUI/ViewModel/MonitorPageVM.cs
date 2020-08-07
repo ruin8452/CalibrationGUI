@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +36,8 @@ namespace CalibrationNewGUI.ViewModel
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
+
+        public StringBuilder LogText { get; set; }
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
@@ -101,6 +105,8 @@ namespace CalibrationNewGUI.ViewModel
             OtherInfos = OthersInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
+
+            LogText = new StringBuilder();
 
             calManager.CalMonitor += CalManager_CalMonitor;
             calManager.MeaMonitor += CalManager_MeaMonitor;
@@ -292,7 +298,7 @@ namespace CalibrationNewGUI.ViewModel
                 row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempPoint.Add(row.ItemArray);
             }
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray(), null, false);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempPoint.ToArray(), null, false);
             calManager.CalStart();
         }
 
@@ -333,7 +339,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, null, tempPoint.ToArray(), false);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, null, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -479,7 +485,8 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointUpload()
         {
-            if(CalMode == true)
+            // 전압 포인트 전송
+            if (CalMode == true)
             {
                 var pointList = from row in CalPointTable.AsEnumerable()
                                 select new float[]
@@ -487,14 +494,43 @@ namespace CalibrationNewGUI.ViewModel
                                     row.Field<float>("SetVolt"),
                                     row.Field<float>("Correction")
                                 };
-            }
 
-            //Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber);
+                Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber, pointList.ToArray());
+            }
+            // 전류 포인트 전송
+            else
+            {
+                var pointList = from row in CalPointTable.AsEnumerable()
+                                select new float[]
+                                {
+                                    row.Field<float>("SetCurr"),
+                                    row.Field<float>("Correction")
+                                };
+
+                Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber, pointList.ToArray());
+            }
         }
 
         private void PointDownload()
         {
-            Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
+            float[][] pointList = Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
+
+            CalPointTable.Clear();
+            if (CalMode)
+            {
+                foreach (float[] tempPoint in pointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, (int)tempPoint[0], 2000, (int)tempPoint[1]);
+            }
+            else
+            {
+                foreach (float[] tempPoint in pointList)
+                {
+                    if (tempPoint[0] >= 0)
+                        CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, 4200, (int)tempPoint[0], (int)tempPoint[1]);
+                    else
+                        CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, 2700, (int)tempPoint[0], (int)tempPoint[1]);
+                }
+            }
         }
 
         private void ResultDataSave(object type)
@@ -558,7 +594,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempMeaPoint.Add(row.ItemArray);
             }
 
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempCalPoint.ToArray(), tempMeaPoint.ToArray(), true);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempCalPoint.ToArray(), tempMeaPoint.ToArray(), true);
             calManager.CalStart();
         }
 

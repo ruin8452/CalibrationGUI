@@ -137,6 +137,7 @@ namespace CalibrationNewGUI.ViewModel
         }
 
         public int ErrRange { get; set; }
+        public int Delay { get; set; }
 
         public DataTable ScanPointTable { get; set; }
         public DataTable McuPointTable { get; set; }
@@ -239,7 +240,7 @@ namespace CalibrationNewGUI.ViewModel
             foreach (DataRow row in ScanPointTable.Rows)
                 tempPoint.Add(row.ItemArray);
 
-            calManager.AutoCalPointSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, null, tempPoint.ToArray(), false);
+            calManager.AutoCalPointSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, null, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 

@@ -89,7 +89,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <!--상단 메뉴바-->
@@ -97,7 +97,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="310"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
@@ -157,14 +157,14 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="85"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="시리얼 번호 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="13" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                        <TextBlock Text="시리얼 번호 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
                         <TextBox Text="{Binding McuInfos.McuSerialNum}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" FontFamily="NanumGothic" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1"/>
 
-                        <TextBlock Text="DMM 모델 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="13" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                        <TextBlock Text="DMM 모델 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
                         <TextBlock Text="{Binding DmmInfos.ModelName}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="13"/>
                     </Grid>
                 </StackPanel>
@@ -177,7 +177,7 @@
 
         <!--버전 정보-->
         <Border Grid.Row="3" BorderBrush="#FF3B456B" Background="DodgerBlue" BorderThickness="0,1,0,0">
-            <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13">
+            <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="16">
                 <Run Text="F/W Ver : "/>
                 <Run Text="{Binding McuInfos.McuVersion}"/>
                 <Run Text=" / "/>
