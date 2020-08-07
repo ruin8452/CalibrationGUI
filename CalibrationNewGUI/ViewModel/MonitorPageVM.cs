@@ -504,7 +504,7 @@ namespace CalibrationNewGUI.ViewModel
                                 select new float[]
                                 {
                                     row.Field<float>("SetCurr"),
-                                    row.Field<float>("Correction")
+                                    row.Field<float>("Correction") 
                                 };
 
                 Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber, pointList.ToArray());
