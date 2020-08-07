@@ -13,7 +13,7 @@
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
         <Style x:Key="CalSetBox" TargetType="TextBox">
@@ -21,13 +21,14 @@
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="BorderBrush" Value="#FF53609B"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
         <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="0,10"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="30"/>
@@ -56,7 +57,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Margin="40,0,40,20" >
-                <TextBlock Text="션트" Margin="0,20" Foreground="White" FontSize="20" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="션트" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -85,7 +86,7 @@
             </StackPanel>
 
             <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                <TextBlock Text="전압 메타" Margin="0,20" Foreground="White" FontSize="20" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="전압 메타" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                 <Grid>
                     <Grid.RowDefinitions>

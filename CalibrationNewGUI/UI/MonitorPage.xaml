@@ -15,6 +15,14 @@
     <Page.Resources>
         <conv:InvertBool x:Key="InvertBoolConv"/>
 
+        <Style x:Key="MonitoringItemText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="NanumGothic"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
         <Style x:Key="MonitoringText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Digital-7 Mono"/>
             <Setter Property="FontSize" Value="45"/>
@@ -197,7 +205,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
                             허용 오차 : <Run Style="{StaticResource CalErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
                             / 딜레이 : <Run Text="{Binding CalMeaInfo.CalDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
@@ -316,7 +324,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="15" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
                             허용 오차 : <Run Style="{StaticResource MeaErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
                             / 딜레이 : <Run Text="{Binding CalMeaInfo.MeaDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
                         </TextBlock>
@@ -470,7 +478,7 @@
                         <StackPanel Margin="10">
                             <!-- 채널1 Volt -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="CH1 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                <TextBlock Text="CH1 전압(mV)" Style="{StaticResource MonitoringItemText}"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -479,7 +487,7 @@
                             </StackPanel>
                             <!-- 채널1 Curr -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="CH1 전류(mA)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                <TextBlock Text="CH1 전류(mA)" Style="{StaticResource MonitoringItemText}"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -488,7 +496,7 @@
                             </StackPanel>
                             <!-- Dmm1 Volt -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource MonitoringItemText}">
                                     DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
@@ -501,7 +509,7 @@
                         <StackPanel Margin="10">
                             <!-- 채널2 Volt -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="CH2 전압(mV)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                <TextBlock Text="CH2 전압(mV)" Style="{StaticResource MonitoringItemText}"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -510,7 +518,7 @@
                             </StackPanel>
                             <!-- 채널2 Curr -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="CH2 전류(mA)" Foreground="White" FontSize="15" FontFamily="NanumGothic" Background="{x:Null}" VerticalAlignment="Center"/>
+                                <TextBlock Text="CH2 전류(mA)" Style="{StaticResource MonitoringItemText}"/>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -533,8 +541,8 @@
                     <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <ScrollViewer x:Name="LogViewer" VerticalScrollBarVisibility="Auto">
-                    <TextBlock Text="로그" Foreground="White" FontFamily="NanumBarunGothic" FontSize="14"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding LogText}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="16"/>
                 </ScrollViewer>
             </StackPanel>
         </Border>

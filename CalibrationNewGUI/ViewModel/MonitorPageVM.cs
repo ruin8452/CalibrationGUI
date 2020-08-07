@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +36,8 @@ namespace CalibrationNewGUI.ViewModel
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
+
+        public StringBuilder LogText { get; set; }
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
@@ -101,6 +105,8 @@ namespace CalibrationNewGUI.ViewModel
             OtherInfos = OthersInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
+
+            LogText = new StringBuilder();
 
             calManager.CalMonitor += CalManager_CalMonitor;
             calManager.MeaMonitor += CalManager_MeaMonitor;
@@ -479,7 +485,8 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointUpload()
         {
-            if(CalMode == true)
+            // 전압 포인트 전송
+            if (CalMode == true)
             {
                 var pointList = from row in CalPointTable.AsEnumerable()
                                 select new float[]
@@ -487,9 +494,21 @@ namespace CalibrationNewGUI.ViewModel
                                     row.Field<float>("SetVolt"),
                                     row.Field<float>("Correction")
                                 };
-            }
 
-            //Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber);
+                Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber, pointList.ToArray());
+            }
+            // 전류 포인트 전송
+            else
+            {
+                var pointList = from row in CalPointTable.AsEnumerable()
+                                select new float[]
+                                {
+                                    row.Field<float>("SetCurr"),
+                                    row.Field<float>("Correction")
+                                };
+
+                Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber, pointList.ToArray());
+            }
         }
 
         private void PointDownload()

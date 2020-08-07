@@ -436,10 +436,10 @@ namespace CalibrationNewGUI.Equipment
                     tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 4));
                     for(int i = 0; i < ch1Voltcnt; i++)
                     {
-                        standardPoint.Byte1 = tempBuffer[i + 0];
-                        standardPoint.Byte2 = tempBuffer[i + 1];
-                        correctionPoint.Byte1 = tempBuffer[i + 2];
-                        correctionPoint.Byte2 = tempBuffer[i + 3];
+                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
@@ -451,10 +451,10 @@ namespace CalibrationNewGUI.Equipment
                     tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 4));
                     for (int i = 0; i < ch1Currcnt; i++)
                     {
-                        standardPoint.Byte1 = tempBuffer[i + 0];
-                        standardPoint.Byte2 = tempBuffer[i + 1];
-                        correctionPoint.Byte1 = tempBuffer[i + 2];
-                        correctionPoint.Byte2 = tempBuffer[i + 3];
+                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
@@ -469,10 +469,10 @@ namespace CalibrationNewGUI.Equipment
                     tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 4));
                     for (int i = 0; i < ch2Voltcnt; i++)
                     {
-                        standardPoint.Byte1 = tempBuffer[i + 0];
-                        standardPoint.Byte2 = tempBuffer[i + 1];
-                        correctionPoint.Byte1 = tempBuffer[i + 2];
-                        correctionPoint.Byte2 = tempBuffer[i + 3];
+                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
@@ -484,10 +484,10 @@ namespace CalibrationNewGUI.Equipment
                     tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 4));
                     for (int i = 0; i < ch2Currcnt; i++)
                     {
-                        standardPoint.Byte1 = tempBuffer[i + 0];
-                        standardPoint.Byte2 = tempBuffer[i + 1];
-                        correctionPoint.Byte1 = tempBuffer[i + 2];
-                        correctionPoint.Byte2 = tempBuffer[i + 3];
+                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
