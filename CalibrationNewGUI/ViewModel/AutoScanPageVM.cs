@@ -158,11 +158,13 @@ namespace CalibrationNewGUI.ViewModel
 
             calManager.MeaMonitor += CalManager_MeaMonitor;
 
+
+            string[] cloumnName = new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" };
             ScanPointTable = new DataTable();
-            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, cloumnName);
 
             McuPointTable = new DataTable();
-            McuPointTable = TableManager.ColumnAdd(McuPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            McuPointTable = TableManager.ColumnAdd(McuPointTable, cloumnName);
 
             PointCreateClick = new RelayCommand(PointCreate);
             PointAddClick = new RelayCommand(PointAdd);
@@ -281,7 +283,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 ScanPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 
-                int tempVolt = int.Parse(ScanPointTable.Rows[e.Index]["SetVolt"].ToString());
+                float tempVolt = ScanPointTable.Rows[e.Index].Field<float>("SetVolt");
 
                 if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;
@@ -292,7 +294,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 ScanPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
 
-                int tempCurr = int.Parse(ScanPointTable.Rows[e.Index]["SetCurr"].ToString());
+                float tempCurr = ScanPointTable.Rows[e.Index].Field<float>("SetCurr");
 
                 if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;

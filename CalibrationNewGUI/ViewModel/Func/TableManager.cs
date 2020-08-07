@@ -30,8 +30,26 @@ namespace CalibrationNewGUI.ViewModel.Func
          */
         public static DataTable ColumnAdd(DataTable table, string[] columnNames)
         {
-            foreach (string name in columnNames)
-                table.Columns.Add(name);
+            for (int i = 0; i < columnNames.Length; i++)
+                table.Columns.Add(columnNames[i]);
+
+            return table;
+        }
+
+        /**
+         *  @brief 테이블 열 추가
+         *  @details 테이블에 새로운 복수의 열 추가@n
+         *  
+         *  @param DataTable table 컨트롤 할 데이터 테이블
+         *  @param string[] columnNames 추가할 열의 이름
+         *  @param Type[] columnTypes 추가할 열의 타입
+         *  
+         *  @return DataTable 수정된 데이터 테이블
+         */
+        public static DataTable ColumnAdd(DataTable table, string[] columnNames, Type[] columnTypes)
+        {
+            for(int i = 0; i < columnNames.Length; i++)
+                table.Columns.Add(columnNames[i], columnTypes[i]);
 
             return table;
         }

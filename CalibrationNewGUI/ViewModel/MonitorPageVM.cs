@@ -30,7 +30,7 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MonitorPageVM
     {
-        public bool preCalMode = true;  // CAL 모드의 이전 상태를 저장
+        private bool preCalMode = true;  // CAL 모드의 이전 상태를 저장
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
@@ -107,11 +107,13 @@ namespace CalibrationNewGUI.ViewModel
             calManager.CalEnd += CalManager_CalEnd;
             calManager.MeaEnd += CalManager_MeaEnd;
 
+            string[] cloumnName = new string[] {        "NO",     "SetVolt",     "SetCurr",  "Correction",      "OutVolt",      "OutCurr",       "OutDMM",  "IsRangeIn" };
+            Type[] cloumnType   = new Type[]   { typeof(int), typeof(float), typeof(float), typeof(float), typeof(double), typeof(double), typeof(double), typeof(bool) };
             CalPointTable = new DataTable();
-            CalPointTable = TableManager.ColumnAdd(CalPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            CalPointTable = TableManager.ColumnAdd(CalPointTable, cloumnName, cloumnType);
 
             MeaPointTable = new DataTable();
-            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" });
+            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, cloumnName);
 
             FileOpenClick = new RelayCommand<object>(FileOpenDialog);
             FileSaveClick = new RelayCommand<object>(FileSaveDialog);
@@ -477,12 +479,22 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointUpload()
         {
+            if(CalMode == true)
+            {
+                var pointList = from row in CalPointTable.AsEnumerable()
+                                select new float[]
+                                {
+                                    row.Field<float>("SetVolt"),
+                                    row.Field<float>("Correction")
+                                };
+            }
 
+            //Mcu.CalPointSave(CalMode == true ? 'V' : 'I', ChNumber);
         }
 
         private void PointDownload()
         {
-            Mcu.CalPointCheck();
+            Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
         }
 
         private void ResultDataSave(object type)
@@ -761,7 +773,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 CalPointTable.Rows[e.Index]["OutDMM"] = tempDmmValue = Dmm.Volt;
 
-                int tempVolt = int.Parse(CalPointTable.Rows[e.Index]["SetVolt"].ToString());
+                float tempVolt = CalPointTable.Rows[e.Index].Field<float>("SetVolt");
 
                 if (Math.Abs(tempVolt - tempDmmValue) > CalMeaInfo.CalErrRangeVolt)
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
@@ -772,7 +784,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 CalPointTable.Rows[e.Index]["OutDMM"] = tempDmmValue = Dmm.Curr;
 
-                int tempCurr = int.Parse(CalPointTable.Rows[e.Index]["SetCurr"].ToString());
+                float tempCurr = CalPointTable.Rows[e.Index].Field<float>("SetCurr");
 
                 if (Math.Abs(tempCurr - tempDmmValue) > CalMeaInfo.CalErrRangeCurr)
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
@@ -808,7 +820,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 MeaPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 
-                int tempVolt = int.Parse(MeaPointTable.Rows[e.Index]["SetVolt"].ToString());
+                float tempVolt = MeaPointTable.Rows[e.Index].Field<float>("SetVolt");
 
                 if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
@@ -819,7 +831,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 MeaPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
 
-                int tempCurr = int.Parse(MeaPointTable.Rows[e.Index]["SetCurr"].ToString());
+                float tempCurr = MeaPointTable.Rows[e.Index].Field<float>("SetCurr");
 
                 if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
