@@ -630,7 +630,7 @@ public void CommSendQueue()//플래그를 사용하는 임시 큐 함수(큐 보
         }
 
         //Cal 포인트 확인함수
-        private void CalPointCheck()//Cal포인트 확인 구조체 필요?
+        public void CalPointCheck()//Cal포인트 확인 구조체 필요?
         {
             ushort[] buffer = new ushort[300];
             FloatData tempfloat = new FloatData();
@@ -638,9 +638,9 @@ public void CommSendQueue()//플래그를 사용하는 임시 큐 함수(큐 보
             //현재 저장되어있는 개수 호출
             //temp = SendPort.ReadHoldingRegisters(slaveID, 8224, 4);
             //Buffer.BlockCopy(temp, 0, buffer, 34 * 2, 8);//(ushort)0x2020
-            //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
+            Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2020, 4), 0, buffer, 34 * 2, 8);//(ushort)0x2020
 
-            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4);
+            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, (ushort)0x2020, 4);
 
             ushort ch1Voltcnt = tempBuffer[0];
             ushort ch2Voltcnt = tempBuffer[1];
@@ -741,7 +741,7 @@ public void CommSendQueue()//플래그를 사용하는 임시 큐 함수(큐 보
             }
         }
         //Cal 포인트 저장함수(준비 - 저장 순서)
-        private void CalPointSave(ModbusSerialMaster SendPort, byte slaveID, int selectNum, float[,] CalPointArray, int voltCurrCount)
+        public void CalPointSave(ModbusSerialMaster SendPort, byte slaveID, int selectNum, float[,] CalPointArray, int voltCurrCount)
         {
             ushort[] tempStream;
             ushort[] tempStream2;

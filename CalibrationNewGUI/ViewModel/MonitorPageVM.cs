@@ -482,7 +482,7 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointDownload()
         {
-
+            Mcu.CalPointCheck();
         }
 
         private void ResultDataSave(object type)
@@ -743,7 +743,9 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void CalManager_CalMonitor(object sender, CalMonitorArgs e)
         {
-            if(ChNumber == 1)
+            double tempDmmValue;
+
+            if (ChNumber == 1)
             {
                 CalPointTable.Rows[e.Index]["OutVolt"] = Mcu.Ch1Volt;
                 CalPointTable.Rows[e.Index]["OutCurr"] = Mcu.Ch1Curr;
@@ -757,22 +759,22 @@ namespace CalibrationNewGUI.ViewModel
             // DMM이 오차범위 안에 들어있는지 검사
             if (CalMode)
             {
-                CalPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
+                CalPointTable.Rows[e.Index]["OutDMM"] = tempDmmValue = Dmm.Volt;
 
                 int tempVolt = int.Parse(CalPointTable.Rows[e.Index]["SetVolt"].ToString());
 
-                if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.CalErrRangeVolt)
+                if (Math.Abs(tempVolt - tempDmmValue) > CalMeaInfo.CalErrRangeVolt)
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
             else
             {
-                CalPointTable.Rows[e.Index]["OutDMM"] = Dmm.Curr;
+                CalPointTable.Rows[e.Index]["OutDMM"] = tempDmmValue = Dmm.Curr;
 
                 int tempCurr = int.Parse(CalPointTable.Rows[e.Index]["SetCurr"].ToString());
 
-                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.CalErrRangeCurr)
+                if (Math.Abs(tempCurr - tempDmmValue) > CalMeaInfo.CalErrRangeCurr)
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     CalPointTable.Rows[e.Index]["IsRangeIn"] = true;
