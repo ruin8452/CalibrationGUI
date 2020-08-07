@@ -298,7 +298,7 @@ namespace CalibrationNewGUI.ViewModel
                 row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempPoint.Add(row.ItemArray);
             }
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempPoint.ToArray(), null, false);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempPoint.ToArray(), null, false);
             calManager.CalStart();
         }
 
@@ -339,7 +339,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, null, tempPoint.ToArray(), false);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, null, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -594,7 +594,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempMeaPoint.Add(row.ItemArray);
             }
 
-            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, tempCalPoint.ToArray(), tempMeaPoint.ToArray(), true);
+            calManager.AutoCalPointSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempCalPoint.ToArray(), tempMeaPoint.ToArray(), true);
             calManager.CalStart();
         }
 
