@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.Message
 {
-    public class CalOptionMessege : MessageBase
+    public class LogTextMessage : MessageBase
     {
-        public char CalType { get; set; }
-        public int ChNumber { get; set; }
+        public string LogText { get; set; }
     }
 }

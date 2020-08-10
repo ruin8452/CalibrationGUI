@@ -1,5 +1,7 @@
 ﻿using CalibrationNewGUI.Equipment.DigitalMeter;
+using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
+using GalaSoft.MvvmLight.Messaging;
 using J_Project.Communication.CommModule;
 using PropertyChanged;
 using System;
@@ -96,6 +98,8 @@ namespace CalibrationNewGUI.Equipment
             commFlag = DmmComm.CommReceive(out string receiveData, code);
             if (!commFlag) { CommErrCount++; return SensingData; }
 
+            OnLogSend(receiveData);
+
             commFlag = double.TryParse(receiveData, out double tempData);
             if (!commFlag) { CommErrCount++; return SensingData; }
 
@@ -111,18 +115,42 @@ namespace CalibrationNewGUI.Equipment
                     break;
                 case "34401A":
                     DmmComm.CommSend("SYSTem:REMote", out int _);
+                    OnLogSend("SYSTem:REMote");
                     DmmComm.CommSend("ZERO:AUTO ONCE", out int _);
+                    OnLogSend("ZERO:AUTO ONCE");
                     break;
                 case "Keithley2000":
                     DmmComm.CommSend("SYST:REM", out int _);
+                    OnLogSend("SYST:REM");
                     DmmComm.CommSend("CONF:VOLT:DC", out int _);
+                    OnLogSend("CONF:VOLT:DC");
 
                     //DmmComm.CommSend("SENS:VOLT:DC:NPLC 0.1", out int _); // FAST
                     //DmmComm.CommSend("SENS:VOLT:DC:NPLC 1", out int _);   // MID
                     DmmComm.CommSend("SENS:VOLT:DC:NPLC 10", out int _);    // LOW
+                    OnLogSend("SENS:VOLT:DC:NPLC 10");
                     break;
             }
 
+        }
+
+
+        /**
+         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
+         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void OnLogSend(string text)
+        {
+            LogTextMessage Message = new LogTextMessage
+            {
+                LogText = text
+            };
+
+            Messenger.Default.Send(Message);
         }
     }
 }

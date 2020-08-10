@@ -100,9 +100,9 @@
     <Compile Include="Equipment\Protocol\ModbusProtocol.cs" />
     <Compile Include="FileSystem\CsvFile.cs" />
     <Compile Include="FileSystem\PointFile.cs" />
-    <Compile Include="Message\CalOptionMessege.cs" />
-    <Compile Include="Message\CalPointMessege.cs" />
-    <Compile Include="Message\EquiMessage.cs" />
+    <Compile Include="Message\CalOptionMessage.cs" />
+    <Compile Include="Message\CalPointMessage.cs" />
+    <Compile Include="Message\LogTextMessage.cs" />
     <Compile Include="Model\AutoSaveInfo.cs" />
     <Compile Include="Model\CalMeasureInfo.cs" />
     <Compile Include="Model\DmmInfo.cs" />
