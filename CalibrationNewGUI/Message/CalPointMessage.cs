@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.Message
 {
-    public class CalPointMessege : MessageBase
+    public class CalPointMessage : MessageBase
     {
         public bool CalMode { get; set; }
         public List<object[]> CalPointList { get; set; }

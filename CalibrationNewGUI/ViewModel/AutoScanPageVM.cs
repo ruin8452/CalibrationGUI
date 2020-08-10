@@ -258,7 +258,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            CalPointMessege Message = new CalPointMessege
+            CalPointMessage Message = new CalPointMessage
             {
                 CalMode = ModelSelecte,
                 CalPointList = tempPoint

@@ -30,7 +30,7 @@ namespace CalibrationNewGUI.ViewModel
         public ManualCalVM()
         {
             Dmm = Dmm.GetObj();
-            Messenger.Default.Register<CalOptionMessege>(this, OnReceiveMessageAction);
+            Messenger.Default.Register<CalOptionMessage>(this, OnReceiveMessageAction);
 
             OutputStartClick = new RelayCommand(OutputStart);
             CalStartClick = new RelayCommand(CalStart);
@@ -71,7 +71,7 @@ namespace CalibrationNewGUI.ViewModel
          *  
          *  @return
          */
-        private void OnReceiveMessageAction(CalOptionMessege option)
+        private void OnReceiveMessageAction(CalOptionMessage option)
         {
             CalType = option.CalType;
             ChNum = option.ChNumber;

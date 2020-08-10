@@ -37,7 +37,7 @@ namespace CalibrationNewGUI.ViewModel
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
 
-        public StringBuilder LogText { get; set; }
+        public string LogText { get; set; } = "";
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
@@ -99,14 +99,15 @@ namespace CalibrationNewGUI.ViewModel
          */
         public MonitorPageVM()
         {
-            Messenger.Default.Register<CalPointMessege>(this, OnReceiveMessageAction);
+            Messenger.Default.Register<CalPointMessage>(this, OnReceiveCalPoint);
+            Messenger.Default.Register<LogTextMessage>(this, OnReceiveLogText);
 
             CalMeaInfo = CalMeasureInfo.GetObj();
             OtherInfos = OthersInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
 
-            LogText = new StringBuilder();
+            //LogText = new StringBuilder();
 
             calManager.CalMonitor += CalManager_CalMonitor;
             calManager.MeaMonitor += CalManager_MeaMonitor;
@@ -119,7 +120,7 @@ namespace CalibrationNewGUI.ViewModel
             CalPointTable = TableManager.ColumnAdd(CalPointTable, cloumnName, cloumnType);
 
             MeaPointTable = new DataTable();
-            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, cloumnName);
+            MeaPointTable = TableManager.ColumnAdd(MeaPointTable, cloumnName, cloumnType);
 
             FileOpenClick = new RelayCommand<object>(FileOpenDialog);
             FileSaveClick = new RelayCommand<object>(FileSaveDialog);
@@ -739,7 +740,7 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void OnChangeCalOption()
         {
-            CalOptionMessege Message = new CalOptionMessege
+            CalOptionMessage Message = new CalOptionMessage
             {
                 CalType = CalMode ? 'V' : 'I',
                 ChNumber = ChNumber
@@ -756,7 +757,7 @@ namespace CalibrationNewGUI.ViewModel
          *  
          *  @return
          */
-        private void OnReceiveMessageAction(CalPointMessege obj)
+        private void OnReceiveCalPoint(CalPointMessage obj)
         {
             if(obj.CalMode)
             {
@@ -778,6 +779,19 @@ namespace CalibrationNewGUI.ViewModel
                 foreach (var rowData in obj.CalPointList)
                     CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
             }
+        }
+
+        /**
+         *  @brief 로그 텍스트 메세지 수신
+         *  @details 로그 텍스트 메세지를 수신
+         *  
+         *  @param LogTextMessage obj 수신받은 메세지용 클래스
+         *  
+         *  @return
+         */
+        private void OnReceiveLogText(LogTextMessage obj)
+        {
+            LogText += obj.LogText + "\n\n";
         }
 
         /**
