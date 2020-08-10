@@ -70,6 +70,7 @@
         </Style>
 
         <Style x:Key="DataGridBaseStyle" TargetType="DataGrid">
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Height" Value="200"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="CanUserSortColumns" Value="False"/>
@@ -167,8 +168,16 @@
         </Style>
     </Page.Resources>
 
-    <StackPanel Background="{StaticResource PageBackground}">
-        <Grid Margin="0,15,0,5">
+    <Grid Background="{StaticResource PageBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="230"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,15,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -218,7 +227,7 @@
                         <Button Tag="CAL" Style="{StaticResource ImgBtn}" Command="{Binding CalStopClick}">
                             <fa:ImageAwesome Icon="Stop" ToolTip="CAL 정지" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        
+
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
                         <Button Tag="CAL" Style="{StaticResource ImgBtn}"
@@ -229,7 +238,7 @@
                                 Command="{Binding PointDeleteClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
                             <fa:ImageAwesome Icon="Minus" ToolTip="포인트 삭제" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        
+
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
                         <Button Tag="CAL" Style="{StaticResource ImgBtn}"
@@ -251,7 +260,7 @@
                         </Button>
 
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
-                        
+
                         <Button Tag="CAL" Style="{StaticResource ImgBtn}"
                                 Command="{Binding ResultDataSaveClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
                             <fa:ImageAwesome Icon="Save" ToolTip="데이터 저장" Style="{StaticResource ColorChangeWhite}"/>
@@ -289,9 +298,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </DataGrid>
-
             </StackPanel>
-
 
             <!--MEA 부분 Display-->
             <StackPanel Grid.Column="1">
@@ -337,7 +344,7 @@
                         <Button Tag="MEA" Style="{StaticResource ImgBtn}" Command="{Binding MeaStopClick}">
                             <fa:ImageAwesome Icon="Stop" ToolTip="실측 CAL 정지" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        
+
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
                         <Button Tag="MEA" Style="{StaticResource ImgBtn}"
@@ -348,7 +355,7 @@
                                 Command="{Binding PointDeleteClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
                             <fa:ImageAwesome Icon="Minus" ToolTip="포인트 삭제" Style="{StaticResource ColorChangeWhite}"/>
                         </Button>
-                        
+
                         <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
 
                         <Button Tag="MEA" Style="{StaticResource ImgBtn}"
@@ -402,7 +409,7 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <!--CAL Option-->
             <Border Width="150" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
@@ -529,22 +536,20 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
-
         </StackPanel>
         
         <!--테스트 결과-->
-        <Border BorderBrush="#FF3B456B" MinHeight="100" BorderThickness="1" Margin="5,0,5,5">
+        <Border Grid.Row="3" BorderBrush="#FF3B456B" MinHeight="100" BorderThickness="1" Margin="5,0,5,5">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Background="#FF3B456B">
                     <TextBlock Text="로그" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
                     <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="100">
                     <TextBlock Text="{Binding LogText}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="16"/>
                 </ScrollViewer>
             </StackPanel>
         </Border>
-    </StackPanel>
+    </Grid>
 </Page>

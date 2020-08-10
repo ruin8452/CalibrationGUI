@@ -11,7 +11,7 @@
     <Page.Resources>
         <Style x:Key="CalSetText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Width" Value="180"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
@@ -71,22 +71,22 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="표준 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="표준 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                    <TextBlock Text="표준 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="표준 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.ShuntStandardReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
-                    <TextBlock Text="보정 션트 측정전류" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Text="보정 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
-                    <TextBlock Text="보정 션트 저항" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                    <TextBlock Text="보정 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
 
             <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                <TextBlock Text="전압 메타" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="전압 미터" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -100,10 +100,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="표준 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="표준 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.StandardVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                    <TextBlock Text="보정 전압 Meter" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="보정 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
                     <TextBox Text="{Binding ShuntInfos.NewVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
