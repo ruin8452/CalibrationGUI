@@ -14,7 +14,7 @@ namespace CalibrationNewGUI.Model
         public int ShuntNewReg { get; set; } //새로 연결하는 션트 기준 저항(uOhm)
         public int StandardVoltMeter { get; set; } //기준 전압미터
         public int NewVoltMeter { get; set; } //보정 전압미터
-
+        public float shuntReg { get; set; }//션트 보정값과 표준값을 사용한 실제 보정치(보정치 = 표준/보정)
         ConfigFileSave ConfigFile = new ConfigFileSave();
 
         #region 싱글톤 패턴 구현

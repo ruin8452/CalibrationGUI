@@ -62,7 +62,8 @@ namespace CalibrationNewGUI.ViewModel
             }
             else
             {
-                if(Mcu.Disconnect() == false)
+                Mcu.Disconnect();
+                if (Mcu.IsConnected == true)
                 {
                     MessageBox.Show($"MCU 접속 해제 오류");
                     return;

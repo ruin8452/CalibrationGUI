@@ -16,6 +16,7 @@ namespace CalibrationNewGUI.Equipment
     {
         double SensingData;
         public DmmInfo DmmInfos { get; set; }//using 추가 및 DMM 정보 데이터 가져오기
+        public ShuntInfo shuntInfos { get; set; }//shunt 정보 데이터 가져오기
         public double Volt { get; set; }
         public double Curr { get; set; }
         public bool IsConnected { get; private set; } = false;
@@ -33,6 +34,7 @@ namespace CalibrationNewGUI.Equipment
         private Dmm()
         {
             DmmInfos = DmmInfo.GetObj();//DMM 데이터 가져오기
+            shuntInfos = ShuntInfo.GetObj();//shunt 데이터 가져오기
             moniBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
             {
                 DmmMonitoring();
@@ -86,7 +88,9 @@ namespace CalibrationNewGUI.Equipment
             SensingData = RealSensing();
 
             Volt = Math.Round(SensingData * 1000, 1);
-            Curr = Math.Round(SensingData * 1000000, 1);
+            //Curr = Math.Round(SensingData * 1000000, 1);
+
+            Curr = Math.Round(SensingData * shuntInfos.shuntReg * 1000000, 1);
         }
         
 
