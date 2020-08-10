@@ -647,6 +647,8 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void ModeSelect()
         {
+            LogText += "abc\n";
+
             if (preCalMode == CalMode)
                 return;
 
