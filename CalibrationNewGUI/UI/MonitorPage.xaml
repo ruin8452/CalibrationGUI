@@ -543,10 +543,10 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Background="#FF3B456B">
                     <TextBlock Text="로그" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
-                    <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center"/>
+                    <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsLogActive}"/>
                 </StackPanel>
 
-                <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto" Height="150">
                     <TextBlock Text="{Binding LogText}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="16"/>
                 </ScrollViewer>
             </StackPanel>
