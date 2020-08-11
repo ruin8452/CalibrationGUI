@@ -87,7 +87,8 @@ namespace CalibrationNewGUI.ViewModel
         public RelayCommand AutoCalStopClick { get; set; }
         public RelayCommand ManualCalClick { get; set; }
 
-        public RelayCommand<DataGridCellEditEndingEventArgs> GridCellEdit { get; set; }
+        public RelayCommand<DataGridCellEditEndingEventArgs> CalGridCellEdit { get; set; }
+        public RelayCommand<DataGridCellEditEndingEventArgs> MeaGridCellEdit { get; set; }
 
         /**
          *  @brief Monitor 초기화
@@ -146,7 +147,8 @@ namespace CalibrationNewGUI.ViewModel
             AutoCalStopClick = new RelayCommand(AutoCalStop);
             ManualCalClick = new RelayCommand(ManualCal);
 
-            GridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(CellEdit);
+            CalGridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(CalCellEdit);
+            MeaGridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(MeaCellEdit);
         }
 
         /**
@@ -921,14 +923,14 @@ namespace CalibrationNewGUI.ViewModel
         }
 
         /**
-         *  @brief 데이터 그리드 셀 편집 이벤트 수신
-         *  @details 데이터 그리드의 셀을 편집 시 데이터가 범위 안에 들어왔는지 확인
+         *  @brief CAL 데이터 그리드 셀 편집 이벤트 수신
+         *  @details CAL 데이터 그리드의 셀을 편집 시 데이터가 범위 안에 들어왔는지 확인
          *  
          *  @param DataGridCellEditEndingEventArgs e 이벤트 변수
          *  
          *  @return
          */
-        private void CellEdit(DataGridCellEditEndingEventArgs e)
+        private void CalCellEdit(DataGridCellEditEndingEventArgs e)
         {
             if(!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
@@ -937,35 +939,101 @@ namespace CalibrationNewGUI.ViewModel
                 return;
             }
 
-            if(e.Column.DisplayIndex == 1)
+            if(e.Column.DisplayIndex == 1)  // 전압 수정시
             {
                 if(OtherInfos.InputVoltMax < editNum)
                 {
                     MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
                         $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
                     ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMax.ToString();
+                    return;
                 }
                 else if(OtherInfos.InputVoltMin > editNum)
                 {
                     MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
                         $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
                     ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+                    return;
                 }
+
+                // 전압모드일 경우, 전압 셀 수정시 보정값 제거
+                if (CalMode)
+                    CalPointTable.Rows[CalGridSelectedIndex]["Correction"] = 0;
             }
 
-            else if (e.Column.DisplayIndex == 2)
+            else if (e.Column.DisplayIndex == 2)  // 전류 수정시
             {
                 if (OtherInfos.InputCurrMax < editNum)
                 {
                     MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
                         $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
                     ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMax.ToString();
+                    return;
                 }
                 else if (OtherInfos.InputCurrMin > editNum)
                 {
                     MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
                         $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
                     ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    return;
+                }
+
+                // 전류모드일 경우, 전류 셀 수정시 보정값 제거
+                if (!CalMode)
+                    CalPointTable.Rows[CalGridSelectedIndex]["Correction"] = 0;
+            }
+        }
+
+        /**
+         *  @brief 실측 데이터 그리드 셀 편집 이벤트 수신
+         *  @details 실측 데이터 그리드의 셀을 편집 시 데이터가 범위 안에 들어왔는지 확인
+         *  
+         *  @param DataGridCellEditEndingEventArgs e 이벤트 변수
+         *  
+         *  @return
+         */
+        private void MeaCellEdit(DataGridCellEditEndingEventArgs e)
+        {
+            if (!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
+            {
+                MessageBox.Show("정수만 입력 가능합니다.");
+                e.Cancel = true;
+                return;
+            }
+
+            if (e.Column.DisplayIndex == 1)  // 전압 수정시
+            {
+                if (OtherInfos.InputVoltMax < editNum)
+                {
+                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
+                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMax.ToString();
+                    return;
+                }
+                else if (OtherInfos.InputVoltMin > editNum)
+                {
+                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
+                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+                    return;
+                }
+            }
+
+            else if (e.Column.DisplayIndex == 2)  // 전류 수정시
+            {
+                if (OtherInfos.InputCurrMax < editNum)
+                {
+                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
+                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMax.ToString();
+                    return;
+                }
+                else if (OtherInfos.InputCurrMin > editNum)
+                {
+                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
+                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    return;
                 }
             }
         }

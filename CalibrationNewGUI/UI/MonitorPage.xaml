@@ -294,7 +294,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CellEditEnding">
-                            <mvvm:EventToCommand Command="{Binding GridCellEdit}" PassEventArgsToCommand="True"/>
+                            <mvvm:EventToCommand Command="{Binding CalGridCellEdit}" PassEventArgsToCommand="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </DataGrid>
@@ -402,7 +402,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CellEditEnding">
-                            <mvvm:EventToCommand Command="{Binding GridCellEdit}" PassEventArgsToCommand="True"/>
+                            <mvvm:EventToCommand Command="{Binding MeaGridCellEdit}"  PassEventArgsToCommand="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </DataGrid>
@@ -539,14 +539,14 @@
         </StackPanel>
         
         <!--테스트 결과-->
-        <Border Grid.Row="3" BorderBrush="#FF3B456B" MinHeight="100" BorderThickness="1" Margin="5,0,5,5">
+        <Border x:Name="LogBorder" Grid.Row="3" BorderBrush="#FF3B456B" MinHeight="100" BorderThickness="1" Margin="5,0,5,5" LayoutUpdated="Border_LayoutUpdated">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Background="#FF3B456B">
                     <TextBlock Text="로그" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
                     <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="100">
+                <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding LogText}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="16"/>
                 </ScrollViewer>
             </StackPanel>
