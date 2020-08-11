@@ -38,6 +38,7 @@ namespace CalibrationNewGUI.ViewModel
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
 
         public string LogText { get; set; } = "";
+        private StringBuilder tempLog = new StringBuilder();
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
@@ -649,8 +650,6 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void ModeSelect()
         {
-            LogText += "abc\n";
-
             if (preCalMode == CalMode)
                 return;
 
@@ -795,7 +794,7 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void OnReceiveLogText(LogTextMessage obj)
         {
-            LogText += obj.LogText + "\n\n";
+            LogText = string.Format("{0}\n{1}", obj.LogText, LogText);
         }
 
         /**
