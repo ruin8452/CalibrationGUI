@@ -25,5 +25,15 @@ namespace CalibrationNewGUI.UI
             InitializeComponent();
             //DataContext = new MonitorPageVM();
         }
+
+        private void Border_LayoutUpdated(object sender, EventArgs e)
+        {
+            //double height = LogBorder.ActualHeight - 30;
+
+            //if (height > 0)
+            //    LogScroll.Height = height;
+            //else
+            //    LogScroll.Height = 0;
+        }
     }
 }
