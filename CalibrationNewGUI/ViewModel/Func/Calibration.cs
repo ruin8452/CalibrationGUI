@@ -325,7 +325,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             }
                             Utill.Delay(0.1);
                         }
-                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                        //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
@@ -349,7 +349,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             }
                             Utill.Delay(0.1);
                         }
-                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                        //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Curr - currPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
