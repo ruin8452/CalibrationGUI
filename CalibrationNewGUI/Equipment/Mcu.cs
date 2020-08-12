@@ -441,6 +441,8 @@ namespace CalibrationNewGUI.Equipment
                 Ch1Fault = MdMasterBuffer[9];
                 Ch2Fault = MdMasterBuffer[10];
                 Version = MdMasterBuffer[11];
+
+                OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}",true);
             }
         }
         //Modbus적용 20.07.20
@@ -645,60 +647,126 @@ namespace CalibrationNewGUI.Equipment
             {
                 if (calMode == 'V')
                 {
-                    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 4));
-                    for(int i = 0; i < ch1Voltcnt; i++)
+                    try //예외처리 필요
+                    { 
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 4));
+                        for (int i = 0; i < ch1Voltcnt; i++)
+                        {
+                            standardPoint.Byte1 = tempBuffer[i * 4 + 0];
+                            standardPoint.Byte2 = tempBuffer[i * 4 + 1];
+                            correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                            correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
+                            standardPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = standardPoint.Float * 1000;
+                            tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
+                        }
+                    }
+                    catch 
                     {
-                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
-                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
-                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
-                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
-
+                        standardPoint.Float = 0;
+                        correctionPoint.Float = 0;
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
+
+                    //return tempPointList.ToArray();
                 }
                 else
                 {
-                    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 4));
-                    for (int i = 0; i < ch1Currcnt; i++)
+                    try //예외처리 필요
                     {
-                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
-                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
-                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
-                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
-
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 4));
+                        for (int i = 0; i < ch1Currcnt; i++)
+                        {
+                            standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                            standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                            correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                            correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
+                            standardPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = standardPoint.Float * 1000;
+                            tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
+                        }
+                    }
+                    catch
+                    {
+                        standardPoint.Float = 0;
+                        correctionPoint.Float = 0;
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
+                    //return tempPointList.ToArray();
                 }
             }
             else
             {
                 if (calMode == 'V')
                 {
-                    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 4));
-                    for (int i = 0; i < ch2Voltcnt; i++)
+                    try //예외처리 필요
                     {
-                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
-                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
-                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
-                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
-
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 4));
+                        for (int i = 0; i < ch2Voltcnt; i++)
+                        {
+                            standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                            standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                            correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                            correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
+                            standardPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = standardPoint.Float * 1000;
+                            tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
+                        }
+                    }
+                    catch
+                    {
+                        standardPoint.Float = 0;
+                        correctionPoint.Float = 0;
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
+                    //return tempPointList.ToArray();
                 }
                 else
                 {
-                    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 4));
-                    for (int i = 0; i < ch2Currcnt; i++)
+                    try //예외처리 필요
                     {
-                        standardPoint.Byte1   = tempBuffer[i * 4 + 0];
-                        standardPoint.Byte2   = tempBuffer[i * 4 + 1];
-                        correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
-                        correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
-
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 4));
+                        for (int i = 0; i < ch2Currcnt; i++)
+                        {
+                            standardPoint.Byte1   = tempBuffer[i * 4 + 0];
+                            standardPoint.Byte2   = tempBuffer[i * 4 + 1];
+                            correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
+                            correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
+                            standardPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = standardPoint.Float * 1000;
+                            tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
+                        }
+                    }
+                    catch
+                    {
+                        standardPoint.Float = 0;
+                        correctionPoint.Float = 0;
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
+                    //return tempPointList.ToArray();
                 }
             }
+            
+            //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
+            //if(ch1Voltcnt > 0)//채널1 전압
+            //{
+            //    //기준값
+            //    //레지스터 주소 0x2100 채널1 전압 기준값 읽기
+            //    //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+            //    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2));
+            //    //보정값
+            //    //레지스터 주소 0x2200 채널1 전압 보정값 읽기
+            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
+            //}
+            //if(ch2Voltcnt > 0)//채널2 전압
+            //{
+            //    //기준값
+            //    //레지스터 주소 0x3100 채널2 전압 기준값 읽기
+            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+            //    //보정값
+            //    //레지스터 주소 0x3200 채널2 전압 보정값 읽기
+            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
+            //}
 
             OnLogSend($"[MCU CalPoint Check]", false);
             return tempPointList.ToArray();
@@ -750,7 +818,7 @@ namespace CalibrationNewGUI.Equipment
                 }
             }
 
-            OnLogSend($"[MCU CalPoint Send]", false);
+            OnLogSend($"[MCU CalPoint Send]");
         }
 
         ////Cal 포인트 저장함수(준비 - 저장 순서)
@@ -824,7 +892,6 @@ namespace CalibrationNewGUI.Equipment
         //    SendPort.WriteMultipleRegisters(slaveID, (ushort)0x2020, tempStream);//레지스터 주소 0x2020
         //}
 #endif
-
 
         /**
          *  @brief 로그 텍스트 메세지 전송
