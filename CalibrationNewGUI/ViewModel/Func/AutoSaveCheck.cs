@@ -2,6 +2,7 @@
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,9 @@ namespace CalibrationNewGUI.ViewModel.Func
             MeaCh1CurrFlag = false;
             MeaCh2VoltFlag = false;
             MeaCh2CurrFlag = false;
+
+            if (!File.Exists(filePath))
+                return;
 
             string[] dataSet = CsvFile.Read(filePath);
 
