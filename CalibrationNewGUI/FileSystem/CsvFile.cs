@@ -18,5 +18,17 @@ namespace CalibrationNewGUI.FileSystem
 
             return true;
         }
+
+        public static string[] Read(string filePath)
+        {
+            string[] data;
+
+            using (StreamReader csvStream = new StreamReader(filePath, Encoding.UTF8))
+            {
+                data = csvStream.ReadToEnd().Split('\n');
+            }
+
+            return data;
+        }
     }
 }

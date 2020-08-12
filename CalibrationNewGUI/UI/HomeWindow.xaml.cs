@@ -24,5 +24,10 @@ namespace CalibrationNewGUI.UI
             InitializeComponent();
             //DataContext = new MainWindowVM();
         }
+
+        private void TextBox_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

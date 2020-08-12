@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:CalibrationNewGUI.UI"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
@@ -162,7 +164,20 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="시리얼 번호 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
-                        <TextBox Text="{Binding McuInfos.McuSerialNum}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" FontFamily="NanumGothic" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1"/>
+                        <TextBox Text="{Binding McuInfos.McuSerialNum, Mode=TwoWay}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" FontFamily="NanumGothic" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1" CaretBrush="White">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <mvvm:EventToCommand Command="{Binding SerialInputChanged}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <mvvm:EventToCommand Command="{Binding SerialEnterPush}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding SerialEnterPush}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
 
                         <TextBlock Text="DMM 모델 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
                         <TextBlock Text="{Binding DmmInfos.ModelName}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="13"/>

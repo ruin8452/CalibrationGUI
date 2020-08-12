@@ -45,11 +45,14 @@ namespace CalibrationNewGUI.ViewModel
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
+        public AutoSaveInfo AutoInfos { get; set; }
         public Mcu Mcu { get; set; }
         public Dmm Dmm { get; set; }
 
         int ChNumber = 1;
         Calibration calManager = new Calibration();
+
+        public AutoSaveCheck SaveCheck { get; set; }
 
         string CalVoltFilePath = string.Empty;  // 전압CPT 파일 경로
         string CalCurrFilePath = string.Empty;  // 전류CPT 파일 경로
@@ -112,15 +115,17 @@ namespace CalibrationNewGUI.ViewModel
             IsLogActive = true;
             IsMoniExcept = false;
 
-            Messenger.Default.Register<CalPointMessage>(this, OnReceiveCalPoint);
-            Messenger.Default.Register<LogTextMessage>(this, OnReceiveLogText);
+            Messenger.Default.Register<CalPointMessage>(this, RcvMsg_CalPoint);
+            Messenger.Default.Register<LogTextMessage>(this, RcvMsg_LogText);
+            Messenger.Default.Register<SerialMessage>(this, RcvMsg_SerialEnter);
 
             CalMeaInfo = CalMeasureInfo.GetObj();
             OtherInfos = OthersInfo.GetObj();
+            AutoInfos = AutoSaveInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
 
-            //LogText = new StringBuilder();
+            SaveCheck = new AutoSaveCheck();
 
             calManager.CalMonitor += CalManager_CalMonitor;
             calManager.MeaMonitor += CalManager_MeaMonitor;
@@ -746,79 +751,11 @@ namespace CalibrationNewGUI.ViewModel
             OnChangeCalOption();
         }
 
-        /**
-         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
-         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
-         *  
-         *  @param
-         *  
-         *  @return
-         */
-        private void OnChangeCalOption()
-        {
-            CalOptionMessage Message = new CalOptionMessage
-            {
-                CalType = CalMode ? 'V' : 'I',
-                ChNumber = ChNumber
-            };
-
-            Messenger.Default.Send(Message);
-        }
-
-        /**
-         *  @brief CAL 포인트 메세지 수신
-         *  @details CAL 포인트 메세지를 수신
-         *  
-         *  @param CalPointMessege obj 수신받은 메세지용 클래스
-         *  
-         *  @return
-         */
-        private void OnReceiveCalPoint(CalPointMessage obj)
-        {
-            if(obj.CalMode)
-            {
-                CalMode = true;
-                ModeSelect();
-
-                CalPointTable.Clear();
-
-                foreach (var rowData in obj.CalPointList)
-                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
-            }
-            else
-            {
-                CalMode = false;
-                ModeSelect();
-
-                CalPointTable.Clear();
-
-                foreach (var rowData in obj.CalPointList)
-                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
-            }
-        }
-
-        /**
-         *  @brief 로그 텍스트 메세지 수신
-         *  @details 로그 텍스트 메세지를 수신
-         *  
-         *  @param LogTextMessage obj 수신받은 메세지용 클래스
-         *  
-         *  @return
-         */
-        private void OnReceiveLogText(LogTextMessage obj)
-        {
-            if (!IsLogActive)   // 로그 비활성 시
-                return;
-
-            if (obj.IsMonitoring && IsMoniExcept) // 모니터링 제외 상태에서 모니터링 문자열일 경우
-                return;
-
-            LogText = string.Format("{0}\n{1}", obj.LogText, LogText);
-        }
-
         private void LogClear()
         {
             LogText = "";
+            //avv();
+            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**
@@ -930,7 +867,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             MessageBox.Show("CAL 완료");
 
-            if (!AutoSaveInfo.GetObj().AutoSaveFlag)
+            if (!AutoInfos.AutoSaveFlag)
                 return;
 
             if (!File.Exists(AutoSaveFilePath))
@@ -945,11 +882,11 @@ namespace CalibrationNewGUI.ViewModel
             autoSaveData[1] = ChNumber;
             autoSaveData[2] = CalMode ? 'V' : 'I';
 
-            var a = from b in CalPointTable.AsEnumerable()
-                    where b["IsRangeIn"] == DBNull.Value || (bool)b["IsRangeIn"] == false
-                    select b;
+            var failItem = from row in CalPointTable.AsEnumerable()
+                           where row["IsRangeIn"] == DBNull.Value || (bool)row["IsRangeIn"] == false
+                           select row;
 
-            autoSaveData[3] = a.Any() ? "FAIL" : "PASS";
+            autoSaveData[3] = failItem.Any() ? "FAIL" : "PASS";
             autoSaveData[4] = "CAL";
 
             foreach (DataRow row in CalPointTable.Rows)
@@ -960,6 +897,43 @@ namespace CalibrationNewGUI.ViewModel
 
                 CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
             }
+        }
+
+        void avv()
+        {
+
+            if (!AutoInfos.AutoSaveFlag)
+                return;
+
+            if (!File.Exists(AutoSaveFilePath))
+            {
+                Directory.CreateDirectory(AutoSavePath);
+                CsvFile.Save(AutoSaveFilePath, false, new object[] { "Serial", "CH", "Type", "P/F", "CAL/MEA", "Volt_P", "Curr_P", "DMM" });
+            }
+
+            object[] autoSaveData = new object[8];
+
+            autoSaveData[0] = McuInfo.GetObj().McuSerialNum == null ? "No Serial" : McuInfo.GetObj().McuSerialNum;
+            autoSaveData[1] = ChNumber;
+            autoSaveData[2] = CalMode ? 'V' : 'I';
+
+            var failItem = from row in CalPointTable.AsEnumerable()
+                           where row["IsRangeIn"] == DBNull.Value || (bool)row["IsRangeIn"] == false
+                           select row;
+
+            autoSaveData[3] = failItem.Any() ? "FAIL" : "PASS";
+            autoSaveData[4] = "CAL";
+
+            foreach (DataRow row in CalPointTable.Rows)
+            {
+                autoSaveData[5] = row["SetVolt"];
+                autoSaveData[6] = row["SetCurr"];
+                autoSaveData[7] = row["OutDMM"];
+
+                CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
+            }
+
+            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**
@@ -975,7 +949,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             MessageBox.Show("실측 완료");
 
-            if (!AutoSaveInfo.GetObj().AutoSaveFlag)
+            if (!AutoInfos.AutoSaveFlag)
                 return;
 
             if (!File.Exists(AutoSaveFilePath))
@@ -1005,6 +979,8 @@ namespace CalibrationNewGUI.ViewModel
 
                 CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
             }
+
+            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**
@@ -1121,6 +1097,90 @@ namespace CalibrationNewGUI.ViewModel
                     return;
                 }
             }
+        }
+
+
+        /**
+         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
+         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void OnChangeCalOption()
+        {
+            CalOptionMessage Message = new CalOptionMessage
+            {
+                CalType = CalMode ? 'V' : 'I',
+                ChNumber = ChNumber
+            };
+
+            Messenger.Default.Send(Message);
+        }
+
+        /**
+         *  @brief CAL 포인트 메세지 수신
+         *  @details CAL 포인트 메세지를 수신
+         *  
+         *  @param CalPointMessege obj 수신받은 메세지용 클래스
+         *  
+         *  @return
+         */
+        private void RcvMsg_CalPoint(CalPointMessage obj)
+        {
+            if (obj.CalMode)
+            {
+                CalMode = true;
+                ModeSelect();
+
+                CalPointTable.Clear();
+
+                foreach (var rowData in obj.CalPointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+            }
+            else
+            {
+                CalMode = false;
+                ModeSelect();
+
+                CalPointTable.Clear();
+
+                foreach (var rowData in obj.CalPointList)
+                    CalPointTable = TableManager.RowAdd(CalPointTable, CalPointTable.Rows.Count, rowData);
+            }
+        }
+
+        /**
+         *  @brief 로그 텍스트 메세지 수신
+         *  @details 로그 텍스트 메세지를 수신
+         *  
+         *  @param LogTextMessage obj 수신받은 메세지용 클래스
+         *  
+         *  @return
+         */
+        private void RcvMsg_LogText(LogTextMessage obj)
+        {
+            if (!IsLogActive)   // 로그 비활성 시
+                return;
+
+            if (obj.IsMonitoring && IsMoniExcept) // 모니터링 제외 상태에서 모니터링 문자열일 경우
+                return;
+
+            LogText = string.Format("{0}\n{1}", obj.LogText, LogText);
+        }
+
+        /**
+         *  @brief 시리얼 번호 메세지 수신
+         *  @details 시리얼 번호 메세지를 수신
+         *  
+         *  @param SerialMessage serialNum 수신받은 시리얼 번호
+         *  
+         *  @return
+         */
+        private void RcvMsg_SerialEnter(SerialMessage serialNum)
+        {
+            SaveCheck.SaveCheck(AutoSaveFilePath, serialNum.SerialNum);
         }
     }
 }

@@ -1,9 +1,13 @@
 ﻿using CalibrationNewGUI.Equipment;
+using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using PropertyChanged;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace CalibrationNewGUI.ViewModel
@@ -25,6 +29,8 @@ namespace CalibrationNewGUI.ViewModel
 
         public RelayCommand McuConnectClick { get; set; }
         public RelayCommand DmmConnectClick { get; set; }
+        public RelayCommand<TextChangedEventArgs> SerialInputChanged { get; set; }
+        public RelayCommand SerialEnterPush { get; set; }
 
         public MainWindowVM()
         {
@@ -41,6 +47,8 @@ namespace CalibrationNewGUI.ViewModel
 
             McuConnectClick = new RelayCommand(McuConnect);
             DmmConnectClick = new RelayCommand(DmmConnect);
+            SerialInputChanged = new RelayCommand<TextChangedEventArgs>(SerialInput);
+            SerialEnterPush = new RelayCommand(SerialEnter);
         }
 
         //통신 연결 버튼
@@ -102,6 +110,20 @@ namespace CalibrationNewGUI.ViewModel
                 DmmConnColor = Application.Current.Resources["LedGreenOff"] as SolidColorBrush;
                 Dmm.MonitorStop();
             }
+        }
+
+        private void SerialInput(TextChangedEventArgs e)
+        {
+            McuInfos.McuSerialNum = ((TextBox)e.Source).Text;
+        }
+
+        private void SerialEnter()
+        {
+            SerialMessage Message = new SerialMessage
+            {
+                SerialNum = McuInfos.McuSerialNum
+            };
+            Messenger.Default.Send(Message);
         }
     }
 }

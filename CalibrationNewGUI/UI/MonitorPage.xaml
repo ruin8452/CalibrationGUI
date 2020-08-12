@@ -15,6 +15,17 @@
     <Page.Resources>
         <conv:InvertBool x:Key="InvertBoolConv"/>
 
+        <Style x:Key="Hidden" TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AutoInfos.AutoSaveFlag}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding AutoInfos.AutoSaveFlag}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="MonitoringItemText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
@@ -535,13 +546,13 @@
                 </StackPanel>
             </Border>
 
-            <!--Monitoing Box-->
-            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+            <!--AutoSave Box-->
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Visibility="Visible" Style="{StaticResource Hidden}">
                 <StackPanel>
                     <TextBlock Text="자동 저장" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                    <TextBlock Text="CAL" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
-                    <Grid>
+                    <TextBlock Text="CAL" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Grid Margin="5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -551,22 +562,46 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
-                            <TextBlock Text="CH1 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Grid.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="Height" Value="25"/>
+                                <Setter Property="Width" Value="70"/>
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="CornerRadius" Value="10"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource LedGreen}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontFamily" Value="NanumGothic Light"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <Border Grid.Row="0" Grid.Column="0" IsEnabled="{Binding SaveCheck.CalCh1VoltFlag}">
+                            <TextBlock Text="CH1 V"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
-                            <TextBlock Text="CH1 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="0" Grid.Column="1" IsEnabled="{Binding SaveCheck.CalCh1CurrFlag}">
+                            <TextBlock Text="CH1 I"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="0" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
-                            <TextBlock Text="CH2 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="0" IsEnabled="{Binding SaveCheck.CalCh2VoltFlag}">
+                            <TextBlock Text="CH2 V"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="1" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
-                            <TextBlock Text="CH2 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="1" IsEnabled="{Binding SaveCheck.CalCh2CurrFlag}">
+                            <TextBlock Text="CH2 I"/>
                         </Border>
                     </Grid>
 
-                    <TextBlock Text="MEA" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
-                    <Grid>
+                    <TextBlock Text="MEA" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Grid Margin="5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -576,17 +611,41 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="0">
-                            <TextBlock Text="CH1 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Grid.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="Height" Value="25"/>
+                                <Setter Property="Width" Value="70"/>
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="CornerRadius" Value="10"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource LedGreen}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontFamily" Value="NanumGothic Light"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <Border Grid.Row="0" Grid.Column="0" IsEnabled="{Binding SaveCheck.MeaCh1VoltFlag}">
+                            <TextBlock Text="CH1 V"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="1">
-                            <TextBlock Text="CH1 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="0" Grid.Column="1" IsEnabled="{Binding SaveCheck.MeaCh1CurrFlag}">
+                            <TextBlock Text="CH1 I"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="0">
-                            <TextBlock Text="CH2 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="0" IsEnabled="{Binding SaveCheck.MeaCh2VoltFlag}">
+                            <TextBlock Text="CH2 V"/>
                         </Border>
-                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="1">
-                            <TextBlock Text="CH2 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="1" IsEnabled="{Binding SaveCheck.MeaCh2CurrFlag}">
+                            <TextBlock Text="CH2 I"/>
                         </Border>
                     </Grid>
                 </StackPanel>

@@ -103,6 +103,7 @@
     <Compile Include="Message\CalOptionMessage.cs" />
     <Compile Include="Message\CalPointMessage.cs" />
     <Compile Include="Message\LogTextMessage.cs" />
+    <Compile Include="Message\SerialMessage.cs" />
     <Compile Include="Model\AutoSaveInfo.cs" />
     <Compile Include="Model\CalMeasureInfo.cs" />
     <Compile Include="Model\DmmInfo.cs" />
@@ -164,6 +165,7 @@
       <DependentUpon>OthersSettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AutoScanPageVM.cs" />
+    <Compile Include="ViewModel\Func\AutoSaveCheck.cs" />
     <Compile Include="ViewModel\Func\Calibration.cs" />
     <Compile Include="ViewModel\Func\EventArgsClass\CalMonitorArgs.cs" />
     <Compile Include="ViewModel\Func\TableManager.cs" />
