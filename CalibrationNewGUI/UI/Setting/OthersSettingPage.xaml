@@ -53,54 +53,56 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Page.Resources>
-    
-    <StackPanel Background="{StaticResource PageBackground}">
-        <TextBlock Text="기타 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
-        <Separator Background="#FF53609B" Width="136"/>
-        <TextBlock Text="Others Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="40,0,40,20" >
-                <TextBlock Text="입력" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Background="{StaticResource PageBackground}">
+            <TextBlock Text="기타 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+            <Separator Background="#FF53609B" Width="136"/>
+            <TextBlock Text="Others Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Margin="40,0,40,20" >
+                    <TextBlock Text="입력" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <TextBlock Text="입력전압 상한(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="입력전압 하한(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="입력전압 상한(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                    <TextBlock Text="입력전류 상한(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="입력전압 하한(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
-                    <TextBlock Text="입력전류 하한(mA)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+                        <TextBlock Text="입력전류 상한(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                        <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
-            <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                <TextBlock Text="언어" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="입력전류 하한(mA)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                        <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
 
-                <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Grid>
+                <StackPanel Margin="40,0,40,20" Grid.Column="1">
+                    <TextBlock Text="언어" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+                    <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
 
-    </StackPanel>
+            <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>

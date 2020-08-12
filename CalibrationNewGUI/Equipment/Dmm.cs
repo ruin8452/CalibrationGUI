@@ -102,7 +102,7 @@ namespace CalibrationNewGUI.Equipment
             commFlag = DmmComm.CommReceive(out string receiveData, code);
             if (!commFlag) { CommErrCount++; return SensingData; }
 
-            OnLogSend(receiveData);
+            OnLogSend(receiveData, true);
 
             commFlag = double.TryParse(receiveData, out double tempData);
             if (!commFlag) { CommErrCount++; return SensingData; }
@@ -119,38 +119,40 @@ namespace CalibrationNewGUI.Equipment
                     break;
                 case "34401A":
                     DmmComm.CommSend("SYSTem:REMote", out int _);
-                    OnLogSend("SYSTem:REMote");
+                    OnLogSend("SYSTem:REMote", false);
                     DmmComm.CommSend("ZERO:AUTO ONCE", out int _);
-                    OnLogSend("ZERO:AUTO ONCE");
+                    OnLogSend("ZERO:AUTO ONCE", false);
                     break;
                 case "Keithley2000":
                     DmmComm.CommSend("SYST:REM", out int _);
-                    OnLogSend("SYST:REM");
+                    OnLogSend("SYST:REM", false);
                     DmmComm.CommSend("CONF:VOLT:DC", out int _);
-                    OnLogSend("CONF:VOLT:DC");
+                    OnLogSend("CONF:VOLT:DC", false);
 
                     //DmmComm.CommSend("SENS:VOLT:DC:NPLC 0.1", out int _); // FAST
                     //DmmComm.CommSend("SENS:VOLT:DC:NPLC 1", out int _);   // MID
                     DmmComm.CommSend("SENS:VOLT:DC:NPLC 10", out int _);    // LOW
-                    OnLogSend("SENS:VOLT:DC:NPLC 10");
+                    OnLogSend("SENS:VOLT:DC:NPLC 10", false);
                     break;
             }
 
         }
 
         /**
-         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
-         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
+         *  @brief 로그 텍스트 메세지 전송
+         *  @details 로그 텍스트 메세지를 전송
          *  
-         *  @param
+         *  @param string text 로그 텍스트
+         *  @param bool isMonitoring 모니터링 텍스트 여부
          *  
          *  @return
          */
-        private void OnLogSend(string text)
+        private void OnLogSend(string text, bool isMonitoring)
         {
             LogTextMessage Message = new LogTextMessage
             {
-                LogText = text
+                LogText = text,
+                IsMonitoring = isMonitoring
             };
 
             Messenger.Default.Send(Message);

@@ -39,7 +39,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="ImgBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -59,7 +59,7 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="FileTextBaseStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
@@ -170,11 +170,9 @@
 
     <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="1"/>
+            <RowDefinition Height="*" MinHeight="321"/>
             <RowDefinition Height="230"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,15,0,5">
@@ -409,7 +407,7 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <!--CAL Option-->
             <Border Width="150" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
@@ -475,7 +473,7 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            
+
             <!--Monitoing Box-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
@@ -536,17 +534,76 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
+
+            <!--Monitoing Box-->
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+                <StackPanel>
+                    <TextBlock Text="자동 저장" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                    <TextBlock Text="CAL" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="0" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
+                            <TextBlock Text="CH1 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="1" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
+                            <TextBlock Text="CH1 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="0" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
+                            <TextBlock Text="CH2 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="1" Margin="2" CornerRadius="10" Background="{StaticResource LedGreen}">
+                            <TextBlock Text="CH2 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Text="MEA" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="CH1 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="CH1 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="0">
+                            <TextBlock Text="CH2 V" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <Border Height="30" Width="70" Grid.Row="1" Grid.Column="1">
+                            <TextBlock Text="CH2 I" Foreground="White" FontSize="16" FontFamily="NanumGothic Light" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
         </StackPanel>
-        
+
         <!--테스트 결과-->
-        <Border x:Name="LogBorder" Grid.Row="3" BorderBrush="#FF3B456B" MinHeight="100" BorderThickness="1" Margin="5,0,5,5" LayoutUpdated="Border_LayoutUpdated">
+        <Border x:Name="LogBorder" Grid.Row="2" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,0,5,5" LayoutUpdated="Border_LayoutUpdated">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Background="#FF3B456B">
                     <TextBlock Text="로그" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
-                    <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsLogActive}"/>
+                    <CheckBox Content="로그 표기" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsLogActive, Mode=OneWayToSource}"/>
+                    <CheckBox Content="모니터링 제외" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsMoniExcept, Mode=OneWayToSource}"/>
+                    <Button Content="Clear" Margin="20,0,0,0" Foreground="White" Width="50" Height="20" BorderBrush="DodgerBlue" Style="{StaticResource BtnNormalStyle}" Command="{Binding LogClearClick}"/>
                 </StackPanel>
 
-                <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto" Height="150">
+                <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding LogText}" Foreground="White" FontFamily="NanumBarunGothic" FontSize="16"/>
                 </ScrollViewer>
             </StackPanel>

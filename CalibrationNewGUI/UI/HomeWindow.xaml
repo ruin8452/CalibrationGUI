@@ -171,9 +171,9 @@
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <Grid Grid.Row="1">
             <Frame Style="{StaticResource MainFrame}" NavigationUIVisibility="Hidden" Source="/CalibrationNewGUI;component/UI/MonitorPage.xaml"/>
-        </ScrollViewer>
+        </Grid>
 
         <!--버전 정보-->
         <Border Grid.Row="3" BorderBrush="#FF3B456B" Background="DodgerBlue" BorderThickness="0,1,0,0">

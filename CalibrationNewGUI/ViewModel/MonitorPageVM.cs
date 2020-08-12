@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,13 +31,17 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MonitorPageVM
     {
+        string AutoSavePath;
+        string AutoSaveFilePath;
+
         private bool preCalMode = true;  // CAL 모드의 이전 상태를 저장
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
         public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
         public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
 
-        public string LogText { get; set; } = "";
-        private StringBuilder tempLog = new StringBuilder();
+        public string LogText { get; set; }
+        public bool IsLogActive { get; set; }
+        public bool IsMoniExcept { get; set; }
 
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
@@ -88,6 +91,8 @@ namespace CalibrationNewGUI.ViewModel
         public RelayCommand AutoCalStopClick { get; set; }
         public RelayCommand ManualCalClick { get; set; }
 
+        public RelayCommand LogClearClick { get; set; }
+
         public RelayCommand<DataGridCellEditEndingEventArgs> CalGridCellEdit { get; set; }
         public RelayCommand<DataGridCellEditEndingEventArgs> MeaGridCellEdit { get; set; }
 
@@ -101,6 +106,12 @@ namespace CalibrationNewGUI.ViewModel
          */
         public MonitorPageVM()
         {
+            AutoSavePath = Environment.CurrentDirectory + "\\Auto Save\\";
+            AutoSaveFilePath = AutoSavePath + AutoSaveInfo.GetObj().AutoSavePrifix + ".csv";
+
+            IsLogActive = true;
+            IsMoniExcept = false;
+
             Messenger.Default.Register<CalPointMessage>(this, OnReceiveCalPoint);
             Messenger.Default.Register<LogTextMessage>(this, OnReceiveLogText);
 
@@ -116,7 +127,7 @@ namespace CalibrationNewGUI.ViewModel
             calManager.CalEnd += CalManager_CalEnd;
             calManager.MeaEnd += CalManager_MeaEnd;
 
-            string[] cloumnName = new string[] {        "NO",     "SetVolt",     "SetCurr",  "Correction",      "OutVolt",      "OutCurr",       "OutDMM",  "IsRangeIn" };
+            string[] cloumnName = new string[] {"NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" };
             Type[] cloumnType   = new Type[]   { typeof(int), typeof(float), typeof(float), typeof(float), typeof(double), typeof(double), typeof(double), typeof(bool) };
             CalPointTable = new DataTable();
             CalPointTable = TableManager.ColumnAdd(CalPointTable, cloumnName, cloumnType);
@@ -147,6 +158,8 @@ namespace CalibrationNewGUI.ViewModel
             AutoCalStartClick = new RelayCommand(AutoCalStart);
             AutoCalStopClick = new RelayCommand(AutoCalStop);
             ManualCalClick = new RelayCommand(ManualCal);
+
+            LogClearClick = new RelayCommand(LogClear);
 
             CalGridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(CalCellEdit);
             MeaGridCellEdit = new RelayCommand<DataGridCellEditEndingEventArgs>(MeaCellEdit);
@@ -794,7 +807,18 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void OnReceiveLogText(LogTextMessage obj)
         {
+            if (!IsLogActive)   // 로그 비활성 시
+                return;
+
+            if (obj.IsMonitoring && IsMoniExcept) // 모니터링 제외 상태에서 모니터링 문자열일 경우
+                return;
+
             LogText = string.Format("{0}\n{1}", obj.LogText, LogText);
+        }
+
+        private void LogClear()
+        {
+            LogText = "";
         }
 
         /**
@@ -905,6 +929,37 @@ namespace CalibrationNewGUI.ViewModel
         private void CalManager_CalEnd(object sender, EventArgs e)
         {
             MessageBox.Show("CAL 완료");
+
+            if (!AutoSaveInfo.GetObj().AutoSaveFlag)
+                return;
+
+            if (!File.Exists(AutoSaveFilePath))
+            {
+                Directory.CreateDirectory(AutoSavePath);
+                CsvFile.Save(AutoSaveFilePath, false, new object[] { "Serial", "CH", "Type", "P/F", "CAL/MEA", "Volt_P", "Curr_P", "DMM" });
+            }
+
+            object[] autoSaveData = new object[8];
+
+            autoSaveData[0] = McuInfo.GetObj().McuSerialNum == null ? "No Serial" : McuInfo.GetObj().McuSerialNum;
+            autoSaveData[1] = ChNumber;
+            autoSaveData[2] = CalMode ? 'V' : 'I';
+
+            var a = from b in CalPointTable.AsEnumerable()
+                    where b["IsRangeIn"] == DBNull.Value || (bool)b["IsRangeIn"] == false
+                    select b;
+
+            autoSaveData[3] = a.Any() ? "FAIL" : "PASS";
+            autoSaveData[4] = "CAL";
+
+            foreach (DataRow row in CalPointTable.Rows)
+            {
+                autoSaveData[5] = row["SetVolt"];
+                autoSaveData[6] = row["SetCurr"];
+                autoSaveData[7] = row["OutDMM"];
+
+                CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
+            }
         }
 
         /**
@@ -919,6 +974,37 @@ namespace CalibrationNewGUI.ViewModel
         private void CalManager_MeaEnd(object sender, EventArgs e)
         {
             MessageBox.Show("실측 완료");
+
+            if (!AutoSaveInfo.GetObj().AutoSaveFlag)
+                return;
+
+            if (!File.Exists(AutoSaveFilePath))
+            {
+                Directory.CreateDirectory(AutoSavePath);
+                CsvFile.Save(AutoSaveFilePath, false, new object[] { "Serial", "CH", "Type", "P/F", "CAL/MEA", "Volt_P", "Curr_P", "DMM" });
+            }
+
+            object[] autoSaveData = new object[8];
+
+            autoSaveData[0] = McuInfo.GetObj().McuSerialNum == null ? "No Serial" : McuInfo.GetObj().McuSerialNum;
+            autoSaveData[1] = ChNumber;
+            autoSaveData[2] = CalMode ? 'V' : 'I';
+
+            var a = from b in CalPointTable.AsEnumerable()
+                    where b["IsRangeIn"] == DBNull.Value || (bool)b["IsRangeIn"] == false
+                    select b;
+
+            autoSaveData[3] = a.Any() ? "FAIL" : "PASS";
+            autoSaveData[4] = "CAL";
+
+            foreach (DataRow row in CalPointTable.Rows)
+            {
+                autoSaveData[5] = row["SetVolt"];
+                autoSaveData[6] = row["SetCurr"];
+                autoSaveData[7] = row["OutDMM"];
+
+                CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
+            }
         }
 
         /**

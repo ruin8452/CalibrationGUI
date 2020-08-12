@@ -511,7 +511,7 @@ namespace CalibrationNewGUI.Equipment
             Ch2Fault = MdMasterBuffer[10];
             Version = MdMasterBuffer[11];
 
-            OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}");
+            OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}", true);
         }
 
         public void ChSet(int chNum, int volt, int curr)
@@ -564,7 +564,7 @@ namespace CalibrationNewGUI.Equipment
             tempStream[8] = 1;//출력시작(0:대기, 1: 시작, 2: 정지)
             MdMaster.WriteMultipleRegisters(SLAVE_ID, REF_SET_ADDRESS, tempStream);//레지스터 주소 0x2000
 #endif
-            OnLogSend($"[MCU ChSet] Ch : {chNum}, Volt : {volt}, Curr : {curr}");
+            OnLogSend($"[MCU ChSet] Ch : {chNum}, Volt : {volt}, Curr : {curr}", false);
         }
 
         public void ChCal(char calType, int chNum, double calValue)
@@ -596,7 +596,7 @@ namespace CalibrationNewGUI.Equipment
 
             MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_VALUE_ADDRESS, tempStream);//레지스터 주소 0x2010
 #endif
-            OnLogSend($"[MCU ChCal] Type : {calType}, Ch : {chNum}, DMM : {calValue}");
+            OnLogSend($"[MCU ChCal] Type : {calType}, Ch : {chNum}, DMM : {calValue}", false);
         }
 
         public void ChStop()
@@ -617,7 +617,7 @@ namespace CalibrationNewGUI.Equipment
             tempStream[8] = 2;//출력시작(0:대기, 1: 시작, 2: 정지)
             MdMaster.WriteMultipleRegisters(1, 0x2000, tempStream);//레지스터 주소 0x2000
 #endif
-            OnLogSend($"[MCU Stop]");
+            OnLogSend($"[MCU Stop]", false);
         }
 
         //Cal 포인트 확인함수
@@ -655,8 +655,6 @@ namespace CalibrationNewGUI.Equipment
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
-
-                    return tempPointList.ToArray();
                 }
                 else
                 {
@@ -670,8 +668,6 @@ namespace CalibrationNewGUI.Equipment
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
-
-                    return tempPointList.ToArray();
                 }
             }
             else
@@ -688,8 +684,6 @@ namespace CalibrationNewGUI.Equipment
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
-
-                    return tempPointList.ToArray();
                 }
                 else
                 {
@@ -703,99 +697,10 @@ namespace CalibrationNewGUI.Equipment
 
                         tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                     }
-
-                    return tempPointList.ToArray();
                 }
             }
-            
-            //countbuffer = SendPort.ReadHoldingRegisters(slaveID, 8448, (ushort)(ch1Voltcnt * 2));
-            //if(ch1Voltcnt > 0)//채널1 전압
-            //{
-            //    //기준값
-            //    //레지스터 주소 0x2100 채널1 전압 기준값 읽기
-            //    //Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2)), 0, buffer, 40 * 2, (ushort)(ch1Voltcnt * 2) * 2);
-            //    tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 2));
-            //    //보정값
-            //    //레지스터 주소 0x2200 채널1 전압 보정값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2200, (ushort)(ch1Voltcnt * 2)), 0, buffer, 60 * 2, (ushort)(ch1Voltcnt * 2) * 2);
-            //}
-            //if(ch2Voltcnt > 0)//채널2 전압
-            //{
-            //    //기준값
-            //    //레지스터 주소 0x3100 채널2 전압 기준값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 2)), 0, buffer, 160 * 2, (ushort)(ch2Voltcnt * 2) * 2);
-            //    //보정값
-            //    //레지스터 주소 0x3200 채널2 전압 보정값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3200, (ushort)(ch2Voltcnt * 2)), 0, buffer, 180 * 2, (ushort)(ch2Voltcnt * 2) * 2);
-            //}
 
-            //if(ch1Currcnt > 0)//채널1 전류
-            //{
-            //    //기준값
-            //    //레지스터 주소 0x2300 채널1 전류 기준값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 2)), 0, buffer, 80 * 2, (ushort)(ch1Currcnt * 2) * 2);
-            //    //보정값
-            //    //레지스터 주소 0x2400 채널1 전류 보정값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2400, (ushort)(ch1Currcnt * 2)), 0, buffer, 120 * 2, (ushort)(ch1Currcnt * 2) * 2);
-            //}
-
-            //if (ch2Currcnt > 0)//채널2 전류
-            //{
-            //    //기준값
-            //    //레지스터 주소 0x3300 채널2 전류 기준값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 2)), 0, buffer, 200 * 2, (ushort)(ch2Currcnt * 2) * 2);
-            //    //보정값
-            //    //레지스터 주소 0x3400 채널2 전류 보정값 읽기
-            //    Buffer.BlockCopy(MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3400, (ushort)(ch2Currcnt * 2)), 0, buffer, 240 * 2, (ushort)(ch2Currcnt * 2) * 2);
-            //}
-
-            ////임시 포인트에 저장
-            //for (int i = 0; i < CalPointCH1VoltCnt; i++)
-            //{
-            //    //채널1 전압 기준값
-            //    tempfloat.floatByte1 = buffer[40 + i * 2];
-            //    tempfloat.floatByte2 = buffer[41 + i * 2];
-            //    StrCalPointCH1Volt[0, i] = tempfloat.floattemp;
-            //    //채널1 전압 보정값
-            //    tempfloat.floatByte1 = buffer[60 + i * 2];
-            //    tempfloat.floatByte2 = buffer[61 + i * 2];
-            //    StrCalPointCH1Volt[1, i] = tempfloat.floattemp;
-            //}
-            //for (int i = 0; i < CalPointCH2VoltCnt; i++)
-            //{
-            //    //채널2 전압 기준값
-            //    tempfloat.floatByte1 = buffer[160 + i * 2];
-            //    tempfloat.floatByte2 = buffer[161 + i * 2];
-            //    StrCalPointCH2Volt[0, i] = tempfloat.floattemp;
-            //    //채널2 전압 보정값
-            //    tempfloat.floatByte1 = buffer[180 + i * 2];
-            //    tempfloat.floatByte2 = buffer[181 + i * 2];
-            //    StrCalPointCH2Volt[1, i] = tempfloat.floattemp;
-            //}
-            //for (int i = 0; i < CalPointCH1CurrCnt; i++)
-            //{
-            //    //채널1 전압 기준값
-            //    tempfloat.floatByte1 = buffer[80 + i * 2];
-            //    tempfloat.floatByte2 = buffer[81 + i * 2];
-            //    StrCalPointCH1Curr[0, i] = tempfloat.floattemp;
-            //    //채널1 전압 보정값
-            //    tempfloat.floatByte1 = buffer[120 + i * 2];
-            //    tempfloat.floatByte2 = buffer[121 + i * 2];
-            //    StrCalPointCH1Curr[1, i] = tempfloat.floattemp;
-            //}
-
-            //for (int i = 0; i < CalPointCH2CurrCnt; i++)
-            //{
-            //    //채널2 전압 기준값
-            //    tempfloat.floatByte1 = buffer[200 + i * 2];
-            //    tempfloat.floatByte2 = buffer[201 + i * 2];
-            //    StrCalPointCH2Curr[0, i] = tempfloat.floattemp;
-            //    //채널2 전압 보정값
-            //    tempfloat.floatByte1 = buffer[240 + i * 2];
-            //    tempfloat.floatByte2 = buffer[241 + i * 2];
-            //    StrCalPointCH2Curr[1, i] = tempfloat.floattemp;
-            //}
-            OnLogSend($"[MCU CalPoint Check]");
+            OnLogSend($"[MCU CalPoint Check]", false);
             return tempPointList.ToArray();
         }
 
@@ -845,7 +750,7 @@ namespace CalibrationNewGUI.Equipment
                 }
             }
 
-            OnLogSend($"[MCU CalPoint Send]");
+            OnLogSend($"[MCU CalPoint Send]", false);
         }
 
         ////Cal 포인트 저장함수(준비 - 저장 순서)
@@ -920,19 +825,22 @@ namespace CalibrationNewGUI.Equipment
         //}
 #endif
 
+
         /**
-         *  @brief 로그 메세지 메세지 전송
-         *  @details 로그 메세지를 전송
+         *  @brief 로그 텍스트 메세지 전송
+         *  @details 로그 텍스트 메세지를 전송
          *  
-         *  @param
+         *  @param string text 로그 텍스트
+         *  @param bool isMonitoring 모니터링 텍스트 여부
          *  
          *  @return
          */
-        private void OnLogSend(string text)
+        private void OnLogSend(string text, bool isMonitoring)
         {
             LogTextMessage Message = new LogTextMessage
             {
-                LogText = text
+                LogText = text,
+                IsMonitoring = isMonitoring
             };
 
             Messenger.Default.Send(Message);

@@ -45,71 +45,73 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    
-    <StackPanel Background="{StaticResource PageBackground}">
-        <TextBlock Text="션트 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
-        <Separator Background="#FF53609B" Width="136"/>
-        <TextBlock Text="Shunt Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="40,0,40,20" >
-                <TextBlock Text="션트" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Background="{StaticResource PageBackground}">
+            <TextBlock Text="션트 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+            <Separator Background="#FF53609B" Width="136"/>
+            <TextBlock Text="Shunt Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Margin="40,0,40,20" >
+                    <TextBlock Text="션트" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <TextBlock Text="표준 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="표준 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntStandardReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="표준 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                    <TextBlock Text="보정 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="표준 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.ShuntStandardReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
-                    <TextBlock Text="보정 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+                        <TextBlock Text="보정 션트 측정전류(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
-            <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                <TextBlock Text="전압 미터" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="보정 션트 저항(nΩ)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Margin="40,0,40,20" Grid.Column="1">
+                    <TextBlock Text="전압 미터" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <TextBlock Text="표준 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.StandardVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="보정 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox Text="{Binding ShuntInfos.NewVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
-        </Grid>
+                        <TextBlock Text="표준 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.StandardVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-        <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+                        <TextBlock Text="보정 전압 Meter(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Text="{Binding ShuntInfos.NewVoltMeter, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
 
-    </StackPanel>
+            <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>

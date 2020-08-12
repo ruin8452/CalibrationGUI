@@ -10,5 +10,6 @@ namespace CalibrationNewGUI.Message
     public class LogTextMessage : MessageBase
     {
         public string LogText { get; set; }
+        public bool IsMonitoring { get; set; }
     }
 }

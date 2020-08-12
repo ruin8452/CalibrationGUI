@@ -35,7 +35,7 @@ namespace CalibrationNewGUI.Model
 
         public void Load()
         {
-            AutoSavePrifix = ConfigFile.Read("AutoSave", "AutoSavePrifix", "");
+            AutoSavePrifix = ConfigFile.Read("AutoSave", "AutoSavePrifix", "AUTO_SAVE");
             AutoSaveFlag = Convert.ToBoolean(ConfigFile.Read("AutoSave", "AutoSaveFlag", "false"));
         }
     }
