@@ -119,6 +119,9 @@ namespace CalibrationNewGUI.ViewModel
 
         private void SerialEnter()
         {
+            if (string.IsNullOrEmpty(McuInfos.McuSerialNum))
+                return;
+
             SerialMessage Message = new SerialMessage
             {
                 SerialNum = McuInfos.McuSerialNum

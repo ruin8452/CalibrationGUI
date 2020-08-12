@@ -754,8 +754,6 @@ namespace CalibrationNewGUI.ViewModel
         private void LogClear()
         {
             LogText = "";
-            //avv();
-            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**
@@ -870,6 +868,7 @@ namespace CalibrationNewGUI.ViewModel
             if (!AutoInfos.AutoSaveFlag)
                 return;
 
+            AutoSaveFilePath = AutoSavePath + AutoSaveInfo.GetObj().AutoSavePrifix + ".csv";
             if (!File.Exists(AutoSaveFilePath))
             {
                 Directory.CreateDirectory(AutoSavePath);
@@ -897,43 +896,6 @@ namespace CalibrationNewGUI.ViewModel
 
                 CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
             }
-        }
-
-        void avv()
-        {
-
-            if (!AutoInfos.AutoSaveFlag)
-                return;
-
-            if (!File.Exists(AutoSaveFilePath))
-            {
-                Directory.CreateDirectory(AutoSavePath);
-                CsvFile.Save(AutoSaveFilePath, false, new object[] { "Serial", "CH", "Type", "P/F", "CAL/MEA", "Volt_P", "Curr_P", "DMM" });
-            }
-
-            object[] autoSaveData = new object[8];
-
-            autoSaveData[0] = McuInfo.GetObj().McuSerialNum == null ? "No Serial" : McuInfo.GetObj().McuSerialNum;
-            autoSaveData[1] = ChNumber;
-            autoSaveData[2] = CalMode ? 'V' : 'I';
-
-            var failItem = from row in CalPointTable.AsEnumerable()
-                           where row["IsRangeIn"] == DBNull.Value || (bool)row["IsRangeIn"] == false
-                           select row;
-
-            autoSaveData[3] = failItem.Any() ? "FAIL" : "PASS";
-            autoSaveData[4] = "CAL";
-
-            foreach (DataRow row in CalPointTable.Rows)
-            {
-                autoSaveData[5] = row["SetVolt"];
-                autoSaveData[6] = row["SetCurr"];
-                autoSaveData[7] = row["OutDMM"];
-
-                CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
-            }
-
-            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**
@@ -952,6 +914,7 @@ namespace CalibrationNewGUI.ViewModel
             if (!AutoInfos.AutoSaveFlag)
                 return;
 
+            AutoSaveFilePath = AutoSavePath + AutoSaveInfo.GetObj().AutoSavePrifix + ".csv";
             if (!File.Exists(AutoSaveFilePath))
             {
                 Directory.CreateDirectory(AutoSavePath);
@@ -1180,6 +1143,7 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void RcvMsg_SerialEnter(SerialMessage serialNum)
         {
+            AutoSaveFilePath = AutoSavePath + AutoSaveInfo.GetObj().AutoSavePrifix + ".csv";
             SaveCheck.SaveCheck(AutoSaveFilePath, serialNum.SerialNum);
         }
     }
