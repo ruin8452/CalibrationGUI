@@ -37,14 +37,13 @@ namespace CalibrationNewGUI.ViewModel.Func
         Dmm dmm = Dmm.GetObj();
 
         bool IsFullRun;
-
         char calType;
         int calChNum;
         int calErrRate;
         int calDelay;
         object[][] CalPointList;
 
-        char meaType;
+	char meaType;
         int meaChNum;
         int meaErrRate;
         int meaDelay;
@@ -331,7 +330,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     
                     if (meaType == 'V')
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 5; i++)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             if (Math.Abs(dmm.Volt - voltPoint) < 100)
@@ -343,7 +342,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Volt - voltPoint) > meaErrRate)
                         {
-                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             mcu.ChStop();
                             isSuccess = false;
                             //임시 큐 함수용
