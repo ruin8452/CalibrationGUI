@@ -37,11 +37,17 @@ namespace CalibrationNewGUI.ViewModel.Func
         Dmm dmm = Dmm.GetObj();
 
         bool IsFullRun;
-        char CalType;
-        int ChNum;
-        int errRate;
-        int delay;
+
+        char calType;
+        int calChNum;
+        int calErrRate;
+        int calDelay;
         object[][] CalPointList;
+
+        char meaType;
+        int meaChNum;
+        int meaErrRate;
+        int meaDelay;
         object[][] MeaPointList;
 
         BackgroundWorker calBack = new BackgroundWorker();
@@ -110,14 +116,23 @@ namespace CalibrationNewGUI.ViewModel.Func
             meaTimer.Stop();
         }
 
-        public void AutoCalPointSet(char calType, int chNum, int delay, object[][] calPointList, object[][] meaPointList, bool isFullRun)
+        public void CalSeqSet(char type, int chNum, int delay, object[][] calPointList, bool isFullRun)
         {
-            CalType = calType;
-            ChNum = chNum;
-            this.delay = delay;
+            calType = type;
+            calChNum = chNum;
+            calDelay = delay;
             CalPointList = calPointList;
+            calErrRate = type == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
+            IsFullRun = isFullRun;
+        }
+
+        public void MeaSeqSet(char type, int chNum, int delay, object[][] meaPointList, bool isFullRun)
+        {
+            meaType = type;
+            meaChNum = chNum;
+            meaDelay = delay;
             MeaPointList = meaPointList;
-            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.MeaErrRangeCurr;
+            meaErrRate = type == 'V' ? calInfo.MeaErrRangeVolt : calInfo.MeaErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
@@ -153,7 +168,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             switch (stepName)
             {
                 case CalSeq.REF_SET:
-                    mcu.ChSet(ChNum, voltPoint, currPoint);
+                    mcu.ChSet(calChNum, voltPoint, currPoint);
                     isCalEnd = false;
                     //임시 큐 함수용
                     //mcu.outputBuffer.chNum = ChNum;
@@ -172,11 +187,11 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case CalSeq.REAL_VALUE_SEND:
                     for (int i = 0; i < calInfo.CalErrRetryCnt; i++)
                     {
-                        if (CalType == 'V')
+                        if (calType == 'V')
                         {
-                            if (Math.Abs(dmm.Volt - voltPoint) > errRate)
+                            if (Math.Abs(dmm.Volt - voltPoint) > calErrRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.Volt);
+                                mcu.ChCal(calType, calChNum, dmm.Volt);
                                 //임시 큐 함수용
                                 //mcu.calBuffer.calType = CalType;
                                 //mcu.calBuffer.chNum = ChNum;
@@ -192,9 +207,9 @@ namespace CalibrationNewGUI.ViewModel.Func
                         }
                         else
                         {
-                            if (Math.Abs(dmm.Curr - currPoint) > errRate)
+                            if (Math.Abs(dmm.Curr - currPoint) > calErrRate)
                             {
-                                mcu.ChCal(CalType, ChNum, dmm.Curr);
+                                mcu.ChCal(calType, calChNum, dmm.Curr);
                                 //임시 큐 함수용
                                 //mcu.calBuffer.calType = CalType;
                                 //mcu.calBuffer.chNum = ChNum;
@@ -294,7 +309,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             switch (stepName)
             {
                 case MeaSeq.REF_SET:
-                    mcu.ChSet(ChNum, voltPoint, currPoint);
+                    mcu.ChSet(meaChNum, voltPoint, currPoint);
                     isMeaEnd = false;
 
                     //임시 큐 함수용
@@ -314,7 +329,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                 case MeaSeq.OUT_CHECK:
                     //Utill.Delay(0.3);
                     
-                    if (CalType == 'V')
+                    if (meaType == 'V')
                     {
                         for (int i = 0; i < 3; i++)
                         {
@@ -326,7 +341,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Volt - voltPoint) > errRate)
+                        if (Math.Abs(dmm.Volt - voltPoint) > meaErrRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             mcu.ChStop();
@@ -350,7 +365,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Curr - currPoint) > errRate)
+                        if (Math.Abs(dmm.Curr - currPoint) > meaErrRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             

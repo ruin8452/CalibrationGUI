@@ -240,7 +240,7 @@ namespace CalibrationNewGUI.ViewModel
             foreach (DataRow row in ScanPointTable.Rows)
                 tempPoint.Add(row.ItemArray);
 
-            calManager.AutoCalPointSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, null, tempPoint.ToArray(), false);
+            calManager.MeaSeqSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
