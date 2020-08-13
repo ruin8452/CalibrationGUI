@@ -653,7 +653,7 @@ namespace CalibrationNewGUI.Equipment
                             correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
                             correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
                             standardPoint.Float = standardPoint.Float * 1000;
-                            correctionPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = correctionPoint.Float * 1000;
                             tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                         }
                     }
@@ -676,7 +676,7 @@ namespace CalibrationNewGUI.Equipment
                             correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
                             correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
                             standardPoint.Float = standardPoint.Float * 1000;
-                            correctionPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = correctionPoint.Float * 1000;
                             tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                         }
                     }
@@ -702,7 +702,7 @@ namespace CalibrationNewGUI.Equipment
                             correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
                             correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
                             standardPoint.Float = standardPoint.Float * 1000;
-                            correctionPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = correctionPoint.Float * 1000;
                             tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                         }
                     }
@@ -725,7 +725,7 @@ namespace CalibrationNewGUI.Equipment
                             correctionPoint.Byte1 = tempBuffer[i * 4 + 2];
                             correctionPoint.Byte2 = tempBuffer[i * 4 + 3];
                             standardPoint.Float = standardPoint.Float * 1000;
-                            correctionPoint.Float = standardPoint.Float * 1000;
+                            correctionPoint.Float = correctionPoint.Float * 1000;
                             tempPointList.Add(new float[] { standardPoint.Float, correctionPoint.Float });
                         }
                     }
