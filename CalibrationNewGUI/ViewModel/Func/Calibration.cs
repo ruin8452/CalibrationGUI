@@ -39,7 +39,7 @@ namespace CalibrationNewGUI.ViewModel.Func
         bool IsFullRun;
         char CalType;
         int ChNum;
-        int errRate;
+        int errRange;
         int delay;
         object[][] CalPointList;
         object[][] MeaPointList;
@@ -117,7 +117,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             this.delay = delay;
             CalPointList = calPointList;
             MeaPointList = meaPointList;
-            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.MeaErrRangeCurr;
+            errRange = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
@@ -174,7 +174,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         if (CalType == 'V')
                         {
-                            if (Math.Abs(dmm.Volt - voltPoint) > errRate)
+                            if (Math.Abs(dmm.Volt - voltPoint) > errRange)
                             {
                                 mcu.ChCal(CalType, ChNum, dmm.Volt);
                                 //임시 큐 함수용
@@ -192,7 +192,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         }
                         else
                         {
-                            if (Math.Abs(dmm.Curr - currPoint) > errRate)
+                            if (Math.Abs(dmm.Curr - currPoint) > errRange)
                             {
                                 mcu.ChCal(CalType, ChNum, dmm.Curr);
                                 //임시 큐 함수용
@@ -326,9 +326,9 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Volt - voltPoint) > errRate)
+                        if (Math.Abs(dmm.Volt - voltPoint) > errRange)
                         {
-                            OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                            //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             mcu.ChStop();
                             isSuccess = false;
                             //임시 큐 함수용
@@ -350,7 +350,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Curr - currPoint) > errRate)
+                        if (Math.Abs(dmm.Curr - currPoint) > errRange)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             
