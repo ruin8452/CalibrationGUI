@@ -927,14 +927,14 @@ namespace CalibrationNewGUI.ViewModel
             autoSaveData[1] = ChNumber;
             autoSaveData[2] = CalMode ? 'V' : 'I';
 
-            var a = from b in CalPointTable.AsEnumerable()
-                    where b["IsRangeIn"] == DBNull.Value || (bool)b["IsRangeIn"] == false
-                    select b;
+            var failItem = from row in MeaPointTable.AsEnumerable()
+                    where row["IsRangeIn"] == DBNull.Value || (bool)row["IsRangeIn"] == false
+                    select row;
 
-            autoSaveData[3] = a.Any() ? "FAIL" : "PASS";
-            autoSaveData[4] = "CAL";
+            autoSaveData[3] = failItem.Any() ? "FAIL" : "PASS";
+            autoSaveData[4] = "MEA";
 
-            foreach (DataRow row in CalPointTable.Rows)
+            foreach (DataRow row in MeaPointTable.Rows)
             {
                 autoSaveData[5] = row["SetVolt"];
                 autoSaveData[6] = row["SetCurr"];
