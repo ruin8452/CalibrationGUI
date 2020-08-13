@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
       mc:Ignorable="d" 
       d:DesignWidth="800"
@@ -11,7 +12,6 @@
     <Page.Resources>
         <Style x:Key="CalSetText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
-            <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
@@ -49,16 +49,18 @@
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
-            <Setter Property="Width" Value="120"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Background="{StaticResource PageBackground}">
-            <TextBlock Text="기타 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
-            <Separator Background="#FF53609B" Width="136"/>
-            <TextBlock Text="Others Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{x:Static glob:Resource.Other_Setting}" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+                <Separator Background="#FF53609B"/>
+                <TextBlock Text="Others Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -66,7 +68,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Margin="40,0,40,20" >
-                    <TextBlock Text="입력" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static glob:Resource.Input}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     <Grid>
                         <Grid.RowDefinitions>
@@ -80,28 +82,28 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="입력전압 상한(mV)" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{x:Static glob:Resource.MaximumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
                         <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="입력전압 하한(mV)" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{x:Static glob:Resource.MinimumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
                         <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
 
-                        <TextBlock Text="입력전류 상한(mA)" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                        <TextBlock Text="{x:Static glob:Resource.MaximumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
                         <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
 
-                        <TextBlock Text="입력전류 하한(mA)" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                        <TextBlock Text="{x:Static glob:Resource.MinimumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
                         <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                    <TextBlock Text="언어" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static glob:Resource.Language}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
 
-            <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+            <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
         </StackPanel>
     </ScrollViewer>

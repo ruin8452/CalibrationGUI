@@ -26,6 +26,11 @@ namespace CalibrationNewGUI
             CalMeasureInfo.GetObj().Load();
             ShuntInfo.GetObj().Load();
             OthersInfo.GetObj().Load();
+
+            if(OthersInfo.GetObj().Language == "English")
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ko-KR");
         }
     }
 }

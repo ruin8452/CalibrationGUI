@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
         xmlns:local="clr-namespace:CalibrationNewGUI.UI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManualCalVM}"
@@ -72,9 +73,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="출력 시작" Style="{StaticResource ButtonStyle}" Grid.Column="0" Command="{Binding OutputStartClick}"/>
-            <Button Content="CAL 시작"  Style="{StaticResource ButtonStyle}" Grid.Column="1" Command="{Binding CalStartClick}"/>
-            <Button Content="출력 중지" Style="{StaticResource ButtonStyle}" Grid.Column="2" Command="{Binding OutputStopClick}"/>
+            <Button Content="{x:Static glob:Resource.OutputStart}" Style="{StaticResource ButtonStyle}" Grid.Column="0" Command="{Binding OutputStartClick}"/>
+            <Button Content="{x:Static glob:Resource.CalStart}"  Style="{StaticResource ButtonStyle}" Grid.Column="1" Command="{Binding CalStartClick}"/>
+            <Button Content="{x:Static glob:Resource.OutputStop}" Style="{StaticResource ButtonStyle}" Grid.Column="2" Command="{Binding OutputStopClick}"/>
         </Grid>
     </StackPanel>
 </Window>

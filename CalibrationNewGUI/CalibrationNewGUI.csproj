@@ -100,6 +100,17 @@
     <Compile Include="Equipment\Protocol\ModbusProtocol.cs" />
     <Compile Include="FileSystem\CsvFile.cs" />
     <Compile Include="FileSystem\PointFile.cs" />
+    <Compile Include="Globalization\LocalizationLib.cs" />
+    <Compile Include="Globalization\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Globalization\Resource.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.en-US.resx</DependentUpon>
+    </Compile>
     <Compile Include="Message\CalOptionMessage.cs" />
     <Compile Include="Message\CalPointMessage.cs" />
     <Compile Include="Message\LogTextMessage.cs" />
@@ -168,6 +179,7 @@
     <Compile Include="ViewModel\Func\AutoSaveCheck.cs" />
     <Compile Include="ViewModel\Func\Calibration.cs" />
     <Compile Include="ViewModel\Func\EventArgsClass\CalMonitorArgs.cs" />
+    <Compile Include="ViewModel\Func\Language.cs" />
     <Compile Include="ViewModel\Func\TableManager.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\ManualCalVM.cs" />
@@ -288,8 +300,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Globalization\Resource.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Globalization\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />

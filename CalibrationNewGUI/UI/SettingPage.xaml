@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="clr-namespace:CalibrationNewGUI.UI.Setting"
+      xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -18,7 +19,6 @@
         
         <Style x:Key="SubBtnStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
             <Setter Property="Margin" Value="2,0,0,0"/>
-            <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="50"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Foreground" Value="White"/>
@@ -63,13 +63,21 @@
     </Page.Resources>
 
     <StackPanel Background="{StaticResource PageBackground}">
-        <StackPanel Orientation="Horizontal">
-            <RadioButton x:Name="CommBtn"  Content="통신"          Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="ShuntBtn" Content="션트&amp;전압" Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="AutoBtn"  Content="자동 저장"     Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="CalBtn"   Content="CAL 세팅"      Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="OtherBtn" Content="기타"          Style="{StaticResource SubBtnStyle}"/>
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <RadioButton x:Name="CommBtn"  Grid.Column="0" Content="{x:Static glob:Resource.CommMenu}"       Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="ShuntBtn" Grid.Column="1" Content="{x:Static glob:Resource.ShuntMenu}"      Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="AutoBtn"  Grid.Column="2" Content="{x:Static glob:Resource.AutoSaveMenu}"   Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="CalBtn"   Grid.Column="3" Content="{x:Static glob:Resource.CalSettingMenu}" Style="{StaticResource SubBtnStyle}"/>
+            <RadioButton x:Name="OtherBtn" Grid.Column="4" Content="{x:Static glob:Resource.OtherMenu}"      Style="{StaticResource SubBtnStyle}"/>
+        </Grid>
 
         <Frame />
     </StackPanel>

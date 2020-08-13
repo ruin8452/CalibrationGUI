@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutoSave Setting" xml:space="preserve">
+    <value>자동저장 세팅</value>
+    <comment>자동저장 세팅 페이지</comment>
+  </data>
+  <data name="AutoSaveBox" xml:space="preserve">
+    <value>자동 저장</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="AutoSaveMenu" xml:space="preserve">
+    <value>자동 저장</value>
+    <comment>세팅 메뉴</comment>
+  </data>
+  <data name="BaudRate" xml:space="preserve">
+    <value>통신 속도</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="CAL Option" xml:space="preserve">
+    <value>CAL 옵션</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="Calibration Setting" xml:space="preserve">
+    <value>캘리브레이션 세팅</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="CalSettingMenu" xml:space="preserve">
+    <value>CAL 세팅</value>
+    <comment>세팅 메뉴</comment>
+  </data>
+  <data name="CalStart" xml:space="preserve">
+    <value>CAL 시작</value>
+    <comment>수동CAL 윈도우</comment>
+  </data>
+  <data name="CalStartTip" xml:space="preserve">
+    <value>Cal 시작</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="CalStopTip" xml:space="preserve">
+    <value>Cal 정지</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="CalType" xml:space="preserve">
+    <value>Cal 타입</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>채널</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="Comm Setting" xml:space="preserve">
+    <value>통신 세팅</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="CommMenu" xml:space="preserve">
+    <value>통신</value>
+    <comment>세팅 메뉴</comment>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>접속</value>
+    <comment>MainWindow</comment>
+  </data>
+  <data name="CorrectionShuntCurr" xml:space="preserve">
+    <value>보정 션트 측정전류(mA)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="CorrectionShuntReg" xml:space="preserve">
+    <value>보정 션트 저항(nΩ)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="CorrectionVoltMeter" xml:space="preserve">
+    <value>보정 전압 Meter(mV)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="CreatePoint" xml:space="preserve">
+    <value>포인트 생성</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="CtrlerBox" xml:space="preserve">
+    <value>컨트롤러</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Curr" xml:space="preserve">
+    <value>전류</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="Curr Allowable Error" xml:space="preserve">
+    <value>전류 허용오차(±mA)</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="DataBit" xml:space="preserve">
+    <value>데이터 비트</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="DataSaveTip" xml:space="preserve">
+    <value>데이터 저장</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Delay" xml:space="preserve">
+    <value>딜레이</value>
+    <comment>모니터링 페이지, 오토스캔 페이지</comment>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>해제</value>
+    <comment>MainWindow</comment>
+  </data>
+  <data name="DmmModel" xml:space="preserve">
+    <value>DMM 모델</value>
+    <comment>MainWindow</comment>
+  </data>
+  <data name="DmmSetting" xml:space="preserve">
+    <value>DMM 세팅</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="ErrRange" xml:space="preserve">
+    <value>허용오차</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>파일</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Input" xml:space="preserve">
+    <value>입력</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="Interval" xml:space="preserve">
+    <value>간격</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>언어</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="LogBox" xml:space="preserve">
+    <value>로그</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="LogView" xml:space="preserve">
+    <value>로그 표기</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>수동</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="MaximumInputCurr" xml:space="preserve">
+    <value>입력전류 상한(mV)</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MaximumInputVolt" xml:space="preserve">
+    <value>입력전압 상한(mV)</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="McuSetting" xml:space="preserve">
+    <value>MCU 세팅</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="MEA Option" xml:space="preserve">
+    <value>실측 옵션</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="MeaDelay" xml:space="preserve">
+    <value>측정 지연시간(ms)</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="MeaStartTip" xml:space="preserve">
+    <value>실측 시작</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="MeaStopTip" xml:space="preserve">
+    <value>실측 정지</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="MinimumInputCurr" xml:space="preserve">
+    <value>입력전류 하한(mV)</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MinimumInputVolt" xml:space="preserve">
+    <value>입력전압 하한(mV)</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>모드</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="ModelName" xml:space="preserve">
+    <value>모델명</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="MonitorExcept" xml:space="preserve">
+    <value>모니터링 제외</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="MonitoringBox" xml:space="preserve">
+    <value>모니터링</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>열기</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="Other Setting" xml:space="preserve">
+    <value>기타 세팅</value>
+    <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="OtherMenu" xml:space="preserve">
+    <value>기타</value>
+    <comment>세팅 메뉴</comment>
+  </data>
+  <data name="OutputLimit" xml:space="preserve">
+    <value>출력 한계값</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="OutputStart" xml:space="preserve">
+    <value>출력 시작</value>
+    <comment>수동CAL 윈도우</comment>
+  </data>
+  <data name="OutputStop" xml:space="preserve">
+    <value>출력 중지</value>
+    <comment>수동CAL 윈도우</comment>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>패리티</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="PointAddTip" xml:space="preserve">
+    <value>포인트 추가</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointApply" xml:space="preserve">
+    <value>포인트 적용</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="PointDelTip" xml:space="preserve">
+    <value>포인트 삭제</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointDownloadTip" xml:space="preserve">
+    <value>Cal 포인트 다운로드</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointDownTip" xml:space="preserve">
+    <value>포인트 Down</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointUploadTip" xml:space="preserve">
+    <value>Cal 포인트 업로드</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointUpTip" xml:space="preserve">
+    <value>포인트 Up</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PortName" xml:space="preserve">
+    <value>포트 번호</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="ResultData AutoSave" xml:space="preserve">
+    <value>결과데이터 자동저장</value>
+    <comment>자동저장 세팅 페이지</comment>
+  </data>
+  <data name="Retry Count" xml:space="preserve">
+    <value>재측정 횟수</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>저장</value>
+    <comment>공용</comment>
+  </data>
+  <data name="SaveFile Prefix" xml:space="preserve">
+    <value>세이브 파일 Prefix</value>
+    <comment>자동저장 세팅 페이지</comment>
+  </data>
+  <data name="SelectCh" xml:space="preserve">
+    <value>채널 선택</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="SerialNum" xml:space="preserve">
+    <value>시리얼 번호</value>
+    <comment>MainWindow</comment>
+  </data>
+  <data name="Shunt" xml:space="preserve">
+    <value>션트</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="Shunt Setting" xml:space="preserve">
+    <value>션트 세팅</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="ShuntMenu" xml:space="preserve">
+    <value>션트&amp;전압</value>
+    <comment>세팅 메뉴</comment>
+  </data>
+  <data name="StandardShuntCurr" xml:space="preserve">
+    <value>표준 션트 측정전류(mA)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="StandardShuntReg" xml:space="preserve">
+    <value>표준 션트 저항(nΩ)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="StandartVoltMeter" xml:space="preserve">
+    <value>표준 전압 Meter(mV)</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>시작</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="StartScan" xml:space="preserve">
+    <value>스캔 시작</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>정지</value>
+    <comment>모니터링 페이지</comment>
+  </data>
+  <data name="StopBit" xml:space="preserve">
+    <value>정지 비트</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="Volt" xml:space="preserve">
+    <value>전압</value>
+    <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="Volt Allowable Error" xml:space="preserve">
+    <value>전압 허용오차(±mV)</value>
+    <comment>캘리브레이션 세팅 페이지</comment>
+  </data>
+  <data name="Volt Meter" xml:space="preserve">
+    <value>전압 미터</value>
+    <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="Zero Offset" xml:space="preserve">
+    <value>Zero 오프셋</value>
+    <comment>통신 세팅 페이지</comment>
+  </data>
+</root>

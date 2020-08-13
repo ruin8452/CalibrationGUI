@@ -6,6 +6,7 @@
         xmlns:ui="clr-namespace:CalibrationNewGUI.UI"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
@@ -54,10 +55,10 @@
         <Style x:Key="McuConnBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Mcu.IsConnected}" Value="True">
-                    <Setter Property="Content" Value="해제"/>
+                    <Setter Property="Content" Value="{x:Static glob:Resource.Disconnect}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Mcu.IsConnected}" Value="False">
-                    <Setter Property="Content" Value="접속"/>
+                    <Setter Property="Content" Value="{x:Static glob:Resource.Connect}"/>
                 </DataTrigger>
                 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
@@ -71,10 +72,10 @@
         <Style x:Key="DmmConnBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Dmm.IsConnected}" Value="True">
-                    <Setter Property="Content" Value="해제"/>
+                    <Setter Property="Content" Value="{x:Static glob:Resource.Disconnect}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Dmm.IsConnected}" Value="False">
-                    <Setter Property="Content" Value="접속"/>
+                    <Setter Property="Content" Value="{x:Static glob:Resource.Connect}"/>
                 </DataTrigger>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
@@ -99,7 +100,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="310"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
@@ -117,7 +118,7 @@
                     <RadioButton x:Name="ScanBtn" Content="  AutoScan  "   Style="{StaticResource MainBtnStyle}"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                     <!--장비 접속 상태-->
                     <Grid Width="120" Margin="0,1.5,2,1.5">
                         <Grid.Resources>
@@ -153,17 +154,19 @@
                     </Grid>
                     
                     <!--버전 정보-->
-                    <Grid>
+                    <Grid Margin="5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="시리얼 번호 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
+                            <Run Text="{x:Static glob:Resource.SerialNum}"/> |
+                        </TextBlock>
                         <TextBox Text="{Binding McuInfos.McuSerialNum, Mode=TwoWay}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" FontFamily="NanumGothic" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1" CaretBrush="White">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
@@ -179,7 +182,9 @@
                             </TextBox.InputBindings>
                         </TextBox>
 
-                        <TextBlock Text="DMM 모델 | " Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                        <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
+                            <Run Text="{x:Static glob:Resource.DmmModel}"/> |
+                        </TextBlock>
                         <TextBlock Text="{Binding DmmInfos.ModelName}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="13"/>
                     </Grid>
                 </StackPanel>

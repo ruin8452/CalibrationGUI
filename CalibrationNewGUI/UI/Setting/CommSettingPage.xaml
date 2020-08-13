@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
       mc:Ignorable="d" 
       d:DesignWidth="800"
@@ -12,11 +13,10 @@
 
     <Page.Resources>
         <Style x:Key="SettingText" TargetType="TextBlock">
-            <Setter Property="Width" Value="100"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="7,0,7,7"/>
+            <Setter Property="Margin" Value="7,0,30,7"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
@@ -25,7 +25,7 @@
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
-            <Setter Property="Width" Value="120"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
         <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
@@ -49,9 +49,11 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Background="{StaticResource PageBackground}">
-            <TextBlock Text="통신 세팅" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
-            <Separator Background="#FF53609B" Width="136"/>
-            <TextBlock Text="Communication Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{x:Static glob:Resource.Comm_Setting}" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
+                <Separator Background="#FF53609B"/>
+                <TextBlock Text="Communication Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+            </StackPanel>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -59,10 +61,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
+                <StackPanel Margin="40,0,40,20">
                     <StackPanel Orientation="Horizontal" Margin="0,20" HorizontalAlignment="Center">
                         <fa:ImageAwesome Icon="Microchip" Foreground="White" Height="20" Margin="0,0,5,0"/>
-                        <TextBlock Text="MCU 세팅" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static glob:Resource.McuSetting}" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <Grid>
@@ -78,7 +80,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="포트 번호" Grid.Row="0" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.PortName}" Grid.Row="0" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding McuInfos.PortName, Mode=TwoWay}" ItemsSource="{Binding PortList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="DropDownOpened">
@@ -87,25 +89,25 @@
                             </i:Interaction.Triggers>
                         </ComboBox>
 
-                        <TextBlock Text="통신 속도" Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.BaudRate}" Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding McuInfos.Borate, Mode=TwoWay}" ItemsSource="{Binding BorateList}" Grid.Row="1" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="데이터 비트" Grid.Row="2" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.DataBit}" Grid.Row="2" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding McuInfos.DataBit, Mode=TwoWay}" ItemsSource="{Binding DataBitList}" Grid.Row="2" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="정지 비트" Grid.Row="3" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.StopBit}" Grid.Row="3" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding McuInfos.StopBit, Mode=TwoWay}" ItemsSource="{Binding StopBitList}" Grid.Row="3" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="패리티" Grid.Row="4" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.Parity}" Grid.Row="4" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding McuInfos.FlowCtrl, Mode=TwoWay}" ItemsSource="{Binding FlowCtrlList}" Grid.Row="4" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
                     </Grid>
                 </StackPanel>
 
 
-                <StackPanel Grid.Column="1">
+                <StackPanel Margin="40,0,40,20" Grid.Column="1">
                     <StackPanel Orientation="Horizontal" Margin="0,20" HorizontalAlignment="Center">
                         <fa:ImageAwesome Icon="HddOutline" Foreground="White" Height="20" Margin="0,0,5,0"/>
-                        <TextBlock Text="DMM 세팅" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static glob:Resource.DmmSetting}" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <Grid>
@@ -123,31 +125,31 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="포트 번호" Grid.Row="0" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.PortName}" Grid.Row="0" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.PortName, Mode=TwoWay}" ItemsSource="{Binding PortList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="통신 속도" Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.BaudRate}" Grid.Row="1" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.Borate, Mode=TwoWay}" ItemsSource="{Binding BorateList}" Grid.Row="1" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="데이터 비트" Grid.Row="2" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.DataBit}" Grid.Row="2" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.DataBit, Mode=TwoWay}" ItemsSource="{Binding DataBitList}" Grid.Row="2" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="정지 비트" Grid.Row="3" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.StopBit}" Grid.Row="3" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.StopBit, Mode=TwoWay}" ItemsSource="{Binding StopBitList}" Grid.Row="3" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="패리티" Grid.Row="4" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.Parity}" Grid.Row="4" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.FlowCtrl, Mode=TwoWay}" ItemsSource="{Binding FlowCtrlList}" Grid.Row="4" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="모델명" Grid.Row="5" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.ModelName}" Grid.Row="5" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <ComboBox SelectedItem="{Binding DmmInfos.ModelName, Mode=TwoWay}" ItemsSource="{Binding DmmModelList}" Grid.Row="5" Grid.Column="1" Style="{StaticResource SettingCombo}"/>
 
-                        <TextBlock Text="Zero 오프셋" Grid.Row="6" Grid.Column="0" Style="{StaticResource SettingText}"/>
+                        <TextBlock Text="{x:Static glob:Resource.Zero_Offset}" Grid.Row="6" Grid.Column="0" Style="{StaticResource SettingText}"/>
                         <CheckBox IsChecked="{Binding DmmInfos.OffsetUseFlag, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" Margin="0,2,0,0"/>
                     </Grid>
                 </StackPanel>
             </Grid>
 
-            <Button Content="저장" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+            <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

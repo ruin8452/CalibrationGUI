@@ -55,9 +55,9 @@ namespace CalibrationNewGUI.Equipment
         }
         #endregion 싱글톤 패턴 구현
 
-        public string Connect(string portName, int borate)
+        public string Connect(string portName, int baudRate)
         {
-            string msg = DmmComm.Connect(portName, borate);
+            string msg = DmmComm.Connect(portName, baudRate);
             if (msg == "Connected!")
                 IsConnected = true;
 
