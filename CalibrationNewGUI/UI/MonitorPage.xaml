@@ -547,7 +547,7 @@
             </Border>
 
             <!--AutoSave Box-->
-            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Visibility="Visible" Style="{StaticResource Hidden}">
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Style="{StaticResource Hidden}">
                 <StackPanel>
                     <TextBlock Text="자동 저장" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 

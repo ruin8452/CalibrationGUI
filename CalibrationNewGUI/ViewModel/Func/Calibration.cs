@@ -117,7 +117,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             this.delay = delay;
             CalPointList = calPointList;
             MeaPointList = meaPointList;
-            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
+            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.MeaErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
@@ -316,7 +316,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     
                     if (CalType == 'V')
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 5; i++)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             if (Math.Abs(dmm.Volt - voltPoint) < 100)
@@ -325,7 +325,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             }
                             Utill.Delay(0.1);
                         }
-                        //OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Volt - voltPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
@@ -349,7 +349,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             }
                             Utill.Delay(0.1);
                         }
-                        //OnMeaMonitor(new CalMonitorArgs(PointIndex));
+                        OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Curr - currPoint) > errRate)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
