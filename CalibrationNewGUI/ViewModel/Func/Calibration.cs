@@ -117,7 +117,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             this.delay = delay;
             CalPointList = calPointList;
             MeaPointList = meaPointList;
-            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
+            errRate = calType == 'V' ? calInfo.CalErrRangeVolt : calInfo.MeaErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
