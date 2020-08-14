@@ -336,6 +336,14 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(App.GetString("WrongDataErrMsg"));
                     return;
                 }
+                foreach(DataRow row in McuPointTable.Rows)
+                {
+                    if(int.Parse(row["SetVolt"].ToString()) > othersInfo.InputVoltMax || int.Parse(row["SetVolt"].ToString()) < othersInfo.InputVoltMin)
+                    {
+                        MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), othersInfo.InputVoltMax, othersInfo.InputVoltMin));
+                        return;
+                    }
+                }
             }
             else
             {
@@ -348,6 +356,14 @@ namespace CalibrationNewGUI.ViewModel
                 {
                     MessageBox.Show(App.GetString("WrongDataErrMsg"));
                     return;
+                }
+                foreach (DataRow row in McuPointTable.Rows)
+                {
+                    if (int.Parse(row["SetCurr"].ToString()) > othersInfo.InputVoltMax || int.Parse(row["SetCurr"].ToString()) < othersInfo.InputVoltMin)
+                    {
+                        MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), othersInfo.InputCurrMax, othersInfo.InputCurrMin));
+                        return;
+                    }
                 }
             }
 
