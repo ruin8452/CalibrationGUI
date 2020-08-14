@@ -278,8 +278,8 @@
                 <DataGrid ItemsSource="{Binding McuPointTable}" SelectedIndex="{Binding McuTableSelectIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt}"/>
-                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr}"/>
+                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
@@ -297,12 +297,6 @@
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                     </DataGrid.Columns>
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="CellEditEnding">
-                            <mvvm:EventToCommand Command="{Binding GridCellEdit}" PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </DataGrid>
 
                 <Button Content="{x:Static glob:Resource.PointApply}" Style="{StaticResource BtnStyle}" FontSize="17" Margin="5" Height="40" Command="{Binding PointApplyClick}"/>

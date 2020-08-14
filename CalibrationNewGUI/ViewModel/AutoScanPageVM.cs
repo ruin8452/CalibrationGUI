@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CalibrationNewGUI.ViewModel
 {
@@ -133,7 +135,6 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (value < MIN_VOTE_INTERVAL)
                 {
-                    MessageBox.Show(string.Format(App.GetString("VoltIntervalErrMsg"), MIN_VOTE_INTERVAL));
                     voltInterval = MIN_VOTE_INTERVAL;
                     return;
                 }
@@ -148,7 +149,6 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (value < MIN_CURR_INTERVAL)
                 {
-                    MessageBox.Show(string.Format(App.GetString("CurrIntervalErrMsg"), MIN_CURR_INTERVAL));
                     currInterval = MIN_CURR_INTERVAL;
                     return;
                 }
@@ -323,6 +323,34 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointApply()
         {
+            // 테이블 데이터 정상 체크
+            if(ModeSelecte)
+            {
+                if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetVolt"].Ordinal))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    return;
+                }
+                if (TableManager.WrongDataCheck(McuPointTable, McuPointTable.Columns["SetVolt"].Ordinal, new Regex("[0-9]+")))
+                {
+                    MessageBox.Show(App.GetString("WrongDataErrMsg"));
+                    return;
+                }
+            }
+            else
+            {
+                if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetCurr"].Ordinal))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    return;
+                }
+                if (TableManager.WrongDataCheck(McuPointTable, McuPointTable.Columns["SetCurr"].Ordinal, new Regex("[0-9]+")))
+                {
+                    MessageBox.Show(App.GetString("WrongDataErrMsg"));
+                    return;
+                }
+            }
+
             List<object[]> tempPoint = new List<object[]>();
 
             foreach (DataRow row in McuPointTable.Rows)

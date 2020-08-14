@@ -989,7 +989,11 @@ namespace CalibrationNewGUI.ViewModel
             if(!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
                 MessageBox.Show(App.GetString("ValueErrMsg"));
-                ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+
+                if(e.Column.DisplayIndex == 1)
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+                else if(e.Column.DisplayIndex == 2)
+                    ((TextBox)e.EditingElement).Text = "0";
                 return;
             }
 
@@ -1021,7 +1025,7 @@ namespace CalibrationNewGUI.ViewModel
                 if (OtherInfos.InputCurrMax < editNum || OtherInfos.InputCurrMin > editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    ((TextBox)e.EditingElement).Text = "0";
                     return;
                 }
 
@@ -1029,7 +1033,7 @@ namespace CalibrationNewGUI.ViewModel
                 if (TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
                 {
                     MessageBox.Show(App.GetString("PointOverlapErrMsg"));
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    ((TextBox)e.EditingElement).Text = "0";
                 }
 
                 // 전류모드일 경우, 전류 셀 수정시 보정값 제거
@@ -1068,7 +1072,7 @@ namespace CalibrationNewGUI.ViewModel
                 if (OtherInfos.InputCurrMax < editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    ((TextBox)e.EditingElement).Text = "0";
                 }
             }
         }
