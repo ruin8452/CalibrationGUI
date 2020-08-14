@@ -157,7 +157,20 @@
 
                 <TextBlock Text="{x:Static glob:Resource.Interval}" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <TextBox Text="{Binding PointInterval, Mode=TwoWay}" Style="{StaticResource TxtBoxStyle}" Width="50"/>
+                    <TextBox Width="60">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource TxtBoxStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ModeSelecte}" Value="True">
+                                        <Setter Property="Text" Value="{Binding VoltInterval, Mode=TwoWay}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ModeSelecte}" Value="False">
+                                        <Setter Property="Text" Value="{Binding CurrInterval, Mode=TwoWay}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                     <TextBlock Style="{StaticResource TxtStyle}"/>
                 </StackPanel>
             </Grid>

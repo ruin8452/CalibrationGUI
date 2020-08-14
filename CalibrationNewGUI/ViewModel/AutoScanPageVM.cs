@@ -20,8 +20,8 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class AutoScanPageVM : ViewModelBase
     {
-        const int MIN_VOTE_INTERVAL = 10;
-        const int MIN_CURR_INTERVAL = 1000;
+        const int MIN_VOTE_INTERVAL = 100;
+        const int MIN_CURR_INTERVAL = 5000;
         const int DEFAULT_CURR = 1000;
 
         const int MIN_VOLT_ERR_RANGE = 1;
@@ -125,32 +125,34 @@ namespace CalibrationNewGUI.ViewModel
             }
         }
 
-        private int pointInterval = MIN_VOTE_INTERVAL;
-        public int PointInterval
+        private int voltInterval = MIN_VOTE_INTERVAL;
+        public int VoltInterval
         {
-            get { return pointInterval; }
+            get { return voltInterval; }
             set
             {
-                if(ModeSelecte)
+                if (value < MIN_VOTE_INTERVAL)
                 {
-                    if (value < MIN_VOTE_INTERVAL)
-                    {
-                        
-                        MessageBox.Show(string.Format(App.GetString("VoltIntervalErrMsg"), MIN_VOTE_INTERVAL));
-                        pointInterval = MIN_VOTE_INTERVAL;
-                        return;
-                    }
+                    MessageBox.Show(string.Format(App.GetString("VoltIntervalErrMsg"), MIN_VOTE_INTERVAL));
+                    voltInterval = MIN_VOTE_INTERVAL;
+                    return;
                 }
-                else
+                voltInterval = value;
+            }
+        }
+        private int currInterval = MIN_CURR_INTERVAL;
+        public int CurrInterval
+        {
+            get { return currInterval; }
+            set
+            {
+                if (value < MIN_CURR_INTERVAL)
                 {
-                    if (value < MIN_CURR_INTERVAL)
-                    {
-                        MessageBox.Show(string.Format(App.GetString("CurrIntervalErrMsg"), MIN_CURR_INTERVAL));
-                        pointInterval = MIN_CURR_INTERVAL;
-                        return;
-                    }
+                    MessageBox.Show(string.Format(App.GetString("CurrIntervalErrMsg"), MIN_CURR_INTERVAL));
+                    currInterval = MIN_CURR_INTERVAL;
+                    return;
                 }
-                pointInterval = value;
+                currInterval = value;
             }
         }
 
@@ -246,7 +248,7 @@ namespace CalibrationNewGUI.ViewModel
             // 전압 스캔
             if (ModeSelecte)
             {
-                for (int setVolt = MaxPoint; setVolt > MinPoint; setVolt -= PointInterval)
+                for (int setVolt = MaxPoint; setVolt > MinPoint; setVolt -= voltInterval)
                     ScanPointTable = TableManager.RowAdd(ScanPointTable, ScanPointTable.Rows.Count, setVolt, DEFAULT_CURR);
 
                 ScanPointTable = TableManager.RowAdd(ScanPointTable, ScanPointTable.Rows.Count, MinPoint, DEFAULT_CURR);
@@ -254,7 +256,7 @@ namespace CalibrationNewGUI.ViewModel
             // 전류 스캔
             else
             {
-                for (int setCurr = MaxPoint; setCurr > MinPoint; setCurr -= PointInterval)
+                for (int setCurr = MaxPoint; setCurr > MinPoint; setCurr -= currInterval)
                 {
                     if(setCurr >= 0)
                         ScanPointTable = TableManager.RowAdd(ScanPointTable, ScanPointTable.Rows.Count, 4200, setCurr);
