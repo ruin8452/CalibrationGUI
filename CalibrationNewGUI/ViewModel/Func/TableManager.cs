@@ -279,7 +279,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             foreach (DataRow row in table.Rows)
             {
                 if (!int.TryParse(row[checkColumn].ToString(), out int cellValue))
-                    return true;
+                    return false;
 
                 tempDataList.Enqueue(cellValue);
             }

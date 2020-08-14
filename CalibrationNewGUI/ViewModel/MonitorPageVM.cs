@@ -316,7 +316,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (TableManager.OverlapCheck(CalPointTable, 1))
                 {
-                    MessageBox.Show(App.GetString("EquiErrMsg"));
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
                     return;
                 }
             }
@@ -989,23 +989,17 @@ namespace CalibrationNewGUI.ViewModel
             if(!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
                 MessageBox.Show(App.GetString("ValueErrMsg"));
-                e.Cancel = true;
+                ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
                 return;
             }
 
             if (e.Column.DisplayIndex == 1)  // 전압 수정시
             {
                 // 범위에서 벗어났는지 판단
-                if(OtherInfos.InputVoltMax < editNum)
+                if(OtherInfos.InputVoltMax < editNum || OtherInfos.InputVoltMin > editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
-                }
-                else if(OtherInfos.InputVoltMin > editNum)
-                {
-                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
                     return;
                 }
 
@@ -1013,7 +1007,7 @@ namespace CalibrationNewGUI.ViewModel
                 if(TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetVolt"].Ordinal))
                 {
                     MessageBox.Show(App.GetString("PointOverlapErrMsg"));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
                 }
 
                 // 전압모드일 경우, 전압 셀 수정시 보정값 제거
@@ -1024,16 +1018,10 @@ namespace CalibrationNewGUI.ViewModel
             else if (e.Column.DisplayIndex == 2)  // 전류 수정시
             {
                 // 범위에서 벗어났는지 판단
-                if (OtherInfos.InputCurrMax < editNum)
+                if (OtherInfos.InputCurrMax < editNum || OtherInfos.InputCurrMin > editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
-                }
-                else if (OtherInfos.InputCurrMin > editNum)
-                {
-                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
                     return;
                 }
 
@@ -1041,7 +1029,7 @@ namespace CalibrationNewGUI.ViewModel
                 if (TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
                 {
                     MessageBox.Show(App.GetString("PointOverlapErrMsg"));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
                 }
 
                 // 전류모드일 경우, 전류 셀 수정시 보정값 제거
@@ -1063,39 +1051,24 @@ namespace CalibrationNewGUI.ViewModel
             if (!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
                 MessageBox.Show(App.GetString("ValueErrMsg"));
-                e.Cancel = true;
+                ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
                 return;
             }
 
             if (e.Column.DisplayIndex == 1)  // 전압 수정시
             {
-                if (OtherInfos.InputVoltMax < editNum)
+                if (OtherInfos.InputVoltMax < editNum || OtherInfos.InputVoltMin > editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
-                }
-                else if (OtherInfos.InputVoltMin > editNum)
-                {
-                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
                 }
             }
-
             else if (e.Column.DisplayIndex == 2)  // 전류 수정시
             {
                 if (OtherInfos.InputCurrMax < editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
-                }
-                else if (OtherInfos.InputCurrMin > editNum)
-                {
-                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
-                    ((TextBox)e.EditingElement).Text = string.Empty;
-                    return;
+                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
                 }
             }
         }

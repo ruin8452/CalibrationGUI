@@ -39,13 +39,13 @@ namespace CalibrationNewGUI.ViewModel.Func
         bool IsFullRun;
         char calType;
         int calChNum;
-        int calErrRate;
+        int calErrRange;
         int calDelay;
         object[][] CalPointList;
 
-	char meaType;
+	    char meaType;
         int meaChNum;
-        int meaErrRate;
+        int meaErrRange;
         int meaDelay;
         object[][] MeaPointList;
 
@@ -121,7 +121,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             calChNum = chNum;
             calDelay = delay;
             CalPointList = calPointList;
-            calErrRate = type == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
+            calErrRange = type == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
@@ -131,7 +131,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             meaChNum = chNum;
             meaDelay = delay;
             MeaPointList = meaPointList;
-            meaErrRate = type == 'V' ? calInfo.MeaErrRangeVolt : calInfo.MeaErrRangeCurr;
+            meaErrRange = type == 'V' ? calInfo.MeaErrRangeVolt : calInfo.MeaErrRangeCurr;
             IsFullRun = isFullRun;
         }
 
@@ -188,7 +188,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         if (calType == 'V')
                         {
-                            if (Math.Abs(dmm.Volt - voltPoint) > calErrRate)
+                            if (Math.Abs(dmm.Volt - voltPoint) > calErrRange)
                             {
                                 mcu.ChCal(calType, calChNum, dmm.Volt);
                                 //임시 큐 함수용
@@ -206,7 +206,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                         }
                         else
                         {
-                            if (Math.Abs(dmm.Curr - currPoint) > calErrRate)
+                            if (Math.Abs(dmm.Curr - currPoint) > calErrRange)
                             {
                                 mcu.ChCal(calType, calChNum, dmm.Curr);
                                 //임시 큐 함수용
@@ -340,7 +340,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Volt - voltPoint) > meaErrRate)
+                        if (Math.Abs(dmm.Volt - voltPoint) > meaErrRange)
                         {
                             //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             mcu.ChStop();
@@ -364,7 +364,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             Utill.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
-                        if (Math.Abs(dmm.Curr - currPoint) > meaErrRate)
+                        if (Math.Abs(dmm.Curr - currPoint) > meaErrRange)
                         {
                             OnMeaMonitor(new CalMonitorArgs(PointIndex));
                             
