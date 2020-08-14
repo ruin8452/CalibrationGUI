@@ -24,6 +24,11 @@ namespace CalibrationNewGUI.ViewModel
         const int MIN_CURR_INTERVAL = 1000;
         const int DEFAULT_CURR = 1000;
 
+        const int MIN_VOLT_ERR_RANGE = 1;
+        const int MIN_CURR_ERR_RANGE = 5;
+
+        const int MIN_DELAY = 2000;
+
         CalMeasureInfo CalMeaInfo = CalMeasureInfo.GetObj();
         OthersInfo othersInfo = OthersInfo.GetObj();
         Calibration calManager = new Calibration();
@@ -31,7 +36,7 @@ namespace CalibrationNewGUI.ViewModel
         Mcu Mcu = Mcu.GetObj();
         Dmm Dmm = Dmm.GetObj();
 
-        public bool ModelSelecte { get; set; } = true;
+        public bool ModeSelecte { get; set; } = true;
         public bool ChSelected { get; set; } = true;
 
         private int minPoint;
@@ -40,18 +45,18 @@ namespace CalibrationNewGUI.ViewModel
             get { return minPoint; }
             set
             {
-                if(ModelSelecte)
+                if(ModeSelecte)
                 {
                     if (value < othersInfo.InputVoltMin)
                     {
-                        MessageBox.Show("최소 전압 설정값 보다 작은 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("MinimumVoltErrMsg"));
                         minPoint = othersInfo.InputVoltMin;
                         return;
                     }
 
                     if(value > maxPoint)
                     {
-                        MessageBox.Show("최대값 보다 큰 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("OverValueErrMsg"));
                         minPoint = maxPoint;
                         return;
                     }
@@ -61,14 +66,14 @@ namespace CalibrationNewGUI.ViewModel
                 {
                     if (value < othersInfo.InputCurrMin)
                     {
-                        MessageBox.Show("최소 전류 설정값 보다 작은 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("MinimumCurrErrMsg"));
                         minPoint = othersInfo.InputCurrMin;
                         return;
                     }
 
                     if (value > maxPoint)
                     {
-                        MessageBox.Show("최대값 보다 큰 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("OverValueErrMsg"));
                         minPoint = maxPoint;
                         return;
                     }
@@ -83,18 +88,18 @@ namespace CalibrationNewGUI.ViewModel
             get { return maxPoint; }
             set
             {
-                if (ModelSelecte)
+                if (ModeSelecte)
                 {
                     if (value > othersInfo.InputVoltMax)
                     {
-                        MessageBox.Show("최대 전압 설정값 보다 큰 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("MaximumVoltErrMsg"));
                         maxPoint = othersInfo.InputVoltMax;
                         return;
                     }
 
                     if (value < minPoint)
                     {
-                        MessageBox.Show("최소값 보다 작은 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("UnderValueErrMsg"));
                         maxPoint = minPoint;
                         return;
                     }
@@ -104,14 +109,14 @@ namespace CalibrationNewGUI.ViewModel
                 {
                     if (value > othersInfo.InputCurrMax)
                     {
-                        MessageBox.Show("최대 전류 설정값 보다 큰 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("MaximumCurrErrMsg"));
                         maxPoint = othersInfo.InputCurrMax;
                         return;
                     }
 
                     if (value < minPoint)
                     {
-                        MessageBox.Show("최소값 보다 작은 값은 입력할 수 없습니다.");
+                        MessageBox.Show(App.GetString("UnderValueErrMsg"));
                         maxPoint = minPoint;
                         return;
                     }
@@ -120,30 +125,90 @@ namespace CalibrationNewGUI.ViewModel
             }
         }
 
-        private int pointInterval;
+        private int pointInterval = MIN_VOTE_INTERVAL;
         public int PointInterval
         {
             get { return pointInterval; }
             set
             {
-                if(value < MIN_VOTE_INTERVAL)
+                if(ModeSelecte)
                 {
-                    MessageBox.Show($"최소 간격({MIN_VOTE_INTERVAL})보다 낮은 값은 입력할 수 없습니다.");
-                    pointInterval = MIN_VOTE_INTERVAL;
-                    return;
+                    if (value < MIN_VOTE_INTERVAL)
+                    {
+                        
+                        MessageBox.Show(string.Format(App.GetString("VoltIntervalErrMsg"), MIN_VOTE_INTERVAL));
+                        pointInterval = MIN_VOTE_INTERVAL;
+                        return;
+                    }
+                }
+                else
+                {
+                    if (value < MIN_CURR_INTERVAL)
+                    {
+                        MessageBox.Show(string.Format(App.GetString("CurrIntervalErrMsg"), MIN_CURR_INTERVAL));
+                        pointInterval = MIN_CURR_INTERVAL;
+                        return;
+                    }
                 }
                 pointInterval = value;
             }
         }
 
-        public int ErrRange { get; set; }
-        public int Delay { get; set; }
+        private int voltErrRange = MIN_VOLT_ERR_RANGE;
+        public int VoltErrRange
+        {
+            get { return voltErrRange; }
+            set
+            {
+                if (value < MIN_VOLT_ERR_RANGE) voltErrRange = MIN_VOLT_ERR_RANGE;
+                else voltErrRange = value;
+            }
+        }
+        private int currErrRange = MIN_CURR_ERR_RANGE;
+        public int CurrErrRange
+        {
+            get { return currErrRange; }
+            set
+            {
+                if (value < MIN_CURR_ERR_RANGE) currErrRange = MIN_CURR_ERR_RANGE;
+                else currErrRange = value;
+            }
+        }
+
+        private int delay = MIN_DELAY;
+        public int Delay
+        {
+            get { return delay; }
+            set
+            {
+                if (value < MIN_DELAY) delay = MIN_DELAY;
+                else delay = value;
+            }
+        }
 
         public DataTable ScanPointTable { get; set; }
         public DataTable McuPointTable { get; set; }
 
-        public int ScanTableSelectIndex { get; set; }
-        public int McuTableSelectIndex { get; set; }
+        private int scanTableSelectIndex;
+        public int ScanTableSelectIndex
+        {
+            get { return scanTableSelectIndex; }
+            set
+            {
+                if (value == -1) scanTableSelectIndex = 0;
+                else             scanTableSelectIndex = value;
+            }
+        }
+        private int mcuTableSelectIndex;
+        public int McuTableSelectIndex
+        {
+            get { return mcuTableSelectIndex; }
+            set
+            {
+                if (value == -1) mcuTableSelectIndex = 0;
+                else             mcuTableSelectIndex = value;
+            }
+        }
 
         public RelayCommand PointCreateClick { get; set; }
         public RelayCommand PointAddClick { get; set; }
@@ -155,7 +220,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             minPoint = othersInfo.InputVoltMin;
             MaxPoint = othersInfo.InputVoltMax;
-            pointInterval = MIN_VOTE_INTERVAL;
+            //pointInterval = MIN_VOTE_INTERVAL;
 
             calManager.MeaMonitor += CalManager_MeaMonitor;
 
@@ -179,7 +244,7 @@ namespace CalibrationNewGUI.ViewModel
             ScanPointTable.Clear();
 
             // 전압 스캔
-            if (ModelSelecte)
+            if (ModeSelecte)
             {
                 for (int setVolt = MaxPoint; setVolt > MinPoint; setVolt -= PointInterval)
                     ScanPointTable = TableManager.RowAdd(ScanPointTable, ScanPointTable.Rows.Count, setVolt, DEFAULT_CURR);
@@ -209,13 +274,23 @@ namespace CalibrationNewGUI.ViewModel
             if (ScanPointTable.Rows.Count == 0)
                 return;
 
-
             McuPointTable = TableManager.RowAdd(McuPointTable, McuPointTable.Rows.Count, ScanPointTable.Rows[ScanTableSelectIndex]);
 
-            if (TableManager.OverlapCheck(McuPointTable, 1))
+            if(ModeSelecte)
             {
-                McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
-                MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+                if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetVolt"].Ordinal))
+                {
+                    McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                }
+            }
+            else
+            {
+                if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetCurr"].Ordinal))
+                {
+                    McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                }
             }
         }
 
@@ -231,7 +306,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
-                MessageBox.Show("장비 연결이 끊겨있습니다.");
+                MessageBox.Show(App.GetString("EquiErrMsg"));
                 return;
             }
 
@@ -240,7 +315,7 @@ namespace CalibrationNewGUI.ViewModel
             foreach (DataRow row in ScanPointTable.Rows)
                 tempPoint.Add(row.ItemArray);
 
-            calManager.MeaSeqSet(ModelSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, tempPoint.ToArray(), false);
+            calManager.MeaSeqSet(ModeSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -252,7 +327,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
+                    MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
                 tempPoint.Add(row.ItemArray);
@@ -260,7 +335,7 @@ namespace CalibrationNewGUI.ViewModel
 
             CalPointMessage Message = new CalPointMessage
             {
-                CalMode = ModelSelecte,
+                CalMode = ModeSelecte,
                 CalPointList = tempPoint
             };
             Messenger.Default.Send(Message);
@@ -280,7 +355,7 @@ namespace CalibrationNewGUI.ViewModel
             }
 
             // DMM이 오차범위 안에 들어있는지 검사
-            if (ModelSelecte)   // 전압
+            if (ModeSelecte)   // 전압
             {
                 ScanPointTable.Rows[e.Index]["OutDMM"] = Dmm.Volt;
 

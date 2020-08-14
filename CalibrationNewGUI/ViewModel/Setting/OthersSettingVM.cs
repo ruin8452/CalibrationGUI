@@ -30,10 +30,9 @@ namespace CalibrationNewGUI.ViewModel.Setting
 
         public void DataSave()
         {
-            string str = Resource.ResourceManager.GetString("Volt", new System.Globalization.CultureInfo("ko-Kr"));
             if (preLang != OthersInfos.Language)
             {
-                var result = MessageBox.Show("변경된 언어가 적용되려면 프로그램을 다시 시작해야합니다.\n적용하시겠습니까?", "언어 적용", MessageBoxButton.YesNo);
+                var result = MessageBox.Show(App.GetString("LangChangeMsg"), App.GetString("LangChangeCaption"), MessageBoxButton.YesNo); ;
                 if(result == MessageBoxResult.Yes)
                 {
                     OthersInfos.Save();
@@ -44,7 +43,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
                 {
                     OthersInfos.Language = preLang;
                     OthersInfos.Save();
-                    MessageBox.Show("저장 완료");
+                    MessageBox.Show(App.GetString("SaveOkMsg"));
                 }
             }
         }

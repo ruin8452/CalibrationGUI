@@ -1,10 +1,13 @@
-﻿using CalibrationNewGUI.Model;
+﻿using CalibrationNewGUI.Globalization;
+using CalibrationNewGUI.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,6 +18,8 @@ namespace CalibrationNewGUI
     /// </summary>
     public partial class App : Application
     {
+        static CultureInfo language;
+
         public App()
         {
             Directory.CreateDirectory(Environment.CurrentDirectory + @"\Config\CalPoint");
@@ -28,9 +33,14 @@ namespace CalibrationNewGUI
             OthersInfo.GetObj().Load();
 
             if(OthersInfo.GetObj().Language == "English")
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+                Thread.CurrentThread.CurrentUICulture = language = new CultureInfo("en-US");
+            else
+                Thread.CurrentThread.CurrentUICulture = language = new CultureInfo("ko-KR");
+        }
 
-            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ko-KR");
+        public static string GetString(string key)
+        {
+            return Resource.ResourceManager.GetString(key, language);
         }
     }
 }

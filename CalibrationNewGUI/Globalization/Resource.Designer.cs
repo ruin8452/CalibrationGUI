@@ -259,6 +259,26 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   전류 최소 간격({0})보다 낮은 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string CurrIntervalErrMsg {
+            get {
+                return ResourceManager.GetString("CurrIntervalErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전류 입력 허용치를 벗어났습니다.
+        ///최대값 : {0}
+        ///최소값 : {1}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string CurrRangeOutErrMsg {
+            get {
+                return ResourceManager.GetString("CurrRangeOutErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   데이터 비트과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string DataBit {
@@ -295,6 +315,24 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   DMM 접속 오류 : {0}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string DmmConnErrMsg {
+            get {
+                return ResourceManager.GetString("DmmConnErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   DMM 접속 해제 오류과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string DmmDisconnErrMsg {
+            get {
+                return ResourceManager.GetString("DmmDisconnErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   DMM 모델과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string DmmModel {
@@ -309,6 +347,24 @@ namespace CalibrationNewGUI.Globalization {
         public static string DmmSetting {
             get {
                 return ResourceManager.GetString("DmmSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비어있는 셀이 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string EmptyCellErrMsg {
+            get {
+                return ResourceManager.GetString("EmptyCellErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   장비 연결이 끊겨있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string EquiErrMsg {
+            get {
+                return ResourceManager.GetString("EquiErrMsg", resourceCulture);
             }
         }
         
@@ -349,6 +405,25 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   언어 적용과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string LangChangeCaption {
+            get {
+                return ResourceManager.GetString("LangChangeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   변경된 언어가 적용되려면 프로그램을 다시 시작해야합니다.
+        ///적용하시겠습니까?과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string LangChangeMsg {
+            get {
+                return ResourceManager.GetString("LangChangeMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   언어과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Language {
@@ -385,6 +460,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   최대 전류 설정값 보다 큰 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MaximumCurrErrMsg {
+            get {
+                return ResourceManager.GetString("MaximumCurrErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   입력전류 상한(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MaximumInputCurr {
@@ -399,6 +483,33 @@ namespace CalibrationNewGUI.Globalization {
         public static string MaximumInputVolt {
             get {
                 return ResourceManager.GetString("MaximumInputVolt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   최대 전압 설정값 보다 큰 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MaximumVoltErrMsg {
+            get {
+                return ResourceManager.GetString("MaximumVoltErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MCU 접속 오류 : {0}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string McuConnErrMsg {
+            get {
+                return ResourceManager.GetString("McuConnErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MCU 접속 해제 오류과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string McuDisconnErrMsg {
+            get {
+                return ResourceManager.GetString("McuDisconnErrMsg", resourceCulture);
             }
         }
         
@@ -448,6 +559,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   최소 전류 설정값 보다 작은 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MinimumCurrErrMsg {
+            get {
+                return ResourceManager.GetString("MinimumCurrErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   입력전류 하한(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MinimumInputCurr {
@@ -462,6 +582,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string MinimumInputVolt {
             get {
                 return ResourceManager.GetString("MinimumInputVolt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   최소 전압 설정값 보다 작은 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string MinimumVoltErrMsg {
+            get {
+                return ResourceManager.GetString("MinimumVoltErrMsg", resourceCulture);
             }
         }
         
@@ -556,6 +685,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   최대값 보다 큰 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string OverValueErrMsg {
+            get {
+                return ResourceManager.GetString("OverValueErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   패리티과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Parity {
@@ -606,6 +744,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string PointDownTip {
             get {
                 return ResourceManager.GetString("PointDownTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   중복된 포인트는 허용하지 않습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string PointOverlapErrMsg {
+            get {
+                return ResourceManager.GetString("PointOverlapErrMsg", resourceCulture);
             }
         }
         
@@ -669,6 +816,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string SaveFile_Prefix {
             get {
                 return ResourceManager.GetString("SaveFile Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   저장 완료과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string SaveOkMsg {
+            get {
+                return ResourceManager.GetString("SaveOkMsg", resourceCulture);
             }
         }
         
@@ -781,6 +937,24 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   최소값 보다 작은 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string UnderValueErrMsg {
+            get {
+                return ResourceManager.GetString("UnderValueErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   정수만 입력 가능합니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string ValueErrMsg {
+            get {
+                return ResourceManager.GetString("ValueErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   전압과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Volt {
@@ -804,6 +978,35 @@ namespace CalibrationNewGUI.Globalization {
         public static string Volt_Meter {
             get {
                 return ResourceManager.GetString("Volt Meter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전압 최소 간격({0})보다 낮은 값은 입력할 수 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string VoltIntervalErrMsg {
+            get {
+                return ResourceManager.GetString("VoltIntervalErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전압 입력 허용치를 벗어났습니다.
+        ///최대값 : {0}
+        ///최소값 : {1}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string VoltRangeOutErrMsg {
+            get {
+                return ResourceManager.GetString("VoltRangeOutErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   잘못된 데이터가 포함되어 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string WrongDataErrMsg {
+            get {
+                return ResourceManager.GetString("WrongDataErrMsg", resourceCulture);
             }
         }
         

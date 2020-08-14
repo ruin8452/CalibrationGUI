@@ -62,7 +62,7 @@ namespace CalibrationNewGUI.ViewModel
                 msg = Mcu.Connect(McuInfos.PortName, McuInfos.Borate);
                 if (msg != "Connected!")
                 {
-                    MessageBox.Show($"MCU 접속 오류 : {msg}");
+                    MessageBox.Show(string.Format(App.GetString("McuConnErrMsg"), msg));
                     return;
                 }
                 McuConnColor = Application.Current.Resources["LedGreen"] as SolidColorBrush;
@@ -73,7 +73,7 @@ namespace CalibrationNewGUI.ViewModel
                 Mcu.Disconnect();
                 if (Mcu.IsConnected == true)
                 {
-                    MessageBox.Show($"MCU 접속 해제 오류");
+                    MessageBox.Show(App.GetString("McuDisconnErrMsg"));
                     return;
                 }
                 McuConnColor = Application.Current.Resources["LedGreenOff"] as SolidColorBrush;
@@ -91,7 +91,7 @@ namespace CalibrationNewGUI.ViewModel
                 msg = Dmm.Connect(DmmInfos.PortName, DmmInfos.Borate);
                 if (msg != "Connected!")
                 {
-                    MessageBox.Show($"DMM 접속 오류 : {msg}");
+                    MessageBox.Show(string.Format(App.GetString("DmmConnErrMsg"), msg));
                     return;
                 }
 
@@ -104,7 +104,7 @@ namespace CalibrationNewGUI.ViewModel
                 Dmm.Disconnect();
                 if (Dmm.IsConnected == true)
                 {
-                    MessageBox.Show($"DMM 접속 해제 오류");
+                    MessageBox.Show(App.GetString("DmmDisconnErrMsg"));
                     return;
                 }
                 DmmConnColor = Application.Current.Resources["LedGreenOff"] as SolidColorBrush;

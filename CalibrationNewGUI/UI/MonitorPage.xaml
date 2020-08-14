@@ -282,8 +282,8 @@
                 <DataGrid ItemsSource="{Binding CalPointTable}" SelectedIndex="{Binding CalGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt}"/>
-                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr}"/>
+                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
@@ -390,8 +390,8 @@
                 <DataGrid ItemsSource="{Binding MeaPointTable}" SelectedIndex="{Binding MeaGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt}"/>
-                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr}"/>
+                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">

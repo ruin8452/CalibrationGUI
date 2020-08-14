@@ -36,8 +36,25 @@ namespace CalibrationNewGUI.ViewModel
 
         private bool preCalMode = true;  // CAL 모드의 이전 상태를 저장
         public bool CalMode { get; set; } = true;   // CAL모드 true : 전압, false : 전류
-        public int CalGridSelectedIndex { get; set; }   // CAL 테이블의 선택된 Index
-        public int MeaGridSelectedIndex { get; set; }   // MEA 테이블의 선택된 Index
+
+        private int calGridSelectedIndex; // CAL 테이블의 선택된 Index
+        public int CalGridSelectedIndex 
+        {
+            get { return calGridSelectedIndex; }
+            set
+            {
+                if (value == -1) calGridSelectedIndex = 0;
+            }
+        }
+        private int meaGridSelectedIndex; // MEA 테이블의 선택된 Index
+        public int MeaGridSelectedIndex
+        {
+            get { return meaGridSelectedIndex; }
+            set
+            {
+                if (value == -1) meaGridSelectedIndex = 0;
+            }
+        }
 
         public string LogText { get; set; }
         public bool IsLogActive { get; set; }
@@ -187,8 +204,8 @@ namespace CalibrationNewGUI.ViewModel
             {
                 openDialog = new OpenFileDialog
                 {
-                    Title = "CAL 포인트 파일 선택",
-                    Filter = "CPT파일 (*.cpt)|*.cpt|All files (*.*)|*.*",
+                    Title = "CAL Point File Select",
+                    Filter = "CPT File (*.cpt)|*.cpt|All files (*.*)|*.*",
                     InitialDirectory = Environment.CurrentDirectory + @"\Config\CalPoint"
                 };
 
@@ -206,8 +223,8 @@ namespace CalibrationNewGUI.ViewModel
             {
                 openDialog = new OpenFileDialog
                 {
-                    Title = "실측 포인트 파일 선택",
-                    Filter = "MPT파일 (*.mpt)|*.mpt|All files (*.*)|*.*",
+                    Title = "Measure Point File Select",
+                    Filter = "MPT File (*.mpt)|*.mpt|All files (*.*)|*.*",
                     InitialDirectory = Environment.CurrentDirectory + @"\Config\MeasurePoint"
                 };
 
@@ -240,8 +257,8 @@ namespace CalibrationNewGUI.ViewModel
             {
                 saveDialog = new SaveFileDialog
                 {
-                    Title = "CAL 포인트 저장",
-                    Filter = "CPT파일 (*.cpt)|*.cpt|All files (*.*)|*.*",
+                    Title = "CAL Point Save",
+                    Filter = "CPT File (*.cpt)|*.cpt|All files (*.*)|*.*",
                     DefaultExt = ".cpt",
                     AddExtension = true,
                     InitialDirectory = Environment.CurrentDirectory + @"\Config\CalPoint"
@@ -260,8 +277,8 @@ namespace CalibrationNewGUI.ViewModel
             {
                 saveDialog = new SaveFileDialog
                 {
-                    Title = "실측 포인트 저장",
-                    Filter = "MPT파일 (*.mpt)|*.mpt|All files (*.*)|*.*",
+                    Title = "Measure Point Save",
+                    Filter = "MPT File (*.mpt)|*.mpt|All files (*.*)|*.*",
                     DefaultExt = ".mpt",
                     AddExtension = true,
                     InitialDirectory = Environment.CurrentDirectory + @"\Config\MeasurePoint"
@@ -282,7 +299,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
-                MessageBox.Show("장비 연결이 끊겨있습니다.");
+                MessageBox.Show(App.GetString("EquiErrMsg"));
                 return;
             }
 
@@ -290,7 +307,7 @@ namespace CalibrationNewGUI.ViewModel
             if (TableManager.WrongDataCheck(CalPointTable, 1, new Regex("[0-9]+")) || 
                 TableManager.WrongDataCheck(CalPointTable, 2, new Regex("[0-9]+")))
             {
-                MessageBox.Show("잘못된 데이터가 포함되어 있습니다.");
+                MessageBox.Show(App.GetString("WrongDataErrMsg"));
                 return;
             }
 
@@ -299,7 +316,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (TableManager.OverlapCheck(CalPointTable, 1))
                 {
-                    MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+                    MessageBox.Show(App.GetString("EquiErrMsg"));
                     return;
                 }
             }
@@ -307,7 +324,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (TableManager.OverlapCheck(CalPointTable, 2))
                 {
-                    MessageBox.Show("중복된 포인트는 허용하지 않습니다.");
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
                     return;
                 }
             }
@@ -341,7 +358,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
-                MessageBox.Show("장비 연결이 끊겨있습니다.");
+                MessageBox.Show(App.GetString("EquiErrMsg"));
                 return;
             }
 
@@ -349,7 +366,7 @@ namespace CalibrationNewGUI.ViewModel
             if (TableManager.WrongDataCheck(MeaPointTable, 1, new Regex("[0-9]+")) ||
                 TableManager.WrongDataCheck(MeaPointTable, 2, new Regex("[0-9]+")))
             {
-                MessageBox.Show("잘못된 데이터가 포함되어 있습니다.");
+                MessageBox.Show(App.GetString("WrongDataErrMsg"));
                 return;
             }
 
@@ -507,6 +524,9 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointUpload()
         {
+            if (!Mcu.IsConnected)
+                return;
+
             // 전압 포인트 전송
             if (CalMode == true)
             {
@@ -535,6 +555,9 @@ namespace CalibrationNewGUI.ViewModel
 
         private void PointDownload()
         {
+            if (!Mcu.IsConnected)
+                return;
+
             float[][] pointList = Mcu.CalPointCheck(CalMode == true ? 'V' : 'I', ChNumber);
 
             CalPointTable.Clear();
@@ -561,8 +584,8 @@ namespace CalibrationNewGUI.ViewModel
 
             saveDialog = new SaveFileDialog
             {
-                Title = "결과 데이터 저장",
-                Filter = "CSV파일 (*.csv)|*.csv|All files (*.*)|*.*",
+                Title = "Result Data Save",
+                Filter = "CSV File (*.csv)|*.csv|All files (*.*)|*.*",
                 DefaultExt = ".csv",
                 AddExtension = true,
                 InitialDirectory = Environment.CurrentDirectory
@@ -593,6 +616,12 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void AutoCalStart()
         {
+            if (!Mcu.IsConnected || !Dmm.IsConnected)
+            {
+                MessageBox.Show(App.GetString("EquiErrMsg"));
+                return;
+            }
+
             List<object[]> tempCalPoint = new List<object[]>();
             List<object[]> tempMeaPoint = new List<object[]>();
 
@@ -600,7 +629,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
+                    MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
                 tempCalPoint.Add(row.ItemArray);
@@ -610,7 +639,7 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (string.IsNullOrEmpty(row["SetVolt"].ToString()) || string.IsNullOrEmpty(row["SetCurr"].ToString()))
                 {
-                    MessageBox.Show("비어있는 셀이 있습니다.");
+                    MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
                 tempMeaPoint.Add(row.ItemArray);
@@ -864,7 +893,7 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void CalManager_CalEnd(object sender, EventArgs e)
         {
-            MessageBox.Show("CAL 완료");
+            MessageBox.Show("CAL OK");
 
             if (!AutoInfos.AutoSaveFlag)
                 return;
@@ -910,7 +939,7 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void CalManager_MeaEnd(object sender, EventArgs e)
         {
-            MessageBox.Show("실측 완료");
+            MessageBox.Show("Mea OK");
 
             if (!AutoInfos.AutoSaveFlag)
                 return;
@@ -959,26 +988,32 @@ namespace CalibrationNewGUI.ViewModel
         {
             if(!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
-                MessageBox.Show("정수만 입력 가능합니다.");
+                MessageBox.Show(App.GetString("ValueErrMsg"));
                 e.Cancel = true;
                 return;
             }
 
-            if(e.Column.DisplayIndex == 1)  // 전압 수정시
+            if (e.Column.DisplayIndex == 1)  // 전압 수정시
             {
+                // 범위에서 벗어났는지 판단
                 if(OtherInfos.InputVoltMax < editNum)
                 {
-                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMax.ToString();
+                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
                 else if(OtherInfos.InputVoltMin > editNum)
                 {
-                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
+                }
+
+                // 중복 포인트 검사
+                if(TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetVolt"].Ordinal))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                 }
 
                 // 전압모드일 경우, 전압 셀 수정시 보정값 제거
@@ -988,19 +1023,25 @@ namespace CalibrationNewGUI.ViewModel
 
             else if (e.Column.DisplayIndex == 2)  // 전류 수정시
             {
+                // 범위에서 벗어났는지 판단
                 if (OtherInfos.InputCurrMax < editNum)
                 {
-                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMax.ToString();
+                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
                 else if (OtherInfos.InputCurrMin > editNum)
                 {
-                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
+                }
+
+                // 중복 포인트 검사
+                if (TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                 }
 
                 // 전류모드일 경우, 전류 셀 수정시 보정값 제거
@@ -1021,7 +1062,7 @@ namespace CalibrationNewGUI.ViewModel
         {
             if (!int.TryParse(((TextBox)e.EditingElement).Text, out int editNum))
             {
-                MessageBox.Show("정수만 입력 가능합니다.");
+                MessageBox.Show(App.GetString("ValueErrMsg"));
                 e.Cancel = true;
                 return;
             }
@@ -1030,16 +1071,14 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (OtherInfos.InputVoltMax < editNum)
                 {
-                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMax.ToString();
+                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
                 else if (OtherInfos.InputVoltMin > editNum)
                 {
-                    MessageBox.Show($"전압 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputVoltMax}\n최소값 : {OtherInfos.InputVoltMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
+                    MessageBox.Show(string.Format(App.GetString("VoltRangeOutErrMsg"), OtherInfos.InputVoltMax, OtherInfos.InputVoltMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
             }
@@ -1048,16 +1087,14 @@ namespace CalibrationNewGUI.ViewModel
             {
                 if (OtherInfos.InputCurrMax < editNum)
                 {
-                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMax.ToString();
+                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
                 else if (OtherInfos.InputCurrMin > editNum)
                 {
-                    MessageBox.Show($"전류 입력 허용치를 벗어났습니다.\n" +
-                        $"최대값 : {OtherInfos.InputCurrMax}\n최소값 : {OtherInfos.InputCurrMin}");
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputCurrMin.ToString();
+                    MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
+                    ((TextBox)e.EditingElement).Text = string.Empty;
                     return;
                 }
             }

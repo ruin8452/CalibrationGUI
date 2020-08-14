@@ -271,12 +271,18 @@ namespace CalibrationNewGUI.ViewModel.Func
          *  
          *  @return bool 중복 여부(T:중복, F:중복없음)
          */
+        //TODO:빈 셀이 들어올경우 예외처리 필요
         public static bool OverlapCheck(DataTable table, int checkColumn)
         {
             Queue<int> tempDataList = new Queue<int>();
 
             foreach (DataRow row in table.Rows)
-                tempDataList.Enqueue(int.Parse(row[checkColumn].ToString()));
+            {
+                if (!int.TryParse(row[checkColumn].ToString(), out int cellValue))
+                    return true;
+
+                tempDataList.Enqueue(cellValue);
+            }
 
             while(tempDataList.Count > 0)
                 if(tempDataList.Contains(tempDataList.Dequeue()))

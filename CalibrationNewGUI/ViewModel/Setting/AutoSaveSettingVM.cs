@@ -22,7 +22,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
         public void DataSave()
         {
             AutoSaveInfos.Save();
-            MessageBox.Show("저장 완료");
+            MessageBox.Show(App.GetString("SaveOkMsg"));
         }
     }
 }

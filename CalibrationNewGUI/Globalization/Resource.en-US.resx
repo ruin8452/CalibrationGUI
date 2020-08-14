@@ -205,6 +205,16 @@
     <value>Curr Allowable Error(±mA)</value>
     <comment>캘리브레이션 세팅 페이지</comment>
   </data>
+  <data name="CurrIntervalErrMsg" xml:space="preserve">
+    <value>You cannot enter values below the current minimum interval({0}).</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="CurrRangeOutErrMsg" xml:space="preserve">
+    <value>Current input out of tolerance
+Max : {0}
+Min : {1}</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="DataBit" xml:space="preserve">
     <value>DataBit</value>
     <comment>통신 세팅 페이지</comment>
@@ -221,6 +231,14 @@
     <value>Disconnect</value>
     <comment>MainWindow</comment>
   </data>
+  <data name="DmmConnErrMsg" xml:space="preserve">
+    <value>DMM Connection Error : {0}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="DmmDisconnErrMsg" xml:space="preserve">
+    <value>DMM Disconnection Error</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="DmmModel" xml:space="preserve">
     <value>DMM Model</value>
     <comment>MainWindow</comment>
@@ -228,6 +246,14 @@
   <data name="DmmSetting" xml:space="preserve">
     <value>DMM Setting</value>
     <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="EmptyCellErrMsg" xml:space="preserve">
+    <value>There are empty cells.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="EquiErrMsg" xml:space="preserve">
+    <value>The equipment is disconnected.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="ErrRange" xml:space="preserve">
     <value>Error Range</value>
@@ -245,6 +271,15 @@
     <value>Interval</value>
     <comment>오토스캔 페이지</comment>
   </data>
+  <data name="LangChangeCaption" xml:space="preserve">
+    <value>Language Apply</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="LangChangeMsg" xml:space="preserve">
+    <value>The program must be restarted for the changed language to take effect.
+Do you want to apply?</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
     <comment>기타 세팅 페이지</comment>
@@ -261,6 +296,10 @@
     <value>Manual</value>
     <comment>모니터링 페이지</comment>
   </data>
+  <data name="MaximumCurrErrMsg" xml:space="preserve">
+    <value>You can't enter a value greater than the maximum current setting.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="MaximumInputCurr" xml:space="preserve">
     <value>Maximum Input Curr(mV)</value>
     <comment>기타 세팅 페이지</comment>
@@ -268,6 +307,18 @@
   <data name="MaximumInputVolt" xml:space="preserve">
     <value>Maximum Input Volt(mV)</value>
     <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MaximumVoltErrMsg" xml:space="preserve">
+    <value>You can't enter a value greater than the maximum voltage setting.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="McuConnErrMsg" xml:space="preserve">
+    <value>MCU Connection Error : {0}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="McuDisconnErrMsg" xml:space="preserve">
+    <value>MCU Disconnection Error</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="McuSetting" xml:space="preserve">
     <value>MCU Setting</value>
@@ -289,6 +340,10 @@
     <value>Measure Stop</value>
     <comment>모니터링 페이지</comment>
   </data>
+  <data name="MinimumCurrErrMsg" xml:space="preserve">
+    <value>You can't enter a value less than the minimum current setting.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="MinimumInputCurr" xml:space="preserve">
     <value>Minimum Input Curr(mV)</value>
     <comment>기타 세팅 페이지</comment>
@@ -296,6 +351,10 @@
   <data name="MinimumInputVolt" xml:space="preserve">
     <value>Minimum Input Volt(mV)</value>
     <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MinimumVoltErrMsg" xml:space="preserve">
+    <value>You can't enter a value less than the minimum voltage setting.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="Mode" xml:space="preserve">
     <value>Mode</value>
@@ -336,6 +395,10 @@
     <value>Output Stop</value>
     <comment>수동CAL 윈도우</comment>
   </data>
+  <data name="OverValueErrMsg" xml:space="preserve">
+    <value>You cannot enter a value greater than the maximum value.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Parity" xml:space="preserve">
     <value>Parity</value>
     <comment>통신 세팅 페이지</comment>
@@ -359,6 +422,10 @@
   <data name="PointDownTip" xml:space="preserve">
     <value>Point Down</value>
     <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointOverlapErrMsg" xml:space="preserve">
+    <value>Duplicate points are not allowed.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="PointUploadTip" xml:space="preserve">
     <value>Cal Point Upload</value>
@@ -387,6 +454,10 @@
   <data name="SaveFile Prefix" xml:space="preserve">
     <value>SaveFile Prefix</value>
     <comment>자동저장 세팅 페이지</comment>
+  </data>
+  <data name="SaveOkMsg" xml:space="preserve">
+    <value>Save Complete</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="SelectCh" xml:space="preserve">
     <value>Select Channel</value>
@@ -436,6 +507,14 @@
     <value>StopBit</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="UnderValueErrMsg" xml:space="preserve">
+    <value>You cannot enter a value less than the minimum value.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="ValueErrMsg" xml:space="preserve">
+    <value>Only integers can be entered.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Volt" xml:space="preserve">
     <value>Volt</value>
     <comment>오토스캔 페이지</comment>
@@ -447,6 +526,20 @@
   <data name="Volt Meter" xml:space="preserve">
     <value>Volt Meter</value>
     <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="VoltIntervalErrMsg" xml:space="preserve">
+    <value>You cannot enter values below the voltage minimum interval({0}).</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="VoltRangeOutErrMsg" xml:space="preserve">
+    <value>Voltage input out of tolerance
+Max : {0}
+Min : {1}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="WrongDataErrMsg" xml:space="preserve">
+    <value>Contains invalid data.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="Zero Offset" xml:space="preserve">
     <value>Zero Offset</value>

@@ -44,7 +44,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
         {
             McuInfos.Save();
             DmmInfos.Save();
-            MessageBox.Show("저장 완료");
+            MessageBox.Show(App.GetString("SaveOkMsg"));
         }
 
         private void IdRenuwal()

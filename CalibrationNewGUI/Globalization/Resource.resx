@@ -205,6 +205,16 @@
     <value>전류 허용오차(±mA)</value>
     <comment>캘리브레이션 세팅 페이지</comment>
   </data>
+  <data name="CurrIntervalErrMsg" xml:space="preserve">
+    <value>전류 최소 간격({0})보다 낮은 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="CurrRangeOutErrMsg" xml:space="preserve">
+    <value>전류 입력 허용치를 벗어났습니다.
+최대값 : {0}
+최소값 : {1}</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="DataBit" xml:space="preserve">
     <value>데이터 비트</value>
     <comment>통신 세팅 페이지</comment>
@@ -221,6 +231,14 @@
     <value>해제</value>
     <comment>MainWindow</comment>
   </data>
+  <data name="DmmConnErrMsg" xml:space="preserve">
+    <value>DMM 접속 오류 : {0}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="DmmDisconnErrMsg" xml:space="preserve">
+    <value>DMM 접속 해제 오류</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="DmmModel" xml:space="preserve">
     <value>DMM 모델</value>
     <comment>MainWindow</comment>
@@ -228,6 +246,14 @@
   <data name="DmmSetting" xml:space="preserve">
     <value>DMM 세팅</value>
     <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="EmptyCellErrMsg" xml:space="preserve">
+    <value>비어있는 셀이 있습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="EquiErrMsg" xml:space="preserve">
+    <value>장비 연결이 끊겨있습니다.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="ErrRange" xml:space="preserve">
     <value>허용오차</value>
@@ -245,6 +271,15 @@
     <value>간격</value>
     <comment>오토스캔 페이지</comment>
   </data>
+  <data name="LangChangeCaption" xml:space="preserve">
+    <value>언어 적용</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="LangChangeMsg" xml:space="preserve">
+    <value>변경된 언어가 적용되려면 프로그램을 다시 시작해야합니다.
+적용하시겠습니까?</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>언어</value>
     <comment>기타 세팅 페이지</comment>
@@ -261,6 +296,10 @@
     <value>수동</value>
     <comment>모니터링 페이지</comment>
   </data>
+  <data name="MaximumCurrErrMsg" xml:space="preserve">
+    <value>최대 전류 설정값 보다 큰 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="MaximumInputCurr" xml:space="preserve">
     <value>입력전류 상한(mV)</value>
     <comment>기타 세팅 페이지</comment>
@@ -268,6 +307,18 @@
   <data name="MaximumInputVolt" xml:space="preserve">
     <value>입력전압 상한(mV)</value>
     <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MaximumVoltErrMsg" xml:space="preserve">
+    <value>최대 전압 설정값 보다 큰 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="McuConnErrMsg" xml:space="preserve">
+    <value>MCU 접속 오류 : {0}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="McuDisconnErrMsg" xml:space="preserve">
+    <value>MCU 접속 해제 오류</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="McuSetting" xml:space="preserve">
     <value>MCU 세팅</value>
@@ -289,6 +340,10 @@
     <value>실측 정지</value>
     <comment>모니터링 페이지</comment>
   </data>
+  <data name="MinimumCurrErrMsg" xml:space="preserve">
+    <value>최소 전류 설정값 보다 작은 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="MinimumInputCurr" xml:space="preserve">
     <value>입력전류 하한(mV)</value>
     <comment>기타 세팅 페이지</comment>
@@ -296,6 +351,10 @@
   <data name="MinimumInputVolt" xml:space="preserve">
     <value>입력전압 하한(mV)</value>
     <comment>기타 세팅 페이지</comment>
+  </data>
+  <data name="MinimumVoltErrMsg" xml:space="preserve">
+    <value>최소 전압 설정값 보다 작은 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="Mode" xml:space="preserve">
     <value>모드</value>
@@ -337,6 +396,10 @@
     <value>출력 중지</value>
     <comment>수동CAL 윈도우</comment>
   </data>
+  <data name="OverValueErrMsg" xml:space="preserve">
+    <value>최대값 보다 큰 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Parity" xml:space="preserve">
     <value>패리티</value>
     <comment>통신 세팅 페이지</comment>
@@ -360,6 +423,10 @@
   <data name="PointDownTip" xml:space="preserve">
     <value>포인트 Down</value>
     <comment>모니터링 페이지</comment>
+  </data>
+  <data name="PointOverlapErrMsg" xml:space="preserve">
+    <value>중복된 포인트는 허용하지 않습니다.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="PointUploadTip" xml:space="preserve">
     <value>Cal 포인트 업로드</value>
@@ -388,6 +455,10 @@
   <data name="SaveFile Prefix" xml:space="preserve">
     <value>세이브 파일 Prefix</value>
     <comment>자동저장 세팅 페이지</comment>
+  </data>
+  <data name="SaveOkMsg" xml:space="preserve">
+    <value>저장 완료</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="SelectCh" xml:space="preserve">
     <value>채널 선택</value>
@@ -437,6 +508,14 @@
     <value>정지 비트</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="UnderValueErrMsg" xml:space="preserve">
+    <value>최소값 보다 작은 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="ValueErrMsg" xml:space="preserve">
+    <value>정수만 입력 가능합니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
   <data name="Volt" xml:space="preserve">
     <value>전압</value>
     <comment>오토스캔 페이지</comment>
@@ -448,6 +527,20 @@
   <data name="Volt Meter" xml:space="preserve">
     <value>전압 미터</value>
     <comment>션트 세팅 페이지</comment>
+  </data>
+  <data name="VoltIntervalErrMsg" xml:space="preserve">
+    <value>전압 최소 간격({0})보다 낮은 값은 입력할 수 없습니다.</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="VoltRangeOutErrMsg" xml:space="preserve">
+    <value>전압 입력 허용치를 벗어났습니다.
+최대값 : {0}
+최소값 : {1}</value>
+    <comment>메세지 박스</comment>
+  </data>
+  <data name="WrongDataErrMsg" xml:space="preserve">
+    <value>잘못된 데이터가 포함되어 있습니다.</value>
+    <comment>메세지 박스</comment>
   </data>
   <data name="Zero Offset" xml:space="preserve">
     <value>Zero 오프셋</value>

@@ -100,7 +100,6 @@
     <Compile Include="Equipment\Protocol\ModbusProtocol.cs" />
     <Compile Include="FileSystem\CsvFile.cs" />
     <Compile Include="FileSystem\PointFile.cs" />
-    <Compile Include="Globalization\LocalizationLib.cs" />
     <Compile Include="Globalization\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,7 +178,6 @@
     <Compile Include="ViewModel\Func\AutoSaveCheck.cs" />
     <Compile Include="ViewModel\Func\Calibration.cs" />
     <Compile Include="ViewModel\Func\EventArgsClass\CalMonitorArgs.cs" />
-    <Compile Include="ViewModel\Func\Language.cs" />
     <Compile Include="ViewModel\Func\TableManager.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\ManualCalVM.cs" />

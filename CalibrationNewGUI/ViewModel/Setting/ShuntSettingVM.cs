@@ -23,7 +23,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
         {
             ShuntInfos.Save();
             ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardReg / (float)ShuntInfos.ShuntNewReg; //션트값 변화를 할수도 있기 때문에 저장할때 다시 계산
-            MessageBox.Show("저장 완료");
+            MessageBox.Show(App.GetString("SaveOkMsg"));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.Model
 {
+    [ImplementPropertyChanged]
     public class OthersInfo
     {
         public int InputVoltMax { get; set; } //입력 전압 범위(mV) 최대값
         public int InputVoltMin { get; set; } //입력 전압 범위(mV) 최소값
         public int InputCurrMax { get; set; } //입력 전류 범위(mA) 최대값
         public int InputCurrMin { get; set; } //입력 전류 범위(mA) 최소값
-        public string Language { get; set; } //현재 언어 설정값
+        public string Language  { get; set; } //현재 언어 설정값
 
         ConfigFileSave ConfigFile = new ConfigFileSave();
 
