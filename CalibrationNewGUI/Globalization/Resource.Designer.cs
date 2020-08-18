@@ -360,6 +360,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   테이블에 포인트가 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string EmptyTableErrMsg {
+            get {
+                return ResourceManager.GetString("EmptyTableErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   장비 연결이 끊겨있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string EquiErrMsg {

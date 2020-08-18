@@ -299,9 +299,17 @@ namespace CalibrationNewGUI.ViewModel
 
         private void CalStart()
         {
+            // 장비 접속 체크
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
                 MessageBox.Show(App.GetString("EquiErrMsg"));
+                return;
+            }
+
+            // 테이블 포인트 체크
+            if (CalPointTable.Rows.Count == 0)
+            {
+                MessageBox.Show(App.GetString("EmptyTableErrMsg"));
                 return;
             }
 
@@ -358,9 +366,17 @@ namespace CalibrationNewGUI.ViewModel
 
         private void MeaStart()
         {
+            // 장비 접속 체크
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
                 MessageBox.Show(App.GetString("EquiErrMsg"));
+                return;
+            }
+
+            // 테이블 포인트 체크
+            if (MeaPointTable.Rows.Count == 0)
+            {
+                MessageBox.Show(App.GetString("EmptyTableErrMsg"));
                 return;
             }
 
@@ -618,10 +634,36 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void AutoCalStart()
         {
+            // 장비 접속 체크
             if (!Mcu.IsConnected || !Dmm.IsConnected)
             {
                 MessageBox.Show(App.GetString("EquiErrMsg"));
                 return;
+            }
+
+            // 테이블 포인트 체크
+            if (CalPointTable.Rows.Count == 0 || MeaPointTable.Rows.Count == 0)
+            {
+                MessageBox.Show(App.GetString("EmptyTableErrMsg"));
+                return;
+            }
+
+            // 포인트 중복 체크
+            if (CalMode)
+            {
+                if (TableManager.OverlapCheck(CalPointTable, 1))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    return;
+                }
+            }
+            else
+            {
+                if (TableManager.OverlapCheck(CalPointTable, 2))
+                {
+                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
+                    return;
+                }
             }
 
             List<object[]> tempCalPoint = new List<object[]>();
@@ -1009,13 +1051,6 @@ namespace CalibrationNewGUI.ViewModel
                     return;
                 }
 
-                // 중복 포인트 검사
-                if(CalMode == true && TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetVolt"].Ordinal))
-                {
-                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
-                    ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
-                }
-
                 // 전압모드일 경우, 전압 셀 수정시 보정값 제거
                 if (CalMode)
                     CalPointTable.Rows[calGridSelectedIndex]["Correction"] = 0;
@@ -1029,13 +1064,6 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
                     ((TextBox)e.EditingElement).Text = "0";
                     return;
-                }
-
-                // 중복 포인트 검사
-                if (CalMode == false && TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
-                {
-                    MessageBox.Show(App.GetString("PointOverlapErrMsg"));
-                    ((TextBox)e.EditingElement).Text = "0";
                 }
 
                 // 전류모드일 경우, 전류 셀 수정시 보정값 제거

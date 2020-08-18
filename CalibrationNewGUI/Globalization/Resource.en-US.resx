@@ -251,6 +251,10 @@ Min : {1}</value>
     <value>There are empty cells.</value>
     <comment>메세지 박스</comment>
   </data>
+  <data name="EmptyTableErrMsg" xml:space="preserve">
+    <value>Empty Table</value>
+    <comment>모니터링 페이지</comment>
+  </data>
   <data name="EquiErrMsg" xml:space="preserve">
     <value>The equipment is disconnected.</value>
     <comment>메세지 박스</comment>
