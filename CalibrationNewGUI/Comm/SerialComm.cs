@@ -8,6 +8,14 @@ using System.Threading;
 
 namespace J_Project.Communication.CommModule
 {
+    /**
+     *  @brief 통신 클래스
+     *  @details 시리얼을 사용하여 반이중 통신을 관리
+     *
+     *  @author SSW
+     *  @date 2020.08.18
+     *  @version 1.0.0
+     */
     public class SerialComm : ICommModule
     {
         const double SEND_DELAY = 0.1;
@@ -36,6 +44,15 @@ namespace J_Project.Communication.CommModule
             this.baudRate = baudRate;
         }
 
+        /**
+         *  @brief 장비 접속
+         *  @details Comport로 장비에 접속
+         *  
+         *  @param portName 포트번호
+         *  @param baudRate 통신 속도
+         *  
+         *  @return 접속 시도 결과
+         */
         public string Connect(string visaAddress)
         {
             return "Couldn't Connected!";
@@ -45,8 +62,8 @@ namespace J_Project.Communication.CommModule
          *  @brief 장비 접속
          *  @details Comport로 장비에 접속
          *  
-         *  @param portName 포트번호
-         *  @param baudRate 통신 속도
+         *  @param string portName 포트번호
+         *  @param int baudRate 통신 속도
          *  
          *  @return 접속 시도 결과
          */
@@ -124,9 +141,9 @@ namespace J_Project.Communication.CommModule
          *  @brief 명령 송신
          *  @details 문자열 형식의 명령문 전송
          *  
-         *  @param cmd 명령 문자열
+         *  @param string cmd 명령 문자열
          *  
-         *  @return 명령 송신 성공 여부
+         *  @return TryResultFlag 명령 송신 성공 여부
          */
         public TryResultFlag CommSend(string cmd)
         {
@@ -140,7 +157,7 @@ namespace J_Project.Communication.CommModule
                         token = Thread.CurrentThread.ManagedThreadId;
                     else
                     {
-                        Utill.Delay(SEND_DELAY);
+                        Util.Delay(SEND_DELAY);
                         continue;
                     }
                 }
@@ -155,7 +172,7 @@ namespace J_Project.Communication.CommModule
                     Debug.WriteLine("ErrPos04 : " + e.Message);
                     continue;
                 }
-                Utill.Delay(0.3);
+                Util.Delay(0.3);
 
                 return TryResultFlag.SUCCESS;
             }
@@ -166,9 +183,9 @@ namespace J_Project.Communication.CommModule
          *  @brief 명령 송신
          *  @details 바이트 배열 형식의 명령문 전송
          *  
-         *  @param cmd 명령 문자열
+         *  @param byte[] cmd 명령 문자열
          *  
-         *  @return 명령 송신 성공 여부
+         *  @return TryResultFlag 명령 송신 성공 여부
          */
         public TryResultFlag CommSend(byte[] cmd)
         {
@@ -184,7 +201,7 @@ namespace J_Project.Communication.CommModule
                     else
                     {
                         Debug.WriteLine("Now Token : " + token);
-                        Utill.Delay(SEND_DELAY);
+                        Util.Delay(SEND_DELAY);
                         continue;
                     }
                 }
@@ -207,7 +224,7 @@ namespace J_Project.Communication.CommModule
                     token = 0;
                     continue;
                 }
-                Utill.Delay(0.3);
+                Util.Delay(0.3);
 
                 return TryResultFlag.SUCCESS;
             }
@@ -218,11 +235,11 @@ namespace J_Project.Communication.CommModule
          *  @brief 명령 수신
          *  @details
          *  
-         *  @param
+         *  @param out string receiveString 수신 문자열
          *  
-         *  @return 수신 문자열
+         *  @return TryResultFlag 수신 문자열
          */
-                public TryResultFlag CommReceive(out string receiveString)
+        public TryResultFlag CommReceive(out string receiveString)
         {
             receiveString = string.Empty;
 
@@ -232,9 +249,9 @@ namespace J_Project.Communication.CommModule
                 // 토큰 검사
                 if (token != Thread.CurrentThread.ManagedThreadId)
                 {
-                    Utill.Delay(RECIVE_DELAY);
+                    Util.Delay(RECIVE_DELAY);
                     //Thread.Sleep(1);
-                    //Utill.Delay(0.01);
+                    //Util.Delay(0.01);
                     continue;
                 }
 
@@ -254,8 +271,8 @@ namespace J_Project.Communication.CommModule
 
                     return TryResultFlag.SUCCESS;
                 }
-                //Utill.Delay(0.01);
-                Utill.Delay(RECIVE_DELAY);
+                //Util.Delay(0.01);
+                Util.Delay(RECIVE_DELAY);
                 //Thread.Sleep(1);
             }
             lock (lockObj)
@@ -268,9 +285,9 @@ namespace J_Project.Communication.CommModule
          *  @brief 명령 수신
          *  @details
          *  
-         *  @param
+         *  @param out byte[] receiveStream 수신 바이트 배열
          *  
-         *  @return 수신 바이트배열
+         *  @return TryResultFlag 수신 바이트배열
          */
         public TryResultFlag CommReceive(out byte[] receiveStream, string callPosition)
         {
@@ -281,7 +298,7 @@ namespace J_Project.Communication.CommModule
                 // 토큰 검사
                 if (token != Thread.CurrentThread.ManagedThreadId)
                 {
-                    Utill.Delay(RECIVE_DELAY);
+                    Util.Delay(RECIVE_DELAY);
                     continue;
                 }
 
@@ -321,6 +338,14 @@ namespace J_Project.Communication.CommModule
             return TryResultFlag.FAIL;
         }
 
+        /**
+         *  @brief 토큰 리셋
+         *  @details
+         *  
+         *  @param 
+         *  
+         *  @return 
+         */
         public void TokenReset()
         {
             lock (lockObj)
@@ -333,9 +358,10 @@ namespace J_Project.Communication.CommModule
          *  @brief RS232 통신 수신 알림
          *  @details RS232 통신 수신 시 수신 플래그 세움
          *  
-         *  @param
+         *  @param object sender 함수를 호출한 객체(사용 안함)
+         *  @param EventArgs e 이벤트 변수(사용 안함)
          *  
-         *  @return 수신 바이트배열
+         *  @return 
          */
         private void CommReciveFlag(object sender, EventArgs e)
         {
@@ -346,6 +372,7 @@ namespace J_Project.Communication.CommModule
         {
             throw new NotImplementedException();
         }
+
         //스트링 데이터용 리시브 핸들러
         private void DataReceivedHandlerString(object sender, SerialDataReceivedEventArgs e)
         {
@@ -357,6 +384,7 @@ namespace J_Project.Communication.CommModule
             if(indata != null) receiveDataString = indata;
             IsReceiveString = true;
         }
+
         //배열 데이터용 리시브 핸들러
         private void DataReceivedHandlerByte(object sender, SerialDataReceivedEventArgs e)
         {

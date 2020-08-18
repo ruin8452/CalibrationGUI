@@ -60,12 +60,19 @@ namespace CalibrationNewGUI.FileSystem
          */
         public static bool PointWriter(List<object[]> pointList, string filePath)
         {
-            using (StreamWriter saveStream = new StreamWriter(filePath, false, Encoding.UTF8))
+            try
             {
-                foreach (var point in pointList)
-                    saveStream.WriteLine(string.Join(",", point.Take(3)));
+                using (StreamWriter saveStream = new StreamWriter(filePath, false, Encoding.UTF8))
+                {
+                    foreach (var point in pointList)
+                        saveStream.WriteLine(string.Join(",", point.Take(3)));
+                }
+                return true;
             }
-            return true;
+            catch(Exception)
+            {
+                return false;
+            }
         }
     }
 }

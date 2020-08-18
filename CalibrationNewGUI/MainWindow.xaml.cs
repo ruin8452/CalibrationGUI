@@ -1248,7 +1248,7 @@ namespace CalibrationNewGUI
                     //    AllSetData.DelayStart = 0;
                     //    AllSetData.DelayCnt = 0;
                     //}
-                    Utill.Delay((AllSetData.CalErrDelayTime * 0.001));
+                    Util.Delay((AllSetData.CalErrDelayTime * 0.001));
                     AllSetData.DelayStart = 0;
                 }
                 switch (AllSetData.CalSeqNum)//(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
@@ -1410,7 +1410,7 @@ namespace CalibrationNewGUI
                     //    AllSetData.DelayStart = 0;
                     //    AllSetData.DelayCnt = 0;
                     //}
-                    Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));
+                    Util.Delay((AllSetData.MeaErrDelayTime * 0.001));
                     AllSetData.DelayStart = 0;
                 }
                 switch (AllSetData.CalSeqNum)//(0: 대기, 1: Cal 시작, 2: DMM 전송, 3: 출력 종료)
@@ -1529,7 +1529,7 @@ namespace CalibrationNewGUI
             //만약 자동 실측 체크가 되어있다면 실측 시작
             if (AllSetData.AutoMeaStartFlag == 1) //캘 후 자동 실측일 경우
             {
-                Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                Util.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
                 //AllSetData.MeaSeqStartFlag = 1;
                 
                 if (AllSetData.MeaOutStartFlag == 0)
@@ -1627,7 +1627,7 @@ namespace CalibrationNewGUI
                 AllSetData.ActCalPointArray[0] = AllSetData.CalPointArray[i, 0];//전압 //오토cal 시작으로 추출한 데이터를 수동 전송에 입력
                 AllSetData.ActCalPointArray[1] = AllSetData.CalPointArray[i, 1];//전류
                 AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
-                Utill.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
+                Util.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
                 //Thread.Sleep(AllSetData.CalErrDelayTime);//사용자 설정 딜레이
                 if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
                 //DMM 비교
@@ -1664,7 +1664,7 @@ namespace CalibrationNewGUI
                         //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
                         DMMCheck = 0;
                         AllSetData.CalOutRealStartFlag = 1;//dmm 전송
-                        Utill.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
+                        Util.Delay((AllSetData.CalErrDelayTime * 0.001));//사용자 설정 딜레이
                         //Thread.Sleep(AllSetData.CalErrDelayTime);//사용자 설정 딜레이
                     }
                     else //에러가 아니면 DMM 전송 하지 않고 넘어가기
@@ -1713,7 +1713,7 @@ namespace CalibrationNewGUI
                     //Mea 시퀀스 시작
                     //Mea 출력전송
                     AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
-                    Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                    Util.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
                     //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
                     if (AllSetData.CalSeqNum == 4) break;//중간에 종료명령 들어오는 경우
                     //DMM 비교
@@ -1748,7 +1748,7 @@ namespace CalibrationNewGUI
                     {
                         //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
                         AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
-                        Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                        Util.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
                         //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
                         DMMCheck = 0;
                     }
@@ -1756,7 +1756,7 @@ namespace CalibrationNewGUI
                     {
                         //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
                         AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
-                        Utill.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
+                        Util.Delay((AllSetData.MeaErrDelayTime * 0.001));//사용자 설정 딜레이
                         //Thread.Sleep(AllSetData.MeaErrDelayTime);//사용자 설정 딜레이
                         break;
                     }
@@ -1957,7 +1957,7 @@ namespace CalibrationNewGUI
                     //Mea 시퀀스 시작
                     //Mea 출력전송
                     AllSetData.CalOutStartFlag = 1;//수동출력으로 전송
-                    Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                    Util.Delay((delayTime * 0.001));//사용자 설정 딜레이
                     if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우
                     //DMM 비교
                     if (ch == 1) //채널선택
@@ -1991,14 +1991,14 @@ namespace CalibrationNewGUI
                     {
                         //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
                         AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
-                        Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                        Util.Delay((delayTime * 0.001));//사용자 설정 딜레이
                         DMMCheck = 0;
                     }
                     else //에러가 아니면 DMM 전송 하지 않고 넘어가기
                     {
                         //DMM 출력 부분 글자를 다르게 하거나 셀의 색을 다르게 하는 등의 변화가 필요
                         AllSetData.CalOutEndFlag = 1;//포인트 출력 끝나면 종료명령 전송
-                        Utill.Delay((delayTime * 0.001));//사용자 설정 딜레이
+                        Util.Delay((delayTime * 0.001));//사용자 설정 딜레이
                         break;
                     }
                     if (stopCmd == 4) break;//중간에 종료명령 들어오는 경우

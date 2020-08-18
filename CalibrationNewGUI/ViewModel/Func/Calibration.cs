@@ -178,7 +178,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case CalSeq.DELAY1:
-                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    Util.Delay(calInfo.CalDelayTime * 0.001);
                     OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
@@ -222,7 +222,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                                 break;
                             }
                         }
-                        Utill.Delay(calInfo.CalDelayTime * 0.001);
+                        Util.Delay(calInfo.CalDelayTime * 0.001);
                         OnCalMonitor(new CalMonitorArgs(PointIndex));
                     }
                     isCalEnd = false;
@@ -230,7 +230,7 @@ namespace CalibrationNewGUI.ViewModel.Func
 
                 case CalSeq.DELAY2:
                     OnCalMonitor(new CalMonitorArgs(PointIndex));
-                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    Util.Delay(calInfo.CalDelayTime * 0.001);
                     OnCalMonitor(new CalMonitorArgs(PointIndex));
                     isCalEnd = false;
                     break;
@@ -247,7 +247,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case CalSeq.DELAY3:
-                    Utill.Delay(calInfo.CalDelayTime * 0.001);
+                    Util.Delay(calInfo.CalDelayTime * 0.001);
                     isCalEnd = true;
                     break;
             }
@@ -289,7 +289,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     {
                         SeqStepNum = 0;
                         MeaRetryCnt++;
-                        Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                        Util.Delay(calInfo.MeaDelayTime * 0.001);
                         return;
                     }
                 }
@@ -320,13 +320,13 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY1:
-                    Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                    Util.Delay(calInfo.MeaDelayTime * 0.001);
                     OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     isMeaEnd = false;
                     break;
 
                 case MeaSeq.OUT_CHECK:
-                    //Utill.Delay(0.3);
+                    //Util.Delay(0.3);
                     
                     if (meaType == 'V')
                     {
@@ -337,7 +337,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             {
                                 break;
                             }
-                            Utill.Delay(0.1);
+                            Util.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Volt - voltPoint) > meaErrRange)
@@ -361,7 +361,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                             {
                                 break;
                             }
-                            Utill.Delay(0.1);
+                            Util.Delay(0.1);
                         }
                         //OnMeaMonitor(new CalMonitorArgs(PointIndex));
                         if (Math.Abs(dmm.Curr - currPoint) > meaErrRange)
@@ -394,7 +394,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY2:
-                    Utill.Delay(calInfo.MeaDelayTime * 0.001);
+                    Util.Delay(calInfo.MeaDelayTime * 0.001);
                     isMeaEnd = true;
                     break;
             }

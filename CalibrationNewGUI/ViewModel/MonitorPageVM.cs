@@ -44,6 +44,7 @@ namespace CalibrationNewGUI.ViewModel
             set
             {
                 if (value == -1) calGridSelectedIndex = 0;
+                else calGridSelectedIndex = value;
             }
         }
         private int meaGridSelectedIndex; // MEA 테이블의 선택된 Index
@@ -53,6 +54,7 @@ namespace CalibrationNewGUI.ViewModel
             set
             {
                 if (value == -1) meaGridSelectedIndex = 0;
+                else meaGridSelectedIndex = value;
             }
         }
 
@@ -408,10 +410,10 @@ namespace CalibrationNewGUI.ViewModel
         {
             // CAL포인트 추가
             if (type.ToString() == "CAL")
-                CalPointTable = TableManager.RowAdd(CalPointTable, CalGridSelectedIndex + 1);
+                CalPointTable = TableManager.RowAdd(CalPointTable, calGridSelectedIndex + 1);
             // 실측포인트 추가
             else
-                MeaPointTable = TableManager.RowAdd(MeaPointTable, MeaGridSelectedIndex + 1);
+                MeaPointTable = TableManager.RowAdd(MeaPointTable, meaGridSelectedIndex + 1);
         }
 
         /**
@@ -431,16 +433,16 @@ namespace CalibrationNewGUI.ViewModel
             // CAL포인트 삭제
             if (type.ToString() == "CAL")
             {
-                tempIndex = CalGridSelectedIndex;
+                tempIndex = calGridSelectedIndex;
                 CalPointTable = TableManager.RowDelete(CalPointTable, tempIndex);
-                CalGridSelectedIndex = tempIndex;
+                calGridSelectedIndex = tempIndex;
             }
             // 실측포인트 삭제
             else
             {
-                tempIndex = MeaGridSelectedIndex;
+                tempIndex = meaGridSelectedIndex;
                 MeaPointTable = TableManager.RowDelete(MeaPointTable, tempIndex);
-                MeaGridSelectedIndex = tempIndex;
+                meaGridSelectedIndex = tempIndex;
             }
         }
 
@@ -460,26 +462,26 @@ namespace CalibrationNewGUI.ViewModel
             // CAL포인트 UP
             if (type.ToString() == "CAL")
             {
-                tempIndex = CalGridSelectedIndex;
+                tempIndex = calGridSelectedIndex;
                 CalPointTable = TableManager.RowUp(CalPointTable, tempIndex);
 
                 //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
                 if (tempIndex <= 0)
-                    CalGridSelectedIndex = tempIndex;
+                    calGridSelectedIndex = tempIndex;
                 else
-                    CalGridSelectedIndex = tempIndex - 1;
+                    calGridSelectedIndex = tempIndex - 1;
             }
             // 실측포인트 UP
             else
             {
-                tempIndex = MeaGridSelectedIndex;
+                tempIndex = meaGridSelectedIndex;
                 MeaPointTable = TableManager.RowUp(MeaPointTable, tempIndex);
 
                 //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
                 if (tempIndex <= 0)
-                    MeaGridSelectedIndex = tempIndex;
+                    meaGridSelectedIndex = tempIndex;
                 else
-                    MeaGridSelectedIndex = tempIndex - 1;
+                    meaGridSelectedIndex = tempIndex - 1;
             }
         }
 
@@ -499,26 +501,26 @@ namespace CalibrationNewGUI.ViewModel
             // CAL포인트 DOWN
             if (type.ToString() == "CAL")
             {
-                tempIndex = CalGridSelectedIndex;
+                tempIndex = calGridSelectedIndex;
                 CalPointTable = TableManager.RowDown(CalPointTable, tempIndex);
 
                 //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
                 if (tempIndex >= CalPointTable.Rows.Count - 1)
-                    CalGridSelectedIndex = tempIndex;
+                    calGridSelectedIndex = tempIndex;
                 else
-                    CalGridSelectedIndex = tempIndex + 1;
+                    calGridSelectedIndex = tempIndex + 1;
             }
             // 실측포인트 DOWN
             else
             {
-                tempIndex = MeaGridSelectedIndex;
+                tempIndex = meaGridSelectedIndex;
                 MeaPointTable = TableManager.RowDown(MeaPointTable, tempIndex);
 
                 //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
                 if(tempIndex >= MeaPointTable.Rows.Count - 1)
-                    MeaGridSelectedIndex = tempIndex;
+                    meaGridSelectedIndex = tempIndex;
                 else
-                    MeaGridSelectedIndex = tempIndex + 1;
+                    meaGridSelectedIndex = tempIndex + 1;
             }
         }
 
@@ -1008,7 +1010,7 @@ namespace CalibrationNewGUI.ViewModel
                 }
 
                 // 중복 포인트 검사
-                if(TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetVolt"].Ordinal))
+                if(CalMode == true && TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetVolt"].Ordinal))
                 {
                     MessageBox.Show(App.GetString("PointOverlapErrMsg"));
                     ((TextBox)e.EditingElement).Text = OtherInfos.InputVoltMin.ToString();
@@ -1016,7 +1018,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 // 전압모드일 경우, 전압 셀 수정시 보정값 제거
                 if (CalMode)
-                    CalPointTable.Rows[CalGridSelectedIndex]["Correction"] = 0;
+                    CalPointTable.Rows[calGridSelectedIndex]["Correction"] = 0;
             }
 
             else if (e.Column.DisplayIndex == 2)  // 전류 수정시
@@ -1030,7 +1032,7 @@ namespace CalibrationNewGUI.ViewModel
                 }
 
                 // 중복 포인트 검사
-                if (TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
+                if (CalMode == false && TableManager.OverlapCheck(CalPointTable, CalPointTable.Columns["SetCurr"].Ordinal))
                 {
                     MessageBox.Show(App.GetString("PointOverlapErrMsg"));
                     ((TextBox)e.EditingElement).Text = "0";
@@ -1038,7 +1040,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 // 전류모드일 경우, 전류 셀 수정시 보정값 제거
                 if (!CalMode)
-                    CalPointTable.Rows[CalGridSelectedIndex]["Correction"] = 0;
+                    CalPointTable.Rows[calGridSelectedIndex]["Correction"] = 0;
             }
         }
 
@@ -1069,7 +1071,7 @@ namespace CalibrationNewGUI.ViewModel
             }
             else if (e.Column.DisplayIndex == 2)  // 전류 수정시
             {
-                if (OtherInfos.InputCurrMax < editNum)
+                if (OtherInfos.InputCurrMax < editNum || OtherInfos.InputCurrMin > editNum)
                 {
                     MessageBox.Show(string.Format(App.GetString("CurrRangeOutErrMsg"), OtherInfos.InputCurrMax, OtherInfos.InputCurrMin));
                     ((TextBox)e.EditingElement).Text = "0";

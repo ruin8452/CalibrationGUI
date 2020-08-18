@@ -9,11 +9,25 @@ using System.Threading.Tasks;
 
 namespace J_Project.Manager
 {
-    public class Utill
+    /**
+     *  @brief 유틸리티
+     *  @details 유틸리티 기능을 가지고 있는 클래스
+     *
+     *  @author SSW
+     *  @date 2020.08.18
+     *  @version 1.0.0
+     */
+    public class Util
     {
         public static readonly BindingFlags AllField = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
         public static CultureInfo Cultur = new CultureInfo("ko-Ko");
-
+        /**
+         * @brief CRC 반환 옵션 열거형
+         * 
+         * @li CRC_ONLY : CRC만 반환
+         * @li ARRAY    : 배열에 CRC를 추가하여 반환
+         * @li LIST     : CRC 추가한 배열을 리스트로 변형하여 반환
+         */
         public enum CrcReturnOption
         {
             CRC_ONLY,
@@ -51,12 +65,16 @@ namespace J_Project.Manager
             0X4380, 0X8341, 0X4100, 0X81C1, 0X8081, 0X4040
         };
 
-        public static byte[] MakeCrc16_byte(byte[] testStream, int length, object cRC_ONLY)
-        {
-            throw new NotImplementedException();
-        }
-
-        //CRC 계산 함수
+        /**
+         *  @brief CRC 계산
+         *  @details 
+         *  
+         *  @param byte[] byteStream CRC 계산할 배열
+         *  @param int length 계산에 포함시킬 배열 길이
+         *  @param CrcReturnOption option 반환 옵션
+         *  
+         *  @return object 반환 옵션에 따른 CRC 계산 데이터
+         */
         public static object MakeCrc16_byte(byte[] byteStream, int length, CrcReturnOption option)
         {
             ushort temp;
@@ -92,7 +110,15 @@ namespace J_Project.Manager
                 return byteList;
             }
         }
-        // 딜레이 함수
+
+        /**
+         *  @brief 시간 딜레이
+         *  @details 
+         *  
+         *  @param double S 지연시킬 시간(초 단위)
+         *  
+         *  @return int 
+         */
         public static int Delay(double S)
         {
             int ms = (int)(S * 1000);

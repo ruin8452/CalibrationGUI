@@ -10,6 +10,14 @@ using System.Windows.Threading;
 
 namespace J_Project.Communication.CommModule
 {
+    /**
+     *  @brief 통신 클래스
+     *  @details 큐를 사용하여 반이중 통신을 관리
+     *
+     *  @author SSW
+     *  @date 2020.08.18
+     *  @version 1.0.0
+     */
     public class QueueComm
     {
         SerialPort ComPort;
@@ -41,10 +49,11 @@ namespace J_Project.Communication.CommModule
         Queue<CommPacket> SendCommQueue = new Queue<CommPacket>();
         List<CommPacket> ReceiveCommQueue = new List<CommPacket>();
         CommPacket tempPacket = new CommPacket();
-        //Timer timer = new Timer(TimerSenderByte, null, 0, 100);
+
         DispatcherTimer timers = new DispatcherTimer();
         BackgroundWorker queueBackString = new BackgroundWorker();
         BackgroundWorker queueBackByte = new BackgroundWorker();
+
         public QueueComm(string dataPacketType)
         {
             dataType = dataPacketType;
@@ -61,6 +70,16 @@ namespace J_Project.Communication.CommModule
             });
         }
 
+        /**
+         *  @brief 통신 연결
+         *  @details 시리얼 통신 연결
+         *  @version 1.0.0
+         *  
+         *  @param string portName 포트 이름
+         *  @param int baudRate 통신 속도
+         *  
+         *  @return string 연결 결과
+         */
         public string Connect(string portName, int baudRate)
         {
             try
@@ -122,6 +141,17 @@ namespace J_Project.Communication.CommModule
             return "Couldn't Connected!";
         }
 
+        /**
+         *  @brief 통신 연결 해제
+         *  @details 시리얼 통신 연결 해제
+         *  @version 1.0.0
+         *  
+         *  @param
+         *  
+         *  @return bool 연결 해제 결과@n
+         *               True : 명령저장 성공@n
+         *               False : 명령저장 실패
+         */
         public bool Disconnect()
         {
             try
@@ -146,6 +176,18 @@ namespace J_Project.Communication.CommModule
             return true;
         }
 
+        /**
+         *  @brief 명령 전송 스택(명령 타입 : string)
+         *  @details 전송할 명령을 큐에 쌓는다.
+         *  @version 1.0.0
+         *  
+         *  @param string cmd 전송할 명령
+         *  @param out int code 명령에 대한 고유코드
+         *  
+         *  @return bool 명령 스택 성공여부@n
+         *               True : 명령저장 성공@n
+         *               False : 명령저장 실패
+         */
         public bool CommSend(string cmd, out int code)
         {
             CommPacket data = new CommPacket();
@@ -162,6 +204,18 @@ namespace J_Project.Communication.CommModule
             return true;
         }
 
+        /**
+         *  @brief 명령 전송 스택(명령 타입 : byte[])
+         *  @details 전송할 명령을 큐에 쌓는다.
+         *  @version 1.0.0
+         *  
+         *  @param byte[] cmd 전송할 명령
+         *  @param out int code 명령에 대한 고유코드
+         *  
+         *  @return bool 명령 스택 성공여부@n
+         *               True : 명령저장 성공@n
+         *               False : 명령저장 실패
+         */
         public bool CommSend(byte[] cmd, out int code)
         {
             CommPacket data = new CommPacket();
@@ -178,6 +232,18 @@ namespace J_Project.Communication.CommModule
             return true;
         }
 
+        /**
+         *  @brief 수신받은 데이터 가져가기(데이터 타입 : string)
+         *  @details 수신받은 데이터가 쌓여있는 큐에서 코드에 해당하는 데이터를 찾아 리턴한다.
+         *  @version 1.0.0
+         *  
+         *  @param out string data 수신받은 응답 데이터
+         *  @param int code 찾고 싶은 데이터에 대한 고유코드
+         *  
+         *  @return bool 데이터 서치 성공여부@n
+         *               True : 서치 성공@n
+         *               False : 서치 실패
+         */
         public bool CommReceive(out string data, int code)
         {
             StringBuilder receiveData = new StringBuilder();
@@ -199,13 +265,25 @@ namespace J_Project.Communication.CommModule
                     return true;
                 }
 
-                Utill.Delay(0.1);
+                Util.Delay(0.1);
             }
 
             data = string.Empty;
             return false;
         }
 
+        /**
+         *  @brief 수신받은 데이터 가져가기(데이터 타입 : byte[])
+         *  @details 수신받은 데이터가 쌓여있는 큐에서 코드에 해당하는 데이터를 찾아 리턴한다.
+         *  @version 1.0.0
+         *  
+         *  @param out byte[] data 수신받은 응답 데이터
+         *  @param int code 찾고 싶은 데이터에 대한 고유코드
+         *  
+         *  @return bool 데이터 서치 성공여부@n
+         *               True : 서치 성공@n
+         *               False : 서치 실패
+         */
         public bool CommReceive(out byte[] data, int code)
         {
             List<byte> receiveData = new List<byte>();
@@ -227,13 +305,23 @@ namespace J_Project.Communication.CommModule
                     return true;
                 }
 
-                Utill.Delay(0.1);
+                Util.Delay(0.1);
             }
 
             data = null;
             return false;
         }
 
+        /**
+         *  @brief 명령 전송 타이머 함수(데이터 타입 : string)
+         *  @details 주기적으로 큐에 쌓여있는 명령을 전송한다.
+         *  @version 1.0.0
+         *  
+         *  @param object sender 함수를 호출한 객체(사용 안함)
+         *  @param EventArgs e 이벤트 변수(사용 안함)
+         *  
+         *  @return 
+         */
         private void TimerSenderString(object sender, EventArgs e)
         {
             Debug.WriteLine($"Send QUEUE Count : {SendCommQueue.Count}");
@@ -246,6 +334,16 @@ namespace J_Project.Communication.CommModule
                 ComPort.WriteLine(tempPacket.StrData);
         }
 
+        /**
+         *  @brief 명령 전송 타이머 함수(데이터 타입 : byte[])
+         *  @details 주기적으로 큐에 쌓여있는 명령을 전송한다.
+         *  @version 1.0.0
+         *  
+         *  @param object sender 함수를 호출한 객체(사용 안함)
+         *  @param EventArgs e 이벤트 변수(사용 안함)
+         *  
+         *  @return 
+         */
         private void TimerSenderByte(object sender, EventArgs e)
         {
             Debug.WriteLine($"Send QUEUE Count : {SendCommQueue.Count}");
@@ -261,6 +359,16 @@ namespace J_Project.Communication.CommModule
 
         }
 
+        /**
+         *  @brief 데이터 수신 인터럽트 함수(데이터 타입 : string)
+         *  @details 데이터가 
+         *  @version 1.0.0
+         *  
+         *  @param object sender 함수를 호출한 객체(사용 안함)
+         *  @param EventArgs e 이벤트 변수(사용 안함)
+         *  
+         *  @return 
+         */
         private void IntterruptReceiverString(object sender, EventArgs e)
         {
             Debug.WriteLine("QUEUE Intterrupt Receive");
@@ -273,6 +381,16 @@ namespace J_Project.Communication.CommModule
             ReceiveCommQueue.Add(new CommPacket(tempPacket.ID, receiveString));
         }
 
+        /**
+         *  @brief 데이터 수신 타이머 함수(데이터 타입 : byte[])
+         *  @details 주기적으로 큐에 쌓여있는 명령을 전송한다.
+         *  @version 1.0.0
+         *  
+         *  @param object sender 함수를 호출한 객체(사용 안함)
+         *  @param EventArgs e 이벤트 변수(사용 안함)
+         *  
+         *  @return 
+         */
         private void IntterruptReceiverByte(object sender, EventArgs e)
         {
             Debug.WriteLine("QUEUE Intterrupt Receive");
