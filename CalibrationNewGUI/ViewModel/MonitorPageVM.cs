@@ -1079,7 +1079,6 @@ namespace CalibrationNewGUI.ViewModel
             }
         }
 
-
         /**
          *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
          *  @details CAL 옵션(모드, 채널번호) 메세지를 전송

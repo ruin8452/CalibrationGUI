@@ -133,14 +133,28 @@ namespace J_Project.Manager
             return (int)(afterWards - thisMoment).TotalMilliseconds;
         }
 
+        /**
+         *  @brief 바이트 스왑
+         *  @details 
+         *  
+         *  @param ushort target 스왑시킬 데이터
+         *  
+         *  @return ushort 스왑시킨 데이터
+         */
         // 바이트 스왑 함수
         public static ushort Swap(ushort target)
         {
             return (ushort)((target >> 8) + (target << 8));
         }
 
-
-        // 구조체를 byte 배열로
+        /**
+         *  @brief 구조체를 byte 배열로 변환
+         *  @details 
+         *  
+         *  @param object obj 변환시킬 객체
+         *  
+         *  @return byte[] 변환된 바이트 배열
+         */
         public static byte[] StructureToByte(object obj)
         {
             int datasize = Marshal.SizeOf(obj); // 구조체에 할당된 메모리의 크기를 구한다.
@@ -156,6 +170,15 @@ namespace J_Project.Manager
             return data; // 배열을 리턴
         }
 
+        /**
+         *  @brief byte 배열을 구조체로 변환
+         *  @details 
+         *  
+         *  @param byte[] data 변환시킬 바이트 배열
+         *  @param Type type 변환시킬 타입
+         *  
+         *  @return object 변환된 객체
+         */
         //byte 배열을 구조체로
         public static object ByteToStructure(byte[] data, Type type)
         {

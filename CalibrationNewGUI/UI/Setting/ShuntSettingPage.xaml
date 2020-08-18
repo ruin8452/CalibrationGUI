@@ -4,11 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
+      xmlns:conv="clr-namespace:CalibrationNewGUI.UI.Converter"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
       mc:Ignorable="d" 
       Title="OthersSettingPage">
 
     <Page.Resources>
+        <conv:InvertBool x:Key="InvertBoolConv"/>
+        
         <Style x:Key="CalSetText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="White"/>
@@ -23,6 +26,7 @@
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="BorderBrush" Value="#FF53609B"/>
+            <Setter Property="CaretBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
         </Style>
@@ -61,10 +65,9 @@
                 <StackPanel Margin="40,0,40,20" >
                     <TextBlock Text="{x:Static glob:Resource.Shunt}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <Grid>
+                    <RadioButton Content="전류" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Mode=TwoWay}"/>
+                    <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
@@ -76,18 +79,28 @@
                         <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
                         <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
-                        <TextBlock Text="{x:Static glob:Resource.StandardShuntReg}" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox Text="{Binding ShuntInfos.ShuntStandardReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
-
                         <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
                         <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                    </Grid>
+
+                    <Border Height="20"/>
+
+                    <RadioButton Content="저항" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}"/>
+                    <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
                         <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
 
-                <StackPanel Margin="40,0,40,20" Grid.Column="1">
+                <StackPanel Margin="40,0,40,20" Grid.Column="1" Visibility="Hidden">
                     <TextBlock Text="{x:Static glob:Resource.Volt_Meter}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     <Grid>

@@ -8,13 +8,14 @@ namespace CalibrationNewGUI.Model
 {
     public class ShuntInfo
     {
-        public int ShuntStandardCurr { get; set; } //기준 전류(mA)
-        public int ShuntStandardReg { get; set; } //기준 저항(uOhm)
-        public int ShuntNewCurr { get; set; } //새로 연결하는 션트 기준 전류(mA)
-        public int ShuntNewReg { get; set; } //새로 연결하는 션트 기준 저항(uOhm)
-        public int StandardVoltMeter { get; set; } //기준 전압미터
-        public int NewVoltMeter { get; set; } //보정 전압미터
-        public float shuntReg { get; set; }//션트 보정값과 표준값을 사용한 실제 보정치(보정치 = 표준/보정)
+        public bool CorrectionMode { get; set; }    // 교정 모드(T:전류, F:저항)
+        public int ShuntStandardCurr { get; set; }  // 기준 션트 전류(mA)
+        public int ShuntNewCurr { get; set; }       // 교정 션트 전류(mA)
+        public int ShuntNewReg { get; set; }        // 교정 션트 저항(uOhm)
+        public int StandardVoltMeter { get; set; }  // 기준 전압미터
+        public int NewVoltMeter { get; set; }       // 보정 전압미터
+        public float shuntReg { get; set; }         // 션트 보정값과 표준값을 사용한 실제 보정치(보정치 = 표준/보정)
+
         ConfigFileSave ConfigFile = new ConfigFileSave();
 
         #region 싱글톤 패턴 구현
@@ -33,8 +34,8 @@ namespace CalibrationNewGUI.Model
 
         public void Save()
         {
+            ConfigFile.Write("Shunt", "CorrectionMode", CorrectionMode.ToString());
             ConfigFile.Write("Shunt", "ShuntStandardCurr", ShuntStandardCurr.ToString());
-            ConfigFile.Write("Shunt", "ShuntStandardReg", ShuntStandardReg.ToString());
             ConfigFile.Write("Shunt", "ShuntNewCurr", ShuntNewCurr.ToString());
             ConfigFile.Write("Shunt", "ShuntNewReg", ShuntNewReg.ToString());
             ConfigFile.Write("Shunt", "StandardVoltMeter", StandardVoltMeter.ToString());
@@ -43,8 +44,8 @@ namespace CalibrationNewGUI.Model
 
         public void Load()
         {
+            CorrectionMode = Convert.ToBoolean(ConfigFile.Read("Shunt", "CorrectionMode", "true"));
             ShuntStandardCurr = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntStandardCurr", "50000"));
-            ShuntStandardReg = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntStandardReg", "0"));
             ShuntNewCurr = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntNewCurr", "50000"));
             ShuntNewReg = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntNewReg", "0"));
             StandardVoltMeter = Convert.ToInt32(ConfigFile.Read("Shunt", "StandardVoltMeter", "4200"));

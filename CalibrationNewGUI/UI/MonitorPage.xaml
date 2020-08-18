@@ -494,7 +494,7 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="10">
                             <!-- 채널1 Volt -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     CH1 <Run Text="{x:Static glob:Resource.Volt}"/>(mV)
                                 </TextBlock>
@@ -505,7 +505,7 @@
                                 </Grid>
                             </StackPanel>
                             <!-- 채널1 Curr -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     CH1 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
                                 </TextBlock>
@@ -515,21 +515,10 @@
                                     <TextBlock Text="{Binding Mcu.Ch1Curr, StringFormat=#0.0}" Foreground="White" Style="{StaticResource MonitoringText}"/>
                                 </Grid>
                             </StackPanel>
-                            <!-- Dmm1 Volt -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
-                                    DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
-                                </TextBlock>
-                                <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
-                                <Grid Width="190">
-                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
-                                    <TextBlock Foreground="White" Style="{StaticResource DmmTextSwitch}"/>
-                                </Grid>
-                            </StackPanel>
                         </StackPanel>
                         <StackPanel Margin="10">
                             <!-- 채널2 Volt -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     CH2 <Run Text="{x:Static glob:Resource.Volt}"/>(mV)
                                 </TextBlock>
@@ -540,7 +529,7 @@
                                 </Grid>
                             </StackPanel>
                             <!-- 채널2 Curr -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     CH2 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
                                 </TextBlock>
@@ -552,6 +541,25 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
+
+                    <Separator Background="#FF3B456B"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Margin="10">
+                            <!-- Dmm1 Volt -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                    DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
+                                </TextBlock>
+                                <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
+                                <Grid Width="190">
+                                    <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
+                                    <TextBlock Foreground="White" Style="{StaticResource DmmTextSwitch}"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    
                 </StackPanel>
             </Border>
 

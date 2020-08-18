@@ -43,9 +43,9 @@ namespace CalibrationNewGUI.ViewModel.Setting
                 {
                     OthersInfos.Language = preLang;
                     OthersInfos.Save();
-                    MessageBox.Show(App.GetString("SaveOkMsg"));
                 }
             }
+            MessageBox.Show(App.GetString("SaveOkMsg"));
         }
     }
 }
