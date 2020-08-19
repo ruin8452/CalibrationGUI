@@ -182,7 +182,7 @@
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionShuntReg" xml:space="preserve">
-    <value>교정 션트 저항(nΩ)</value>
+    <value>교정 션트 저항(uΩ)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionVoltMeter" xml:space="preserve">
