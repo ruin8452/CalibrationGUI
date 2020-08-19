@@ -15,14 +15,39 @@ namespace CalibrationNewGUI.ViewModel.Setting
         public ShuntSettingVM()
         {
             ShuntInfos = ShuntInfo.GetObj();
-            //ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardReg / (float)ShuntInfos.ShuntNewReg; //첫 실행 할때 션트 보정치를 계산
+            if (ShuntInfos.CorrectionMode == true)
+                ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardCurr / (float)ShuntInfos.ShuntNewCurr; //첫 실행 할때 션트 보정치를 계산
+            else
+            {
+                if (ShuntInfos.ShuntNewReg == 0)
+                {
+                    ShuntInfos.shuntReg = 1;
+                }
+                else
+                {
+                    ShuntInfos.shuntReg = (1 / (ShuntInfos.ShuntNewReg * 0.001f)) * 1000;
+                }
+            }
+                
             SaveClick = new RelayCommand(DataSave);
         }
 
         public void DataSave()
         {
             ShuntInfos.Save();
-            //ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardReg / (float)ShuntInfos.ShuntNewReg; //션트값 변화를 할수도 있기 때문에 저장할때 다시 계산
+            if (ShuntInfos.CorrectionMode == true)
+                ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardCurr / (float)ShuntInfos.ShuntNewCurr; //첫 실행 할때 션트 보정치를 계산
+            else
+            {
+                if (ShuntInfos.ShuntNewReg == 0)
+                {
+                    ShuntInfos.shuntReg = 1;
+                }
+                else
+                {
+                    ShuntInfos.shuntReg = (1 / (ShuntInfos.ShuntNewReg * 0.001f)) * 1000;
+                }
+            }
             MessageBox.Show(App.GetString("SaveOkMsg"));
         }
     }

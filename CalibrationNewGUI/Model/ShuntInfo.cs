@@ -11,7 +11,7 @@ namespace CalibrationNewGUI.Model
         public bool CorrectionMode { get; set; }    // 교정 모드(T:전류, F:저항)
         public int ShuntStandardCurr { get; set; }  // 기준 션트 전류(mA)
         public int ShuntNewCurr { get; set; }       // 교정 션트 전류(mA)
-        public int ShuntNewReg { get; set; }        // 교정 션트 저항(uOhm)
+        public float ShuntNewReg { get; set; }        // 교정 션트 저항(uOhm)
         public int StandardVoltMeter { get; set; }  // 기준 전압미터
         public int NewVoltMeter { get; set; }       // 보정 전압미터
         public float shuntReg { get; set; }         // 션트 보정값과 표준값을 사용한 실제 보정치(보정치 = 표준/보정)
@@ -47,7 +47,7 @@ namespace CalibrationNewGUI.Model
             CorrectionMode = Convert.ToBoolean(ConfigFile.Read("Shunt", "CorrectionMode", "true"));
             ShuntStandardCurr = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntStandardCurr", "50000"));
             ShuntNewCurr = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntNewCurr", "50000"));
-            ShuntNewReg = Convert.ToInt32(ConfigFile.Read("Shunt", "ShuntNewReg", "0"));
+            ShuntNewReg = (float)Convert.ToDouble(ConfigFile.Read("Shunt", "ShuntNewReg", "0"));
             StandardVoltMeter = Convert.ToInt32(ConfigFile.Read("Shunt", "StandardVoltMeter", "4200"));
             NewVoltMeter = Convert.ToInt32(ConfigFile.Read("Shunt", "NewVoltMeter", "4200"));
         }
