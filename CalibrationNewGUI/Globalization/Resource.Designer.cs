@@ -378,7 +378,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   허용오차과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   허용오차(±)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string ErrRange {
             get {
@@ -478,7 +478,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   입력전류 상한(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   입력전류 상한(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MaximumInputCurr {
             get {
@@ -577,7 +577,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   입력전류 하한(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   입력전류 하한(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string MinimumInputCurr {
             get {

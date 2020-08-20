@@ -224,10 +224,59 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
-                            <Run Text="{x:Static glob:Resource.ErrRange}"/> : <Run Style="{StaticResource CalErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
-                            / <Run Text="{x:Static glob:Resource.Delay}"/> : <Run Text="{Binding CalMeaInfo.CalDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
-                        </TextBlock>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text="(±)"/><Run Text=" : "/><Run>
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Style.BasedOn>
+                                            <Style TargetType="{x:Type Run}">
+                                                <Setter Property="FontFamily" Value="NanumGothic"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </Style>
+                                        </Style.BasedOn>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VoltCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="{Binding CalMeaInfo.CalErrRangeVolt}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=CurrCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="{Binding CalMeaInfo.CalErrRangeCurr}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run>
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Style.BasedOn>
+                                            <Style TargetType="{x:Type Run}">
+                                                <Setter Property="FontFamily" Value="NanumGothic"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </Style>
+                                        </Style.BasedOn>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VoltCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="mV"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=CurrCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="mA"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text="ms">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run></TextBlock>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
@@ -281,12 +330,12 @@
                 <!--포인트 그리드-->
                 <DataGrid ItemsSource="{Binding CalPointTable}" SelectedIndex="{Binding CalGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="NO"           Binding="{Binding NO}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="전압(mV)"     Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="전류(mA)"     Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="센싱전압(mV)" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="센싱전류(mA)" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="실측값"       Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -341,10 +390,59 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center">
-                            <Run Text="{x:Static glob:Resource.ErrRange}"/> : <Run Style="{StaticResource MeaErrRateStyle}"/><Run Style="{StaticResource CalTypeText}"/>
-                            / <Run Text="{x:Static glob:Resource.Delay}"/> : <Run Text="{Binding CalMeaInfo.MeaDelayTime}" Style="{StaticResource RunBaseStyle}"/><Run Text="ms" Style="{StaticResource RunBaseStyle}"/>
-                        </TextBlock>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text="(±)"/><Run Text=" : "/><Run>
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Style.BasedOn>
+                                            <Style TargetType="{x:Type Run}">
+                                                <Setter Property="FontFamily" Value="NanumGothic"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </Style>
+                                        </Style.BasedOn>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VoltCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="{Binding CalMeaInfo.MeaErrRangeVolt}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=CurrCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="{Binding CalMeaInfo.MeaErrRangeCurr}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run>
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Style.BasedOn>
+                                            <Style TargetType="{x:Type Run}">
+                                                <Setter Property="FontFamily" Value="NanumGothic"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                            </Style>
+                                        </Style.BasedOn>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=VoltCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="mV"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsChecked, ElementName=CurrCalBtn}" Value="True">
+                                                <Setter Property="Text" Value="mA"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.MeaDelayTime}">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text="ms">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run></TextBlock>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
@@ -389,12 +487,12 @@
                 <!--포인트 그리드-->
                 <DataGrid ItemsSource="{Binding MeaPointTable}" SelectedIndex="{Binding MeaGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="NO"           Binding="{Binding NO}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="전압(mV)"     Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="전류(mA)"     Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="센싱전압(mV)" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="센싱전류(mA)" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="실측값"       Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -506,9 +604,7 @@
                             </StackPanel>
                             <!-- 채널1 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
-                                    CH1 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
-                                </TextBlock>
+                                <TextBlock Style="{StaticResource MonitoringItemText}"><Run Text="CH1 "/><Run Text="전류"/><Run Text="(m"/><Run Text="A"/><Run Text=")"/></TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -530,9 +626,7 @@
                             </StackPanel>
                             <!-- 채널2 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
-                                    CH2 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
-                                </TextBlock>
+                                <TextBlock Style="{StaticResource MonitoringItemText}"><Run Text="CH2 "/><Run Text="전류"/><Run Text="(m"/><Run Text="A"/><Run Text=")"/></TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
