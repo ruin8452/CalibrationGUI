@@ -65,6 +65,7 @@ namespace CalibrationNewGUI.ViewModel
         public CalMeasureInfo CalMeaInfo { get; set; }
         public OthersInfo OtherInfos { get; set; }
         public AutoSaveInfo AutoInfos { get; set; }
+        public ShuntInfo ShuntInfos { get; set; }
         public Mcu Mcu { get; set; }
         public Dmm Dmm { get; set; }
 
@@ -142,6 +143,7 @@ namespace CalibrationNewGUI.ViewModel
             CalMeaInfo = CalMeasureInfo.GetObj();
             OtherInfos = OthersInfo.GetObj();
             AutoInfos = AutoSaveInfo.GetObj();
+            ShuntInfos = ShuntInfo.GetObj();
             Mcu = Mcu.GetObj();
             Dmm = Dmm.GetObj();
 

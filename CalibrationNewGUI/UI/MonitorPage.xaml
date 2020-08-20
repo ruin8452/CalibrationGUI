@@ -183,7 +183,7 @@
     <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="321"/>
-            <RowDefinition Height="230"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -587,7 +587,9 @@
             <!--Monitoing Box-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
-                    <TextBlock Text="{x:Static glob:Resource.MonitoringBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold">
+                        CH <Run Text="{x:Static glob:Resource.MonitoringBox}"/>
+                    </TextBlock>
 
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="10">
@@ -604,7 +606,9 @@
                             </StackPanel>
                             <!-- 채널1 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}"><Run Text="CH1 "/><Run Text="전류"/><Run Text="(m"/><Run Text="A"/><Run Text=")"/></TextBlock>
+                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                    CH1 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
+                                </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -626,7 +630,9 @@
                             </StackPanel>
                             <!-- 채널2 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}"><Run Text="CH2 "/><Run Text="전류"/><Run Text="(m"/><Run Text="A"/><Run Text=")"/></TextBlock>
+                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                    CH2 <Run Text="{x:Static glob:Resource.Curr}"/>(mV)
+                                </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
                                 <Grid Width="190">
                                     <TextBlock Text="8888888.8" Foreground="#FF2A2D46" Style="{StaticResource MonitoringText}"/>
@@ -636,12 +642,14 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Separator Background="#FF3B456B"/>
+                    <TextBlock Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold">
+                        DMM <Run Text="{x:Static glob:Resource.MonitoringBox}"/>
+                    </TextBlock>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Margin="10">
                             <!-- Dmm1 Volt -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,0">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
                                 </TextBlock>
@@ -657,6 +665,22 @@
                 </StackPanel>
             </Border>
 
+            <!-- 션트 모니터링-->
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+                <StackPanel>
+                    <TextBlock Text="{x:Static glob:Resource.Shunt}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewReg}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+                </StackPanel>
+            </Border>
+            
             <!--AutoSave Box-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Style="{StaticResource Hidden}">
                 <StackPanel>

@@ -17,6 +17,19 @@ namespace CalibrationNewGUI.ViewModel.Setting
         public ShuntSettingVM()
         {
             ShuntInfos = ShuntInfo.GetObj();
+            if (ShuntInfos.CorrectionMode == true)
+                ShuntInfos.shuntReg = ShuntInfos.ShuntStandardCurr / ShuntInfos.ShuntNewCurr; //첫 실행 할때 션트 보정치를 계산
+            else
+            {
+                if (ShuntInfos.ShuntNewReg == 0)
+                {
+                    ShuntInfos.shuntReg = 1;
+                }
+                else
+                {
+                    ShuntInfos.shuntReg = (1 / (ShuntInfos.ShuntNewReg * 0.001f)) * 1000;
+                }
+            }
                 
             SaveClick = new RelayCommand(DataSave);
         }
@@ -44,7 +57,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
                     ShuntInfos.shuntReg = (1 / (ShuntInfos.ShuntNewReg * 0.001f)) * 1000;
                 }
             }
-            //MessageBox.Show(App.GetString("SaveOkMsg"));
+            MessageBox.Show(App.GetString("SaveOkMsg"));
         }
     }
 }

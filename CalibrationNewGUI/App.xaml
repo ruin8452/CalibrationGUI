@@ -13,6 +13,7 @@
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="UI/Style/UI_Animation.xaml"/>
                     <ResourceDictionary Source="UI/Style/UI_ButtonStyle.xaml"/>
+                    <ResourceDictionary Source="UI/Style/UI_TextStyle.xaml"/>
 
                 <ResourceDictionary>
                     <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CalibrationNewGUI.ViewModel"/>
