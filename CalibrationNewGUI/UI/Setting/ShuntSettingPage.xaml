@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
       xmlns:conv="clr-namespace:CalibrationNewGUI.UI.Converter"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
       xmlns:local="clr-namespace:CalibrationNewGUI.UI.Setting"
       mc:Ignorable="d" 
       Title="OthersSettingPage">
@@ -78,7 +80,16 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox x:Name="StandShuntText" Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                        <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1">
+                            <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewTextInput">
+                                    <mvvm:EventToCommand Command="{Binding PositiveNumChecker}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <mvvm:EventToCommand Command="{Binding ActiveNumChecker}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                        </TextBox>
 
                         <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
                         <TextBox x:Name="CorrShuntText" Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>

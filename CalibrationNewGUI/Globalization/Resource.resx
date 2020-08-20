@@ -388,6 +388,12 @@
     <value>기타</value>
     <comment>세팅 메뉴</comment>
   </data>
+  <data name="OutCurr" xml:space="preserve">
+    <value>센싱전류(mA)</value>
+  </data>
+  <data name="OutDmm" xml:space="preserve">
+    <value>실측값</value>
+  </data>
   <data name="OutputLimit" xml:space="preserve">
     <value>출력 한계값</value>
     <comment>오토스캔 페이지</comment>
@@ -399,6 +405,9 @@
   <data name="OutputStop" xml:space="preserve">
     <value>출력 중지</value>
     <comment>수동CAL 윈도우</comment>
+  </data>
+  <data name="OutVolt" xml:space="preserve">
+    <value>센싱전압(mV)</value>
   </data>
   <data name="OverValueErrMsg" xml:space="preserve">
     <value>최대값 보다 큰 값은 입력할 수 없습니다.</value>
@@ -471,6 +480,12 @@
   <data name="SerialNum" xml:space="preserve">
     <value>시리얼 번호</value>
     <comment>MainWindow</comment>
+  </data>
+  <data name="SetCurr" xml:space="preserve">
+    <value>전류(mA)</value>
+  </data>
+  <data name="SetVolt" xml:space="preserve">
+    <value>전압(mV)</value>
   </data>
   <data name="Shunt" xml:space="preserve">
     <value>션트</value>

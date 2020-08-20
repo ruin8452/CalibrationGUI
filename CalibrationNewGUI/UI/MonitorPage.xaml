@@ -224,7 +224,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text=" ± "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="{x:Static glob:Resource.ErrRange}"/><Run Text=" : "/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -262,7 +262,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Run.Style>
-                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
+                            </Run><Run Text=" / "/><Run Text="{x:Static glob:Resource.Delay}"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -338,11 +338,11 @@
                 <DataGrid ItemsSource="{Binding CalPointTable}" SelectedIndex="{Binding CalGridSelectedIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"           Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="전압(mV)"     Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="전류(mA)"     Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="센싱전압(mV)" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="센싱전류(mA)" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="실측값"       Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetVolt}" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetCurr}" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutVolt}" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutCurr}" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutDmm}"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -397,7 +397,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text=" ± "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="{x:Static glob:Resource.ErrRange}"/><Run Text=" : "/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -435,7 +435,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Run.Style>
-                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.MeaDelayTime}">
+                            </Run><Run Text=" / "/><Run Text="{x:Static glob:Resource.Delay}"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.MeaDelayTime}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
