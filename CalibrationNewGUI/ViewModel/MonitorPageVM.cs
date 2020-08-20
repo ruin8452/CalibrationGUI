@@ -970,6 +970,8 @@ namespace CalibrationNewGUI.ViewModel
 
                 CsvFile.Save(AutoSaveFilePath, true, autoSaveData);
             }
+
+            SaveCheck.SaveCheck(AutoSaveFilePath, McuInfo.GetObj().McuSerialNum);
         }
 
         /**

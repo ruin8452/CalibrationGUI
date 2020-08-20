@@ -29,15 +29,6 @@
             <Setter Property="CaretBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="0,0,0,7"/>
-            <Setter Property="Tag" Value="{Binding a}"/>
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="Tag" Value="True"/>
-                </Trigger>
-                <Trigger Property="Validation.HasError" Value="False">
-                    <Setter Property="Tag" Value="False"/>
-                </Trigger>
-            </Style.Triggers>
         </Style>
         <Style x:Key="SaveBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="FontSize" Value="16"/>
@@ -133,7 +124,7 @@
                 </StackPanel>
             </Grid>
 
-            <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+            <Button x:Name="SaveBtn" Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
         </StackPanel>
     </ScrollViewer>
