@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.Model
 {
+    [ImplementPropertyChanged]
     public class McuInfo
     {
         public string McuSerialNum { get; set; }

@@ -2,12 +2,14 @@
 using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace CalibrationNewGUI.ViewModel.Setting
 {
     [ImplementPropertyChanged]
     public class ShuntSettingVM
     {
+        public bool a { get; set; }
         public ShuntInfo ShuntInfos { get; set; }
 
         public RelayCommand SaveClick { get; set; }
@@ -34,6 +36,8 @@ namespace CalibrationNewGUI.ViewModel.Setting
 
         public void DataSave()
         {
+            bool b = a;
+
             ShuntInfos.Save();
             if (ShuntInfos.CorrectionMode == true)
                 ShuntInfos.shuntReg = (float)ShuntInfos.ShuntStandardCurr / (float)ShuntInfos.ShuntNewCurr; //첫 실행 할때 션트 보정치를 계산

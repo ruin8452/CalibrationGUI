@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.Model
 {
+    [ImplementPropertyChanged]
     public class ShuntInfo
     {
         public bool CorrectionMode { get; set; }    // 교정 모드(T:전류, F:저항)
