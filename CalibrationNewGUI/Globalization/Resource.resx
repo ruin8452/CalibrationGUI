@@ -178,11 +178,11 @@
     <comment>MainWindow</comment>
   </data>
   <data name="CorrectionShuntCurr" xml:space="preserve">
-    <value>교정 션트 측정전류(mA)</value>
+    <value>교정 전류(mA)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionShuntReg" xml:space="preserve">
-    <value>교정 션트 저항(uΩ)</value>
+    <value>교정 저항(uΩ)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionVoltMeter" xml:space="preserve">
@@ -390,9 +390,11 @@
   </data>
   <data name="OutCurr" xml:space="preserve">
     <value>센싱전류(mA)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OutDmm" xml:space="preserve">
     <value>실측값</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OutputLimit" xml:space="preserve">
     <value>출력 한계값</value>
@@ -408,6 +410,7 @@
   </data>
   <data name="OutVolt" xml:space="preserve">
     <value>센싱전압(mV)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OverValueErrMsg" xml:space="preserve">
     <value>최대값 보다 큰 값은 입력할 수 없습니다.</value>
@@ -470,7 +473,8 @@
     <comment>자동저장 세팅 페이지</comment>
   </data>
   <data name="SaveOkMsg" xml:space="preserve">
-    <value>저장 완료</value>
+    <value>저장 완료
+(주의 : 잘못된 데이터는 저장되지 않습니다.)</value>
     <comment>메세지 박스</comment>
   </data>
   <data name="SelectCh" xml:space="preserve">
@@ -482,10 +486,12 @@
     <comment>MainWindow</comment>
   </data>
   <data name="SetCurr" xml:space="preserve">
-    <value>전류(mA)</value>
+    <value>설정전류(mA)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="SetVolt" xml:space="preserve">
-    <value>전압(mV)</value>
+    <value>설정전압(mV)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="Shunt" xml:space="preserve">
     <value>션트</value>
@@ -500,11 +506,11 @@
     <comment>세팅 메뉴</comment>
   </data>
   <data name="StandardShuntCurr" xml:space="preserve">
-    <value>표준 션트 측정전류(mA)</value>
+    <value>표준 전류(mA)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="StandardShuntReg" xml:space="preserve">
-    <value>표준 션트 저항(nΩ)</value>
+    <value>표준 저항(nΩ)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="StandartVoltMeter" xml:space="preserve">

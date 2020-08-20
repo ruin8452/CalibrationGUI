@@ -178,11 +178,11 @@
     <comment>MainWindow</comment>
   </data>
   <data name="CorrectionShuntCurr" xml:space="preserve">
-    <value>Correction Shunt Measuring Curr(mA)</value>
+    <value>Correction Curr(mA)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionShuntReg" xml:space="preserve">
-    <value>Correction Shunt Register(uΩ)</value>
+    <value>Correction Register(uΩ)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="CorrectionVoltMeter" xml:space="preserve">
@@ -389,9 +389,11 @@ Do you want to apply?</value>
   </data>
   <data name="OutCurr" xml:space="preserve">
     <value>Sensing Curr(mA)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OutDmm" xml:space="preserve">
     <value>Dmm</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OutputLimit" xml:space="preserve">
     <value>Output Limit</value>
@@ -407,6 +409,7 @@ Do you want to apply?</value>
   </data>
   <data name="OutVolt" xml:space="preserve">
     <value>Sensing Volt(mV)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="OverValueErrMsg" xml:space="preserve">
     <value>You cannot enter a value greater than the maximum value.</value>
@@ -469,7 +472,8 @@ Do you want to apply?</value>
     <comment>자동저장 세팅 페이지</comment>
   </data>
   <data name="SaveOkMsg" xml:space="preserve">
-    <value>Save Complete</value>
+    <value>Save Complete
+(Caution: Incorrect data is not saved.)</value>
     <comment>메세지 박스</comment>
   </data>
   <data name="SelectCh" xml:space="preserve">
@@ -481,10 +485,12 @@ Do you want to apply?</value>
     <comment>MainWindow</comment>
   </data>
   <data name="SetCurr" xml:space="preserve">
-    <value>Curr(mA)</value>
+    <value>Set Curr(mA)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="SetVolt" xml:space="preserve">
-    <value>Volt(mV)</value>
+    <value>Set Volt(mV)</value>
+    <comment>모니터링 페이지</comment>
   </data>
   <data name="Shunt" xml:space="preserve">
     <value>Shunt</value>
@@ -499,11 +505,11 @@ Do you want to apply?</value>
     <comment>세팅 메뉴</comment>
   </data>
   <data name="StandardShuntCurr" xml:space="preserve">
-    <value>Standard Shunt Measuring Curr(mA)</value>
+    <value>Standard Curr(mA)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="StandardShuntReg" xml:space="preserve">
-    <value>Standard Shunt Register(nΩ)</value>
+    <value>Standard Register(nΩ)</value>
     <comment>션트 세팅 페이지</comment>
   </data>
   <data name="StandartVoltMeter" xml:space="preserve">

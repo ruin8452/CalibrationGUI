@@ -196,7 +196,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   교정 션트 측정전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   교정 전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CorrectionShuntCurr {
             get {
@@ -205,7 +205,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   교정 션트 저항(uΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   교정 저항(uΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CorrectionShuntReg {
             get {
@@ -856,7 +856,8 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   저장 완료과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   저장 완료
+        ///(주의 : 잘못된 데이터는 저장되지 않습니다.)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string SaveOkMsg {
             get {
@@ -883,7 +884,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   설정전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string SetCurr {
             get {
@@ -892,7 +893,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   전압(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   설정전압(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string SetVolt {
             get {
@@ -928,7 +929,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   표준 션트 측정전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   표준 전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string StandardShuntCurr {
             get {
@@ -937,7 +938,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   표준 션트 저항(nΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   표준 저항(nΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string StandardShuntReg {
             get {

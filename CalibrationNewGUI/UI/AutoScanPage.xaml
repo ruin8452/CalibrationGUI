@@ -230,11 +230,11 @@
                 <DataGrid ItemsSource="{Binding ScanPointTable}" SelectedIndex="{Binding ScanTableSelectIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"           Binding="{Binding NO}"      IsReadOnly="True"/>
-                        <DataGridTextColumn Header="전압(mV)"     Binding="{Binding SetVolt}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="전류(mA)"     Binding="{Binding SetCurr}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="센싱전압(mV)" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="센싱전류(mA)" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="실측값"       Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetVolt}" Binding="{Binding SetVolt}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetCurr}" Binding="{Binding SetCurr}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutVolt}" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutCurr}" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutDmm}"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.###'}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -278,11 +278,11 @@
                 <DataGrid ItemsSource="{Binding McuPointTable}" SelectedIndex="{Binding McuTableSelectIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="NO"           Binding="{Binding NO}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="전압(mV)"     Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="전류(mA)"     Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="센싱전압(mV)" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="센싱전류(mA)" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="실측값"       Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetVolt}" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.SetCurr}" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutVolt}" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutCurr}" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="{x:Static glob:Resource.OutDmm}"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
