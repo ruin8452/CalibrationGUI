@@ -224,7 +224,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text="(±)"/><Run Text=" : "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text=" ± "/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -262,7 +262,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Run.Style>
-                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
+                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -270,6 +270,13 @@
                                     </Style>
                                 </Run.Style>
                             </Run><Run Text="ms">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text=" / "/><Run Text="재측정"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.CalErrRetryCnt}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -390,7 +397,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text="(±)"/><Run Text=" : "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="허용오차"/><Run Text=" ± "/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -428,7 +435,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Run.Style>
-                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" : "/><Run Text="{Binding CalMeaInfo.MeaDelayTime}">
+                            </Run><Run Text=" / "/><Run Text="딜레이"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.MeaDelayTime}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -436,6 +443,13 @@
                                     </Style>
                                 </Run.Style>
                             </Run><Run Text="ms">
+                                <Run.Style>
+                                    <Style TargetType="{x:Type Run}">
+                                        <Setter Property="FontFamily" Value="NanumGothic"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </Run.Style>
+                            </Run><Run Text=" / "/><Run Text="재측정"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.MeaErrRetryCnt}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
