@@ -115,23 +115,23 @@ namespace CalibrationNewGUI.ViewModel.Func
             meaTimer.Stop();
         }
 
-        public void CalSeqSet(char type, int chNum, int delay, object[][] calPointList, bool isFullRun)
+        public void CalSeqSet(char type, int chNum, int delay, int errRange, object[][] calPointList, bool isFullRun)
         {
             calType = type;
             calChNum = chNum;
             calDelay = delay;
             CalPointList = calPointList;
-            calErrRange = type == 'V' ? calInfo.CalErrRangeVolt : calInfo.CalErrRangeCurr;
+            calErrRange = errRange;
             IsFullRun = isFullRun;
         }
 
-        public void MeaSeqSet(char type, int chNum, int delay, object[][] meaPointList, bool isFullRun)
+        public void MeaSeqSet(char type, int chNum, int delay, int errRange, object[][] meaPointList, bool isFullRun)
         {
             meaType = type;
             meaChNum = chNum;
             meaDelay = delay;
             MeaPointList = meaPointList;
-            meaErrRange = type == 'V' ? calInfo.MeaErrRangeVolt : calInfo.MeaErrRangeCurr;
+            meaErrRange = errRange;
             IsFullRun = isFullRun;
         }
 
@@ -320,7 +320,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY1:
-                    Util.Delay(calInfo.MeaDelayTime * 0.001);
+                    Util.Delay(meaDelay * 0.001);
                     OnMeaMonitor(new CalMonitorArgs(PointIndex));
                     isMeaEnd = false;
                     break;
@@ -394,7 +394,7 @@ namespace CalibrationNewGUI.ViewModel.Func
                     break;
 
                 case MeaSeq.DELAY2:
-                    Util.Delay(calInfo.MeaDelayTime * 0.001);
+                    Util.Delay(meaDelay * 0.001);
                     isMeaEnd = true;
                     break;
             }

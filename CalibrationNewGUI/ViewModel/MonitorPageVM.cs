@@ -69,6 +69,7 @@ namespace CalibrationNewGUI.ViewModel
         public Mcu Mcu { get; set; }
         public Dmm Dmm { get; set; }
 
+        bool msgFlag = true;
         int ChNumber = 1;
         Calibration calManager = new Calibration();
 
@@ -349,7 +350,7 @@ namespace CalibrationNewGUI.ViewModel
                 row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempPoint.Add(row.ItemArray);
             }
-            calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempPoint.ToArray(), false);
+            calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.CalErrRangeVolt : CalMeaInfo.CalErrRangeCurr, tempPoint.ToArray(), false);
             calManager.CalStart();
         }
 
@@ -398,7 +399,7 @@ namespace CalibrationNewGUI.ViewModel
                 tempPoint.Add(row.ItemArray);
             }
 
-            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, tempPoint.ToArray(), false);
+            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -691,8 +692,10 @@ namespace CalibrationNewGUI.ViewModel
                 tempMeaPoint.Add(row.ItemArray);
             }
 
-            calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempCalPoint.ToArray(), true);
-            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, tempMeaPoint.ToArray(), true);
+            msgFlag = false;
+
+            calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.CalErrRangeVolt : CalMeaInfo.CalErrRangeCurr, tempCalPoint.ToArray(), true);
+            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempMeaPoint.ToArray(), true);
             calManager.CalStart();
         }
 
@@ -939,7 +942,10 @@ namespace CalibrationNewGUI.ViewModel
          */
         private void CalManager_CalEnd(object sender, EventArgs e)
         {
-            MessageBox.Show("CAL OK");
+            if(msgFlag)
+                MessageBox.Show("CAL OK");
+            else
+                msgFlag = true;
 
             if (!AutoInfos.AutoSaveFlag)
                 return;

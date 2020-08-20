@@ -228,8 +228,9 @@ namespace CalibrationNewGUI.ViewModel
 
 
             string[] cloumnName = new string[] { "NO", "SetVolt", "SetCurr", "Correction", "OutVolt", "OutCurr", "OutDMM", "IsRangeIn" };
+            Type[] cloumnType = new Type[] { typeof(int), typeof(float), typeof(float), typeof(float), typeof(double), typeof(double), typeof(double), typeof(bool) };
             ScanPointTable = new DataTable();
-            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, cloumnName);
+            ScanPointTable = TableManager.ColumnAdd(ScanPointTable, cloumnName, cloumnType);
 
             McuPointTable = new DataTable();
             McuPointTable = TableManager.ColumnAdd(McuPointTable, cloumnName);
@@ -317,7 +318,7 @@ namespace CalibrationNewGUI.ViewModel
             foreach (DataRow row in ScanPointTable.Rows)
                 tempPoint.Add(row.ItemArray);
 
-            calManager.MeaSeqSet(ModeSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, tempPoint.ToArray(), false);
+            calManager.MeaSeqSet(ModeSelecte ? 'V' : 'I', ChSelected ? 1 : 2, Delay, ModeSelecte ? voltErrRange : currErrRange, tempPoint.ToArray(), false);
             calManager.MeaStart();
         }
 
@@ -407,7 +408,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 float tempVolt = ScanPointTable.Rows[e.Index].Field<float>("SetVolt");
 
-                if (Math.Abs(tempVolt - Dmm.Volt) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempVolt - Dmm.Volt) > voltErrRange)
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = true;
@@ -418,7 +419,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 float tempCurr = ScanPointTable.Rows[e.Index].Field<float>("SetCurr");
 
-                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempCurr - Dmm.Curr) > currErrRange)
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = true;
