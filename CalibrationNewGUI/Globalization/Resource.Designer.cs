@@ -205,7 +205,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   교정 션트 저항(nΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   교정 션트 저항(uΩ)과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CorrectionShuntReg {
             get {
