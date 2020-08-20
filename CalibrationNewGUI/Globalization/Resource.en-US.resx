@@ -387,6 +387,12 @@ Do you want to apply?</value>
     <value>Other</value>
     <comment>세팅 메뉴</comment>
   </data>
+  <data name="OutCurr" xml:space="preserve">
+    <value>Sensing Curr(mA)</value>
+  </data>
+  <data name="OutDmm" xml:space="preserve">
+    <value>Dmm</value>
+  </data>
   <data name="OutputLimit" xml:space="preserve">
     <value>Output Limit</value>
     <comment>오토스캔 페이지</comment>
@@ -398,6 +404,9 @@ Do you want to apply?</value>
   <data name="OutputStop" xml:space="preserve">
     <value>Output Stop</value>
     <comment>수동CAL 윈도우</comment>
+  </data>
+  <data name="OutVolt" xml:space="preserve">
+    <value>Sensing Volt(mV)</value>
   </data>
   <data name="OverValueErrMsg" xml:space="preserve">
     <value>You cannot enter a value greater than the maximum value.</value>
@@ -470,6 +479,12 @@ Do you want to apply?</value>
   <data name="SerialNum" xml:space="preserve">
     <value>Serial Number</value>
     <comment>MainWindow</comment>
+  </data>
+  <data name="SetCurr" xml:space="preserve">
+    <value>Curr(mA)</value>
+  </data>
+  <data name="SetVolt" xml:space="preserve">
+    <value>Volt(mV)</value>
   </data>
   <data name="Shunt" xml:space="preserve">
     <value>Shunt</value>

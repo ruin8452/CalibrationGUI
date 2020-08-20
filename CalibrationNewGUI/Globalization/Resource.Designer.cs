@@ -667,6 +667,24 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   센싱전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string OutCurr {
+            get {
+                return ResourceManager.GetString("OutCurr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   실측값과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string OutDmm {
+            get {
+                return ResourceManager.GetString("OutDmm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   출력 한계값과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string OutputLimit {
@@ -690,6 +708,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string OutputStop {
             get {
                 return ResourceManager.GetString("OutputStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   센싱전압(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string OutVolt {
+            get {
+                return ResourceManager.GetString("OutVolt", resourceCulture);
             }
         }
         
@@ -852,6 +879,24 @@ namespace CalibrationNewGUI.Globalization {
         public static string SerialNum {
             get {
                 return ResourceManager.GetString("SerialNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전류(mA)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string SetCurr {
+            get {
+                return ResourceManager.GetString("SetCurr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   전압(mV)과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string SetVolt {
+            get {
+                return ResourceManager.GetString("SetVolt", resourceCulture);
             }
         }
         
