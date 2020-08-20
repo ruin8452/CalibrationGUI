@@ -1,4 +1,5 @@
 ﻿using CalibrationNewGUI.Message;
+using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight.Messaging;
 using J_Project.Communication.CommModule;
 using Modbus.Device;
@@ -56,6 +57,7 @@ namespace CalibrationNewGUI.Equipment
         public CalBuffer calBuffer = new CalBuffer();
 
         /////////////////////////////////////////////////////////////////////
+        public McuInfo McuInfos { get; set; }//mcu 정보 저장용
         public double Ch1Volt { get; set; }
         public double Ch1Curr { get; set; }
         public double Ch2Volt { get; set; }
@@ -82,6 +84,7 @@ namespace CalibrationNewGUI.Equipment
 
         private Mcu()
         {
+            McuInfos = McuInfo.GetObj();
             moniBack.DoWork += new DoWorkEventHandler((object send, DoWorkEventArgs e) =>
             {
                 //McuMonitoring(); //기존 모니터링(시리얼)
@@ -441,7 +444,7 @@ namespace CalibrationNewGUI.Equipment
                 Ch1Fault = MdMasterBuffer[9];
                 Ch2Fault = MdMasterBuffer[10];
                 Version = MdMasterBuffer[11];
-
+                McuInfos.McuVersion = Version.ToString();
                 OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}", true);
             }
         }

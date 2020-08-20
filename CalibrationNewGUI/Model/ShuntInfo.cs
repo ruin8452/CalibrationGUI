@@ -11,7 +11,7 @@ namespace CalibrationNewGUI.Model
     public class ShuntInfo
     {
         public bool CorrectionMode { get; set; }    // 교정 모드(T:전류, F:저항)
-        public int ShuntStandardCurr { get; set; }  // 기준 션트 전류(mA)
+        public int ShuntStandardCurr{ get; set; }  // 기준 션트 전류(mA)
         public int ShuntNewCurr { get; set; }       // 교정 션트 전류(mA)
         public float ShuntNewReg { get; set; }        // 교정 션트 저항(uOhm)
         public int StandardVoltMeter { get; set; }  // 기준 전압미터
