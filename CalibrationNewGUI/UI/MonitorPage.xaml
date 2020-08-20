@@ -183,7 +183,7 @@
     <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="321"/>
-            <RowDefinition Height="230"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -284,9 +284,9 @@
                         <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -392,9 +392,9 @@
                         <DataGridTextColumn Header="NO"      Binding="{Binding NO}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="SetVolt" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="SetCurr" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.###'}" IsReadOnly="True">
+                        <DataGridTextColumn Header="OutVolt" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutCurr" Binding="{Binding OutCurr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="OutDMM"  Binding="{Binding OutDMM,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
                                     <Style.Triggers>
@@ -489,7 +489,9 @@
             <!--Monitoing Box-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
-                    <TextBlock Text="{x:Static glob:Resource.MonitoringBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold">
+                        CH <Run Text="{x:Static glob:Resource.MonitoringBox}"/>
+                    </TextBlock>
 
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="10">
@@ -542,12 +544,14 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Separator Background="#FF3B456B"/>
+                    <TextBlock Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold">
+                        DMM <Run Text="{x:Static glob:Resource.MonitoringBox}"/>
+                    </TextBlock>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Margin="10">
                             <!-- Dmm1 Volt -->
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="24,0,0,0">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
                                 </TextBlock>
@@ -563,6 +567,22 @@
                 </StackPanel>
             </Border>
 
+            <!-- 션트 모니터링-->
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+                <StackPanel>
+                    <TextBlock Text="{x:Static glob:Resource.Shunt}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
+                    <TextBox Text="{Binding ShuntInfos.ShuntNewReg}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+                </StackPanel>
+            </Border>
+            
             <!--AutoSave Box-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Style="{StaticResource Hidden}">
                 <StackPanel>

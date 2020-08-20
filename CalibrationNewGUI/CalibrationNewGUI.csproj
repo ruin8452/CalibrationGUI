@@ -124,6 +124,7 @@
     <Compile Include="UI\AutoScanPage.xaml.cs">
       <DependentUpon>AutoScanPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Converter\ValidationError.cs" />
     <Compile Include="UI\Converter\InvertBool.cs" />
     <Compile Include="UI\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
@@ -273,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Style\UI_Animation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Style\UI_TextStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

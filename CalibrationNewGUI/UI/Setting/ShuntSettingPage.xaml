@@ -11,7 +11,8 @@
 
     <Page.Resources>
         <conv:InvertBool x:Key="InvertBoolConv"/>
-        
+        <conv:ValidationError x:Key="ErrCheck"/>
+
         <Style x:Key="CalSetText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="White"/>
@@ -77,10 +78,10 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                        <TextBox x:Name="StandShuntText" Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
 
                         <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                        <TextBox Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                        <TextBox x:Name="CorrShuntText" Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
                     </Grid>
 
                     <Border Height="20"/>
@@ -96,7 +97,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                        <TextBox Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
+                        <TextBox x:Name="CorrRegText" Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
 
@@ -124,7 +125,7 @@
                 </StackPanel>
             </Grid>
 
-            <Button x:Name="SaveBtn" Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+            <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
 
         </StackPanel>
     </ScrollViewer>

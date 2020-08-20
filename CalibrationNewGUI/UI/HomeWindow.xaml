@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
-        Title="KJ Calibration GUI" Height="800" Width="1200">
+        Title="KJ Calibration GUI" Height="800" Width="1250">
 
     <Window.Resources>
         <ui:SettingPage x:Key="SettingPage"/>
