@@ -35,5 +35,6 @@ namespace CalibrationNewGUI.UI
             else
                 LogScroll.Height = 0;
         }
+
     }
 }

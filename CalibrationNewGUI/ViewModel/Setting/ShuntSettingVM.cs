@@ -38,7 +38,14 @@ namespace CalibrationNewGUI.ViewModel.Setting
         {
             ShuntInfos.Save();
             if (ShuntInfos.CorrectionMode == true)
-                ShuntInfos.shuntReg = ShuntInfos.ShuntStandardCurr / ShuntInfos.ShuntNewCurr;
+            {
+                if (ShuntInfos.ShuntStandardCurr == 0 || ShuntInfos.ShuntNewCurr == 0)
+                {
+                    ShuntInfos.shuntReg = 1 * 1000;
+                }
+                else
+                    ShuntInfos.shuntReg = ((float)ShuntInfos.ShuntStandardCurr / (float)ShuntInfos.ShuntNewCurr) * 1000; //첫 실행 할때 션트 보정치를 계산
+            }
             else
             {
                 if (ShuntInfos.ShuntNewReg == 0)

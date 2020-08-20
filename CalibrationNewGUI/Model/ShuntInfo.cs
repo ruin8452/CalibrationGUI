@@ -52,6 +52,27 @@ namespace CalibrationNewGUI.Model
             ShuntNewReg = (float)Convert.ToDouble(ConfigFile.Read("Shunt", "ShuntNewReg", "0"));
             StandardVoltMeter = Convert.ToInt32(ConfigFile.Read("Shunt", "StandardVoltMeter", "4200"));
             NewVoltMeter = Convert.ToInt32(ConfigFile.Read("Shunt", "NewVoltMeter", "4200"));
+            //션트 보정값 계산
+            if (CorrectionMode == true)
+            {
+                if(ShuntStandardCurr == 0 || ShuntNewCurr == 0)
+                {
+                    shuntReg = 1 * 1000;
+                }
+                else
+                    shuntReg = ((float)ShuntStandardCurr / (float)ShuntNewCurr) * 1000; //첫 실행 할때 션트 보정치를 계산
+            }
+            else
+            {
+                if (ShuntNewReg == 0)
+                {
+                    shuntReg = 1 * 1000;
+                }
+                else
+                {
+                    shuntReg = (1 / (ShuntNewReg * 0.001f)) * 1000;
+                }
+            }
         }
     }
 }

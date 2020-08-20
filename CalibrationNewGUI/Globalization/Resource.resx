@@ -260,7 +260,7 @@
     <comment>메세지 박스</comment>
   </data>
   <data name="ErrRange" xml:space="preserve">
-    <value>허용오차</value>
+    <value>허용오차(±)</value>
     <comment>오토스캔 페이지</comment>
   </data>
   <data name="File" xml:space="preserve">
@@ -305,7 +305,7 @@
     <comment>메세지 박스</comment>
   </data>
   <data name="MaximumInputCurr" xml:space="preserve">
-    <value>입력전류 상한(mV)</value>
+    <value>입력전류 상한(mA)</value>
     <comment>기타 세팅 페이지</comment>
   </data>
   <data name="MaximumInputVolt" xml:space="preserve">
@@ -349,7 +349,7 @@
     <comment>메세지 박스</comment>
   </data>
   <data name="MinimumInputCurr" xml:space="preserve">
-    <value>입력전류 하한(mV)</value>
+    <value>입력전류 하한(mA)</value>
     <comment>기타 세팅 페이지</comment>
   </data>
   <data name="MinimumInputVolt" xml:space="preserve">
