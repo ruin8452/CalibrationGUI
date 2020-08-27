@@ -456,6 +456,9 @@
     <value>포트 번호</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="PreView" xml:space="preserve">
+    <value>MCU 포인트 미리보기</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>저항</value>
   </data>

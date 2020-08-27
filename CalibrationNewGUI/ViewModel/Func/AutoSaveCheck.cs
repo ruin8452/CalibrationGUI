@@ -44,40 +44,60 @@ namespace CalibrationNewGUI.ViewModel.Func
             if (!filterData.Any())
                 return;
 
-            foreach(var a in filterData)
+            foreach(var data in filterData)
             {
-                if (Array.Exists(a, exists => exists == "CAL"))
+                if (Array.Exists(data, exists => exists == "CAL"))
                 {
-                    if (Array.Exists(a, exists => exists == "1"))
+                    if (Array.Exists(data, exists => exists == "1"))
                     {
-                        if (Array.Exists(a, exists => exists == "V"))
+                        if (Array.Exists(data, exists => exists == "V"))
                             CalCh1VoltFlag = true;
-                        else if (Array.Exists(a, exists => exists == "I"))
+                        else
+                            CalCh1VoltFlag = false;
+
+                        if (Array.Exists(data, exists => exists == "I"))
                             CalCh1CurrFlag = true;
+                        else
+                            CalCh1CurrFlag = false;
                     }
-                    else if (Array.Exists(a, exists => exists == "2"))
+                    else if (Array.Exists(data, exists => exists == "2"))
                     {
-                        if (Array.Exists(a, exists => exists == "V"))
+                        if (Array.Exists(data, exists => exists == "V"))
                             CalCh2VoltFlag = true;
-                        else if (Array.Exists(a, exists => exists == "I"))
+                        else
+                            CalCh2VoltFlag = false;
+
+                        if (Array.Exists(data, exists => exists == "I"))
                             CalCh2CurrFlag = true;
+                        else
+                            CalCh2CurrFlag = false;
                     }
                 }
-                else if (Array.Exists(a, exists => exists == "MEA"))
+                else if (Array.Exists(data, exists => exists == "MEA"))
                 {
-                    if (Array.Exists(a, exists => exists == "1"))
+                    if (Array.Exists(data, exists => exists == "1"))
                     {
-                        if (Array.Exists(a, exists => exists == "V"))
+                        if (Array.Exists(data, exists => exists == "V"))
                             MeaCh1VoltFlag = true;
-                        else if (Array.Exists(a, exists => exists == "I"))
+                        else
+                            MeaCh1VoltFlag = false;
+
+                        if (Array.Exists(data, exists => exists == "I"))
                             MeaCh1CurrFlag = true;
+                        else
+                            MeaCh1CurrFlag = false;
                     }
-                    else if (Array.Exists(a, exists => exists == "2"))
+                    else if (Array.Exists(data, exists => exists == "2"))
                     {
-                        if (Array.Exists(a, exists => exists == "V"))
+                        if (Array.Exists(data, exists => exists == "V"))
                             MeaCh2VoltFlag = true;
-                        else if (Array.Exists(a, exists => exists == "I"))
+                        else
+                            MeaCh2VoltFlag = false;
+
+                        if (Array.Exists(data, exists => exists == "I"))
                             MeaCh2CurrFlag = true;
+                        else
+                            MeaCh2CurrFlag = false;
                     }
                 }
             }

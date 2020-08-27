@@ -455,6 +455,9 @@ Do you want to apply?</value>
     <value>Port Name</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="PreView" xml:space="preserve">
+    <value>MCU Point PreView</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>

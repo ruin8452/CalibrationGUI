@@ -820,6 +820,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   MCU 포인트 미리보기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string PreView {
+            get {
+                return ResourceManager.GetString("PreView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   저항과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string Register {
