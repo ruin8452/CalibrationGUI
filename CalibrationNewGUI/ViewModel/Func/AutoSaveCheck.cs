@@ -37,7 +37,7 @@ namespace CalibrationNewGUI.ViewModel.Func
             string[] dataSet = CsvFile.Read(filePath);
 
             var filterData = from data in dataSet
-                             where Array.Exists(data.Split(','), exists => exists == serialNum) && data.Contains("PASS")
+                             where Array.Exists(data.Split(','), exists => exists == serialNum)
                              select data.Split(',');
 
             // 아무것도 없으면 패스
@@ -51,26 +51,38 @@ namespace CalibrationNewGUI.ViewModel.Func
                     if (Array.Exists(data, exists => exists == "1"))
                     {
                         if (Array.Exists(data, exists => exists == "V"))
-                            CalCh1VoltFlag = true;
-                        else
-                            CalCh1VoltFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                CalCh1VoltFlag = true;
+                            else
+                                CalCh1VoltFlag = false;
+                        }
 
                         if (Array.Exists(data, exists => exists == "I"))
-                            CalCh1CurrFlag = true;
-                        else
-                            CalCh1CurrFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                CalCh1CurrFlag = true;
+                            else
+                                CalCh1CurrFlag = false;
+                        }
                     }
                     else if (Array.Exists(data, exists => exists == "2"))
                     {
                         if (Array.Exists(data, exists => exists == "V"))
-                            CalCh2VoltFlag = true;
-                        else
-                            CalCh2VoltFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                CalCh2VoltFlag = true;
+                            else
+                                CalCh2VoltFlag = false;
+                        }
 
                         if (Array.Exists(data, exists => exists == "I"))
-                            CalCh2CurrFlag = true;
-                        else
-                            CalCh2CurrFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                CalCh2CurrFlag = true;
+                            else
+                                CalCh2CurrFlag = false;
+                        }
                     }
                 }
                 else if (Array.Exists(data, exists => exists == "MEA"))
@@ -78,26 +90,38 @@ namespace CalibrationNewGUI.ViewModel.Func
                     if (Array.Exists(data, exists => exists == "1"))
                     {
                         if (Array.Exists(data, exists => exists == "V"))
-                            MeaCh1VoltFlag = true;
-                        else
-                            MeaCh1VoltFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                MeaCh1VoltFlag = true;
+                            else
+                                MeaCh1VoltFlag = false;
+                        }
 
                         if (Array.Exists(data, exists => exists == "I"))
-                            MeaCh1CurrFlag = true;
-                        else
-                            MeaCh1CurrFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                MeaCh1CurrFlag = true;
+                            else
+                                MeaCh1CurrFlag = false;
+                        }
                     }
                     else if (Array.Exists(data, exists => exists == "2"))
                     {
                         if (Array.Exists(data, exists => exists == "V"))
-                            MeaCh2VoltFlag = true;
-                        else
-                            MeaCh2VoltFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                MeaCh2VoltFlag = true;
+                            else
+                                MeaCh2VoltFlag = false;
+                        }
 
                         if (Array.Exists(data, exists => exists == "I"))
-                            MeaCh2CurrFlag = true;
-                        else
-                            MeaCh2CurrFlag = false;
+                        {
+                            if (Array.Exists(data, exists => exists == "PASS"))
+                                MeaCh2CurrFlag = true;
+                            else
+                                MeaCh2CurrFlag = false;
+                        }
                     }
                 }
             }
