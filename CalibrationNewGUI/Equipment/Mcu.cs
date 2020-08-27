@@ -17,8 +17,6 @@ namespace CalibrationNewGUI.Equipment
     [ImplementPropertyChanged]
     public class Mcu
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Dmm));
-
         //Modbus용 변수 20.07.29
         public SerialPort commModbusMCU;
         public ModbusSerialMaster MdMaster;
@@ -815,8 +813,6 @@ namespace CalibrationNewGUI.Equipment
             };
 
             Messenger.Default.Send(Message);
-            log.Debug(text);
         }
-
     }
 }

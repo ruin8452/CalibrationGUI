@@ -15,7 +15,6 @@ namespace CalibrationNewGUI.Equipment
     [ImplementPropertyChanged]
     public class Dmm
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Dmm));
 
         double SensingData;
         public DmmInfo DmmInfos { get; set; }//using 추가 및 DMM 정보 데이터 가져오기
@@ -157,7 +156,6 @@ namespace CalibrationNewGUI.Equipment
             };
 
             Messenger.Default.Send(Message);
-            log.Debug(text);
         }
     }
 }
