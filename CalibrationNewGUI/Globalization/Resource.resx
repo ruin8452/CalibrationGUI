@@ -420,6 +420,9 @@
     <value>패리티</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="PointAddAll" xml:space="preserve">
+    <value>모든 포인트 적용</value>
+  </data>
   <data name="PointAddTip" xml:space="preserve">
     <value>포인트 추가</value>
     <comment>모니터링 페이지</comment>
@@ -427,6 +430,9 @@
   <data name="PointApply" xml:space="preserve">
     <value>포인트 적용</value>
     <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="PointDelAll" xml:space="preserve">
+    <value>모든 포인트 삭제</value>
   </data>
   <data name="PointDelTip" xml:space="preserve">
     <value>포인트 삭제</value>

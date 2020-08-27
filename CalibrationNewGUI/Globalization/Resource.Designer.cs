@@ -739,6 +739,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   모든 포인트 적용과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string PointAddAll {
+            get {
+                return ResourceManager.GetString("PointAddAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   포인트 추가과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string PointAddTip {
@@ -753,6 +762,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string PointApply {
             get {
                 return ResourceManager.GetString("PointApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   모든 포인트 삭제과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string PointDelAll {
+            get {
+                return ResourceManager.GetString("PointDelAll", resourceCulture);
             }
         }
         

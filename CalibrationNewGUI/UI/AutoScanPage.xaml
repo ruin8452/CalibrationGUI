@@ -296,22 +296,22 @@
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" >
                 <!--포인트 일괄 추가-->
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllAddClick}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllAddClick}" ToolTip="{x:Static glob:Resource.PointAddAll}">
                     <fa:ImageAwesome Foreground="White" Icon="AngleDoubleRight" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
                 <Border Height="20"/>
                 <!--포인트 추가-->
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAddClick}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAddClick}" ToolTip="{x:Static glob:Resource.PointAddTip}">
                     <fa:ImageAwesome Foreground="White" Icon="AngleRight" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
                 <Border Height="20"/>
                 <!--포인트 삭제-->
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointDelClick}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointDelClick}" ToolTip="{x:Static glob:Resource.PointDelTip}">
                     <fa:ImageAwesome Foreground="White" Icon="AngleLeft" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
                 <Border Height="20"/>
                 <!--포인트 일괄 삭제-->
-                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllDelClick}">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllDelClick}"  ToolTip="{x:Static glob:Resource.PointDelAll}">
                     <fa:ImageAwesome Foreground="White" Icon="AngleDoubleLeft" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
             </StackPanel>

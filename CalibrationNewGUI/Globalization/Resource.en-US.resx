@@ -419,6 +419,9 @@ Do you want to apply?</value>
     <value>Parity</value>
     <comment>통신 세팅 페이지</comment>
   </data>
+  <data name="PointAddAll" xml:space="preserve">
+    <value>Apply All Point</value>
+  </data>
   <data name="PointAddTip" xml:space="preserve">
     <value>Add Point</value>
     <comment>모니터링 페이지</comment>
@@ -426,6 +429,9 @@ Do you want to apply?</value>
   <data name="PointApply" xml:space="preserve">
     <value>Apply Point</value>
     <comment>오토스캔 페이지</comment>
+  </data>
+  <data name="PointDelAll" xml:space="preserve">
+    <value>Delete All Point</value>
   </data>
   <data name="PointDelTip" xml:space="preserve">
     <value>Delete Point</value>
