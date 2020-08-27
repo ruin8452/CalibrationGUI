@@ -29,6 +29,10 @@
                 
                 <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17" />
                 <SolidColorBrush x:Key="PageBackground" Color="#FF1B1E2B" />
-            </ResourceDictionary>
+
+                <FontFamily x:Key="Handel">/Resources/#Handel Gothic</FontFamily>
+                <FontFamily x:Key="Bahn">/Resources/#bahnschrift</FontFamily>
+                <FontFamily x:Key="Digital7">/Resources/#Digital-7 Mono</FontFamily>
+        </ResourceDictionary>
       </Application.Resources>
 </Application>

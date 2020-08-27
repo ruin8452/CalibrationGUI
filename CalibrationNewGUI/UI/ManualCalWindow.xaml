@@ -3,14 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
+        xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
         xmlns:local="clr-namespace:CalibrationNewGUI.UI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=ManualCalVM}"
-        Title="ManualCalWindow" Width="504" Height="170">
+        Title="ManualCalWindow" Width="600" Height="240"
+        Background="White">
 
     <Window.Resources>
-        <Style x:Key="DmmTextSwitch" TargetType="TextBox">
+        <Style x:Key="TextStyle" TargetType="TextBlock" BasedOn="{StaticResource TextBaseNormal}">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        
+        <Style x:Key="DmmTextSwitch" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CalType}" Value="V">
                     <Setter Property="Text" Value="{Binding Dmm.Volt}"/>
@@ -23,59 +33,74 @@
         
         <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
             <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Width" Value="140"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#FF3B456B"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Style.Triggers>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_LightNevyToNevy2}" />
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_NevyToLightNevy2}" />
                 </EventTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
-    <StackPanel Background="{StaticResource MainBackground}">
-        <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
-            <Border Width="30" Height="30" BorderBrush="White" BorderThickness="2">
-                <TextBlock Text="{Binding CalType}" FontSize="17" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <Border Width="10"/>
-            <Border Width="30" Height="30" BorderBrush="White" BorderThickness="2">
-                <TextBlock Text="{Binding SelectedCh}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
+
+    <Border BorderBrush="White" BorderThickness="2">
+        <StackPanel Background="{StaticResource MainBackground}">
+            <StackPanel Orientation="Horizontal" Margin="25,15,0,0">
+                <Border Width="50" Height="30" BorderBrush="White" BorderThickness="2">
+                    <TextBlock Text="{Binding CalType}" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Width="10"/>
+                <Border Width="50" Height="30" BorderBrush="White" BorderThickness="2">
+                    <TextBlock Text="{Binding SelectedCh}" FontSize="17" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="15,15,0,15">
+                <Grid Width="250" Height="120">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Volt :" Margin="3,0" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextStyle}"/>
+                    <TextBox Text="{Binding CalVolt}" FontSize="17" BorderBrush="{x:Null}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="mV" FontSize="20" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="Curr :" Margin="3,0" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextStyle}"/>
+                    <TextBox Text="{Binding CalCurr}" FontSize="17" BorderBrush="{x:Null}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                    <TextBlock Text="mA" FontSize="20" Foreground="White" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="Dmm :" Margin="3,0" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextStyle}"/>
+                    <TextBlock FontSize="17" Style="{StaticResource DmmTextSwitch}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="{x:Static glob:Resource.OutputStart}" Style="{StaticResource ButtonStyle}" Grid.Row="0" Grid.Column="0" Command="{Binding OutputStartClick}"/>
+                    <Button Content="{x:Static glob:Resource.OutputStop}" Style="{StaticResource ButtonStyle}" Grid.Row="1" Grid.Column="0" Command="{Binding OutputStopClick}"/>
+                    <Button Content="{x:Static glob:Resource.CalStart}"  Style="{StaticResource ButtonStyle}" Grid.RowSpan="2" Grid.Column="1" Command="{Binding CalStartClick}"/>
+                </Grid>
+            </StackPanel>
         </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,15">
-            <TextBlock Text="Volt :" FontSize="17" Foreground="White" FontFamily="NanumGothic Light" Margin="3,0"/>
-            <TextBox Text="{Binding CalVolt}" Width="80" BorderBrush="{x:Null}"/>
-            <TextBlock Text="mV" FontSize="17" Foreground="White" FontFamily="NanumGothic Light"/>
-
-            <Border Width="10"/>
-
-            <TextBlock Text="Curr :" FontSize="17" Foreground="White" FontFamily="NanumGothic Light" Margin="3,0"/>
-            <TextBox Text="{Binding CalCurr}" Width="80" BorderBrush="{x:Null}"/>
-            <TextBlock Text="mA" FontSize="17" Foreground="White" FontFamily="NanumGothic Light"/>
-
-            <Border Width="10"/>
-
-            <TextBlock Text="Dmm :" FontSize="17" Foreground="White" FontFamily="NanumGothic Light" Margin="3,0"/>
-            <TextBox Width="80" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource DmmTextSwitch}"/>
-        </StackPanel>
-
-        <Grid Height="30" Margin="15,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Content="{x:Static glob:Resource.OutputStart}" Style="{StaticResource ButtonStyle}" Grid.Column="0" Command="{Binding OutputStartClick}"/>
-            <Button Content="{x:Static glob:Resource.CalStart}"  Style="{StaticResource ButtonStyle}" Grid.Column="1" Command="{Binding CalStartClick}"/>
-            <Button Content="{x:Static glob:Resource.OutputStop}" Style="{StaticResource ButtonStyle}" Grid.Column="2" Command="{Binding OutputStopClick}"/>
-        </Grid>
-    </StackPanel>
+    </Border>
 </Window>

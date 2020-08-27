@@ -1,38 +1,35 @@
 ﻿using CalibrationNewGUI.FileSystem;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CalibrationNewGUI.ViewModel.Func
 {
     [ImplementPropertyChanged]
     public class AutoSaveCheck
     {
-        public bool CalCh1VoltFlag { get; set; }
-        public bool CalCh1CurrFlag { get; set; }
-        public bool CalCh2VoltFlag { get; set; }
-        public bool CalCh2CurrFlag { get; set; }
+        public bool? CalCh1VoltFlag { get; set; }
+        public bool? CalCh1CurrFlag { get; set; }
+        public bool? CalCh2VoltFlag { get; set; }
+        public bool? CalCh2CurrFlag { get; set; }
 
-        public bool MeaCh1VoltFlag { get; set; }
-        public bool MeaCh1CurrFlag { get; set; }
-        public bool MeaCh2VoltFlag { get; set; }
-        public bool MeaCh2CurrFlag { get; set; }
+        public bool? MeaCh1VoltFlag { get; set; }
+        public bool? MeaCh1CurrFlag { get; set; }
+        public bool? MeaCh2VoltFlag { get; set; }
+        public bool? MeaCh2CurrFlag { get; set; }
 
         public void SaveCheck(string filePath, string serialNum)
         {
-            CalCh1VoltFlag = false;
-            CalCh1CurrFlag = false;
-            CalCh2VoltFlag = false;
-            CalCh2CurrFlag = false;
+            CalCh1VoltFlag = null;
+            CalCh1CurrFlag = null;
+            CalCh2VoltFlag = null;
+            CalCh2CurrFlag = null;
 
-            MeaCh1VoltFlag = false;
-            MeaCh1CurrFlag = false;
-            MeaCh2VoltFlag = false;
-            MeaCh2CurrFlag = false;
+            MeaCh1VoltFlag = null;
+            MeaCh1CurrFlag = null;
+            MeaCh2VoltFlag = null;
+            MeaCh2CurrFlag = null;
 
             if (!File.Exists(filePath))
                 return;

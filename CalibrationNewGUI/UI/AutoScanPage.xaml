@@ -15,10 +15,8 @@
     <Page.Resources>
         <Style x:Key="TxtStyle" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Width" Value="25"/>
+            <Setter Property="FontSize" Value="16"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=VoltCalBtn, Path=IsChecked}" Value="True">
                     <Setter Property="Text" Value="mV"/>
@@ -35,10 +33,11 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="CaretBrush" Value="White"/>
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="17"/>
         </Style>
-        
+
         <Style x:Key="BtnStyle" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="FontSize" Value="17"/>
             <Setter Property="Background" Value="DodgerBlue"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -57,25 +56,26 @@
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="DodgerBlue"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="DodgerBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Gray"/>
                 </Trigger>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
                 </EventTrigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="DataGridBaseStyle" TargetType="DataGrid">
-            <Setter Property="Height" Value="270"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="400"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="CanUserSortColumns" Value="False"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -99,6 +99,27 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ImgBtn" TargetType="Button" BasedOn="{StaticResource BtnBaseNormal}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+        </Style>
+
+        <!-- 시작 컨트롤러 색상 변경 -->
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeWhite">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_WhiteToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToWhite}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <StackPanel Background="{StaticResource PageBackground}">
@@ -113,7 +134,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.Mode}" Grid.ColumnSpan="2" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static glob:Resource.Mode}" Grid.ColumnSpan="2" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 <RadioButton x:Name="VoltCalBtn" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="0" Width="60" Command="{Binding ModeSelectClick}" IsChecked="{Binding ModeSelecte}" />
                 <RadioButton x:Name="CurrCalBtn" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="1" Width="60" Command="{Binding ModeSelectClick}" />
             </Grid>
@@ -128,9 +149,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.Channel}" Grid.ColumnSpan="2" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
-                <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="0" Width="50" IsChecked="{Binding ChSelected}" />
-                <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="1" Width="50"/>
+                <TextBlock Text="{x:Static glob:Resource.Channel}" Grid.ColumnSpan="2" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
+                <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="0" Width="50" Command="{Binding ModeSelectClick}" IsChecked="{Binding ChSelected}" />
+                <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="1" Width="50" Command="{Binding ModeSelectClick}" />
             </Grid>
 
             <Grid Margin="10">
@@ -139,7 +160,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.OutputLimit}" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static glob:Resource.OutputLimit}" Grid.ColumnSpan="3" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <TextBox Text="{Binding MinPoint, Mode=TwoWay}" Style="{StaticResource TxtBoxStyle}" Width="60"/>
                     <TextBlock Style="{StaticResource TxtStyle}"/>
@@ -155,7 +176,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.Interval}" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static glob:Resource.Interval}" Grid.ColumnSpan="3" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <TextBox Width="60">
                         <TextBox.Style>
@@ -181,8 +202,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.ErrRange}" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static glob:Resource.ErrRange}" Grid.ColumnSpan="3" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <TextBlock Text="±" Margin="0" Style="{StaticResource TxtStyle}"/>
                     <TextBox Width="60">
                         <TextBox.Style>
                             <Style TargetType="TextBox" BasedOn="{StaticResource TxtBoxStyle}">
@@ -207,14 +229,14 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{x:Static glob:Resource.Delay}" Grid.ColumnSpan="3" FontSize="16" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="{x:Static glob:Resource.Delay}" Grid.ColumnSpan="3" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
                     <TextBox Text="{Binding Delay}" Style="{StaticResource TxtBoxStyle}" Width="60"/>
                     <TextBlock Text="ms" Style="{StaticResource TxtStyle}"/>
                 </StackPanel>
             </Grid>
 
-            <Button Content="{x:Static glob:Resource.CreatePoint}" Style="{StaticResource BtnStyle}" Margin="10" Height="30" Width="75" Command="{Binding PointCreateClick}"/>
+            <Button Content="{x:Static glob:Resource.CreatePoint}" Style="{StaticResource BtnStyle}" Margin="10" Height="30" Width="120" Command="{Binding PointCreateClick}"/>
         </StackPanel>
 
         <Grid Margin="0,15,0,0">
@@ -225,11 +247,23 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <TextBlock Text="Scan Table" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
+                <TextBlock Text="Scan Table" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontWeight="Bold"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                    <Button Tag="SCAN" Style="{StaticResource ImgBtn}"
+                                Command="{Binding PointUpClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                        <fa:ImageAwesome Icon="ChevronUp" ToolTip="{x:Static glob:Resource.PointUpTip}" Style="{StaticResource ColorChangeWhite}" />
+                    </Button>
+                    <Button Tag="SCAN" Style="{StaticResource ImgBtn}"
+                                Command="{Binding PointDownClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                        <fa:ImageAwesome Icon="ChevronDown" ToolTip="{x:Static glob:Resource.PointDownTip}" Style="{StaticResource ColorChangeWhite}"/>
+                    </Button>
+                </StackPanel>
+                
                 <!--포인트 그리드-->
                 <DataGrid ItemsSource="{Binding ScanPointTable}" SelectedIndex="{Binding ScanTableSelectIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"           Binding="{Binding NO}"      IsReadOnly="True"/>
+                        <DataGridTextColumn Header="NO" Binding="{Binding NO}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.SetVolt}" Binding="{Binding SetVolt}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.SetCurr}" Binding="{Binding SetCurr}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.OutVolt}" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#0.#'}"   IsReadOnly="True"/>
@@ -261,23 +295,52 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" >
+                <!--포인트 일괄 추가-->
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllAddClick}">
+                    <fa:ImageAwesome Foreground="White" Icon="AngleDoubleRight" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                </Button>
+                <Border Height="20"/>
                 <!--포인트 추가-->
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAddClick}">
-                    <fa:ImageAwesome Foreground="White" Icon="Plus" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                    <fa:ImageAwesome Foreground="White" Icon="AngleRight" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
                 <Border Height="20"/>
                 <!--포인트 삭제-->
                 <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointDelClick}">
-                    <fa:ImageAwesome Foreground="White" Icon="Minus" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                    <fa:ImageAwesome Foreground="White" Icon="AngleLeft" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                </Button>
+                <Border Height="20"/>
+                <!--포인트 일괄 삭제-->
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllDelClick}">
+                    <fa:ImageAwesome Foreground="White" Icon="AngleDoubleLeft" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
                 </Button>
             </StackPanel>
 
             <StackPanel Grid.Column="2">
-                <TextBlock Text="Cal Point Table" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
+                <TextBlock Text="Cal Point Table" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontWeight="Bold"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                    <Button Tag="CAL" Style="{StaticResource ImgBtn}"
+                                Command="{Binding PointUpClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                        <fa:ImageAwesome Icon="ChevronUp" ToolTip="{x:Static glob:Resource.PointUpTip}" Style="{StaticResource ColorChangeWhite}" />
+                    </Button>
+                    <Button Tag="CAL" Style="{StaticResource ImgBtn}"
+                                Command="{Binding PointDownClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}">
+                        <fa:ImageAwesome Icon="ChevronDown" ToolTip="{x:Static glob:Resource.PointDownTip}" Style="{StaticResource ColorChangeWhite}"/>
+                    </Button>
+
+                    <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="0,0,5,0"/>
+
+                    <Button Tag="MEA" Style="{StaticResource ImgBtn}" Command="{Binding McuPointPreviewClick}">
+                        <fa:ImageAwesome Icon="Eye" ToolTip="{x:Static glob:Resource.MeaStartTip}" Style="{StaticResource ColorChangeWhite}"/>
+                    </Button>
+
+                </StackPanel>
+                
                 <!--포인트 그리드-->
                 <DataGrid ItemsSource="{Binding McuPointTable}" SelectedIndex="{Binding McuTableSelectIndex, Mode=TwoWay}" Style="{StaticResource DataGridBaseStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NO"           Binding="{Binding NO}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="NO" Binding="{Binding NO}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.SetVolt}" Binding="{Binding SetVolt, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.SetCurr}" Binding="{Binding SetCurr, UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="{x:Static glob:Resource.OutVolt}" Binding="{Binding OutVolt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#,0.#'}"   IsReadOnly="True"/>

@@ -7,10 +7,11 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mvvm="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:glob="clr-namespace:CalibrationNewGUI.Globalization"
+        xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
-        Title="KJ Calibration GUI" Height="800" Width="1250">
+        Title="{Binding ProgramTitle}" Height="800" MinWidth="1300" Width="1300">
 
     <Window.Resources>
         <ui:SettingPage x:Key="SettingPage"/>
@@ -22,7 +23,6 @@
             <Setter Property="FontSize" Value="23"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontFamily" Value="NanumGothic"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Background" Value="DodgerBlue"/>
@@ -86,6 +86,17 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeWhite">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_WhiteToBlue}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_BlueToWhite}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid Background="{StaticResource MainBackground}">
@@ -104,21 +115,28 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/Resource/LogoOnly_NoBack.png" Height="35" Margin="5,0"/>
+                    <Image Source="/Resources/LogoOnly_NoBack.png" Height="35" Margin="5,0"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="KapJin" Foreground="White" FontFamily="Handel Gothic" FontSize="24"/>
-                        <TextBlock Text="Total Power Technology" Foreground="White" FontFamily="Bahnschrift Light" FontSize="7.5"/>
+                        <TextBlock Text="KapJin" Foreground="White" FontFamily="{StaticResource Handel}" FontSize="24"/>
+                        <TextBlock Text="Total Power Technology" Foreground="White" FontFamily="{StaticResource Bahn}" FontSize="7.5"/>
                     </StackPanel>
 
                     <Border Width="20"/>
-                    <RadioButton x:Name="SettingBtn" Content="  Setting  " Style="{StaticResource MainBtnStyle}"/>
+                    <RadioButton x:Name="CalBtn" Content="  Calibration  " Style="{StaticResource MainBtnStyle}" IsChecked="{Binding CalRadio, Mode=TwoWay}"/>
                     <Border Width="10"/>
-                    <RadioButton x:Name="CalBtn" Content="  Calibration  " Style="{StaticResource MainBtnStyle}"/>
+                    <RadioButton x:Name="ScanBtn" Content="  AutoScan  "   Style="{StaticResource MainBtnStyle}" IsChecked="{Binding ScanRadio, Mode=TwoWay}"/>
                     <Border Width="10"/>
-                    <RadioButton x:Name="ScanBtn" Content="  AutoScan  "   Style="{StaticResource MainBtnStyle}"/>
+                    <RadioButton x:Name="SettingBtn" Content="  Setting  " Style="{StaticResource MainBtnStyle}" IsChecked="{Binding SettingRadio, Mode=TwoWay}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding LanguageClick}">
+                        <StackPanel VerticalAlignment="Center"  Margin="10,0">
+                            <fa:ImageAwesome Icon="Globe" Foreground="White" Height="30" Width="30" Style="{StaticResource ColorChangeWhite}"/>
+                            <TextBlock Text="Language" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
                     <!--장비 접속 상태-->
                     <Grid Width="120" Margin="0,1.5,2,1.5">
                         <Grid.Resources>
@@ -141,13 +159,13 @@
 
                         <StackPanel Orientation="Horizontal" Grid.Row="0" >
                             <Border Width="60" Margin="0.5" CornerRadius="5" Background="{Binding McuConnColor}">
-                                <TextBlock Text="MCU" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Mcu.IsConnected}"/>
+                                <TextBlock Text="MCU" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Mcu.IsConnected}"/>
                             </Border>
                             <Button Style="{StaticResource McuConnBtn}" Width="60" Foreground="White" Margin="0.5" BorderThickness="0" BorderBrush="Transparent" Background="#FF3B456B" Command="{Binding McuConnectClick}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" >
                             <Border Width="60" Margin="0.5" CornerRadius="5" Background="{Binding DmmConnColor}">
-                                <TextBlock Text="DMM" FontFamily="NanumGothic" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Dmm.IsConnected}"/>
+                                <TextBlock Text="DMM" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding Dmm.IsConnected}"/>
                             </Border>
                             <Button Style="{StaticResource DmmConnBtn}" Width="60" Foreground="White" Margin="0.5" BorderThickness="0" BorderBrush="Transparent" Background="#FF3B456B" Command="{Binding DmmConnectClick}"/>
                         </StackPanel>
@@ -164,10 +182,10 @@
                             <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
+                        <TextBlock Foreground="White" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
                             <Run Text="{x:Static glob:Resource.SerialNum}"/> |
                         </TextBlock>
-                        <TextBox Text="{Binding McuInfos.McuSerialNum, Mode=TwoWay}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" FontFamily="NanumGothic" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1" CaretBrush="White">
+                        <TextBox Text="{Binding McuInfos.McuSerialNum, Mode=TwoWay}" FontWeight="Medium" Grid.Row="0" Grid.Column="1" Foreground="White" VerticalAlignment="Center" FontSize="13" Background="{x:Null}" BorderBrush="White" BorderThickness="0,0,0,1" CaretBrush="White">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <mvvm:EventToCommand Command="{Binding SerialInputChanged}" PassEventArgsToCommand="True"/>
@@ -182,10 +200,10 @@
                             </TextBox.InputBindings>
                         </TextBox>
 
-                        <TextBlock Foreground="White" FontFamily="NanumGothic Light" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
+                        <TextBlock Foreground="White" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="15" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
                             <Run Text="{x:Static glob:Resource.DmmModel}"/> |
                         </TextBlock>
-                        <TextBlock Text="{Binding DmmInfos.ModelName}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="NanumGothic" VerticalAlignment="Center" FontSize="13"/>
+                        <TextBlock Text="{Binding DmmInfos.ModelName}" FontWeight="Medium" Grid.Row="1" Grid.Column="1" Foreground="White" VerticalAlignment="Center" FontSize="13"/>
                     </Grid>
                 </StackPanel>
             </Grid>

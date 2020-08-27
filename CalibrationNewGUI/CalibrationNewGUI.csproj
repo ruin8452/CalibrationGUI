@@ -13,7 +13,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -51,6 +51,9 @@
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.9.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.9\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
@@ -112,6 +115,8 @@
     </Compile>
     <Compile Include="Message\CalOptionMessage.cs" />
     <Compile Include="Message\CalPointMessage.cs" />
+    <Compile Include="Message\MainMoveMessage.cs" />
+    <Compile Include="Message\SettingMoveMessage.cs" />
     <Compile Include="Message\LogTextMessage.cs" />
     <Compile Include="Message\SerialMessage.cs" />
     <Compile Include="Model\AutoSaveInfo.cs" />
@@ -175,6 +180,9 @@
     <Compile Include="UI\Setting\OthersSettingPage.xaml.cs">
       <DependentUpon>OthersSettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\McuPointViewWindow.xaml.cs">
+      <DependentUpon>McuPointViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AutoScanPageVM.cs" />
     <Compile Include="ViewModel\Func\AutoSaveCheck.cs" />
     <Compile Include="ViewModel\Func\Calibration.cs" />
@@ -182,7 +190,9 @@
     <Compile Include="ViewModel\Func\TableManager.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\ManualCalVM.cs" />
+    <Compile Include="ViewModel\McuPointViewVM.cs" />
     <Compile Include="ViewModel\MonitorPageVM.cs" />
+    <Compile Include="ViewModel\SettingPageVM.cs" />
     <Compile Include="ViewModel\Setting\AutoSaveSettingVM.cs" />
     <Compile Include="ViewModel\Setting\CalMeaSettingVM.cs" />
     <Compile Include="ViewModel\Setting\CommSettingVM.cs" />
@@ -273,6 +283,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\McuPointViewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Style\UI_Animation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -320,18 +334,26 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resource\bahnschrift.ttf" />
-    <Resource Include="Resource\digital-7 %28mono%29.ttf" />
-    <Resource Include="Resource\Handel Gothic.ttf" />
+    <Content Include="Resources\bahnschrift.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Handel Gothic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Digital-7.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resource\LogoOnly_NoBack.png" />
+    <Resource Include="Resources\LogoOnly_NoBack.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

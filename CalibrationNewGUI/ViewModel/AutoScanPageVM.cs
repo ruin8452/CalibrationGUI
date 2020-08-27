@@ -1,6 +1,7 @@
 ﻿using CalibrationNewGUI.Equipment;
 using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
+using CalibrationNewGUI.UI;
 using CalibrationNewGUI.ViewModel.Func;
 using CalibrationNewGUI.ViewModel.Func.EventArgsClass;
 using GalaSoft.MvvmLight;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -191,32 +193,25 @@ namespace CalibrationNewGUI.ViewModel
         public DataTable ScanPointTable { get; set; }
         public DataTable McuPointTable { get; set; }
 
-        private int scanTableSelectIndex;
-        public int ScanTableSelectIndex
-        {
-            get { return scanTableSelectIndex; }
-            set
-            {
-                if (value == -1) scanTableSelectIndex = 0;
-                else             scanTableSelectIndex = value;
-            }
-        }
-        private int mcuTableSelectIndex;
-        public int McuTableSelectIndex
-        {
-            get { return mcuTableSelectIndex; }
-            set
-            {
-                if (value == -1) mcuTableSelectIndex = 0;
-                else             mcuTableSelectIndex = value;
-            }
-        }
+        public int ScanTableSelectIndex { get; set; }
+        public int McuTableSelectIndex { get; set; }
+
+        public RelayCommand ModeSelectClick { get; set; }
 
         public RelayCommand PointCreateClick { get; set; }
         public RelayCommand PointAddClick { get; set; }
         public RelayCommand PointDelClick { get; set; }
+        public RelayCommand PointAllAddClick { get; set; }
+        public RelayCommand PointAllDelClick { get; set; }
+        public RelayCommand<object> PointUpClick { get; set; }
+        public RelayCommand<object> PointDownClick { get; set; }
+        public RelayCommand McuPointPreviewClick { get; set; }
+
         public RelayCommand ScanStartClick { get; set; }
         public RelayCommand PointApplyClick { get; set; }
+
+        [DllImportAttribute("user32.dll", EntryPoint = "FindWindow")]
+        public static extern int FindWindow(string clsName, string wndName);
 
         public AutoScanPageVM()
         {
@@ -235,11 +230,24 @@ namespace CalibrationNewGUI.ViewModel
             McuPointTable = new DataTable();
             McuPointTable = TableManager.ColumnAdd(McuPointTable, cloumnName);
 
+            ModeSelectClick = new RelayCommand(ModeSelected);
+
             PointCreateClick = new RelayCommand(PointCreate);
             PointAddClick = new RelayCommand(PointAdd);
             PointDelClick = new RelayCommand(PointDel);
+            PointAllAddClick = new RelayCommand(PointAllAdd);
+            PointAllDelClick = new RelayCommand(PointAllDel);
+            PointUpClick = new RelayCommand<object>(PointUp);
+            PointDownClick = new RelayCommand<object>(PointDown);
+            McuPointPreviewClick = new RelayCommand(McuPointPreview);
+
             ScanStartClick = new RelayCommand(ScanStart);
             PointApplyClick = new RelayCommand(PointApply);
+        }
+
+        private void ModeSelected()
+        {
+            OnChangeCalOption();
         }
 
         private void PointCreate()
@@ -297,12 +305,136 @@ namespace CalibrationNewGUI.ViewModel
             }
         }
 
+        private void PointAllAdd()
+        {
+            if (ScanPointTable.Rows.Count == 0)
+                return;
+
+            foreach(DataRow addRow in ScanPointTable.Rows)
+            {
+                McuPointTable = TableManager.RowAdd(McuPointTable, McuPointTable.Rows.Count, addRow);
+
+                if (ModeSelecte)
+                {
+                    if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetVolt"].Ordinal))
+                        McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
+                }
+                else
+                {
+                    if (TableManager.OverlapCheck(McuPointTable, McuPointTable.Columns["SetCurr"].Ordinal))
+                        McuPointTable = TableManager.RowDelete(McuPointTable, McuPointTable.Rows.Count - 1);
+                }
+            }
+        }
+
         private void PointDel()
         {
             if (McuPointTable.Rows.Count == 0)
                 return;
 
             McuPointTable = TableManager.RowDelete(McuPointTable, McuTableSelectIndex);
+        }
+
+        private void PointAllDel()
+        {
+            if (McuPointTable.Rows.Count == 0)
+                return;
+
+            McuPointTable.Clear();
+        }
+
+        /**
+         *  @brief 포인트 Up
+         *  @details 포인트 타입에 따라 테이블의 포인트 인덱스를 Up
+         *  
+         *  @param object type 호출한 객체의 타입(SCAN, CAL)
+         *  
+         *  @return
+         */
+        private void PointUp(object type)
+        {
+            //<C>20.SSW 07.15 : 선택되어 있는 Row가 삭제될 시 바인딩 되어 있는 Index 변수가 -1로 변경되기 때문에 다른 변수로 컨트롤
+            int tempIndex;
+
+            // CAL포인트 UP
+            if (type.ToString() == "SCAN")
+            {
+                tempIndex = ScanTableSelectIndex;
+                ScanPointTable = TableManager.RowUp(ScanPointTable, tempIndex);
+
+                //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
+                if (tempIndex <= 0)
+                    ScanTableSelectIndex = tempIndex;
+                else
+                    ScanTableSelectIndex = tempIndex - 1;
+            }
+            // 실측포인트 UP
+            else
+            {
+                tempIndex = McuTableSelectIndex;
+                McuPointTable = TableManager.RowUp(McuPointTable, tempIndex);
+
+                //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
+                if (tempIndex <= 0)
+                    McuTableSelectIndex = tempIndex;
+                else
+                    McuTableSelectIndex = tempIndex - 1;
+            }
+        }
+
+        /**
+         *  @brief 포인트 Down
+         *  @details 포인트 타입에 따라 테이블의 포인트 인덱스를 Down
+         *  
+         *  @param object type 호출한 객체의 타입(SCAN, CAL)
+         *  
+         *  @return
+         */
+        private void PointDown(object type)
+        {
+            //<C>20.SSW 07.15 : 선택되어 있는 Row가 삭제될 시 바인딩 되어 있는 Index 변수가 -1로 변경되기 때문에 다른 변수로 컨트롤
+            int tempIndex;
+
+            // CAL포인트 DOWN
+            if (type.ToString() == "SCAN")
+            {
+                tempIndex = ScanTableSelectIndex;
+                ScanPointTable = TableManager.RowDown(ScanPointTable, tempIndex);
+
+                //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
+                if (tempIndex >= ScanPointTable.Rows.Count - 1)
+                    ScanTableSelectIndex = tempIndex;
+                else
+                    ScanTableSelectIndex = tempIndex + 1;
+            }
+            // 실측포인트 DOWN
+            else
+            {
+                tempIndex = McuTableSelectIndex;
+                McuPointTable = TableManager.RowDown(McuPointTable, tempIndex);
+
+                //<C>20.SSW 07.15 : 움직인 포인터의 초점을 유지
+                if (tempIndex >= McuPointTable.Rows.Count - 1)
+                    McuTableSelectIndex = tempIndex;
+                else
+                    McuTableSelectIndex = tempIndex + 1;
+            }
+        }
+
+        private void McuPointPreview()
+        {
+            McuPointViewVM.SetValue(ModeSelecte ? 'V' : 'I', ChSelected ? 1 : 2);
+
+            McuPointViewWindow pointView = new McuPointViewWindow
+            {
+                Owner = Application.Current.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            if (FindWindow(null, pointView.Title) == 0)
+                pointView.Show();
+            else
+                return;
         }
 
         private void ScanStart()
@@ -424,6 +556,25 @@ namespace CalibrationNewGUI.ViewModel
                 else
                     ScanPointTable.Rows[e.Index]["IsRangeIn"] = true;
             }
+        }
+
+        /**
+         *  @brief CAL 옵션(모드, 채널번호) 메세지 전송
+         *  @details CAL 옵션(모드, 채널번호) 메세지를 전송
+         *  
+         *  @param
+         *  
+         *  @return
+         */
+        private void OnChangeCalOption()
+        {
+            CalOptionMessage Message = new CalOptionMessage
+            {
+                CalType = ModeSelecte ? 'V' : 'I',
+                ChNumber = ChSelected ? 1 : 2
+            };
+
+            Messenger.Default.Send(Message);
         }
     }
 }

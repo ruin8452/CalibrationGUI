@@ -39,7 +39,7 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="DodgerBlue"/>
             <Setter Property="Background" Value="Transparent"/>
             <Style.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
@@ -59,29 +59,34 @@
                 <Separator Background="#FF53609B"/>
                 <TextBlock Text="Shunt Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
             </StackPanel>
+
+            <Border Height="30"/>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="40,0,40,20" >
-                    <TextBlock Text="{x:Static glob:Resource.Shunt}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Margin="40,0,40,20" BorderThickness="1" BorderBrush="#FF3B456B">
+                    <StackPanel Margin="40,0,40,20" >
+                        <TextBlock Text="{x:Static glob:Resource.Shunt}" Margin="0,20,0,10" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <RadioButton Content="전류" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Mode=TwoWay}"/>
-                    <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="{x:Static glob:Resource.Curr}" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Mode=TwoWay}"/>
+                        <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1">
-                            <!--<i:Interaction.Triggers>
+                            <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="2">
+                                <!--<i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewTextInput">
                                     <mvvm:EventToCommand Command="{Binding PositiveNumChecker}" PassEventArgsToCommand="True"/>
                                 </i:EventTrigger>
@@ -89,28 +94,30 @@
                                     <mvvm:EventToCommand Command="{Binding ActiveNumChecker}" PassEventArgsToCommand="True"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>-->
-                        </TextBox>
+                            </TextBox>
 
-                        <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                        <TextBox x:Name="CorrShuntText" Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
-                    </Grid>
+                            <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                            <TextBox x:Name="CorrShuntText" Text="{Binding ShuntInfos.ShuntNewCurr, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="2"/>
+                        </Grid>
 
-                    <Border Height="20"/>
+                        <Border Height="20"/>
 
-                    <RadioButton Content="저항" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}"/>
-                    <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="{x:Static glob:Resource.Register}" Foreground="White" FontSize="16" FontFamily="NanumGothic" IsChecked="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}"/>
+                        <Grid Margin="20,10,0,0" IsEnabled="{Binding ShuntInfos.CorrectionMode, Converter={StaticResource InvertBoolConv}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                        <TextBox x:Name="CorrRegText" Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
-                    </Grid>
-                </StackPanel>
+                            <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                            <TextBox x:Name="CorrRegText" Text="{Binding ShuntInfos.ShuntNewReg, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
 
                 <StackPanel Margin="40,0,40,20" Grid.Column="1" Visibility="Hidden">
                     <TextBlock Text="{x:Static glob:Resource.Volt_Meter}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>

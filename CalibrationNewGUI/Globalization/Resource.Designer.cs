@@ -61,6 +61,15 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
+        ///   CAL&amp;실측 동작과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string AllRunBox {
+            get {
+                return ResourceManager.GetString("AllRunBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   자동저장 세팅과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string AutoSave_Setting {
@@ -124,7 +133,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   CAL 시작과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 수행과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CalStart {
             get {
@@ -133,7 +142,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   Cal 시작과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 시작과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CalStartTip {
             get {
@@ -142,7 +151,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   Cal 정지과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 정지과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CalStopTip {
             get {
@@ -151,7 +160,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   Cal 타입과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 타입과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string CalType {
             get {
@@ -228,15 +237,6 @@ namespace CalibrationNewGUI.Globalization {
         public static string CreatePoint {
             get {
                 return ResourceManager.GetString("CreatePoint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   컨트롤러과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string CtrlerBox {
-            get {
-                return ResourceManager.GetString("CtrlerBox", resourceCulture);
             }
         }
         
@@ -378,7 +378,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   허용오차(±)과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   허용오차과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string ErrRange {
             get {
@@ -766,7 +766,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   Cal 포인트 다운로드과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 포인트 다운로드과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string PointDownloadTip {
             get {
@@ -793,7 +793,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   Cal 포인트 업로드과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL 포인트 업로드과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string PointUploadTip {
             get {
@@ -816,6 +816,15 @@ namespace CalibrationNewGUI.Globalization {
         public static string PortName {
             get {
                 return ResourceManager.GetString("PortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   저항과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
             }
         }
         

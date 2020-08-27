@@ -4,7 +4,6 @@
     <!-- 버튼, 콤보박스 스타일 모음 -->
 
     <Style x:Key="TextBaseNormal" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="NanumGothic Light"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
     </Style>

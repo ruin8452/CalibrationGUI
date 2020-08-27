@@ -160,6 +160,20 @@
             <EasingColorKeyFrame KeyTime="0:0:0.2" Value="White"/>
         </ColorAnimationUsingKeyFrames>
     </Storyboard>
+    
+    <!-- 실버, 회색-->
+    <Storyboard x:Key="ImgAsForAni_SilverToGray">
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(fa:ImageAwesome.Foreground).(SolidColorBrush.Color)">
+            <EasingColorKeyFrame KeyTime="0" Value="Silver"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.2" Value="Gray"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
+    <Storyboard x:Key="ImgAsForAni_GrayToSilver">
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(fa:ImageAwesome.Foreground).(SolidColorBrush.Color)">
+            <EasingColorKeyFrame KeyTime="0" Value="Gray"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.2" Value="Silver"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
 
 
     

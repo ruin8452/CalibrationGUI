@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllRunBox" xml:space="preserve">
+    <value>CAL&amp;실측 동작</value>
+    <comment>모니터링 페이지</comment>
+  </data>
   <data name="AutoSave Setting" xml:space="preserve">
     <value>자동저장 세팅</value>
     <comment>자동저장 세팅 페이지</comment>
@@ -146,19 +150,19 @@
     <comment>세팅 메뉴</comment>
   </data>
   <data name="CalStart" xml:space="preserve">
-    <value>CAL 시작</value>
+    <value>CAL 수행</value>
     <comment>수동CAL 윈도우</comment>
   </data>
   <data name="CalStartTip" xml:space="preserve">
-    <value>Cal 시작</value>
+    <value>CAL 시작</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="CalStopTip" xml:space="preserve">
-    <value>Cal 정지</value>
+    <value>CAL 정지</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="CalType" xml:space="preserve">
-    <value>Cal 타입</value>
+    <value>CAL 타입</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="Channel" xml:space="preserve">
@@ -192,10 +196,6 @@
   <data name="CreatePoint" xml:space="preserve">
     <value>포인트 생성</value>
     <comment>오토스캔 페이지</comment>
-  </data>
-  <data name="CtrlerBox" xml:space="preserve">
-    <value>컨트롤러</value>
-    <comment>모니터링 페이지</comment>
   </data>
   <data name="Curr" xml:space="preserve">
     <value>전류</value>
@@ -260,7 +260,7 @@
     <comment>메세지 박스</comment>
   </data>
   <data name="ErrRange" xml:space="preserve">
-    <value>허용오차(±)</value>
+    <value>허용오차</value>
     <comment>오토스캔 페이지</comment>
   </data>
   <data name="File" xml:space="preserve">
@@ -433,7 +433,7 @@
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointDownloadTip" xml:space="preserve">
-    <value>Cal 포인트 다운로드</value>
+    <value>CAL 포인트 다운로드</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointDownTip" xml:space="preserve">
@@ -445,7 +445,7 @@
     <comment>메세지 박스</comment>
   </data>
   <data name="PointUploadTip" xml:space="preserve">
-    <value>Cal 포인트 업로드</value>
+    <value>CAL 포인트 업로드</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointUpTip" xml:space="preserve">
@@ -455,6 +455,9 @@
   <data name="PortName" xml:space="preserve">
     <value>포트 번호</value>
     <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>저항</value>
   </data>
   <data name="ResultData AutoSave" xml:space="preserve">
     <value>결과데이터 자동저장</value>

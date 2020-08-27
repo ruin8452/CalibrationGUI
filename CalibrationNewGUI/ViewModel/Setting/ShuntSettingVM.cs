@@ -48,7 +48,7 @@ namespace CalibrationNewGUI.ViewModel.Setting
                 if (ShuntInfos.ShuntStandardCurr == 0 || ShuntInfos.ShuntNewCurr == 0)
                     ShuntInfos.shuntReg = 1 * 1000;
                 else
-                    ShuntInfos.shuntReg = ((float)ShuntInfos.ShuntStandardCurr / (float)ShuntInfos.ShuntNewCurr) * 1000; //첫 실행 할때 션트 보정치를 계산
+                    ShuntInfos.shuntReg = ShuntInfos.ShuntStandardCurr / ShuntInfos.ShuntNewCurr * 1000; //첫 실행 할때 션트 보정치를 계산
             }
             else
             {

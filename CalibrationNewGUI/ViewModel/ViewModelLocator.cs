@@ -43,24 +43,24 @@ namespace CalibrationNewGUI.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainWindowVM>();
+            SimpleIoc.Default.Register<SettingPageVM>();
             SimpleIoc.Default.Register<MonitorPageVM>();
             SimpleIoc.Default.Register<AutoScanPageVM>();
             SimpleIoc.Default.Register<ManualCalVM>();
+            SimpleIoc.Default.Register<McuPointViewVM>();
         }
 
         public MainWindowVM MainWindowVM
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainWindowVM>();
-            }
+            get { return ServiceLocator.Current.GetInstance<MainWindowVM>(); }
+        }
+        public SettingPageVM SettingPageVM
+        {
+            get { return ServiceLocator.Current.GetInstance<SettingPageVM>(); }
         }
         public MonitorPageVM MonitorPageVM
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MonitorPageVM>();
-            }
+            get { return ServiceLocator.Current.GetInstance<MonitorPageVM>(); }
         }
         public AutoScanPageVM AutoScanPageVM
         {
@@ -68,10 +68,11 @@ namespace CalibrationNewGUI.ViewModel
         }
         public ManualCalVM ManualCalVM
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<ManualCalVM>();
-            }
+            get { return ServiceLocator.Current.GetInstance<ManualCalVM>(); }
+        }
+        public McuPointViewVM McuPointViewVM
+        {
+            get { return ServiceLocator.Current.GetInstance<McuPointViewVM>(); }
         }
 
         public static void Cleanup()

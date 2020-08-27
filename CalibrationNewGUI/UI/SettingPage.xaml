@@ -8,6 +8,7 @@
       xmlns:local="clr-namespace:CalibrationNewGUI.UI"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      DataContext="{Binding Source={StaticResource Locator}, Path=SettingPageVM}"
       Title="SettingPage">
 
     <Page.Resources>
@@ -71,12 +72,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <RadioButton x:Name="CommBtn"  Grid.Column="0" Content="{x:Static glob:Resource.CommMenu}"       Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="ShuntBtn" Grid.Column="1" Content="{x:Static glob:Resource.ShuntMenu}"      Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="AutoBtn"  Grid.Column="2" Content="{x:Static glob:Resource.AutoSaveMenu}"   Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="CalBtn"   Grid.Column="3" Content="{x:Static glob:Resource.CalSettingMenu}" Style="{StaticResource SubBtnStyle}"/>
-            <RadioButton x:Name="OtherBtn" Grid.Column="4" Content="{x:Static glob:Resource.OtherMenu}"      Style="{StaticResource SubBtnStyle}"/>
+
+            <RadioButton x:Name="CommBtn"  Grid.Column="0" Content="{x:Static glob:Resource.CommMenu}"       Style="{StaticResource SubBtnStyle}" IsChecked="{Binding CommRadio, Mode=TwoWay}"/>
+            <RadioButton x:Name="CalBtn"   Grid.Column="1" Content="{x:Static glob:Resource.CalSettingMenu}" Style="{StaticResource SubBtnStyle}" IsChecked="{Binding CalRadio, Mode=TwoWay}"/>
+            <RadioButton x:Name="ShuntBtn" Grid.Column="2" Content="{x:Static glob:Resource.Shunt}"          Style="{StaticResource SubBtnStyle}" IsChecked="{Binding ShuntRadio, Mode=TwoWay}"/>
+            <RadioButton x:Name="AutoBtn"  Grid.Column="3" Content="{x:Static glob:Resource.AutoSaveMenu}"   Style="{StaticResource SubBtnStyle}" IsChecked="{Binding SaveRadio, Mode=TwoWay}"/>
+            <RadioButton x:Name="OtherBtn" Grid.Column="4" Content="{x:Static glob:Resource.OtherMenu}"      Style="{StaticResource SubBtnStyle}" IsChecked="{Binding OtherRadio, Mode=TwoWay}"/>
         </Grid>
 
         <Frame />

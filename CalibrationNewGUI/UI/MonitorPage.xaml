@@ -30,13 +30,14 @@
         <Style x:Key="MonitoringItemText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="120"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
         <Style x:Key="MonitoringText" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Digital-7 Mono"/>
+            <Setter Property="FontFamily" Value="{StaticResource Digital7}"/>
             <Setter Property="FontSize" Value="45"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -74,7 +75,6 @@
 
         <Style x:Key="FileTextBaseStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -135,20 +135,20 @@
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="DodgerBlue"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="DodgerBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Gray"/>
                 </Trigger>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
+                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
                 </EventTrigger>
             </Style.Triggers>
         </Style>
@@ -161,6 +161,17 @@
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
                     <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_DarkBlueToBlue}"/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <!-- 시작 컨트롤러 색상 변경 -->
+        <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeSilver">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_SilverToGray}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_GrayToSilver}"/>
                 </EventTrigger>
             </Style.Triggers>
         </Style>
@@ -183,7 +194,7 @@
     <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="321"/>
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="260"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -195,7 +206,7 @@
 
             <!--CAL 부분 Display-->
             <StackPanel Grid.Column="0">
-                <TextBlock Text="CAL" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
+                <TextBlock Text="CALIBATION" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
                 <!--파일 선택-->
                 <Border BorderBrush="#FF53609B" BorderThickness="0,1.5,1.5,1.5" Margin="5,0">
                     <Grid Height="25">
@@ -208,7 +219,7 @@
 
                         <Grid>
                             <Rectangle Fill="#FF53609B"/>
-                            <TextBlock Text="{x:Static glob:Resource.File}" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{x:Static glob:Resource.File}" Foreground="White" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
                         <TextBlock Text="{Binding CalFilePath}" Grid.Column="1" Style="{StaticResource FileTextBaseStyle}"/>
                         <Button Content="{x:Static glob:Resource.Open}" Grid.Column="2" Style="{StaticResource FileBtn}" Tag="CAL" Margin="0,2" Command="{Binding FileOpenClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
@@ -224,7 +235,8 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="{x:Static glob:Resource.ErrRange}"/><Run Text=" "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" VerticalAlignment="Center" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}">
+                            <Run Text="{x:Static glob:Resource.ErrRange}"/> <Run Text="±"/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -262,7 +274,10 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Run.Style>
-                            </Run><Run Text=" / "/><Run Text="{x:Static glob:Resource.Delay}"/><Run Text=" "/><Run Text="{Binding CalMeaInfo.CalDelayTime}">
+                            </Run>
+                            <Run Text="/"/>
+                            <Run Text="{x:Static glob:Resource.Delay}"/>
+                            <Run Text="{Binding CalMeaInfo.CalDelayTime}">
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Setter Property="FontFamily" Value="NanumGothic"/>
@@ -368,7 +383,7 @@
 
             <!--MEA 부분 Display-->
             <StackPanel Grid.Column="1">
-                <TextBlock Text="MEA" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
+                <TextBlock Text="MEASUREMENT" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"/>
                 <!--파일 선택-->
                 <Border BorderBrush="#FF53609B" BorderThickness="0,1.5,1.5,1.5" Margin="5,0">
                     <Grid Height="25">
@@ -381,7 +396,7 @@
 
                         <Grid>
                             <Rectangle Fill="#FF53609B"/>
-                            <TextBlock Text="{x:Static glob:Resource.File}" Foreground="White" FontFamily="NanumGothic Light" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{x:Static glob:Resource.File}" Foreground="White" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
                         <TextBlock Text="{Binding MeaFilePath}" Grid.Column="1" Style="{StaticResource FileTextBaseStyle}"/>
                         <Button Content="{x:Static glob:Resource.Open}" Grid.Column="2" Style="{StaticResource FileBtn}" Tag="MEA" Margin="0,2" Command="{Binding FileOpenClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
@@ -393,11 +408,12 @@
                 <Grid Margin="5,25,5,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="220"/>
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="16" Foreground="White" FontFamily="NanumGothic Light" VerticalAlignment="Center"><Run Text="{x:Static glob:Resource.ErrRange}"/><Run Text=" : "/><Run>
+                        <TextBlock FontSize="16" Foreground="White" VerticalAlignment="Center" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}">
+                            <Run Text="{x:Static glob:Resource.ErrRange}"/> <Run Text="±"/><Run>
                                 <Run.Style>
                                     <Style TargetType="{x:Type Run}">
                                         <Style.BasedOn>
@@ -533,42 +549,14 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <!--CAL Option-->
-            <Border Width="165" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+            <Border Width="190" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
-                    <TextBlock Text="{x:Static glob:Resource.CtrlerBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static glob:Resource.CAL_Option}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                    <StackPanel Margin="0,10,0,0">
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <Border Height="10"/>
 
-                            <!--시작-->
-                            <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStartClick}">
-                                <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Start}" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
-                                </StackPanel>
-                            </Button>
-                            <!--정지-->
-                            <Button Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStopClick}">
-                                <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Stop}" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
-                                </StackPanel>
-                            </Button>
-                            <!--수동-->
-                            <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}">
-                                <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}" Icon="Wrench"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Manual}" FontSize="14" Foreground="White" HorizontalAlignment="Center" FontFamily="NanumGothic Light"/>
-                                </StackPanel>
-                            </Button>
-                        </Grid>
-
-                        <TextBlock Text="{x:Static glob:Resource.CalType}" FontSize="14" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{x:Static glob:Resource.CalType}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
                         <Grid Margin="5,5,5,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -579,7 +567,7 @@
                             <RadioButton x:Name="CurrCalBtn" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Grid.Column="1" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
                         </Grid>
 
-                        <TextBlock Text="{x:Static glob:Resource.SelectCh}" FontSize="14" Foreground="White" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{x:Static glob:Resource.SelectCh}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
                         <Grid Margin="5,5,5,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -594,6 +582,42 @@
                             <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Grid.Column="2" Tag="0"
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                         </Grid>
+
+                        <TextBlock Text="{x:Static glob:Resource.AllRunBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+
+                        <Border Height="5"/>
+                        
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--시작-->
+                            <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStartClick}">
+                                <StackPanel>
+                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                                    <TextBlock Text="{x:Static glob:Resource.Start}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <!--정지-->
+                            <Button Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStopClick}">
+                                <StackPanel>
+                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                                    <TextBlock Text="{x:Static glob:Resource.Stop}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <!--수동-->
+                            <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}">
+                                <StackPanel>
+                                    <fa:ImageAwesome Foreground="Silver" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeSilver}" Icon="Wrench"/>
+                                    <TextBlock Text="{x:Static glob:Resource.Manual}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -609,7 +633,7 @@
                         <StackPanel Margin="10">
                             <!-- 채널1 Volt -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                <TextBlock Style="{StaticResource MonitoringItemText}" HorizontalAlignment="Right">
                                     CH1 <Run Text="{x:Static glob:Resource.Volt}"/>(mV)
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
@@ -620,7 +644,7 @@
                             </StackPanel>
                             <!-- 채널1 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                <TextBlock Style="{StaticResource MonitoringItemText}" HorizontalAlignment="Right">
                                     CH1 <Run Text="{x:Static glob:Resource.Curr}"/>(mA)
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
@@ -633,7 +657,7 @@
                         <StackPanel Margin="10">
                             <!-- 채널2 Volt -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                <TextBlock Style="{StaticResource MonitoringItemText}" HorizontalAlignment="Right">
                                     CH2 <Run Text="{x:Static glob:Resource.Volt}"/>(mV)
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
@@ -644,7 +668,7 @@
                             </StackPanel>
                             <!-- 채널2 Curr -->
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource MonitoringItemText}">
+                                <TextBlock Style="{StaticResource MonitoringItemText}" HorizontalAlignment="Right">
                                     CH2 <Run Text="{x:Static glob:Resource.Curr}"/>(mA)
                                 </TextBlock>
                                 <Rectangle Height="25" Width="3" Fill="DodgerBlue" RadiusY="1.5" RadiusX="1.5" Margin="5,0"/>
@@ -663,7 +687,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Margin="10">
                             <!-- Dmm1 Volt -->
-                            <StackPanel Orientation="Horizontal" Margin="24,0,0,0">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource MonitoringItemText}">
                                     DMM(<Run Style="{StaticResource CalTypeText}" FontWeight="Normal"/>)
                                 </TextBlock>
@@ -682,25 +706,30 @@
             <!-- 션트 모니터링-->
             <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
-                    <TextBlock Text="{x:Static glob:Resource.Shunt}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal" Background="#FF3B456B">
+                        <TextBlock Text="{x:Static glob:Resource.Shunt}" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                        <Button Style="{StaticResource BtnNormalStyle}" Command="{Binding ShuntMoveClick}" BorderBrush="DodgerBlue" Margin="0,2">
+                            <fa:ImageAwesome Foreground="White" Height="18" Width="25" Icon="Cogs"/>
+                        </Button>
+                    </StackPanel>
 
-                    <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntStandardCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+                    <TextBlock Text="{x:Static glob:Resource.StandardShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}" Width="AUTO"/>
+                    <TextBlock Text="{Binding ShuntInfos.ShuntStandardCurr}" Margin="10,0" FontSize="20" Style="{StaticResource TextBaseNormal}" HorizontalAlignment="Right"/>
 
-                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntNewCurr}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntCurr}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}" Width="AUTO"/>
+                    <TextBlock Text="{Binding ShuntInfos.ShuntNewCurr}" Margin="10,0" FontSize="20" Style="{StaticResource TextBaseNormal}" HorizontalAlignment="Right"/>
 
-                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}"/>
-                    <TextBox Text="{Binding ShuntInfos.ShuntNewReg}" Margin="10,0" IsReadOnly="True" FontSize="20" HorizontalContentAlignment="Right" Style="{StaticResource TBoxBaseNormal}"/>
+                    <TextBlock Text="{x:Static glob:Resource.CorrectionShuntReg}" Margin="10,15,10,5" Style="{StaticResource MonitoringItemText}" Width="AUTO"/>
+                    <TextBlock Text="{Binding ShuntInfos.ShuntNewReg}" Margin="10,0" FontSize="20" Style="{StaticResource TextBaseNormal}" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Border>
             
             <!--AutoSave Box-->
-            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Style="{StaticResource Hidden}">
+            <Border BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5" Style="{StaticResource Hidden}" Visibility="Visible">
                 <StackPanel>
                     <TextBlock Text="{x:Static glob:Resource.AutoSaveBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                    <TextBlock Text="CAL" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="CALIBATION" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <Grid Margin="5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -712,44 +741,37 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="Height" Value="25"/>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource TogBtnBaseNormal}">
+                                <Setter Property="Height" Value="30"/>
                                 <Setter Property="Width" Value="70"/>
-                                <Setter Property="Margin" Value="2"/>
-                                <Setter Property="CornerRadius" Value="10"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontWeight" Value="Light"/>
+                                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                <Setter Property="FontWeight" Value="Light"/>
+                                <Setter Property="IsThreeState" Value="True"/>
+                                <Setter Property="IsEnabled" Value="False"/>
                                 <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="True">
+                                    <Trigger Property="IsChecked" Value="True">
                                         <Setter Property="Background" Value="{StaticResource LedGreen}"/>
                                     </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
+                                    <Trigger Property="IsChecked" Value="False">
                                         <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                        <Setter Property="Background" Value="Gray"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="FontFamily" Value="NanumGothic Light"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                            </Style>
                         </Grid.Resources>
 
-                        <Border Grid.Row="0" Grid.Column="0" IsEnabled="{Binding SaveCheck.CalCh1VoltFlag}">
-                            <TextBlock Text="CH1 V"/>
-                        </Border>
-                        <Border Grid.Row="0" Grid.Column="1" IsEnabled="{Binding SaveCheck.CalCh1CurrFlag}">
-                            <TextBlock Text="CH1 I"/>
-                        </Border>
-                        <Border Grid.Row="1" Grid.Column="0" IsEnabled="{Binding SaveCheck.CalCh2VoltFlag}">
-                            <TextBlock Text="CH2 V"/>
-                        </Border>
-                        <Border Grid.Row="1" Grid.Column="1" IsEnabled="{Binding SaveCheck.CalCh2CurrFlag}">
-                            <TextBlock Text="CH2 I"/>
-                        </Border>
+                        <CheckBox Content="CH1 V" Grid.Row="0" Grid.Column="0" IsChecked="{Binding SaveCheck.CalCh1VoltFlag}"/>
+                        <CheckBox Content="CH1 I" Grid.Row="0" Grid.Column="1" IsChecked="{Binding SaveCheck.CalCh1CurrFlag}"/>
+                        <CheckBox Content="CH2 V" Grid.Row="1" Grid.Column="0" IsChecked="{Binding SaveCheck.CalCh2VoltFlag}"/>
+                        <CheckBox Content="CH2 I" Grid.Row="1" Grid.Column="1" IsChecked="{Binding SaveCheck.CalCh2CurrFlag}"/>
                     </Grid>
 
-                    <TextBlock Text="MEA" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="MEASUREMENT" Foreground="White" Margin="0,10,0,5" FontSize="16" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <Grid Margin="5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -761,41 +783,34 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="Height" Value="25"/>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource TogBtnBaseNormal}">
+                                <Setter Property="Height" Value="30"/>
                                 <Setter Property="Width" Value="70"/>
-                                <Setter Property="Margin" Value="2"/>
-                                <Setter Property="CornerRadius" Value="10"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontWeight" Value="Light"/>
+                                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                <Setter Property="FontWeight" Value="Light"/>
+                                <Setter Property="IsThreeState" Value="True"/>
+                                <Setter Property="IsEnabled" Value="False"/>
                                 <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="True">
+                                    <Trigger Property="IsChecked" Value="True">
                                         <Setter Property="Background" Value="{StaticResource LedGreen}"/>
                                     </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
+                                    <Trigger Property="IsChecked" Value="False">
                                         <Setter Property="Background" Value="{StaticResource LedRed}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="{x:Null}">
+                                        <Setter Property="Background" Value="Gray"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="FontFamily" Value="NanumGothic Light"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                            </Style>
                         </Grid.Resources>
 
-                        <Border Grid.Row="0" Grid.Column="0" IsEnabled="{Binding SaveCheck.MeaCh1VoltFlag}">
-                            <TextBlock Text="CH1 V"/>
-                        </Border>
-                        <Border Grid.Row="0" Grid.Column="1" IsEnabled="{Binding SaveCheck.MeaCh1CurrFlag}">
-                            <TextBlock Text="CH1 I"/>
-                        </Border>
-                        <Border Grid.Row="1" Grid.Column="0" IsEnabled="{Binding SaveCheck.MeaCh2VoltFlag}">
-                            <TextBlock Text="CH2 V"/>
-                        </Border>
-                        <Border Grid.Row="1" Grid.Column="1" IsEnabled="{Binding SaveCheck.MeaCh2CurrFlag}">
-                            <TextBlock Text="CH2 I"/>
-                        </Border>
+                        <CheckBox Content="CH1 V" Grid.Row="0" Grid.Column="0" IsChecked="{Binding SaveCheck.MeaCh1VoltFlag}"/>
+                        <CheckBox Content="CH1 I" Grid.Row="0" Grid.Column="1" IsChecked="{Binding SaveCheck.MeaCh1CurrFlag}"/>
+                        <CheckBox Content="CH2 V" Grid.Row="1" Grid.Column="0" IsChecked="{Binding SaveCheck.MeaCh2VoltFlag}"/>
+                        <CheckBox Content="CH2 I" Grid.Row="1" Grid.Column="1" IsChecked="{Binding SaveCheck.MeaCh2CurrFlag}"/>
                     </Grid>
                 </StackPanel>
             </Border>

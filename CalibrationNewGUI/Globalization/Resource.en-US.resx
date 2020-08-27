@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllRunBox" xml:space="preserve">
+    <value>All Run</value>
+    <comment>모니터링 페이지</comment>
+  </data>
   <data name="AutoSave Setting" xml:space="preserve">
     <value>Auto Save Setting</value>
     <comment>자동저장 세팅 페이지</comment>
@@ -146,19 +150,19 @@
     <comment>세팅 메뉴</comment>
   </data>
   <data name="CalStart" xml:space="preserve">
-    <value>Cal Start</value>
+    <value>CAL Start</value>
     <comment>수동CAL 윈도우</comment>
   </data>
   <data name="CalStartTip" xml:space="preserve">
-    <value>Cal Start</value>
+    <value>CAL Start</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="CalStopTip" xml:space="preserve">
-    <value>Cal Stop</value>
+    <value>CAL Stop</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="CalType" xml:space="preserve">
-    <value>Cal Type</value>
+    <value>CAL Type</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="Channel" xml:space="preserve">
@@ -192,10 +196,6 @@
   <data name="CreatePoint" xml:space="preserve">
     <value>Create Point</value>
     <comment>오토스캔 페이지</comment>
-  </data>
-  <data name="CtrlerBox" xml:space="preserve">
-    <value>Controler</value>
-    <comment>모니터링 페이지</comment>
   </data>
   <data name="Curr" xml:space="preserve">
     <value>Curr</value>
@@ -260,7 +260,7 @@ Min : {1}</value>
     <comment>메세지 박스</comment>
   </data>
   <data name="ErrRange" xml:space="preserve">
-    <value>Error Range(±)</value>
+    <value>Error Range</value>
     <comment>오토스캔 페이지</comment>
   </data>
   <data name="File" xml:space="preserve">
@@ -276,7 +276,7 @@ Min : {1}</value>
     <comment>오토스캔 페이지</comment>
   </data>
   <data name="LangChangeCaption" xml:space="preserve">
-    <value>Language Apply</value>
+    <value>Apply Language</value>
     <comment>메세지 박스</comment>
   </data>
   <data name="LangChangeMsg" xml:space="preserve">
@@ -420,19 +420,19 @@ Do you want to apply?</value>
     <comment>통신 세팅 페이지</comment>
   </data>
   <data name="PointAddTip" xml:space="preserve">
-    <value>Point Add</value>
+    <value>Add Point</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointApply" xml:space="preserve">
-    <value>Point Apply</value>
+    <value>Apply Point</value>
     <comment>오토스캔 페이지</comment>
   </data>
   <data name="PointDelTip" xml:space="preserve">
-    <value>Point Delete</value>
+    <value>Delete Point</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointDownloadTip" xml:space="preserve">
-    <value>Cal Point Download</value>
+    <value>CAL Point Download</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointDownTip" xml:space="preserve">
@@ -444,7 +444,7 @@ Do you want to apply?</value>
     <comment>메세지 박스</comment>
   </data>
   <data name="PointUploadTip" xml:space="preserve">
-    <value>Cal Point Upload</value>
+    <value>CAL Point Upload</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="PointUpTip" xml:space="preserve">
@@ -454,6 +454,9 @@ Do you want to apply?</value>
   <data name="PortName" xml:space="preserve">
     <value>Port Name</value>
     <comment>통신 세팅 페이지</comment>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
   <data name="ResultData AutoSave" xml:space="preserve">
     <value>ResultData AutoSave</value>

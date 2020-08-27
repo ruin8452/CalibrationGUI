@@ -1,6 +1,7 @@
 ﻿using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight.Command;
 using PropertyChanged;
+using System;
 using System.Windows;
 
 namespace CalibrationNewGUI.ViewModel.Setting

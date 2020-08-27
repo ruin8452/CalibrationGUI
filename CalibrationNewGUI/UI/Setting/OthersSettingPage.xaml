@@ -11,6 +11,7 @@
 
     <Page.Resources>
         <Style x:Key="CalSetText" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="FontFamily" Value="NanumGothic Light"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
@@ -19,7 +20,6 @@
         <Style x:Key="CalSetBox" TargetType="TextBox">
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="FontFamily" Value="NanumGothic"/>
-            <Setter Property="Width" Value="150"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Background" Value="{x:Null}"/>
@@ -33,7 +33,7 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="DodgerBlue"/>
             <Setter Property="Background" Value="Transparent"/>
             <Style.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
@@ -59,48 +59,56 @@
             <StackPanel HorizontalAlignment="Center">
                 <TextBlock Text="{x:Static glob:Resource.Other_Setting}" Margin="0,15,0,0" Foreground="White" FontSize="35" FontFamily="12LotteMartDreamBold" HorizontalAlignment="Center"/>
                 <Separator Background="#FF53609B"/>
-                <TextBlock Text="Others Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
+                <TextBlock Text="Other Setting" Foreground="White" FontSize="12" FontFamily="NanumGothic Light" HorizontalAlignment="Center"/>
             </StackPanel>
+
+            <Border Height="30"/>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="40,0,40,20" >
-                    <TextBlock Text="{x:Static glob:Resource.Input}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Margin="40,0,40,20" BorderThickness="1" BorderBrush="#FF3B456B">
+                    <StackPanel>
+                        <TextBlock Text="{x:Static glob:Resource.Input}" Margin="0,10" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid Margin="7,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{x:Static glob:Resource.MaximumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="1"/>
+                            <TextBlock Text="{x:Static glob:Resource.MaximumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Text="{Binding OthersInfos.InputVoltMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="0" Grid.Column="2"/>
 
-                        <TextBlock Text="{x:Static glob:Resource.MinimumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="{x:Static glob:Resource.MinimumInputVolt}" Style="{StaticResource CalSetText}" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Text="{Binding OthersInfos.InputVoltMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="1" Grid.Column="2"/>
 
-                        <TextBlock Text="{x:Static glob:Resource.MaximumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
-                        <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="1"/>
+                            <TextBlock Text="{x:Static glob:Resource.MaximumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="2" Grid.Column="0"/>
+                            <TextBox Text="{Binding OthersInfos.InputCurrMax, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="2" Grid.Column="2"/>
 
-                        <TextBlock Text="{x:Static glob:Resource.MinimumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
-                        <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="1"/>
-                    </Grid>
-                </StackPanel>
+                            <TextBlock Text="{x:Static glob:Resource.MinimumInputCurr}" Style="{StaticResource CalSetText}" Grid.Row="3" Grid.Column="0"/>
+                            <TextBox Text="{Binding OthersInfos.InputCurrMin, Mode=TwoWay}" Style="{StaticResource CalSetBox}" Grid.Row="3" Grid.Column="2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
 
-                <StackPanel Margin="40,0,40,20" Grid.Column="1">
-                    <TextBlock Text="{x:Static glob:Resource.Language}" Margin="0,20" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Margin="40,0,40,20" BorderThickness="1" BorderBrush="#FF3B456B" Grid.Column="1">
+                    <StackPanel>
+                        <TextBlock Text="Language" Margin="0,10" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
-                </StackPanel>
+                        <ComboBox SelectedItem="{Binding OthersInfos.Language, Mode=TwoWay}" ItemsSource="{Binding LanguageList}" Grid.Row="0" Grid.Column="1" Style="{StaticResource SettingCombo}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
             </Grid>
 
             <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
