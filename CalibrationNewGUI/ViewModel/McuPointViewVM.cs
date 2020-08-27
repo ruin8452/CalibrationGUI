@@ -46,10 +46,10 @@ namespace CalibrationNewGUI.ViewModel
 
         private void Refresh()
         {
-            PointDownload();
-
             CalMode = mode;
             SelectedCh = ChNumber == 1 ? "CH1" : "CH2";
+
+            PointDownload();
         }
 
         private void PointDownload()
