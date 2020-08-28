@@ -102,6 +102,7 @@
     <Compile Include="Equipment\Protocol\IProtocol.cs" />
     <Compile Include="Equipment\Protocol\ModbusProtocol.cs" />
     <Compile Include="FileSystem\CsvFile.cs" />
+    <Compile Include="FileSystem\Log.cs" />
     <Compile Include="FileSystem\PointFile.cs" />
     <Compile Include="Globalization\Resource.Designer.cs">
       <AutoGen>True</AutoGen>

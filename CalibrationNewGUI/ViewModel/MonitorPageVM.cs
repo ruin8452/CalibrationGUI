@@ -101,6 +101,7 @@ namespace CalibrationNewGUI.ViewModel
         public RelayCommand AutoCalStopClick { get; set; }
         public RelayCommand ManualCalClick { get; set; }
 
+        public RelayCommand LogSaveClick { get; set; }
         public RelayCommand LogClearClick { get; set; }
         public RelayCommand ShuntMoveClick { get; set; }
 
@@ -178,6 +179,7 @@ namespace CalibrationNewGUI.ViewModel
             AutoCalStopClick = new RelayCommand(AutoCalStop);
             ManualCalClick = new RelayCommand(ManualCal);
 
+            LogSaveClick = new RelayCommand(LogSave);
             LogClearClick = new RelayCommand(LogClear);
             ShuntMoveClick = new RelayCommand(ShuntPageMove);
 
@@ -835,6 +837,12 @@ namespace CalibrationNewGUI.ViewModel
             ChNumber = int.Parse(chNum.ToString());
 
             OnChangeCalOption();
+        }
+
+        private void LogSave()
+        {
+            Log.LogSave(LogText);
+            LogClear();
         }
 
         private void LogClear()
