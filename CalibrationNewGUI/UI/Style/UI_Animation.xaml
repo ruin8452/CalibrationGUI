@@ -49,14 +49,14 @@
     <!-- 빨간색, 마우스 오버색 -->
     <Storyboard x:Key="BtnBackAni_RedToDarkRed">
         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource LedRed}"/>
-            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="{StaticResource LedRedOver}"/>
+            <EasingColorKeyFrame KeyTime="0" Value="#FFFF4444"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFCB3838"/>
         </ColorAnimationUsingKeyFrames>
     </Storyboard>
     <Storyboard x:Key="BtnBackAni_DarkRedToRed">
         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource LedRedOver}"/>
-            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="{StaticResource LedRed}"/>
+            <EasingColorKeyFrame KeyTime="0" Value="#FFCB3838"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#FFFF4444"/>
         </ColorAnimationUsingKeyFrames>
     </Storyboard>
     

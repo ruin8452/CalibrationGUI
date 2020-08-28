@@ -565,10 +565,10 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
-                                <RadioButton x:Name="VoltCalBtn" GroupName="CalOption" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}"/>
+                                <RadioButton x:Name="VoltCalBtn" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}"/>
                             </Border>
                             <Border Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
-                                <RadioButton x:Name="CurrCalBtn" GroupName="CalOption" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
+                                <RadioButton x:Name="CurrCalBtn" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
                             </Border>
                         </Grid>
 
@@ -581,20 +581,18 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
-                                <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Tag="1" GroupName="ch" IsChecked="True"
+                                <RadioButton Content="CH1" GroupName="ch" Style="{StaticResource RadioStyle}" Tag="1" IsChecked="True"
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                             </Border>
                             <Border Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
-                                <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Tag="2" GroupName="ch" 
+                                <RadioButton Content="CH2" GroupName="ch" Style="{StaticResource RadioStyle}" Tag="2" 
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                             </Border>
                             <Border Grid.Column="2" BorderThickness="1" BorderBrush="DodgerBlue">
-
-                                <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Tag="0" GroupName="ch" 
+                                <RadioButton Content="ALL" GroupName="ch" Style="{StaticResource RadioStyle}" Tag="0" 
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                             </Border>
                         </Grid>
-
 
                         <Grid>
                             <Grid.ColumnDefinitions>
