@@ -32,18 +32,18 @@ namespace CalibrationNewGUI.ViewModel.Setting
         {
             if (preLang != OthersInfos.Language)
             {
-                var result = MessageBox.Show(App.GetString("LangChangeMsg"), App.GetString("LangChangeCaption"), MessageBoxButton.YesNo); ;
-                if(result == MessageBoxResult.Yes)
-                {
+                //var result = MessageBox.Show(App.GetString("LangChangeMsg"), App.GetString("LangChangeCaption"), MessageBoxButton.YesNo); ;
+                //if(result == MessageBoxResult.Yes)
+                //{
                     OthersInfos.Save();
                     System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                     Application.Current.Shutdown();
-                }
-                else
-                {
-                    OthersInfos.Language = preLang;
-                    OthersInfos.Save();
-                }
+                //}
+                //else
+                //{
+                    //OthersInfos.Language = preLang;
+                    //OthersInfos.Save();
+                //}
             }
             MessageBox.Show(App.GetString("SaveOkMsg"));
         }

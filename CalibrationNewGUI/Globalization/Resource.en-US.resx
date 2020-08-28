@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AllRunBox" xml:space="preserve">
-    <value>CAL + Mesurement</value>
+    <value>CAL + Mesure</value>
     <comment>모니터링 페이지</comment>
   </data>
   <data name="AutoSave Setting" xml:space="preserve">
