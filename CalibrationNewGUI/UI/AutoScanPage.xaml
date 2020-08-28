@@ -51,25 +51,26 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="RadioStyle" TargetType="RadioButton" BasedOn="{StaticResource RadioBaseToggle}">
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="DodgerBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="DodgerBlue"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
                 </EventTrigger>
             </Style.Triggers>
         </Style>
@@ -135,8 +136,12 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="{x:Static glob:Resource.Mode}" Grid.ColumnSpan="2" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
-                <RadioButton x:Name="VoltCalBtn" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="0" Width="60" Command="{Binding ModeSelectClick}" IsChecked="{Binding ModeSelecte}" />
-                <RadioButton x:Name="CurrCalBtn" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="1" Width="60" Command="{Binding ModeSelectClick}" />
+                <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
+                    <RadioButton x:Name="VoltCalBtn" GroupName="mode" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Width="60" Command="{Binding ModeSelectClick}" IsChecked="{Binding ModeSelecte}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
+                    <RadioButton x:Name="CurrCalBtn" GroupName="mode" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Width="60" Command="{Binding ModeSelectClick}" />
+                </Border>
             </Grid>
 
             <Grid Margin="10">
@@ -150,8 +155,12 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="{x:Static glob:Resource.Channel}" Grid.ColumnSpan="2" FontSize="18" Foreground="White" HorizontalAlignment="Center"/>
-                <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="0" Width="50" Command="{Binding ModeSelectClick}" IsChecked="{Binding ChSelected}" />
-                <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Row="1" Grid.Column="1" Width="50" Command="{Binding ModeSelectClick}" />
+                <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
+                    <RadioButton Content="CH1" GroupName="ch" Style="{StaticResource RadioStyle}" Width="50" Command="{Binding ModeSelectClick}" IsChecked="{Binding ChSelected}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
+                    <RadioButton Content="CH2" GroupName="ch" Style="{StaticResource RadioStyle}" Width="50" Command="{Binding ModeSelectClick}" />
+                </Border>
             </Grid>
 
             <Grid Margin="10">
@@ -283,12 +292,6 @@
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                     </DataGrid.Columns>
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="CellEditEnding">
-                            <mvvm:EventToCommand Command="{Binding GridCellEdit}" PassEventArgsToCommand="True"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </DataGrid>
 
                 <Button Content="{x:Static glob:Resource.StartScan}" Style="{StaticResource BtnStyle}" FontSize="17" Margin="5" Height="40" Command="{Binding ScanStartClick}"/>
