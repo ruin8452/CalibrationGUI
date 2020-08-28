@@ -18,7 +18,6 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MainWindowVM : ViewModelBase
     {
-
         public bool CalRadio { get; set; }
         public bool ScanRadio { get; set; }
         public bool SettingRadio { get; set; }
@@ -28,7 +27,6 @@ namespace CalibrationNewGUI.ViewModel
         public bool IsAllConnected { get; set; } = false;
 
         public string GuiVersion { get; set; }
-        public string ProgramTitle { get; set; }
 
         public McuInfo McuInfos { get; set; }
         public DmmInfo DmmInfos { get; set; }
@@ -44,8 +42,6 @@ namespace CalibrationNewGUI.ViewModel
 
         public MainWindowVM()
         {
-            
-
             McuConnColor = Application.Current.Resources["LedGreenOff"] as SolidColorBrush;
             DmmConnColor = Application.Current.Resources["LedGreenOff"] as SolidColorBrush;
 
@@ -66,7 +62,6 @@ namespace CalibrationNewGUI.ViewModel
 
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            ProgramTitle = $"KJ Calibration GUI";
             GuiVersion = $"1.0.0  [ Last Build : {buildDate.ToString("yyyy-MM-dd  HH:mm")}]";
         }
 
