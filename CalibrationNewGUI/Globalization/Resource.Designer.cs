@@ -61,7 +61,7 @@ namespace CalibrationNewGUI.Globalization {
         }
         
         /// <summary>
-        ///   CAL&amp;실측 동작과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   CAL + 실측과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string AllRunBox {
             get {

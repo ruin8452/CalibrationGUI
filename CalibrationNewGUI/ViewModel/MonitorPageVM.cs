@@ -33,8 +33,6 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MonitorPageVM
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(MonitorPageVM));
-
         string AutoSavePath;
         string AutoSaveFilePath;
 
@@ -122,7 +120,6 @@ namespace CalibrationNewGUI.ViewModel
          */
         public MonitorPageVM()
         {
-            log.Debug("test");
             AutoSavePath = Environment.CurrentDirectory + "\\Auto Save\\";
             AutoSaveFilePath = AutoSavePath + AutoSaveInfo.GetObj().AutoSavePrifix + ".csv";
 
@@ -1209,7 +1206,6 @@ namespace CalibrationNewGUI.ViewModel
                 return;
 
             LogText = string.Format($"[{DateTime.Now}] {obj.LogText}\n{LogText}");
-            log.Debug(obj.LogText);
         }
 
         /**

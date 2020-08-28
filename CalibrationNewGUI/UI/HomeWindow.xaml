@@ -10,6 +10,7 @@
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:local="clr-namespace:CalibrationNewGUI"
         mc:Ignorable="d"
+        Icon="/CalibrationNewGUI;component/Resources/CalIcon.ico"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
         Title="{Binding ProgramTitle}" Height="800" MinWidth="1300" Width="1300">
 

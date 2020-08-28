@@ -135,28 +135,6 @@
     <Compile Include="UI\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingAutoSavePage.xaml.cs">
-      <DependentUpon>SettingAutoSavePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingCalPage.xaml.cs">
-      <DependentUpon>SettingCalPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingCommPage.xaml.cs">
-      <DependentUpon>SettingCommPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingData.cs" />
-    <Compile Include="SettingMeaPage.xaml.cs">
-      <DependentUpon>SettingMeaPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingOthersPage.xaml.cs">
-      <DependentUpon>SettingOthersPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingShuntPage.xaml.cs">
-      <DependentUpon>SettingShuntPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestSetting.xaml.cs">
-      <DependentUpon>TestSetting.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\ManualCalWindow.xaml.cs">
       <DependentUpon>ManualCalWindow.xaml</DependentUpon>
     </Compile>
@@ -208,50 +186,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="MonitoringPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingAutoSavePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingCalPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingCommPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingMeaPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingOthersPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingShuntPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestSetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\ManualCalWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -302,9 +240,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MonitoringPage.xaml.cs">
-      <DependentUpon>MonitoringPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -338,6 +273,7 @@
     <Content Include="Resources\bahnschrift.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\CalIcon.ico" />
     <Content Include="Resources\Handel Gothic.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

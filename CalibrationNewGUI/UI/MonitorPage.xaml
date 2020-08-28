@@ -549,7 +549,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <!--CAL Option-->
-            <Border Width="190" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
+            <Border Width="250" BorderBrush="#FF3B456B" BorderThickness="1" Margin="5,5,0,5">
                 <StackPanel>
                     <StackPanel>
                         <TextBlock Text="{x:Static glob:Resource.CAL_Option}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
@@ -583,41 +583,58 @@
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                         </Grid>
 
-                        <TextBlock Text="{x:Static glob:Resource.AllRunBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                        <Border Height="5"/>
-                        
-                        <Grid Margin="0,0,0,10">
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--시작-->
-                            <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStartClick}">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="{x:Static glob:Resource.AllRunBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                                <Grid Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--시작-->
+                                    <Button Grid.Column="0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStartClick}">
+                                        <StackPanel>
+                                            <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                                            <TextBlock Text="{x:Static glob:Resource.Start}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <!--정지-->
+                                    <Button Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStopClick}">
+                                        <StackPanel>
+                                            <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
+                                            <TextBlock Text="{x:Static glob:Resource.Stop}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+
+                            <Border BorderBrush="#FF3B456B" BorderThickness="1,0,0,0" Grid.Column="1" Margin="0,0,0,-3">
                                 <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Play" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Start}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{x:Static glob:Resource.Manual}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--수동-->
+                                        <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}" Margin="0,5,0,0">
+                                            <StackPanel>
+                                                <fa:ImageAwesome Foreground="Silver" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeSilver}" Icon="Wrench"/>
+                                                <TextBlock Text="{x:Static glob:Resource.Manual}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </Grid>
                                 </StackPanel>
-                            </Button>
-                            <!--정지-->
-                            <Button Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding AutoCalStopClick}">
-                                <StackPanel>
-                                    <fa:ImageAwesome Foreground="DodgerBlue" Icon="Stop" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeBlue}"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Stop}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Button>
-                            <!--수동-->
-                            <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}">
-                                <StackPanel>
-                                    <fa:ImageAwesome Foreground="Silver" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeSilver}" Icon="Wrench"/>
-                                    <TextBlock Text="{x:Static glob:Resource.Manual}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Button>
+                            </Border>
                         </Grid>
 
-                        
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -708,7 +725,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Background="#FF3B456B">
                         <TextBlock Text="{x:Static glob:Resource.Shunt}" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
-                        <Button Style="{StaticResource BtnNormalStyle}" Command="{Binding ShuntMoveClick}" BorderBrush="DodgerBlue" Margin="0,2">
+                        <Button Style="{StaticResource BtnNormalStyle}" Command="{Binding ShuntMoveClick}" BorderBrush="DodgerBlue" Margin="45,0,0,0">
                             <fa:ImageAwesome Foreground="White" Height="18" Width="25" Icon="Cogs"/>
                         </Button>
                     </StackPanel>

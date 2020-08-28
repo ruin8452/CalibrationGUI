@@ -79,6 +79,7 @@
             <RadioButton x:Name="AutoBtn"  Grid.Column="3" Content="{x:Static glob:Resource.AutoSaveMenu}"   Style="{StaticResource SubBtnStyle}" IsChecked="{Binding SaveRadio, Mode=TwoWay}"/>
             <RadioButton x:Name="OtherBtn" Grid.Column="4" Content="{x:Static glob:Resource.OtherMenu}"      Style="{StaticResource SubBtnStyle}" IsChecked="{Binding OtherRadio, Mode=TwoWay}"/>
         </Grid>
+        <Separator Background="#FF5E6A97"/>
 
         <Frame />
     </StackPanel>

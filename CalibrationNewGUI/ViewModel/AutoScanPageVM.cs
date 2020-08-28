@@ -216,7 +216,7 @@ namespace CalibrationNewGUI.ViewModel
         public AutoScanPageVM()
         {
             minPoint = othersInfo.InputVoltMin;
-            MaxPoint = othersInfo.InputVoltMax;
+            maxPoint = othersInfo.InputVoltMax;
             //pointInterval = MIN_VOTE_INTERVAL;
 
             calManager.MeaMonitor += CalManager_MeaMonitor;
@@ -247,12 +247,23 @@ namespace CalibrationNewGUI.ViewModel
 
         private void ModeSelected()
         {
+            if(ModeSelecte)
+            {
+                MinPoint = othersInfo.InputVoltMin;
+                MaxPoint = othersInfo.InputVoltMax;
+            }
+            else
+            {
+                MinPoint = othersInfo.InputCurrMin;
+                MaxPoint = othersInfo.InputCurrMax;
+            }
             OnChangeCalOption();
         }
 
         private void PointCreate()
         {
             ScanPointTable.Clear();
+            McuPointTable.Clear();
 
             // 전압 스캔
             if (ModeSelecte)
