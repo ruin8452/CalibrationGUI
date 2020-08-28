@@ -26,8 +26,9 @@
                 <SolidColorBrush x:Key="LedYellow" Color="#FFF1AF00" />
                 <SolidColorBrush x:Key="LedGreen" Color="#FF31AA4D" />
                 <SolidColorBrush x:Key="LedGreenOff" Color="#FF26502E" />
-                
-                <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17" />
+                <SolidColorBrush x:Key="LedYellowOff" Color="#FF997518" />
+
+            <SolidColorBrush x:Key="MainBackground" Color="#FF0D0F17" />
                 <SolidColorBrush x:Key="PageBackground" Color="#FF1B1E2B" />
 
                 <FontFamily x:Key="Handel">/Resources/#Handel Gothic</FontFamily>

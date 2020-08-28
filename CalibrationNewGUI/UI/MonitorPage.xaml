@@ -135,20 +135,21 @@
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="DodgerBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="DodgerBlue"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
 
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_TransToBlue}" />
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_TransToBlue}" />
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource BtnBackAni_BlueToTrans}" />
+                    <BeginStoryboard Storyboard="{StaticResource BorderColorAni_BlueToTrans}" />
                 </EventTrigger>
             </Style.Triggers>
         </Style>
@@ -168,10 +169,10 @@
         <Style TargetType="{x:Type fa:ImageAwesome}" x:Key="ColorChangeSilver">
             <Style.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_SilverToGray}"/>
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_YellowDarkYellow}"/>
                 </EventTrigger>
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_GrayToSilver}"/>
+                    <BeginStoryboard Storyboard="{StaticResource ImgAsForAni_DarkYellowYellow}"/>
                 </EventTrigger>
             </Style.Triggers>
         </Style>
@@ -554,7 +555,7 @@
                     <StackPanel>
                         <TextBlock Text="{x:Static glob:Resource.CAL_Option}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
 
-                        <Border Height="10"/>
+                        <Border Height="5"/>
 
                         <TextBlock Text="{x:Static glob:Resource.CalType}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
                         <Grid Margin="5,5,5,10">
@@ -563,24 +564,35 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <RadioButton x:Name="VoltCalBtn" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Grid.Column="0" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}"/>
-                            <RadioButton x:Name="CurrCalBtn" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Grid.Column="1" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
+                            <Border Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
+                                <RadioButton x:Name="VoltCalBtn" GroupName="CalOption" Content="{x:Static glob:Resource.Volt}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode}"/>
+                            </Border>
+                            <Border Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
+                                <RadioButton x:Name="CurrCalBtn" GroupName="CalOption" Content="{x:Static glob:Resource.Curr}" Style="{StaticResource RadioStyle}" Command="{Binding ModeSelectClick}" IsChecked="{Binding CalMode, Converter={StaticResource InvertBoolConv}}"/>
+                            </Border>
                         </Grid>
 
                         <TextBlock Text="{x:Static glob:Resource.SelectCh}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>
-                        <Grid Margin="5,5,5,10">
+                        <Grid Margin="5,5,5,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Grid.Column="0" Tag="1" IsChecked="True"
+                            <Border Grid.Column="0" BorderThickness="1" BorderBrush="DodgerBlue">
+                                <RadioButton Content="CH1" Style="{StaticResource RadioStyle}" Tag="1" GroupName="ch" IsChecked="True"
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
-                            <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Grid.Column="1" Tag="2"
+                            </Border>
+                            <Border Grid.Column="1" BorderThickness="1" BorderBrush="DodgerBlue">
+                                <RadioButton Content="CH2" Style="{StaticResource RadioStyle}" Tag="2" GroupName="ch" 
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
-                            <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Grid.Column="2" Tag="0"
+                            </Border>
+                            <Border Grid.Column="2" BorderThickness="1" BorderBrush="DodgerBlue">
+
+                                <RadioButton Content="ALL" Style="{StaticResource RadioStyle}" Tag="0" GroupName="ch" 
                                          Command="{Binding ChSelectClick}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                            </Border>
                         </Grid>
 
 
@@ -592,7 +604,7 @@
 
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="{x:Static glob:Resource.AllRunBox}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
-                                <Grid Margin="0,5,0,0">
+                                <Grid Margin="0,7,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
@@ -615,7 +627,7 @@
                                 </Grid>
                             </StackPanel>
 
-                            <Border BorderBrush="#FF3B456B" BorderThickness="1,0,0,0" Grid.Column="1" Margin="0,0,0,-3">
+                            <Border BorderBrush="#FF3B456B" BorderThickness="1,0,0,0" Grid.Column="1" Margin="0,0,0,-5">
                                 <StackPanel>
                                     <TextBlock Text="{x:Static glob:Resource.Manual}" Background="#FF3B456B" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
                                     <Grid>
@@ -624,7 +636,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!--수동-->
-                                        <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}" Margin="0,5,0,0">
+                                        <Button Grid.Column="3" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding ManualCalClick}" Margin="0,7,0,0">
                                             <StackPanel>
                                                 <fa:ImageAwesome Foreground="{StaticResource LedYellow}" Height="30" Width="30" Margin="0,0,0,3" Style="{StaticResource ColorChangeSilver}" Icon="Wrench"/>
                                                 <TextBlock Text="{x:Static glob:Resource.Manual}" FontSize="14" Foreground="White" HorizontalAlignment="Center"/>

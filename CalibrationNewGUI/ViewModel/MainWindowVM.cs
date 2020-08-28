@@ -1,16 +1,13 @@
 ﻿using CalibrationNewGUI.Equipment;
-using CalibrationNewGUI.FileSystem;
 using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using log4net;
 using PropertyChanged;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace CalibrationNewGUI.ViewModel
