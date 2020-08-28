@@ -67,7 +67,7 @@ namespace CalibrationNewGUI.ViewModel
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             ProgramTitle = $"KJ Calibration GUI";
-            GuiVersion = $"1.0.0  [ Last Build : {buildDate.ToString("yyyy-mm-dd  HH:MM")}]";
+            GuiVersion = $"1.0.0  [ Last Build : {buildDate.ToString("yyyy-MM-dd  HH:mm")}]";
         }
 
         //통신 연결 버튼

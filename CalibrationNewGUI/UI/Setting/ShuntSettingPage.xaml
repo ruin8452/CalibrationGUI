@@ -68,7 +68,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Margin="40,0,40,20" BorderThickness="1" BorderBrush="#FF3B456B">
+                <Border Margin="40,0,40,20" BorderThickness="3" BorderBrush="#FF3B456B">
                     <StackPanel Margin="40,0,40,20" >
                         <TextBlock Text="{x:Static glob:Resource.Shunt}" Margin="0,20,0,10" Foreground="White" FontSize="22" FontFamily="NanumGothic" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 

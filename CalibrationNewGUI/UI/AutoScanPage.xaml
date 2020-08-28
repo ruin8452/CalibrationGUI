@@ -310,14 +310,13 @@
                 <TextBlock Text="Cal Point Table" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontWeight="Bold"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
-                    <!--포인트 삭제-->
-                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointDelClick}" ToolTip="{x:Static glob:Resource.PointDelTip}">
-                        <fa:ImageAwesome Icon="ChevronDown" ToolTip="{x:Static glob:Resource.PointDelTip}" Style="{StaticResource ColorChangeWhite}"/>
-                    </Button>
-                    <Border Height="20"/>
                     <!--포인트 일괄 삭제-->
-                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource BtnBaseNormal}" Command="{Binding PointAllDelClick}"  ToolTip="{x:Static glob:Resource.PointDelAll}">
-                        <fa:ImageAwesome Icon="ChevronDown" ToolTip="{x:Static glob:Resource.PointDelAll}" Style="{StaticResource ColorChangeWhite}"/>
+                    <Button Style="{StaticResource ImgBtn}" Command="{Binding PointAllDelClick}">
+                        <fa:ImageAwesome ToolTip="{x:Static glob:Resource.PointDelAll}" Style="{StaticResource ColorChangeWhite}" Icon="Times"/>
+                    </Button>
+                    <!--포인트 삭제-->
+                    <Button Style="{StaticResource ImgBtn}" Command="{Binding PointDelClick}">
+                        <fa:ImageAwesome Icon="Minus" ToolTip="{x:Static glob:Resource.PointDelTip}" Style="{StaticResource ColorChangeWhite}"/>
                     </Button>
                     <Rectangle Fill="DodgerBlue" Width="3" RadiusY="1" RadiusX="1" Margin="5,0,5,0"/>
                     <Button Tag="CAL" Style="{StaticResource ImgBtn}"

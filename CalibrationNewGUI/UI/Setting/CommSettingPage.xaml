@@ -63,7 +63,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Margin="40,0,40,20" BorderThickness="1" BorderBrush="#FF3B456B">
+                <Border Margin="40,0,40,20" BorderThickness="3" BorderBrush="#FF3B456B">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
                             <fa:ImageAwesome Icon="Microchip" Foreground="White" Height="20" Margin="0,0,5,0"/>
@@ -109,7 +109,7 @@
                 </Border>
 
 
-                <Border Margin="40,0,40,20"  BorderThickness="1" BorderBrush="#FF3B456B" Grid.Column="1">
+                <Border Margin="40,0,40,20"  BorderThickness="3" BorderBrush="#FF3B456B" Grid.Column="1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
                             <fa:ImageAwesome Icon="HddOutline" Foreground="White" Height="20" Margin="0,0,5,0"/>
