@@ -49,7 +49,7 @@
     </Window.Resources>
     
     <StackPanel Background="{StaticResource MainBackground}">
-        <TextBlock Text="Mcu Point" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontWeight="Bold"/>
+        <TextBlock Text="MCU CAL Point" Foreground="White" FontSize="35" HorizontalAlignment="Center" FontWeight="Bold"/>
         
         <StackPanel Orientation="Horizontal" Margin="0,5,5,10" HorizontalAlignment="Right">
             <Border Width="50" Height="30" BorderBrush="White" BorderThickness="2">

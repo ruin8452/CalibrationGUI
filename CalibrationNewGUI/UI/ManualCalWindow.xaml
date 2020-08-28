@@ -82,7 +82,7 @@
                     <TextBox Text="{Binding CalCurr}" FontSize="17" BorderBrush="{x:Null}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
                     <TextBlock Text="mA" FontSize="20" Foreground="White" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
 
-                    <TextBlock Text="Dmm :" Margin="3,0" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextStyle}"/>
+                    <TextBlock Text="DMM :" Margin="3,0" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextStyle}"/>
                     <TextBlock FontSize="17" Style="{StaticResource DmmTextSwitch}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 </Grid>
 

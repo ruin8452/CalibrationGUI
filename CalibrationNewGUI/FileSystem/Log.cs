@@ -13,7 +13,10 @@ namespace CalibrationNewGUI.FileSystem
         {
             try
             {
-                string path = string.Format($@"{Environment.CurrentDirectory}\Logs\{DateTime.Now:yyyy-MM-dd HH.mm.ss}_Log.log");
+                if(text == "" || text == string.Empty)
+                    return true;
+
+                string path = string.Format($@"{Environment.CurrentDirectory}\Logs\{DateTime.Now:yyyy-MM-dd_HH.mm.ss}_Log.log");
                 using (StreamWriter csvStream = new StreamWriter(path, true, Encoding.UTF8))
                 {
                     csvStream.WriteLine(text);
