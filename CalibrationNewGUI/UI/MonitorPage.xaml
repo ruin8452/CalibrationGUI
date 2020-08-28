@@ -823,6 +823,7 @@
                     <TextBlock Text="{x:Static glob:Resource.LogBox}" Padding="3" Foreground="White" FontFamily="NanumGothic" FontSize="20" FontWeight="Bold"/>
                     <CheckBox Content="{x:Static glob:Resource.LogView}" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsLogActive, Mode=OneWayToSource}"/>
                     <CheckBox Content="{x:Static glob:Resource.MonitorExcept}" Margin="20,0,0,0" Foreground="White" VerticalAlignment="Center" IsChecked="{Binding IsMoniExcept, Mode=OneWayToSource}"/>
+                    <Button Content="Save"  Margin="20,0,0,0" Foreground="White" Width="50" Height="20" BorderBrush="DodgerBlue" Style="{StaticResource BtnNormalStyle}" Command="{Binding LogClearClick}"/>
                     <Button Content="Clear" Margin="20,0,0,0" Foreground="White" Width="50" Height="20" BorderBrush="DodgerBlue" Style="{StaticResource BtnNormalStyle}" Command="{Binding LogClearClick}"/>
                 </StackPanel>
 

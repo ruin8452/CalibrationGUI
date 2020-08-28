@@ -1,4 +1,5 @@
 ﻿using CalibrationNewGUI.Equipment;
+using CalibrationNewGUI.FileSystem;
 using CalibrationNewGUI.Message;
 using CalibrationNewGUI.Model;
 using GalaSoft.MvvmLight;
@@ -17,7 +18,6 @@ namespace CalibrationNewGUI.ViewModel
     [ImplementPropertyChanged]
     public class MainWindowVM : ViewModelBase
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Dmm));
 
         public bool CalRadio { get; set; }
         public bool ScanRadio { get; set; }
