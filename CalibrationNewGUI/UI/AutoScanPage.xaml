@@ -315,7 +315,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                     <!--포인트 일괄 삭제-->
                     <Button Style="{StaticResource ImgBtn}" Command="{Binding PointAllDelClick}">
-                        <fa:ImageAwesome ToolTip="{x:Static glob:Resource.PointDelAll}" Style="{StaticResource ColorChangeWhite}" Icon="Times"/>
+                        <fa:ImageAwesome ToolTip="{x:Static glob:Resource.PointDelAll}" Style="{StaticResource ColorChangeWhite}" Icon="TrashOutline"/>
                     </Button>
                     <!--포인트 삭제-->
                     <Button Style="{StaticResource ImgBtn}" Command="{Binding PointDelClick}">
