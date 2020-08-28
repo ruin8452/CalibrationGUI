@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Threading;
 
 namespace CalibrationNewGUI.Equipment
@@ -34,9 +35,18 @@ namespace CalibrationNewGUI.Equipment
         }
 
         const int SLAVE_ID = 1;
+        const ushort READ_HOLDING_FC = 0x03;
+        const ushort READ_INPUT_FC = 0x04;
+        const ushort WRITE_SINGLE_FC = 0x06;
+        const ushort WRITE_MULTI_FC = 0x16;
         const ushort MONITORING_ADDRESS = 0x1200;
         const ushort REF_SET_ADDRESS = 0x2000;
         const ushort CAL_VALUE_ADDRESS = 0x2010;
+        const ushort CAL_POINT_COUNT = 0x2020;
+        const ushort CAL_POINT_CH1VOLT = 0x2100;
+        const ushort CAL_POINT_CH2VOLT = 0x3100;
+        const ushort CAL_POINT_CH1CURR = 0x2300;
+        const ushort CAL_POINT_CH2CURR = 0x3300;
         //임시큐 플래그
         public int sendReadMonitoringFlag = 0; //모니터링 읽기
         public int sendWriteOutputStartFlag = 0; //실제 출력
@@ -370,7 +380,9 @@ namespace CalibrationNewGUI.Equipment
                     tempStream[7] = tempfloat.Byte2;
                 }
 
-                tempStream[8] = 1;//출력시작(0:대기, 1: 시작, 2: 정지)
+                tempStream[8] = 1;//출력(0:대기, 1: 시작, 2: 정지)
+
+                OnLogSend(LogSendString("[MCU ChSet]", SLAVE_ID, WRITE_MULTI_FC, REF_SET_ADDRESS, tempStream), false);
                 MdMaster.WriteMultipleRegisters(SLAVE_ID, REF_SET_ADDRESS, tempStream);//레지스터 주소 0x2000
             }
             //정지
@@ -387,8 +399,9 @@ namespace CalibrationNewGUI.Equipment
                 tempStream[5] = 0;
                 tempStream[6] = 0;
                 tempStream[7] = 0;
-                tempStream[8] = 2;//출력시작(0:대기, 1: 시작, 2: 정지)
-                MdMaster.WriteMultipleRegisters(1, (ushort)0x2000, tempStream);//레지스터 주소 0x2000
+                tempStream[8] = 2;//출력(0:대기, 1: 시작, 2: 정지)
+                OnLogSend(LogSendString("[MCU Stop]", SLAVE_ID, WRITE_MULTI_FC, REF_SET_ADDRESS, tempStream), false);
+                MdMaster.WriteMultipleRegisters(SLAVE_ID, REF_SET_ADDRESS, tempStream);//레지스터 주소 0x2000
 
             }
             //CAL
@@ -415,14 +428,17 @@ namespace CalibrationNewGUI.Equipment
                     if (calBuffer.chNum == 1) tempStream[2] = 3;//채널1
                     else if (calBuffer.chNum == 2) tempStream[2] = 4;//채널2
                 }
-
+                OnLogSend(LogSendString("[MCU ChCal]", SLAVE_ID, WRITE_MULTI_FC, CAL_VALUE_ADDRESS, tempStream), false);
                 MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_VALUE_ADDRESS, tempStream);//레지스터 주소 0x2010
             }
             //모니터링
             else
             {
                 UnionConv tempfloat = new UnionConv();
+                //모니터링 읽기
+                OnLogSend(LogSendString("[MCU Moni Send]", SLAVE_ID, READ_HOLDING_FC, MONITORING_ADDRESS, 12), true);
                 MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, MONITORING_ADDRESS, 12);
+                OnLogSend(LogRecvString("[MCU Moni Recv]", SLAVE_ID, READ_HOLDING_FC, MdMasterBuffer.Length * 2, MdMasterBuffer), true);
 
                 //모니터링값 파싱
                 tempfloat.Byte1 = MdMasterBuffer[0];
@@ -491,35 +507,35 @@ namespace CalibrationNewGUI.Equipment
             MonitoringTimer.Stop();
         }
 
-        public void McuMonitoring()//최대 30ms 소요될듯(약 25ms이하로 통신중)
-        {
-            UnionConv tempfloat = new UnionConv();
-            MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, MONITORING_ADDRESS, 12);
+        //public void McuMonitoring()//최대 30ms 소요될듯(약 25ms이하로 통신중)
+        //{
+        //    UnionConv tempfloat = new UnionConv();
+        //    MdMasterBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, MONITORING_ADDRESS, 12);
 
-            //모니터링값 파싱
-            tempfloat.Byte1 = MdMasterBuffer[0];
-            tempfloat.Byte2 = MdMasterBuffer[1];
-            Ch1Volt = Math.Round(tempfloat.Float * 1000.0f, 2);
+        //    //모니터링값 파싱
+        //    tempfloat.Byte1 = MdMasterBuffer[0];
+        //    tempfloat.Byte2 = MdMasterBuffer[1];
+        //    Ch1Volt = Math.Round(tempfloat.Float * 1000.0f, 2);
 
-            tempfloat.Byte1 = MdMasterBuffer[2];
-            tempfloat.Byte2 = MdMasterBuffer[3];
-            Ch2Volt = Math.Round(tempfloat.Float * 1000.0f, 2);
+        //    tempfloat.Byte1 = MdMasterBuffer[2];
+        //    tempfloat.Byte2 = MdMasterBuffer[3];
+        //    Ch2Volt = Math.Round(tempfloat.Float * 1000.0f, 2);
 
-            tempfloat.Byte1 = MdMasterBuffer[4];
-            tempfloat.Byte2 = MdMasterBuffer[5];
-            Ch1Curr = Math.Round(tempfloat.Float * 1000.0f, 2);
+        //    tempfloat.Byte1 = MdMasterBuffer[4];
+        //    tempfloat.Byte2 = MdMasterBuffer[5];
+        //    Ch1Curr = Math.Round(tempfloat.Float * 1000.0f, 2);
 
-            tempfloat.Byte1 = MdMasterBuffer[6];
-            tempfloat.Byte2 = MdMasterBuffer[7];
-            Ch2Curr = Math.Round(tempfloat.Float * 1000.0f, 2);
+        //    tempfloat.Byte1 = MdMasterBuffer[6];
+        //    tempfloat.Byte2 = MdMasterBuffer[7];
+        //    Ch2Curr = Math.Round(tempfloat.Float * 1000.0f, 2);
 
-            IsRun = MdMasterBuffer[8] == 1 ? true : false;
-            Ch1Fault = MdMasterBuffer[9];
-            Ch2Fault = MdMasterBuffer[10];
-            Version = MdMasterBuffer[11];
+        //    IsRun = MdMasterBuffer[8] == 1 ? true : false;
+        //    Ch1Fault = MdMasterBuffer[9];
+        //    Ch2Fault = MdMasterBuffer[10];
+        //    Version = MdMasterBuffer[11];
 
-            OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}", true);
-        }
+        //    OnLogSend($"[MCU Moni] Ch1 V : {Ch1Volt}, Ch2 V : {Ch2Volt}, Ch1 I : {Ch1Curr}, Ch2 I : {Ch2Curr}, IsRun : {IsRun}, Ch1 F : {Ch1Fault}, Ch2 F : {Ch2Fault}, Ver : {Version}", true);
+        //}
 
         public void ChSet(int chNum, int volt, int curr)
         {
@@ -634,9 +650,9 @@ namespace CalibrationNewGUI.Equipment
             UnionConv correctionPoint = new UnionConv();
 
             List<float[]> tempPointList = new List<float[]>();
-
-            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2020, 4);
-
+            OnLogSend(LogSendString("[MCU CalPoint Check Send]", SLAVE_ID, READ_HOLDING_FC, CAL_POINT_COUNT, 4), false);
+            ushort[] tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, CAL_POINT_COUNT, 4);
+            OnLogSend(LogRecvString("[MCU CalPoint Check Recv]", SLAVE_ID, READ_HOLDING_FC, tempBuffer.Length * 2, tempBuffer), false);
             ushort ch1Voltcnt = tempBuffer[0];
             ushort ch2Voltcnt = tempBuffer[1];
             ushort ch1Currcnt = tempBuffer[2];
@@ -649,7 +665,8 @@ namespace CalibrationNewGUI.Equipment
                 {
                     try //예외처리 필요
                     {
-                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2100, (ushort)(ch1Voltcnt * 4));
+                        OnLogSend(LogSendString("[MCU CalPoint Check Send]", SLAVE_ID, READ_HOLDING_FC, CAL_POINT_CH1VOLT, (ch1Voltcnt * 4)), false);
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, CAL_POINT_CH1VOLT, (ushort)(ch1Voltcnt * 4));
                         for (int i = 0; i < ch1Voltcnt; i++)
                         {
                             standardPoint.Byte1 = tempBuffer[i * 4 + 0];
@@ -672,7 +689,8 @@ namespace CalibrationNewGUI.Equipment
                 {
                     try //예외처리 필요
                     {
-                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x2300, (ushort)(ch1Currcnt * 4));
+                        OnLogSend(LogSendString("[MCU CalPoint Check Send]", SLAVE_ID, READ_HOLDING_FC, CAL_POINT_CH1CURR, (ch1Currcnt * 4)), false);
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, CAL_POINT_CH1CURR, (ushort)(ch1Currcnt * 4));
                         for (int i = 0; i < ch1Currcnt; i++)
                         {
                             standardPoint.Byte1 = tempBuffer[i * 4 + 0];
@@ -698,7 +716,8 @@ namespace CalibrationNewGUI.Equipment
                 {
                     try //예외처리 필요
                     {
-                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3100, (ushort)(ch2Voltcnt * 4));
+                        OnLogSend(LogSendString("[MCU CalPoint Check Send]", SLAVE_ID, READ_HOLDING_FC, CAL_POINT_CH2VOLT, (ch2Voltcnt * 4)), false);
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, CAL_POINT_CH2VOLT, (ushort)(ch2Voltcnt * 4));
                         for (int i = 0; i < ch2Voltcnt; i++)
                         {
                             standardPoint.Byte1 = tempBuffer[i * 4 + 0];
@@ -721,7 +740,8 @@ namespace CalibrationNewGUI.Equipment
                 {
                     try //예외처리 필요
                     {
-                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, 0x3300, (ushort)(ch2Currcnt * 4));
+                        OnLogSend(LogSendString("[MCU CalPoint Check Send]", SLAVE_ID, READ_HOLDING_FC, CAL_POINT_CH2CURR, (ch2Currcnt * 4)), false);
+                        tempBuffer = MdMaster.ReadHoldingRegisters(SLAVE_ID, CAL_POINT_CH2CURR, (ushort)(ch2Currcnt * 4));
                         for (int i = 0; i < ch2Currcnt; i++)
                         {
                             standardPoint.Byte1 = tempBuffer[i * 4 + 0];
@@ -741,7 +761,8 @@ namespace CalibrationNewGUI.Equipment
                     }
                 }
             }
-
+            //응답은 한번에 처리
+            OnLogSend(LogRecvString("[MCU CalPoint Check Recv]", SLAVE_ID, READ_HOLDING_FC, tempBuffer.Length * 2, tempBuffer), false);
             OnLogSend($"[MCU CalPoint Check]", false);
             return tempPointList.ToArray();
         }
@@ -750,8 +771,8 @@ namespace CalibrationNewGUI.Equipment
         {
             UnionConv standardPoint = new UnionConv();
             UnionConv correctionPoint = new UnionConv();
-
-            MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, 0, 0, 0, 5 });//레지스터 주소 0x2020 Cal 개수, 명령 쓰기
+            OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_COUNT, new ushort[] { 0, 0, 0, 0, 5 }), false);
+            MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_COUNT, new ushort[] { 0, 0, 0, 0, 5 });//레지스터 주소 0x2020 Cal 개수, 명령 쓰기
 
             List<ushort> dataStream = new List<ushort>();
             foreach (var tempData in calPointList)
@@ -769,26 +790,34 @@ namespace CalibrationNewGUI.Equipment
             {
                 if (calMode == 'V')
                 {
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2100, dataStream.ToArray());
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { (ushort)calPointList.Length, 0, 0, 0, 1 });
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_CH1VOLT, dataStream.ToArray()), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_CH1VOLT, dataStream.ToArray());
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_COUNT, new ushort[] { (ushort)calPointList.Length, 0, 0, 0, 1 }), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_COUNT, new ushort[] { (ushort)calPointList.Length, 0, 0, 0, 1 });
                 }
                 else
                 {
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2300, dataStream.ToArray());
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, 0, (ushort)calPointList.Length, 0, 3 });
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_CH1CURR, dataStream.ToArray()), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_CH1CURR, dataStream.ToArray());
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_COUNT, new ushort[] { 0, 0, (ushort)calPointList.Length, 0, 3 }), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_COUNT, new ushort[] { 0, 0, (ushort)calPointList.Length, 0, 3 });
                 }
             }
             else
             {
                 if (calMode == 'V')
                 {
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x3100, dataStream.ToArray());
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, (ushort)calPointList.Length, 0, 0, 2 });
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_CH2VOLT, dataStream.ToArray()), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_CH2VOLT, dataStream.ToArray());
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_COUNT, new ushort[] { 0, (ushort)calPointList.Length, 0, 0, 2 }), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_COUNT, new ushort[] { 0, (ushort)calPointList.Length, 0, 0, 2 });
                 }
                 else
                 {
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x3300, dataStream.ToArray());
-                    MdMaster.WriteMultipleRegisters(SLAVE_ID, 0x2020, new ushort[] { 0, 0, 0, (ushort)calPointList.Length, 4 });
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_CH2CURR, dataStream.ToArray()), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_CH2CURR, dataStream.ToArray());
+                    OnLogSend(LogSendString("[MCU CalPoint Send Send]", SLAVE_ID, WRITE_MULTI_FC, CAL_POINT_COUNT, new ushort[] { 0, 0, 0, (ushort)calPointList.Length, 4 }), false);
+                    MdMaster.WriteMultipleRegisters(SLAVE_ID, CAL_POINT_COUNT, new ushort[] { 0, 0, 0, (ushort)calPointList.Length, 4 });
                 }
             }
 
@@ -813,6 +842,45 @@ namespace CalibrationNewGUI.Equipment
             };
 
             Messenger.Default.Send(Message);
+        }
+        //OnLogSend($"[MCU CalPoint Check Recv] {SLAVE_ID.ToString("X2")} {READ_HOLDING_FC.ToString("X2")} {(tempBuffer.Length * 2).ToString("X2")} {temp}", false);
+        //Read Holding Reg Recv
+        private string LogRecvString(string Head, int slaveID, int FC, int SendByte, ushort[] tempBuffer)
+        {
+            string Text = string.Empty;
+            string temp = string.Empty;
+            foreach (ushort i in tempBuffer)
+            {
+                temp = string.Format($"{temp}{i:X4} ");
+            }
+
+            Text = $"{Head} {slaveID.ToString("X2")} {FC.ToString("X2")} {SendByte.ToString("X2")} {temp}";
+
+            return Text;
+        }
+        //OnLogSend($"[MCU CalPoint Check Send] {SLAVE_ID.ToString("X2")} {READ_HOLDING_FC.ToString("X2")} {CAL_POINT_CH1VOLT.ToString("X4")} {(ch1Voltcnt * 4).ToString("X4")}", false);
+        private string LogSendString(string Head, int slaveID, int FC, int startAddress, int SendRegCount)
+        {
+            string Text = string.Empty;
+            string temp = string.Empty;
+
+            Text = $"{Head} {slaveID.ToString("X2")} {FC.ToString("X2")} {startAddress.ToString("X4")} {SendRegCount.ToString("X4")}";
+
+            return Text;
+        }
+        //OnLogSend($"[MCU Stop] {SLAVE_ID.ToString("X2")} {WRITE_MULTI_FC.ToString("X2")} {REF_SET_ADDRESS.ToString("X4")} {tempStream.Length.ToString("X2")} {(tempStream.Length * 2).ToString("X2")} {temp}", false);
+        private string LogSendString(string Head, int slaveID, int FC, int startAddress, ushort[] tempBuffer)
+        {
+            string Text = string.Empty;
+            string temp = string.Empty;
+            foreach (ushort i in tempBuffer)
+            {
+                temp = string.Format($"{temp}{i:X4} ");
+            }
+
+            Text = $"{Head} {slaveID.ToString("X2")} {FC.ToString("X2")} {startAddress.ToString("X4")} {tempBuffer.Length.ToString("X4")} {(tempBuffer.Length*2).ToString("X2")} {temp}";
+
+            return Text;
         }
     }
 }
