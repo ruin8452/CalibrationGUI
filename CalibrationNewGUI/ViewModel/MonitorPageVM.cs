@@ -945,7 +945,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 float tempCurr = MeaPointTable.Rows[e.Index].Field<float>("SetCurr");
 
-                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeCurr)
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = true;
