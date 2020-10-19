@@ -695,7 +695,7 @@ namespace CalibrationNewGUI.ViewModel
             msgFlag = false;
 
             calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.CalErrRangeVolt : CalMeaInfo.CalErrRangeCurr, tempCalPoint.ToArray(), true);
-            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempMeaPoint.ToArray(), true);
+            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempMeaPoint.ToArray(), true);
             calManager.CalStart();
         }
 
