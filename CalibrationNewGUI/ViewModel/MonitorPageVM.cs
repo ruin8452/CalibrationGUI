@@ -337,6 +337,7 @@ namespace CalibrationNewGUI.ViewModel
 
             List<object[]> tempPoint = new List<object[]>();
 
+            //cal 테이블 초기화
             foreach (DataRow row in CalPointTable.Rows)
             {
                 row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
@@ -679,6 +680,8 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
+                //cal 테이블 초기화
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempCalPoint.Add(row.ItemArray);
             }
 
@@ -689,6 +692,8 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
+                //cal 테이블 초기화
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempMeaPoint.Add(row.ItemArray);
             }
 

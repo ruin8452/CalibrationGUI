@@ -37,6 +37,8 @@ namespace CalibrationNewGUI.FileSystem
                     while (!reader.EndOfStream)
                     {
                         string str = reader.ReadLine();
+                        //2020.10.19 캘 포인트 호출 시 보정값 추가해서 테이블 입력
+                        str = str + ",0";
                         pointList.Add(str.Split(','));
                     }
                 }
