@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         Icon="/CalibrationNewGUI;component/Resources/CalIcon.ico"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainWindowVM}"
-        Title="KJ Calibration GUI" Height="800" MinWidth="1300" Width="1300">
+        Title="KJ Calibration GUI" Height="800" MinWidth="1350" Width="1350">
 
     <Window.Resources>
         <ui:SettingPage x:Key="SettingPage"/>

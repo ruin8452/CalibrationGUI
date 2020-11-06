@@ -58,7 +58,7 @@
                     <CheckBox Width="150" IsChecked="{Binding AutoSaveInfos.AutoSaveFlag, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" />
                 </Grid>
 
-                <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+                <Button Content="Save" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

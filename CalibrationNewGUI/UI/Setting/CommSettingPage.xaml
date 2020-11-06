@@ -157,7 +157,7 @@
                 </Border>
             </Grid>
 
-            <Button Content="{x:Static glob:Resource.Save}" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
+            <Button Content="Save" Style="{StaticResource SaveBtn}" Command="{Binding SaveClick}"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -337,6 +337,7 @@ namespace CalibrationNewGUI.ViewModel
 
             List<object[]> tempPoint = new List<object[]>();
 
+            //cal 테이블 초기화
             foreach (DataRow row in CalPointTable.Rows)
             {
                 row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
@@ -679,6 +680,8 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
+                //cal 테이블 초기화
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempCalPoint.Add(row.ItemArray);
             }
 
@@ -689,13 +692,15 @@ namespace CalibrationNewGUI.ViewModel
                     MessageBox.Show(App.GetString("EmptyCellErrMsg"));
                     return;
                 }
+                //cal 테이블 초기화
+                row["OutVolt"] = row["OutCurr"] = row["OutDMM"] = row["IsRangeIn"] = 0;
                 tempMeaPoint.Add(row.ItemArray);
             }
 
             msgFlag = false;
 
             calManager.CalSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.CalErrRangeVolt : CalMeaInfo.CalErrRangeCurr, tempCalPoint.ToArray(), true);
-            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.CalDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempMeaPoint.ToArray(), true);
+            calManager.MeaSeqSet(CalMode ? 'V' : 'I', ChNumber, CalMeaInfo.MeaDelayTime, CalMode ? CalMeaInfo.MeaErrRangeVolt : CalMeaInfo.MeaErrRangeCurr, tempMeaPoint.ToArray(), true);
             calManager.CalStart();
         }
 
@@ -945,7 +950,7 @@ namespace CalibrationNewGUI.ViewModel
 
                 float tempCurr = MeaPointTable.Rows[e.Index].Field<float>("SetCurr");
 
-                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeVolt)
+                if (Math.Abs(tempCurr - Dmm.Curr) > CalMeaInfo.MeaErrRangeCurr)
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = false;
                 else
                     MeaPointTable.Rows[e.Index]["IsRangeIn"] = true;
