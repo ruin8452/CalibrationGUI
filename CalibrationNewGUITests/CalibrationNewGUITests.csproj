@@ -57,7 +57,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Equipment\McuTests.cs" />
+    <Compile Include="FileSystem\CsvFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Func\AutoSaveCheckTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

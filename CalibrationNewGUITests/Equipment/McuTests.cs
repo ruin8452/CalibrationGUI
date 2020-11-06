@@ -20,7 +20,7 @@ namespace CalibrationNewGUI.Equipment.Tests
 
             mcu.ChSet(1, 2700, 1000);
 
-            Utill.Delay(10);
+            Util.Delay(10);
 
             Assert.Fail();
         }
@@ -43,7 +43,7 @@ namespace CalibrationNewGUI.Equipment.Tests
 
             mcu.ChStop();
 
-            Utill.Delay(10);
+            Util.Delay(10);
 
             Assert.Fail();
         }
@@ -56,15 +56,15 @@ namespace CalibrationNewGUI.Equipment.Tests
 
             mcu.ChSet(1, 4200, 1000);
 
-            Utill.Delay(4);
+            Util.Delay(4);
 
             mcu.ChCal('V', 1, 42087);
 
-            Utill.Delay(4);
+            Util.Delay(4);
 
             mcu.ChStop();
 
-            Utill.Delay(4);
+            Util.Delay(4);
 
             Assert.Fail();
         }
